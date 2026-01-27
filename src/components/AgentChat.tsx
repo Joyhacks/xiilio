@@ -16,6 +16,7 @@ interface AgentChatProps {
   agentName: string;
   agentAvatar: string;
   agentColor: string;
+  agentSlug?: string;
   suggestedPrompts: { category: string; prompts: string[] }[];
   edgeFunctionName: string;
 }
@@ -26,6 +27,7 @@ export function AgentChat({
   agentName,
   agentAvatar,
   agentColor,
+  agentSlug,
   suggestedPrompts,
   edgeFunctionName,
 }: AgentChatProps) {
@@ -177,6 +179,7 @@ export function AgentChat({
         {messages.length === 0 && showPrompts && (
           <SuggestedPrompts
             agentName={agentName}
+            agentSlug={agentSlug}
             basePrompts={suggestedPrompts}
             onSelectPrompt={sendMessage}
           />
