@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Sparkles, Zap } from "lucide-react";
+import { ArrowRight, Sparkles, Zap, Play } from "lucide-react";
 import logo from "@/assets/logo-24twelve-transparent.png";
+import { AgentDemoModal } from "@/components/AgentDemoModal";
 
 export function Hero() {
   return (
@@ -43,10 +44,14 @@ export function Hero() {
             <Zap className="w-5 h-5" />
             Get Started Free
           </Button>
-          <Button variant="glass" size="xl">
-            See How It Works
-            <ArrowRight className="w-5 h-5" />
-          </Button>
+          <AgentDemoModal
+            trigger={
+              <Button variant="glass" size="xl">
+                <Play className="w-5 h-5" />
+                Explore Demo
+              </Button>
+            }
+          />
         </div>
 
         {/* Stats */}
