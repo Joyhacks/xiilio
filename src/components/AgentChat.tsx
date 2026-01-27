@@ -7,6 +7,7 @@ import { ChatHeader } from "@/components/chat/ChatHeader";
 import { ChatMessage } from "@/components/chat/ChatMessage";
 import { SuggestedPrompts } from "@/components/chat/SuggestedPrompts";
 import { ChatInput } from "@/components/chat/ChatInput";
+import { ExportButton } from "@/components/chat/ExportButton";
 import { VoiceChat } from "@/components/VoiceChat";
 import { usePushToTalk } from "@/hooks/usePushToTalk";
 import { useAgentTTS } from "@/hooks/useAgentTTS";
@@ -16,6 +17,8 @@ interface Message {
   role: "user" | "assistant";
   content: string;
   id?: string;
+  timestamp: Date;
+  isVoice?: boolean;
 }
 
 interface AgentChatProps {
@@ -171,7 +174,7 @@ export function AgentChat({
                     i === prev.length - 1 ? { ...m, content: assistantContent } : m
                   );
                 }
-                return [...prev, { role: "assistant", content: assistantContent }];
+                return [...prev, { role: "assistant", content: assistantContent, timestamp: new Date() }];
               });
             }
           } catch {
@@ -202,7 +205,7 @@ export function AgentChat({
                     i === prev.length - 1 ? { ...m, content: assistantContent } : m
                   );
                 }
-                return [...prev, { role: "assistant", content: assistantContent }];
+                return [...prev, { role: "assistant", content: assistantContent, timestamp: new Date() }];
               });
             }
           } catch {
@@ -219,7 +222,7 @@ export function AgentChat({
   const sendMessage = async (text: string, speakResponse: boolean = false) => {
     if (!text.trim() || isLoading) return;
 
-    const userMsg: Message = { role: "user", content: text.trim() };
+    const userMsg: Message = { role: "user", content: text.trim(), timestamp: new Date(), isVoice: speakResponse };
     setMessages((prev) => [...prev, userMsg]);
     setInput("");
     setShowPrompts(false);
@@ -242,6 +245,7 @@ export function AgentChat({
         {
           role: "assistant",
           content: "I apologize, but I'm having trouble responding right now. Please try again.",
+          timestamp: new Date(),
         },
       ]);
       setVoiceState("error");
@@ -258,7 +262,9 @@ export function AgentChat({
   const handleVoiceTranscript = (text: string, isUser: boolean) => {
     const msg: Message = { 
       role: isUser ? "user" : "assistant", 
-      content: text 
+      content: text,
+      timestamp: new Date(),
+      isVoice: true,
     };
     setMessages((prev) => [...prev, msg]);
   };
@@ -296,15 +302,18 @@ export function AgentChat({
         agentName={agentName} 
         agentAvatar={agentAvatar}
         rightContent={
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setIsVoiceMode(true)}
-            className="text-muted-foreground hover:text-primary"
-            title="Switch to full voice mode"
-          >
-            <Mic className="w-5 h-5" />
-          </Button>
+          <div className="flex items-center gap-1">
+            <ExportButton messages={messages} agentName={agentName} />
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsVoiceMode(true)}
+              className="text-muted-foreground hover:text-primary"
+              title="Switch to full voice mode"
+            >
+              <Mic className="w-5 h-5" />
+            </Button>
+          </div>
         }
       />
 
