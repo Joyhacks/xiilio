@@ -11,7 +11,7 @@ const SimpleIcon = ({ icon, className }: { icon: { path: string; title: string }
   <svg
     role="img"
     viewBox="0 0 24 24"
-    className={cn("w-5 h-5", className)}
+    className={cn("w-6 h-6", className)}
     fill="currentColor"
     aria-label={icon.title}
   >
@@ -21,7 +21,7 @@ const SimpleIcon = ({ icon, className }: { icon: { path: string; title: string }
 
 // Custom inline SVG for LinkedIn (not available in simple-icons)
 const linkedinIcon = (
-  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" role="img" aria-label="LinkedIn">
+  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" role="img" aria-label="LinkedIn">
     <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
   </svg>
 );
@@ -33,6 +33,15 @@ const simpleIconMap: Partial<Record<SocialPlatform, { path: string; title: strin
   instagram: siInstagram,
   tiktok: siTiktok,
   whatsapp: siWhatsapp,
+};
+
+// Brand-specific glow colors
+const glowColors: Record<SocialPlatform, string> = {
+  facebook: "shadow-[0_0_20px_rgba(8,102,255,0.5)]",
+  instagram: "shadow-[0_0_20px_rgba(225,48,108,0.5)]",
+  tiktok: "shadow-[0_0_20px_rgba(0,0,0,0.5)]",
+  linkedin: "shadow-[0_0_20px_rgba(10,102,194,0.5)]",
+  whatsapp: "shadow-[0_0_20px_rgba(37,211,102,0.5)]",
 };
 
 // Render icon based on platform key
@@ -62,7 +71,7 @@ const platformConfig: Record<SocialPlatform, { name: string; bgColor: string; fa
   },
   tiktok: {
     name: "TikTok",
-    bgColor: "bg-[#000000]",
+    bgColor: "bg-gradient-to-br from-[#00F2EA] via-[#000000] to-[#FF0050]",
     fallbackUrl: "https://www.tiktok.com/",
   },
   linkedin: {
@@ -116,7 +125,7 @@ export function SocialLinks({
   }
 
   return (
-    <div className={cn("flex flex-wrap gap-4 justify-center", className)}>
+    <div className={cn("flex flex-wrap gap-5 justify-center", className)}>
       {platforms.map(({ key, url }) => {
         const { name, bgColor } = platformConfig[key];
         return (
@@ -128,17 +137,19 @@ export function SocialLinks({
             aria-label={`Follow on ${name} (opens in new tab)`}
             className={cn(
               "group relative flex items-center justify-center",
-              "w-12 h-12 rounded-full text-white",
+              "w-14 h-14 rounded-full text-white",
+              "ring-2 ring-white/20 backdrop-blur-sm",
               "transition-all duration-300 ease-out",
-              "hover:scale-110 hover:brightness-110",
-              "hover:shadow-lg hover:shadow-current/30",
+              "hover:scale-110 hover:ring-white/40",
+              glowColors[key],
+              "hover:shadow-[0_0_30px_rgba(255,255,255,0.3)]",
               "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background",
               bgColor
             )}
           >
             <SocialIcon platform={key} />
             {/* Tooltip */}
-            <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 px-2 py-1 text-xs font-medium bg-popover text-popover-foreground rounded shadow-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+            <span className="absolute -bottom-9 left-1/2 -translate-x-1/2 px-3 py-1.5 text-xs font-medium bg-popover/95 text-popover-foreground rounded-lg shadow-lg backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-border/50">
               {name}
             </span>
           </a>
