@@ -72,6 +72,7 @@ export type VoiceState =
 export interface UserVoiceSettings {
   autoSpeak: boolean;
   volume: number;
+  speed: number; // 0.8 to 1.5
 }
 
 const VOICE_SETTINGS_KEY = "user_voice_settings";
@@ -80,12 +81,14 @@ export function getUserVoiceSettings(): UserVoiceSettings {
   try {
     const stored = localStorage.getItem(VOICE_SETTINGS_KEY);
     if (stored) {
-      return JSON.parse(stored);
+      const parsed = JSON.parse(stored);
+      // Ensure speed exists for backwards compatibility
+      return { autoSpeak: true, volume: 1.0, speed: 1.0, ...parsed };
     }
   } catch (e) {
     console.error("Failed to load voice settings:", e);
   }
-  return { autoSpeak: true, volume: 1.0 };
+  return { autoSpeak: true, volume: 1.0, speed: 1.0 };
 }
 
 export function saveUserVoiceSettings(settings: UserVoiceSettings): void {

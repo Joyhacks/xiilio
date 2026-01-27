@@ -68,10 +68,12 @@ export function AgentChat({
     isLoading: ttsLoading,
     autoSpeak,
     volume,
+    speed,
     speak,
     stop: stopSpeaking,
     setAutoSpeak,
     setVolume,
+    setSpeed,
   } = useAgentTTS({
     agentType,
     onSpeakStart: () => setVoiceState("speaking"),
@@ -356,8 +358,10 @@ export function AgentChat({
         isSpeaking={isSpeaking || ttsLoading}
         autoSpeak={autoSpeak}
         volume={volume}
+        speed={speed}
         onAutoSpeakChange={setAutoSpeak}
         onVolumeChange={setVolume}
+        onSpeedChange={setSpeed}
         onStopSpeaking={stopSpeaking}
       />
     </div>
