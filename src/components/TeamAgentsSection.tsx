@@ -20,6 +20,7 @@ const teamAgents = [
     tasksCompleted: 3421,
     color: "receptionist" as const,
     features: ["Call Handling", "Visitor Mgmt", "Scheduling"],
+    slug: "julia",
   },
   {
     name: "Executive Assistant Kate",
@@ -30,6 +31,7 @@ const teamAgents = [
     tasksCompleted: 2876,
     color: "assistant" as const,
     features: ["Calendar Mgmt", "Travel Plans", "Correspondence"],
+    slug: "kate",
   },
   {
     name: "Legal Associate Halle",
@@ -40,6 +42,7 @@ const teamAgents = [
     tasksCompleted: 1543,
     color: "legal" as const,
     features: ["Contract Review", "Compliance", "Documentation"],
+    slug: "halle",
   },
   {
     name: "Social Media Manager George",
@@ -50,6 +53,7 @@ const teamAgents = [
     tasksCompleted: 4892,
     color: "social" as const,
     features: ["Content Creation", "Engagement", "Analytics"],
+    slug: "george",
   },
   {
     name: "Blog Writer Arnie",
@@ -60,6 +64,7 @@ const teamAgents = [
     tasksCompleted: 2134,
     color: "writer" as const,
     features: ["SEO Writing", "Research", "Content Strategy"],
+    slug: "arnie",
   },
   {
     name: "Sales Associate Brad",
@@ -70,6 +75,7 @@ const teamAgents = [
     tasksCompleted: 3765,
     color: "sales" as const,
     features: ["Lead Nurturing", "Presentations", "CRM Updates"],
+    slug: "brad",
   },
   {
     name: "Life Coach Sam",
@@ -80,6 +86,7 @@ const teamAgents = [
     tasksCompleted: 1892,
     color: "coach" as const,
     features: ["Goal Setting", "Motivation", "Progress Tracking"],
+    slug: "sam",
   },
   {
     name: "Financial Planner Jerry",
@@ -90,6 +97,7 @@ const teamAgents = [
     tasksCompleted: 2456,
     color: "finance" as const,
     features: ["Budgeting", "Investments", "Tax Planning"],
+    slug: "jerry",
   },
 ];
 
