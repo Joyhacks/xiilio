@@ -1,4 +1,3 @@
-import { ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   siFacebook,
@@ -90,14 +89,12 @@ interface SocialLinksProps {
   config?: SocialLinksConfig;
   useFallbacks?: boolean;
   className?: string;
-  showLabel?: boolean;
 }
 
 export function SocialLinks({ 
   config = {},
   useFallbacks = false,
   className,
-  showLabel = true,
 }: SocialLinksProps) {
   // Build list of platforms to render
   const platforms: { key: SocialPlatform; url: string }[] = [];
@@ -119,33 +116,34 @@ export function SocialLinks({
   }
 
   return (
-    <div className={cn("space-y-4", className)}>
-      <div className="flex flex-wrap gap-3 justify-center">
-        {platforms.map(({ key, url }) => {
-          const { name, bgColor } = platformConfig[key];
-          return (
-            <a
-              key={key}
-              href={url}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`Follow on ${name} (opens in new tab)`}
-              className={cn(
-                "group flex items-center gap-2 px-4 py-2.5",
-                "rounded-full text-white font-medium",
-                "transition-all duration-300 ease-out",
-                "hover:scale-105 hover:brightness-110 hover:shadow-lg",
-                "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background",
-                bgColor
-              )}
-            >
-              <SocialIcon platform={key} />
-              {showLabel && <span className="text-sm font-semibold">{name}</span>}
-              <ExternalLink className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 transition-opacity" />
-            </a>
-          );
-        })}
-      </div>
+    <div className={cn("flex flex-wrap gap-4 justify-center", className)}>
+      {platforms.map(({ key, url }) => {
+        const { name, bgColor } = platformConfig[key];
+        return (
+          <a
+            key={key}
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Follow on ${name} (opens in new tab)`}
+            className={cn(
+              "group relative flex items-center justify-center",
+              "w-12 h-12 rounded-full text-white",
+              "transition-all duration-300 ease-out",
+              "hover:scale-110 hover:brightness-110",
+              "hover:shadow-lg hover:shadow-current/30",
+              "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background",
+              bgColor
+            )}
+          >
+            <SocialIcon platform={key} />
+            {/* Tooltip */}
+            <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 px-2 py-1 text-xs font-medium bg-popover text-popover-foreground rounded shadow-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+              {name}
+            </span>
+          </a>
+        );
+      })}
     </div>
   );
 }
@@ -163,7 +161,7 @@ export function SocialSection({ config }: { config?: SocialLinksConfig }) {
           </h2>
         </div>
 
-        <div className="max-w-2xl mx-auto">
+        <div className="max-w-2xl mx-auto pb-6">
           <SocialLinks config={config} useFallbacks={true} />
         </div>
       </div>
