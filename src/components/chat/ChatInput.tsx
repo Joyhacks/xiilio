@@ -1,8 +1,11 @@
 import { Send, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { VoiceMicButton } from "./VoiceMicButton";
-import { useEffect } from "react";
+import { PushToTalkButton } from "./PushToTalkButton";
+import { VoiceControls } from "./VoiceControls";
+import { VoiceState } from "@/lib/voiceConfig";
+import { useEffect, useCallback } from "react";
+import { cn } from "@/lib/utils";
 
 interface ChatInputProps {
   value: string;
@@ -10,12 +13,20 @@ interface ChatInputProps {
   onSubmit: () => void;
   isLoading: boolean;
   placeholder: string;
-  // Voice input props
+  // Voice props
   voiceEnabled?: boolean;
-  isListening?: boolean;
+  voiceState?: VoiceState;
+  audioLevel?: number;
+  partialTranscript?: string;
+  onPushToTalkStart?: () => void;
+  onPushToTalkEnd?: () => void;
+  // TTS props
   isSpeaking?: boolean;
-  voiceVolume?: number;
-  onVoiceToggle?: () => void;
+  autoSpeak?: boolean;
+  volume?: number;
+  onAutoSpeakChange?: (enabled: boolean) => void;
+  onVolumeChange?: (volume: number) => void;
+  onStopSpeaking?: () => void;
 }
 
 export function ChatInput({ 
@@ -25,17 +36,78 @@ export function ChatInput({
   isLoading, 
   placeholder,
   voiceEnabled = false,
-  isListening = false,
+  voiceState = "idle",
+  audioLevel = 0,
+  partialTranscript = "",
+  onPushToTalkStart,
+  onPushToTalkEnd,
   isSpeaking = false,
-  voiceVolume = 0,
-  onVoiceToggle,
+  autoSpeak = true,
+  volume = 1,
+  onAutoSpeakChange,
+  onVolumeChange,
+  onStopSpeaking,
 }: ChatInputProps) {
+  const isRecording = voiceState === "recording";
+  const isProcessing = voiceState === "transcribing" || voiceState === "sending";
+
+  // Handle keyboard shortcut (Spacebar)
+  useEffect(() => {
+    if (!voiceEnabled) return;
+
+    let isSpaceHeld = false;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Only trigger if spacebar and not in an input/textarea focused (except our chat)
+      if (e.code !== "Space") return;
+      
+      const target = e.target as HTMLElement;
+      const isInChat = target.closest('[data-chat-input]');
+      const isInTextarea = target.tagName === "TEXTAREA" || target.tagName === "INPUT";
+      
+      // If in textarea/input but not our chat input, don't intercept
+      if (isInTextarea && !isInChat) return;
+      
+      // If in our chat textarea and there's text, let spacebar work normally
+      if (isInChat && value.trim()) return;
+      
+      // Prevent page scroll
+      e.preventDefault();
+      
+      if (!isSpaceHeld && !isProcessing && !isLoading) {
+        isSpaceHeld = true;
+        onPushToTalkStart?.();
+      }
+    };
+
+    const handleKeyUp = (e: KeyboardEvent) => {
+      if (e.code === "Space" && isSpaceHeld) {
+        isSpaceHeld = false;
+        onPushToTalkEnd?.();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
+    };
+  }, [voiceEnabled, value, isProcessing, isLoading, onPushToTalkStart, onPushToTalkEnd]);
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       onSubmit();
     }
   };
+
+  // Display content: show partial transcript while recording, otherwise show value
+  const displayValue = isRecording && partialTranscript ? partialTranscript : value;
+  const displayPlaceholder = isRecording 
+    ? "Listening... (release to send)" 
+    : placeholder;
 
   return (
     <form
@@ -44,32 +116,71 @@ export function ChatInput({
         onSubmit();
       }}
       className="p-4 border-t border-border/50 bg-muted/30"
+      data-chat-input
     >
+      {/* Recording indicator */}
+      {isRecording && (
+        <div className="flex items-center gap-2 mb-2 text-sm text-primary animate-pulse">
+          <span className="w-2 h-2 bg-destructive rounded-full" />
+          <span>Listening...</span>
+          {/* Audio level bar */}
+          <div className="flex-1 h-1 bg-muted rounded-full overflow-hidden">
+            <div 
+              className="h-full bg-primary transition-all duration-75"
+              style={{ width: `${audioLevel * 100}%` }}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Processing indicator */}
+      {isProcessing && (
+        <div className="flex items-center gap-2 mb-2 text-sm text-muted-foreground">
+          <Loader2 className="w-3 h-3 animate-spin" />
+          <span>{voiceState === "transcribing" ? "Transcribing..." : "Sending..."}</span>
+        </div>
+      )}
+
       <div className="flex gap-2 items-end">
         <Textarea
-          value={value}
+          value={displayValue}
           onChange={(e) => onChange(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder={isListening ? "Listening..." : placeholder}
-          className="min-h-[44px] max-h-32 resize-none bg-background"
+          placeholder={displayPlaceholder}
+          className={cn(
+            "min-h-[44px] max-h-32 resize-none bg-background",
+            isRecording && "text-muted-foreground italic"
+          )}
           rows={1}
-          disabled={isListening}
+          disabled={isRecording || isProcessing}
         />
         
-        {voiceEnabled && onVoiceToggle && (
-          <VoiceMicButton
-            isListening={isListening}
-            isSpeaking={isSpeaking}
-            volume={voiceVolume}
-            onToggle={onVoiceToggle}
-            disabled={isLoading}
-          />
+        {voiceEnabled && (
+          <>
+            <VoiceControls
+              autoSpeak={autoSpeak}
+              volume={volume}
+              isSpeaking={isSpeaking}
+              onAutoSpeakChange={onAutoSpeakChange || (() => {})}
+              onVolumeChange={onVolumeChange || (() => {})}
+              onStopSpeaking={onStopSpeaking || (() => {})}
+            />
+            
+            <PushToTalkButton
+              state={voiceState}
+              audioLevel={audioLevel}
+              onPressStart={onPushToTalkStart || (() => {})}
+              onPressEnd={onPushToTalkEnd || (() => {})}
+              isSpeaking={isSpeaking}
+              disabled={isLoading}
+            />
+          </>
         )}
         
         <Button
           type="submit"
           size="icon"
-          disabled={!value.trim() || isLoading || isListening}
+          disabled={!value.trim() || isLoading || isRecording || isProcessing}
           className="shrink-0"
         >
           {isLoading ? (

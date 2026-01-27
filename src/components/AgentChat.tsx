@@ -8,11 +8,14 @@ import { ChatMessage } from "@/components/chat/ChatMessage";
 import { SuggestedPrompts } from "@/components/chat/SuggestedPrompts";
 import { ChatInput } from "@/components/chat/ChatInput";
 import { VoiceChat } from "@/components/VoiceChat";
-import { useVoiceInput } from "@/hooks/useVoiceInput";
+import { usePushToTalk } from "@/hooks/usePushToTalk";
+import { useAgentTTS } from "@/hooks/useAgentTTS";
+import { VoiceState } from "@/lib/voiceConfig";
 
 interface Message {
   role: "user" | "assistant";
   content: string;
+  id?: string;
 }
 
 interface AgentChatProps {
@@ -39,10 +42,11 @@ export function AgentChat({
   const [isLoading, setIsLoading] = useState(false);
   const [showPrompts, setShowPrompts] = useState(true);
   const [isVoiceMode, setIsVoiceMode] = useState(false);
-  const [pendingVoiceSubmit, setPendingVoiceSubmit] = useState(false);
+  const [voiceState, setVoiceState] = useState<VoiceState>("idle");
+  const [pendingVoiceMessage, setPendingVoiceMessage] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Derive agent type from slug for voice
+  // Derive agent type from slug
   const getAgentType = useCallback(() => {
     if (!agentSlug) return "assistant";
     if (agentSlug.includes("receptionist") || agentSlug.includes("julia")) return "receptionist";
@@ -56,37 +60,53 @@ export function AgentChat({
     return "assistant";
   }, [agentSlug]);
 
-  // Voice input hook
+  const agentType = getAgentType();
+
+  // TTS hook
   const {
-    isListening,
     isSpeaking,
-    startListening,
-    stopListening,
-    speakText,
-    transcript,
+    isLoading: ttsLoading,
+    autoSpeak,
     volume,
-  } = useVoiceInput({
-    agentType: getAgentType(),
-    onTranscript: (text) => {
-      setInput(text);
-      setPendingVoiceSubmit(true);
-    },
+    speak,
+    stop: stopSpeaking,
+    setAutoSpeak,
+    setVolume,
+  } = useAgentTTS({
+    agentType,
+    onSpeakStart: () => setVoiceState("speaking"),
+    onSpeakEnd: () => setVoiceState("idle"),
   });
 
-  // Auto-submit when voice transcript is ready
-  useEffect(() => {
-    if (pendingVoiceSubmit && input.trim() && !isListening) {
-      setPendingVoiceSubmit(false);
-      handleSubmit();
-    }
-  }, [pendingVoiceSubmit, input, isListening]);
+  // Push-to-talk hook
+  const {
+    state: pttState,
+    isRecording,
+    isProcessing,
+    partialTranscript,
+    audioLevel,
+    startRecording,
+    stopRecording,
+  } = usePushToTalk({
+    agentType,
+    onTranscriptReady: (text) => {
+      setPendingVoiceMessage(text);
+    },
+    onStateChange: (state) => {
+      if (state !== "speaking") {
+        setVoiceState(state);
+      }
+    },
+    stopAgentAudio: stopSpeaking, // Barge-in support
+  });
 
-  // Update input field with live transcript while listening
+  // Send voice message when transcript is ready
   useEffect(() => {
-    if (isListening && transcript) {
-      setInput(transcript);
+    if (pendingVoiceMessage) {
+      sendMessage(pendingVoiceMessage, true);
+      setPendingVoiceMessage(null);
     }
-  }, [isListening, transcript]);
+  }, [pendingVoiceMessage]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -202,13 +222,16 @@ export function AgentChat({
     setInput("");
     setShowPrompts(false);
     setIsLoading(true);
+    setVoiceState("sending");
 
     try {
       const response = await streamChat([...messages, userMsg]);
       
-      // Speak the response if voice was used
-      if (speakResponse && response) {
-        speakText(response);
+      // Speak the response if voice was used and autoSpeak is enabled
+      if (speakResponse && autoSpeak && response) {
+        speak(response);
+      } else {
+        setVoiceState("idle");
       }
     } catch (e) {
       console.error("Chat error:", e);
@@ -219,27 +242,17 @@ export function AgentChat({
           content: "I apologize, but I'm having trouble responding right now. Please try again.",
         },
       ]);
+      setVoiceState("error");
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleSubmit = () => {
-    // If we just finished voice input, speak the response
-    const shouldSpeak = pendingVoiceSubmit || transcript.length > 0;
-    sendMessage(input, shouldSpeak);
+    sendMessage(input, false);
   };
 
-  const handleVoiceToggle = () => {
-    if (isListening) {
-      stopListening();
-    } else {
-      setInput("");
-      startListening();
-    }
-  };
-
-  // Handle voice transcripts being added to chat
+  // Handle voice transcripts from VoiceChat mode
   const handleVoiceTranscript = (text: string, isUser: boolean) => {
     const msg: Message = { 
       role: isUser ? "user" : "assistant", 
@@ -248,6 +261,9 @@ export function AgentChat({
     setMessages((prev) => [...prev, msg]);
   };
 
+  // Determine current voice state (combine PTT and TTS states)
+  const currentVoiceState = isSpeaking ? "speaking" : pttState;
+
   if (isVoiceMode) {
     return (
       <div className="h-[600px]">
@@ -255,7 +271,7 @@ export function AgentChat({
           agentName={agentName}
           agentAvatar={agentAvatar}
           agentColor={agentColor}
-          agentType={getAgentType()}
+          agentType={agentType}
           onTranscript={handleVoiceTranscript}
         />
         <div className="mt-4 flex justify-center">
@@ -283,7 +299,7 @@ export function AgentChat({
             size="icon"
             onClick={() => setIsVoiceMode(true)}
             className="text-muted-foreground hover:text-primary"
-            title="Switch to voice mode"
+            title="Switch to full voice mode"
           >
             <Mic className="w-5 h-5" />
           </Button>
@@ -332,10 +348,17 @@ export function AgentChat({
         isLoading={isLoading}
         placeholder={`Message ${agentName.split(" ")[0]}...`}
         voiceEnabled={true}
-        isListening={isListening}
-        isSpeaking={isSpeaking}
-        voiceVolume={volume}
-        onVoiceToggle={handleVoiceToggle}
+        voiceState={currentVoiceState}
+        audioLevel={audioLevel}
+        partialTranscript={partialTranscript}
+        onPushToTalkStart={startRecording}
+        onPushToTalkEnd={stopRecording}
+        isSpeaking={isSpeaking || ttsLoading}
+        autoSpeak={autoSpeak}
+        volume={volume}
+        onAutoSpeakChange={setAutoSpeak}
+        onVolumeChange={setVolume}
+        onStopSpeaking={stopSpeaking}
       />
     </div>
   );
