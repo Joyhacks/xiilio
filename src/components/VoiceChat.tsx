@@ -1,5 +1,5 @@
 import { useConversation } from "@elevenlabs/react";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { Mic, MicOff, Phone, PhoneOff, Loader2, Volume2, VolumeX, Settings2, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -7,6 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { toast } from "@/hooks/use-toast";
+import { VoiceVisualizer } from "@/components/voice/VoiceVisualizer";
+import { AudioWaveform } from "@/components/voice/AudioWaveform";
 
 interface VoiceChatProps {
   agentName: string;
@@ -32,6 +34,9 @@ export function VoiceChat({
   const [agentResponse, setAgentResponse] = useState("");
   const [agentId, setAgentId] = useState("");
   const [showSetup, setShowSetup] = useState(true);
+  const [inputVolume, setInputVolume] = useState(0);
+  const [outputVolume, setOutputVolume] = useState(0);
+  const volumeIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // Load saved agent ID on mount
   useEffect(() => {
@@ -49,12 +54,30 @@ export function VoiceChat({
         description: `You're now speaking with ${agentName}`,
       });
       setShowSetup(false);
+      
+      // Start polling audio levels
+      volumeIntervalRef.current = setInterval(() => {
+        try {
+          setInputVolume(conversation.getInputVolume() || 0);
+          setOutputVolume(conversation.getOutputVolume() || 0);
+        } catch (e) {
+          // Volume methods may not be available
+        }
+      }, 50);
     },
     onDisconnect: () => {
       console.log("Disconnected from agent");
       setTranscript("");
       setAgentResponse("");
       setShowSetup(true);
+      
+      // Stop polling
+      if (volumeIntervalRef.current) {
+        clearInterval(volumeIntervalRef.current);
+        volumeIntervalRef.current = null;
+      }
+      setInputVolume(0);
+      setOutputVolume(0);
     },
     onMessage: (message) => {
       console.log("Voice message:", message);
@@ -128,6 +151,10 @@ export function VoiceChat({
   }, [conversation, agentId]);
 
   const stopConversation = useCallback(async () => {
+    if (volumeIntervalRef.current) {
+      clearInterval(volumeIntervalRef.current);
+      volumeIntervalRef.current = null;
+    }
     await conversation.endSession();
     toast({
       title: "Voice Ended",
@@ -138,6 +165,10 @@ export function VoiceChat({
   const toggleMute = useCallback(() => {
     setIsMuted(!isMuted);
   }, [isMuted]);
+
+  // Volume getter callbacks for visualizers
+  const getInputVolume = useCallback(() => inputVolume, [inputVolume]);
+  const getOutputVolume = useCallback(() => outputVolume, [outputVolume]);
 
   const isConnected = conversation.status === "connected";
 
@@ -249,20 +280,37 @@ export function VoiceChat({
                 <AvatarFallback className="text-2xl">{agentName[0]}</AvatarFallback>
               </Avatar>
               
-              {/* Speaking indicator rings */}
-              {conversation.isSpeaking && (
-                <>
-                  <div className="absolute inset-0 rounded-full border-4 border-primary/30 animate-ping" />
-                  <div className="absolute inset-[-8px] rounded-full border-2 border-primary/20 animate-pulse" />
-                </>
-              )}
+              {/* Circular volume rings */}
+              <VoiceVisualizer 
+                isActive={isConnected && conversation.isSpeaking}
+                getVolume={getOutputVolume}
+                type="circular"
+                className="absolute inset-0"
+              />
               
-              {/* Listening indicator */}
-              {!conversation.isSpeaking && (
-                <div className="absolute -bottom-1 -right-1 w-8 h-8 bg-primary rounded-full flex items-center justify-center animate-pulse">
-                  <Mic className="w-4 h-4 text-primary-foreground" />
+              {/* Listening indicator with waveform */}
+              {!conversation.isSpeaking && isConnected && (
+                <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-background/80 backdrop-blur-sm rounded-full px-3 py-1.5 flex items-center gap-2 border border-primary/30">
+                  <Mic className="w-3 h-3 text-primary" />
+                  <AudioWaveform 
+                    isActive={isConnected && !conversation.isSpeaking}
+                    getVolume={getInputVolume}
+                    barCount={5}
+                    color="primary"
+                  />
                 </div>
               )}
+            </div>
+
+            {/* Waveform Visualizer */}
+            <div className="w-full max-w-sm px-4">
+              <VoiceVisualizer 
+                isActive={isConnected}
+                getVolume={conversation.isSpeaking ? getOutputVolume : getInputVolume}
+                type="wave"
+                size="md"
+                className="w-full"
+              />
             </div>
 
             {/* Status */}
