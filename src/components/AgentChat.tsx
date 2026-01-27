@@ -8,6 +8,7 @@ import { ChatMessage } from "@/components/chat/ChatMessage";
 import { SuggestedPrompts } from "@/components/chat/SuggestedPrompts";
 import { ChatInput } from "@/components/chat/ChatInput";
 import { VoiceChat } from "@/components/VoiceChat";
+import { useVoiceInput } from "@/hooks/useVoiceInput";
 
 interface Message {
   role: "user" | "assistant";
@@ -38,7 +39,54 @@ export function AgentChat({
   const [isLoading, setIsLoading] = useState(false);
   const [showPrompts, setShowPrompts] = useState(true);
   const [isVoiceMode, setIsVoiceMode] = useState(false);
+  const [pendingVoiceSubmit, setPendingVoiceSubmit] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Derive agent type from slug for voice
+  const getAgentType = useCallback(() => {
+    if (!agentSlug) return "assistant";
+    if (agentSlug.includes("receptionist") || agentSlug.includes("julia")) return "receptionist";
+    if (agentSlug.includes("kate")) return "assistant";
+    if (agentSlug.includes("halle")) return "legal";
+    if (agentSlug.includes("george")) return "social";
+    if (agentSlug.includes("arnie")) return "writer";
+    if (agentSlug.includes("brad")) return "sales";
+    if (agentSlug.includes("sam")) return "coach";
+    if (agentSlug.includes("jerry")) return "finance";
+    return "assistant";
+  }, [agentSlug]);
+
+  // Voice input hook
+  const {
+    isListening,
+    isSpeaking,
+    startListening,
+    stopListening,
+    speakText,
+    transcript,
+    volume,
+  } = useVoiceInput({
+    agentType: getAgentType(),
+    onTranscript: (text) => {
+      setInput(text);
+      setPendingVoiceSubmit(true);
+    },
+  });
+
+  // Auto-submit when voice transcript is ready
+  useEffect(() => {
+    if (pendingVoiceSubmit && input.trim() && !isListening) {
+      setPendingVoiceSubmit(false);
+      handleSubmit();
+    }
+  }, [pendingVoiceSubmit, input, isListening]);
+
+  // Update input field with live transcript while listening
+  useEffect(() => {
+    if (isListening && transcript) {
+      setInput(transcript);
+    }
+  }, [isListening, transcript]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -49,7 +97,7 @@ export function AgentChat({
   }, [messages]);
 
   const streamChat = useCallback(
-    async (userMessages: Message[]) => {
+    async (userMessages: Message[]): Promise<string> => {
       const resp = await fetch(`${SUPABASE_URL}/functions/v1/${edgeFunctionName}`, {
         method: "POST",
         headers: {
@@ -140,11 +188,13 @@ export function AgentChat({
           }
         }
       }
+
+      return assistantContent;
     },
     [edgeFunctionName]
   );
 
-  const sendMessage = async (text: string) => {
+  const sendMessage = async (text: string, speakResponse: boolean = false) => {
     if (!text.trim() || isLoading) return;
 
     const userMsg: Message = { role: "user", content: text.trim() };
@@ -154,7 +204,12 @@ export function AgentChat({
     setIsLoading(true);
 
     try {
-      await streamChat([...messages, userMsg]);
+      const response = await streamChat([...messages, userMsg]);
+      
+      // Speak the response if voice was used
+      if (speakResponse && response) {
+        speakText(response);
+      }
     } catch (e) {
       console.error("Chat error:", e);
       setMessages((prev) => [
@@ -170,7 +225,18 @@ export function AgentChat({
   };
 
   const handleSubmit = () => {
-    sendMessage(input);
+    // If we just finished voice input, speak the response
+    const shouldSpeak = pendingVoiceSubmit || transcript.length > 0;
+    sendMessage(input, shouldSpeak);
+  };
+
+  const handleVoiceToggle = () => {
+    if (isListening) {
+      stopListening();
+    } else {
+      setInput("");
+      startListening();
+    }
   };
 
   // Handle voice transcripts being added to chat
@@ -180,20 +246,6 @@ export function AgentChat({
       content: text 
     };
     setMessages((prev) => [...prev, msg]);
-  };
-
-  // Derive agent type from slug for voice selection
-  const getAgentType = () => {
-    if (!agentSlug) return "assistant";
-    if (agentSlug.includes("receptionist") || agentSlug.includes("julia")) return "receptionist";
-    if (agentSlug.includes("kate")) return "assistant";
-    if (agentSlug.includes("halle")) return "legal";
-    if (agentSlug.includes("george")) return "social";
-    if (agentSlug.includes("arnie")) return "writer";
-    if (agentSlug.includes("brad")) return "sales";
-    if (agentSlug.includes("sam")) return "coach";
-    if (agentSlug.includes("jerry")) return "finance";
-    return "assistant";
   };
 
   if (isVoiceMode) {
@@ -245,7 +297,7 @@ export function AgentChat({
             agentName={agentName}
             agentSlug={agentSlug}
             basePrompts={suggestedPrompts}
-            onSelectPrompt={sendMessage}
+            onSelectPrompt={(prompt) => sendMessage(prompt, false)}
           />
         )}
 
@@ -279,6 +331,11 @@ export function AgentChat({
         onSubmit={handleSubmit}
         isLoading={isLoading}
         placeholder={`Message ${agentName.split(" ")[0]}...`}
+        voiceEnabled={true}
+        isListening={isListening}
+        isSpeaking={isSpeaking}
+        voiceVolume={volume}
+        onVoiceToggle={handleVoiceToggle}
       />
     </div>
   );
