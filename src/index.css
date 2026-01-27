@@ -50,6 +50,16 @@
     --agent-reminder: 45 93% 58%;
     --agent-tasks: 340 82% 60%;
     --agent-analytics: 190 95% 50%;
+    
+    /* New team agent colors */
+    --agent-receptionist: 350 80% 55%;
+    --agent-assistant: 280 75% 55%;
+    --agent-legal: 220 70% 50%;
+    --agent-social: 200 85% 55%;
+    --agent-writer: 30 90% 50%;
+    --agent-sales: 15 85% 55%;
+    --agent-coach: 260 75% 55%;
+    --agent-finance: 140 70% 45%;
 
     --sidebar-background: 222 47% 6%;
     --sidebar-foreground: 210 40% 98%;
@@ -132,6 +142,38 @@
 
   .agent-glow-analytics {
     box-shadow: 0 0 30px hsl(var(--agent-analytics) / 0.3);
+  }
+
+  .agent-glow-receptionist {
+    box-shadow: 0 0 30px hsl(var(--agent-receptionist) / 0.3);
+  }
+
+  .agent-glow-assistant {
+    box-shadow: 0 0 30px hsl(var(--agent-assistant) / 0.3);
+  }
+
+  .agent-glow-legal {
+    box-shadow: 0 0 30px hsl(var(--agent-legal) / 0.3);
+  }
+
+  .agent-glow-social {
+    box-shadow: 0 0 30px hsl(var(--agent-social) / 0.3);
+  }
+
+  .agent-glow-writer {
+    box-shadow: 0 0 30px hsl(var(--agent-writer) / 0.3);
+  }
+
+  .agent-glow-sales {
+    box-shadow: 0 0 30px hsl(var(--agent-sales) / 0.3);
+  }
+
+  .agent-glow-coach {
+    box-shadow: 0 0 30px hsl(var(--agent-coach) / 0.3);
+  }
+
+  .agent-glow-finance {
+    box-shadow: 0 0 30px hsl(var(--agent-finance) / 0.3);
   }
 }
 
