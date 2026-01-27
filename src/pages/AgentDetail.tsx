@@ -30,6 +30,7 @@ interface AgentData {
   color: string;
   capabilities: string[];
   edgeFunction: string;
+  voiceId: string;
   suggestedPrompts: { category: string; prompts: string[] }[];
 }
 
@@ -54,6 +55,7 @@ const agents: Record<string, AgentData> = {
       "Feedback collection",
     ],
     edgeFunction: "receptionist-chat",
+    voiceId: "EXAVITQu4vr4xnSDxMaL", // Sarah - warm, friendly female voice
     suggestedPrompts: [
       {
         category: "Visitor Management",
@@ -133,6 +135,7 @@ const agents: Record<string, AgentData> = {
       "Learning & development",
     ],
     edgeFunction: "receptionist-chat",
+    voiceId: "FGY2WhTYpPnrIDTdsKH5", // Laura - elegant, refined female voice
     suggestedPrompts: [
       {
         category: "General Assistance",
@@ -203,6 +206,7 @@ const agents: Record<string, AgentData> = {
       "User rights management",
     ],
     edgeFunction: "receptionist-chat",
+    voiceId: "pFZP5JQG7iQjIQuC4Bku", // Lily - confident, authoritative female voice
     suggestedPrompts: [
       {
         category: "Contract Review",
@@ -263,6 +267,7 @@ const agents: Record<string, AgentData> = {
       "Brand voice",
     ],
     edgeFunction: "receptionist-chat",
+    voiceId: "JBFqnCBsd6RMkjVDRZzb", // George - charismatic, smooth male voice
     suggestedPrompts: [
       {
         category: "Content Creation",
@@ -295,6 +300,7 @@ const agents: Record<string, AgentData> = {
       "Editorial calendar",
     ],
     edgeFunction: "receptionist-chat",
+    voiceId: "nPczCjzI2devNBz1zQrb", // Brian - strong, powerful male voice
     suggestedPrompts: [
       {
         category: "Content Writing",
@@ -330,6 +336,7 @@ const agents: Record<string, AgentData> = {
       "Sales strategy development",
     ],
     edgeFunction: "receptionist-chat",
+    voiceId: "TX3LPaxmHKxFdv7VOQHJ", // Liam - charming, persuasive male voice
     suggestedPrompts: [
       {
         category: "Lead Generation",
@@ -386,6 +393,7 @@ const agents: Record<string, AgentData> = {
       "Achievement tracking",
     ],
     edgeFunction: "receptionist-chat",
+    voiceId: "onwK4e9ZLuTAKqWW03F9", // Daniel - deep, authoritative voice for Sam (Samuel L. Jackson style)
     suggestedPrompts: [
       {
         category: "Goal Setting",
@@ -448,6 +456,7 @@ const agents: Record<string, AgentData> = {
       "Spending optimization",
     ],
     edgeFunction: "receptionist-chat",
+    voiceId: "cjVigY5qzO86Huf0OWal", // Eric - witty, personable male voice
     suggestedPrompts: [
       {
         category: "Budgeting",
