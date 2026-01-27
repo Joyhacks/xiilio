@@ -106,7 +106,7 @@ export default function Careers() {
             <h2 className="font-display text-3xl font-bold text-center mb-12">Why Join 24TWELVE?</h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               {perks.map((perk) => (
-                <div key={perk.title} className="p-6 bg-card rounded-2xl border border-border/50 text-center">
+                <div key={perk.title} className="p-6 glass-card rounded-2xl text-center hover:scale-[1.02] transition-all duration-300">
                   <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-4">
                     <perk.icon className="w-6 h-6 text-primary" />
                   </div>

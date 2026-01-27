@@ -90,7 +90,7 @@ export default function Blog() {
           <section className="py-12 bg-background">
             <div className="container mx-auto px-6">
               <div className="max-w-4xl mx-auto">
-                <div className="p-8 bg-card rounded-2xl border border-border/50 hover:border-primary/50 transition-colors">
+                <div className="p-8 glass-luxury rounded-2xl hover:scale-[1.01] transition-all duration-300">
                   <div className="flex items-center gap-3 mb-4">
                     <Badge variant="outline" className="bg-primary/10 text-primary border-primary/30">
                       <Sparkles className="w-3 h-3 mr-1" />

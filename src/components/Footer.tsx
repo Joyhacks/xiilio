@@ -75,7 +75,7 @@ const socialLinks: SocialLink[] = [
 
 export function Footer() {
   return (
-    <footer className="py-12 bg-card border-t border-border/50">
+    <footer className="py-12 glass-luxury border-t border-primary/10">
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           {/* Logo & Description */}

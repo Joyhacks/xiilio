@@ -9,15 +9,16 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        default: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm",
         destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline: "border border-border bg-transparent hover:bg-muted hover:text-accent-foreground",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        outline: "border border-border bg-transparent hover:bg-muted hover:text-accent-foreground backdrop-blur-sm",
+        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-sm",
         ghost: "hover:bg-muted hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        hero: "bg-gradient-to-r from-primary to-secondary text-primary-foreground font-semibold shadow-[0_0_60px_hsl(217_91%_60%/0.3)] hover:scale-105 hover:shadow-[0_0_40px_hsl(270_70%_60%/0.2)]",
-        glass: "bg-muted/50 backdrop-blur-sm border border-border/50 text-foreground hover:bg-muted/80",
-        agent: "bg-card border border-border/50 text-foreground hover:border-primary/50 hover:shadow-[0_0_60px_hsl(217_91%_60%/0.3)]",
+        hero: "bg-gradient-to-r from-primary via-accent to-secondary text-primary-foreground font-semibold shadow-[0_8px_32px_hsl(210_40%_70%/0.3),0_4px_16px_hsl(215_35%_60%/0.2)] hover:scale-105 hover:shadow-[0_12px_48px_hsl(210_40%_70%/0.4),0_8px_24px_hsl(215_35%_60%/0.3)] border border-white/10 backdrop-blur-sm",
+        glass: "bg-muted/30 backdrop-blur-xl border border-primary/20 text-foreground hover:bg-muted/50 hover:border-primary/40 shadow-[0_4px_24px_hsl(222_30%_0%/0.2)]",
+        agent: "bg-card/80 backdrop-blur-sm border border-border/50 text-foreground hover:border-primary/50 hover:shadow-[0_0_40px_hsl(210_40%_70%/0.2)] hover:bg-card",
+        luxury: "bg-gradient-to-r from-primary/90 to-accent/90 text-primary-foreground font-semibold border border-white/20 shadow-[0_8px_40px_hsl(210_40%_70%/0.25),inset_0_1px_0_hsl(0_0%_100%/0.15)] hover:scale-[1.02] hover:shadow-[0_12px_60px_hsl(210_40%_70%/0.35)]",
       },
       size: {
         default: "h-10 px-4 py-2",
