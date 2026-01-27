@@ -126,21 +126,45 @@ const agents: Record<string, AgentData> = {
       "Meeting coordination",
       "Document preparation",
       "Correspondence handling",
+      "Task prioritization",
+      "Reminder scheduling",
+      "Resource access",
     ],
     edgeFunction: "receptionist-chat",
     suggestedPrompts: [
       {
-        category: "Calendar Management",
+        category: "Task Management",
         prompts: [
-          "Schedule a board meeting for next Tuesday at 10am.",
-          "What's on the CEO's calendar for this week?",
+          "Create a new task for quarterly review due on Friday.",
+          "Remind me to follow up with the team at 3pm today.",
         ],
       },
       {
-        category: "Travel Planning",
+        category: "Scheduling",
         prompts: [
-          "Book a flight to New York for the executive team.",
-          "Arrange hotel accommodations for the upcoming conference.",
+          "Schedule a meeting with the board on Thursday at 10am.",
+          "What does my calendar look like this week?",
+        ],
+      },
+      {
+        category: "Communication",
+        prompts: [
+          "Draft an email to the team about the upcoming deadline.",
+          "Connect me with customer support for a billing issue.",
+        ],
+      },
+      {
+        category: "Personalization",
+        prompts: [
+          "Update my preferences for notifications and alerts.",
+          "Suggest content based on my recent interests.",
+        ],
+      },
+      {
+        category: "Information Retrieval",
+        prompts: [
+          "Summarize the key points from yesterday's meeting notes.",
+          "Find resources related to project management best practices.",
         ],
       },
     ],
@@ -249,26 +273,50 @@ const agents: Record<string, AgentData> = {
     avatar: bradAvatar,
     color: "sales",
     capabilities: [
-      "Lead qualification",
-      "Sales presentations",
-      "CRM management",
+      "Lead generation & qualification",
+      "Sales reporting & analytics",
+      "Customer communication",
       "Follow-up automation",
       "Pipeline tracking",
+      "Appointment scheduling",
+      "Market research",
+      "Sales strategy development",
     ],
     edgeFunction: "receptionist-chat",
     suggestedPrompts: [
       {
-        category: "Lead Management",
+        category: "Lead Generation",
         prompts: [
-          "Qualify this new lead from the website form.",
-          "What's the status of leads in our pipeline?",
+          "Identify potential leads based on our target market criteria.",
+          "Compile a list of recent inquiries and categorize them by lead quality.",
         ],
       },
       {
-        category: "Sales Support",
+        category: "Follow-Up Tasks",
         prompts: [
-          "Draft a follow-up email for a prospect meeting.",
-          "Create a brief sales pitch for our AI services.",
+          "Create a follow-up schedule for leads interested in our AI services.",
+          "Draft a follow-up email for leads who attended our recent webinar.",
+        ],
+      },
+      {
+        category: "Sales Reporting",
+        prompts: [
+          "Generate a weekly report on sales performance with conversion rates.",
+          "Analyze sales data and identify trends over the past quarter.",
+        ],
+      },
+      {
+        category: "Customer Communication",
+        prompts: [
+          "Draft a personalized introduction email for new leads.",
+          "Create a script for phone calls to introduce our AI agent offerings.",
+        ],
+      },
+      {
+        category: "Market Research",
+        prompts: [
+          "Research competitors' offerings and summarize their strengths.",
+          "Identify industry trends that could impact our sales strategy.",
         ],
       },
     ],
