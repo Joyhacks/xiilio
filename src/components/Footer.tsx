@@ -1,4 +1,5 @@
-import { Zap } from "lucide-react";
+import logo from "@/assets/logo-24twelve.png";
+import qrCode from "@/assets/qr-code.png";
 
 export function Footer() {
   return (
@@ -6,13 +7,8 @@ export function Footer() {
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Logo */}
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center">
-              <Zap className="w-5 h-5 text-primary-foreground" />
-            </div>
-            <span className="font-display text-xl font-bold text-gradient">
-              24TWELVE
-            </span>
+          <div className="flex items-center">
+            <img src={logo} alt="24TWELVE - AI Lead Generation Agency" className="h-10 w-auto" />
           </div>
 
           {/* Links */}
@@ -31,9 +27,15 @@ export function Footer() {
             </a>
           </nav>
 
+          {/* QR Code */}
+          <div className="flex flex-col items-center gap-2">
+            <img src={qrCode} alt="Scan to connect" className="h-20 w-20 rounded-lg" />
+            <p className="text-xs text-muted-foreground">Scan to connect</p>
+          </div>
+
           {/* Copyright */}
           <p className="text-sm text-muted-foreground">
-            © 2024 24Twelve. All rights reserved.
+            © 2025 24Twelve. All rights reserved.
           </p>
         </div>
       </div>

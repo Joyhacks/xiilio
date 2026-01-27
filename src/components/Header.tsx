@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Zap } from "lucide-react";
+import logo from "@/assets/logo-24twelve.png";
 
 export function Header() {
   return (
@@ -7,13 +7,8 @@ export function Header() {
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center">
-              <Zap className="w-5 h-5 text-primary-foreground" />
-            </div>
-            <span className="font-display text-xl font-bold text-gradient">
-              24TWELVE
-            </span>
+          <div className="flex items-center">
+            <img src={logo} alt="24TWELVE - AI Lead Generation Agency" className="h-10 w-auto" />
           </div>
 
           {/* Navigation */}
