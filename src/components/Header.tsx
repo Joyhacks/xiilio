@@ -33,18 +33,18 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
             >
               Features
             </a>
-            <a
-              href="#pricing"
+            <Link
+              to="/pricing"
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               Pricing
-            </a>
-            <a
-              href="#docs"
+            </Link>
+            <Link
+              to="/docs"
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               Docs
-            </a>
+            </Link>
           </nav>
 
           {/* CTA + Quick Links + Theme Toggle */}

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import logo from "@/assets/logo-24twelve.png";
 import qrCode from "@/assets/qr-code.png";
@@ -89,18 +90,18 @@ export function Footer() {
           <div className="space-y-4">
             <h4 className="font-semibold text-foreground">Product</h4>
             <nav className="flex flex-col gap-2 text-sm text-muted-foreground">
-              <a href="#agents" className="hover:text-foreground transition-colors">
+              <a href="/#agents" className="hover:text-foreground transition-colors">
                 AI Agents
               </a>
-              <a href="#features" className="hover:text-foreground transition-colors">
+              <a href="/#features" className="hover:text-foreground transition-colors">
                 Features
               </a>
-              <a href="/pricing" className="hover:text-foreground transition-colors">
+              <Link to="/pricing" className="hover:text-foreground transition-colors">
                 Pricing
-              </a>
-              <a href="#" className="hover:text-foreground transition-colors">
+              </Link>
+              <Link to="/docs" className="hover:text-foreground transition-colors">
                 API Docs
-              </a>
+              </Link>
             </nav>
           </div>
 
@@ -108,18 +109,18 @@ export function Footer() {
           <div className="space-y-4">
             <h4 className="font-semibold text-foreground">Company</h4>
             <nav className="flex flex-col gap-2 text-sm text-muted-foreground">
-              <a href="#" className="hover:text-foreground transition-colors">
+              <Link to="/about" className="hover:text-foreground transition-colors">
                 About Us
-              </a>
-              <a href="#" className="hover:text-foreground transition-colors">
+              </Link>
+              <Link to="/careers" className="hover:text-foreground transition-colors">
                 Careers
-              </a>
-              <a href="#" className="hover:text-foreground transition-colors">
+              </Link>
+              <Link to="/blog" className="hover:text-foreground transition-colors">
                 Blog
-              </a>
-              <a href="#" className="hover:text-foreground transition-colors">
+              </Link>
+              <Link to="/contact" className="hover:text-foreground transition-colors">
                 Contact
-              </a>
+              </Link>
             </nav>
           </div>
 
@@ -159,15 +160,15 @@ export function Footer() {
           {/* Copyright & Legal */}
           <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
             <p>© 2025 24Twelve. All rights reserved.</p>
-            <a href="#" className="hover:text-foreground transition-colors">
+            <Link to="/docs" className="hover:text-foreground transition-colors">
               Privacy
-            </a>
-            <a href="#" className="hover:text-foreground transition-colors">
+            </Link>
+            <Link to="/docs" className="hover:text-foreground transition-colors">
               Terms
-            </a>
-            <a href="#" className="hover:text-foreground transition-colors">
+            </Link>
+            <Link to="/contact" className="hover:text-foreground transition-colors">
               Status
-            </a>
+            </Link>
           </div>
         </div>
       </div>

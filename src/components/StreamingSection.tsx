@@ -6,18 +6,20 @@ import {
   siMax,
 } from "simple-icons";
 
-// Helper to render Simple Icons SVG
-const SimpleIcon = ({ icon, className }: { icon: { path: string; title: string }; className?: string }) => (
-  <svg
-    role="img"
-    viewBox="0 0 24 24"
-    className={cn("w-6 h-6", className)}
-    fill="currentColor"
-    aria-label={icon.title}
-  >
-    <path d={icon.path} />
-  </svg>
-);
+// Helper to render Simple Icons SVG (inline to avoid ref warnings)
+function SimpleIconSvg({ icon, className }: { icon: { path: string; title: string }; className?: string }) {
+  return (
+    <svg
+      role="img"
+      viewBox="0 0 24 24"
+      className={cn("w-6 h-6", className)}
+      fill="currentColor"
+      aria-label={icon.title}
+    >
+      <path d={icon.path} />
+    </svg>
+  );
+}
 
 // Custom inline SVGs for platforms not in simple-icons
 const customIcons = {
@@ -59,20 +61,20 @@ const glowColors: Record<BrandKey, string> = {
   max: "shadow-[0_0_20px_rgba(0,43,231,0.5)]",
 };
 
-// Render icon based on brand key
-const BrandIcon = ({ brandKey }: { brandKey: BrandKey }) => {
+// Render icon based on brand key (function component to avoid ref issues)
+function BrandIcon({ brandKey }: { brandKey: BrandKey }) {
   const simpleIcon = simpleIconMap[brandKey];
   if (simpleIcon) {
-    return <SimpleIcon icon={simpleIcon} />;
+    return <SimpleIconSvg icon={simpleIcon} />;
   }
   
   const customIcon = customIcons[brandKey as keyof typeof customIcons];
   if (customIcon) {
-    return customIcon;
+    return <>{customIcon}</>;
   }
   
   return null;
-};
+}
 
 interface StreamingService {
   id: string;
