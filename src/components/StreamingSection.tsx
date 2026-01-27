@@ -1,4 +1,3 @@
-import { ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   siNetflix,
@@ -147,7 +146,7 @@ export function StreamingLinks({
 
   return (
     <div className={cn("space-y-4", className)}>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="flex flex-wrap gap-4 justify-center">
         {validServices.map((service) => (
           <a
             key={service.id}
@@ -156,23 +155,24 @@ export function StreamingLinks({
             rel="noopener noreferrer"
             aria-label={`Watch on ${service.name} (opens in new tab)`}
             className={cn(
-              "group flex items-center justify-between gap-3 px-4 py-3",
-              "rounded-xl text-white font-medium",
+              "group relative flex items-center justify-center",
+              "w-14 h-14 rounded-full text-white",
               "transition-all duration-300 ease-out",
-              "hover:scale-[1.02] hover:brightness-110 hover:shadow-lg",
+              "hover:scale-110 hover:brightness-110",
+              "hover:shadow-lg hover:shadow-current/30",
               "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background",
               service.bgColor
             )}
           >
-            <div className="flex items-center gap-3">
-              <BrandIcon brandKey={service.brandKey} />
-              <span className="text-sm font-semibold">{service.name}</span>
-            </div>
-            <ExternalLink className="w-4 h-4 opacity-60 group-hover:opacity-100 transition-opacity" />
+            <BrandIcon brandKey={service.brandKey} />
+            {/* Tooltip */}
+            <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 px-2 py-1 text-xs font-medium bg-popover text-popover-foreground rounded shadow-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+              {service.name}
+            </span>
           </a>
         ))}
       </div>
-      <p className="text-xs text-muted-foreground text-center">
+      <p className="text-xs text-muted-foreground text-center pt-4">
         Links open in a new tab.
       </p>
     </div>
