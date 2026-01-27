@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { HeaderQuickLinks } from "@/components/HeaderQuickLinks";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import logo from "@/assets/logo-24twelve.png";
+import { Link } from "react-router-dom";
+import logo from "@/assets/logo-24twelve-transparent.png";
 
 interface HeaderProps {
   agentSlug?: string | null;
@@ -53,9 +54,11 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
             <Button variant="ghost" size="sm" className="hidden sm:inline-flex">
               Sign In
             </Button>
-            <Button variant="hero" size="sm">
-              Get Started
-            </Button>
+            <Link to="/pricing">
+              <Button variant="hero" size="sm">
+                Get Started
+              </Button>
+            </Link>
           </div>
         </div>
       </div>

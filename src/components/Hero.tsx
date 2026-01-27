@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Sparkles, Zap, Play } from "lucide-react";
+import { Sparkles, Zap, Play } from "lucide-react";
+import { Link } from "react-router-dom";
 import logo from "@/assets/logo-24twelve-transparent.png";
 import { AgentDemoModal } from "@/components/AgentDemoModal";
 
@@ -40,10 +41,12 @@ export function Hero() {
 
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in" style={{ animationDelay: '0.3s' }}>
-          <Button variant="hero" size="xl">
-            <Zap className="w-5 h-5" />
-            Get Started Free
-          </Button>
+          <Link to="/pricing">
+            <Button variant="hero" size="xl">
+              <Zap className="w-5 h-5" />
+              Get Started Free
+            </Button>
+          </Link>
           <AgentDemoModal
             trigger={
               <Button variant="glass" size="xl">
