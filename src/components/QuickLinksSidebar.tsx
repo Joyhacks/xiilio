@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { cn } from "@/lib/utils";
-import { getAgentLinks, type AgentLinkCategory, type AgentLinkItem } from "@/lib/agentLinks";
+import { getAgentLinks, agentConfigs, type AgentLinkCategory, type AgentLinkItem } from "@/lib/agentLinks";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useAgentLinksSettings } from "@/hooks/useAgentLinksSettings";
+import { QuickLinksSettings } from "@/components/QuickLinksSettings";
 import {
   Mail,
   Send,
@@ -19,13 +21,13 @@ import {
   ExternalLink,
   ChevronDown,
   ChevronRight,
-  PanelLeftClose,
   PanelLeft,
   Video,
   Instagram,
   Facebook,
   Linkedin,
   Twitter,
+  Settings,
   type LucideIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -76,6 +78,7 @@ const iconMap: Record<string, LucideIcon> = {
 
 interface QuickLinksSidebarProps {
   agentSlug: string;
+  agentName?: string;
   agentColor?: string;
   className?: string;
 }
@@ -311,12 +314,27 @@ function SidebarContent({
 
 export function QuickLinksSidebar({
   agentSlug,
+  agentName,
   agentColor,
   className,
 }: QuickLinksSidebarProps) {
   const isMobile = useIsMobile();
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const categories = getAgentLinks(agentSlug);
+  const [refreshKey, setRefreshKey] = useState(0);
+  
+  // Get user settings from localStorage
+  const { settings, hasCustomSettings } = useAgentLinksSettings(agentSlug);
+  
+  // Get categories with user settings merged
+  const categories = getAgentLinks(agentSlug, settings);
+  
+  // Resolved agent name
+  const resolvedAgentName = agentName || agentConfigs[agentSlug]?.name || "Agent";
+  
+  // Force refresh when settings change
+  const handleSettingsChange = useCallback(() => {
+    setRefreshKey((prev) => prev + 1);
+  }, []);
 
   // Mobile: use Sheet (drawer)
   if (isMobile) {
@@ -329,7 +347,8 @@ export function QuickLinksSidebar({
             className={cn(
               "fixed bottom-4 left-4 z-40 shadow-lg",
               "transition-all duration-300 hover:scale-105",
-              "bg-card/95 backdrop-blur-sm"
+              "bg-card/95 backdrop-blur-sm",
+              hasCustomSettings && "border-primary/50"
             )}
             aria-label="Open quick links"
           >
@@ -338,10 +357,28 @@ export function QuickLinksSidebar({
           </Button>
         </SheetTrigger>
         <SheetContent side="left" className="w-72 p-0 bg-card/95 backdrop-blur-md">
-          <SheetHeader className="p-4 border-b border-border/50">
+          <SheetHeader className="p-4 border-b border-border/50 flex flex-row items-center justify-between">
             <SheetTitle className="text-foreground">Quick Links</SheetTitle>
+            <QuickLinksSettings
+              agentSlug={agentSlug}
+              agentName={resolvedAgentName}
+              agentColor={agentColor}
+              onSettingsChange={handleSettingsChange}
+              trigger={
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className={cn(
+                    "h-8 w-8 text-muted-foreground hover:text-foreground",
+                    hasCustomSettings && "text-primary"
+                  )}
+                >
+                  <Settings className="w-4 h-4" />
+                </Button>
+              }
+            />
           </SheetHeader>
-          <SidebarContent categories={categories} agentColor={agentColor} />
+          <SidebarContent key={refreshKey} categories={categories} agentColor={agentColor} />
         </SheetContent>
       </Sheet>
     );
@@ -384,15 +421,43 @@ export function QuickLinksSidebar({
       {/* Expanded content with fade animation */}
       <div 
         className={cn(
-          "h-full overflow-y-auto transition-all duration-300",
+          "h-full overflow-y-auto transition-all duration-300 flex flex-col",
           isCollapsed ? "opacity-0 scale-95 pointer-events-none" : "opacity-100 scale-100"
         )}
       >
-        <SidebarContent categories={categories} agentColor={agentColor} />
+        <SidebarContent key={refreshKey} categories={categories} agentColor={agentColor} />
+        
+        {/* Settings button at bottom */}
+        <div className="mt-auto p-4 border-t border-border/50">
+          <QuickLinksSettings
+            agentSlug={agentSlug}
+            agentName={resolvedAgentName}
+            agentColor={agentColor}
+            onSettingsChange={handleSettingsChange}
+            trigger={
+              <Button
+                variant="ghost"
+                size="sm"
+                className={cn(
+                  "w-full justify-start gap-2 text-muted-foreground hover:text-foreground",
+                  hasCustomSettings && "text-primary"
+                )}
+              >
+                <Settings className="w-4 h-4" />
+                Configure Links
+                {hasCustomSettings && (
+                  <span className="ml-auto text-xs bg-primary/20 text-primary px-1.5 py-0.5 rounded">
+                    Custom
+                  </span>
+                )}
+              </Button>
+            }
+          />
+        </div>
       </div>
 
       {/* Collapsed state: animated icons with hover popovers */}
-      <div 
+      <div
         className={cn(
           "absolute inset-0 pt-6 flex flex-col items-center gap-1",
           "transition-all duration-300",

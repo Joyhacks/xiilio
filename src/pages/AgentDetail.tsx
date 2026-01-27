@@ -528,7 +528,11 @@ export default function AgentDetail() {
       
       {/* Quick Links Sidebar */}
       {agentId && (
-        <QuickLinksSidebar agentSlug={agentId} agentColor={agent.color} />
+        <QuickLinksSidebar 
+          agentSlug={agentId} 
+          agentName={agent.name}
+          agentColor={agent.color} 
+        />
       )}
       
       <main className={cn(
