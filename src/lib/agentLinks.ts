@@ -1,6 +1,8 @@
 // Agent External Links Configuration
 // Data-driven system for per-agent quick links
 
+import { UserAgentSettings } from "@/hooks/useAgentLinksSettings";
+
 export interface AgentLinkItem {
   label: string;
   href: string;
@@ -120,13 +122,38 @@ const defaultLinks: AgentLinkCategory[] = [
   },
 ];
 
-// Build links for a specific agent based on their config
-export function getAgentLinks(agentSlug: string): AgentLinkCategory[] {
-  const config = agentConfigs[agentSlug];
+// Build links for a specific agent based on their config and optional user settings
+export function getAgentLinks(
+  agentSlug: string,
+  userSettings?: UserAgentSettings
+): AgentLinkCategory[] {
+  const baseConfig = agentConfigs[agentSlug];
   
-  if (!config) {
+  if (!baseConfig) {
     return defaultLinks;
   }
+
+  // Merge user settings with base config
+  const config: AgentConfig = userSettings
+    ? {
+        ...baseConfig,
+        email: userSettings.email || baseConfig.email,
+        phoneNumber: userSettings.phoneNumber || baseConfig.phoneNumber,
+        bookingUrl: userSettings.bookingUrl || baseConfig.bookingUrl,
+        blogNewPostUrl: userSettings.blogNewPostUrl || baseConfig.blogNewPostUrl,
+        crmUrl: userSettings.crmUrl || baseConfig.crmUrl,
+        helpdeskUrl: userSettings.helpdeskUrl || baseConfig.helpdeskUrl,
+        sharedInboxUrl: userSettings.sharedInboxUrl || baseConfig.sharedInboxUrl,
+        knowledgeBaseUrl: userSettings.knowledgeBaseUrl || baseConfig.knowledgeBaseUrl,
+        socialProfiles: {
+          instagram: userSettings.instagram || baseConfig.socialProfiles?.instagram,
+          facebook: userSettings.facebook || baseConfig.socialProfiles?.facebook,
+          linkedin: userSettings.linkedin || baseConfig.socialProfiles?.linkedin,
+          tiktok: userSettings.tiktok || baseConfig.socialProfiles?.tiktok,
+          twitter: userSettings.twitter || baseConfig.socialProfiles?.twitter,
+        },
+      }
+    : baseConfig;
 
   const categories: AgentLinkCategory[] = [];
 
