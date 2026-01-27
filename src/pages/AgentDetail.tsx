@@ -6,11 +6,13 @@ import { AgentChat } from "@/components/AgentChat";
 import { AgentConfigPanel } from "@/components/AgentConfigPanel";
 import { ActivityHistory } from "@/components/ActivityHistory";
 import { VoiceChat } from "@/components/VoiceChat";
+import { QuickLinksSidebar } from "@/components/QuickLinksSidebar";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 // Avatar imports
 import juliaAvatar from "@/assets/avatars/julia-receptionist.png";
@@ -500,6 +502,7 @@ const agents: Record<string, AgentData> = {
 export default function AgentDetail() {
   const { agentId } = useParams<{ agentId: string }>();
   const agent = agentId ? agents[agentId] : null;
+  const isMobile = useIsMobile();
 
   if (!agent) {
     return (
@@ -521,9 +524,17 @@ export default function AgentDetail() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <Header agentSlug={agentId} agentColor={agent.color} />
       
-      <main className="container mx-auto px-6 py-12">
+      {/* Quick Links Sidebar */}
+      {agentId && (
+        <QuickLinksSidebar agentSlug={agentId} agentColor={agent.color} />
+      )}
+      
+      <main className={cn(
+        "pt-20 pb-12 px-6 transition-all duration-300",
+        !isMobile && "ml-64 max-w-[calc(100%-16rem)]"
+      )}>
         {/* Back Link */}
         <Link
           to="/"
