@@ -1,11 +1,14 @@
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, CheckCircle } from "lucide-react";
+import { ArrowLeft, CheckCircle, MessageSquare, Settings, Clock } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { AgentChat } from "@/components/AgentChat";
+import { AgentConfigPanel } from "@/components/AgentConfigPanel";
+import { ActivityHistory } from "@/components/ActivityHistory";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 
 // Avatar imports
@@ -123,7 +126,7 @@ const agents: Record<string, AgentData> = {
       "Document preparation",
       "Correspondence handling",
     ],
-    edgeFunction: "receptionist-chat", // Uses same backend for now
+    edgeFunction: "receptionist-chat",
     suggestedPrompts: [
       {
         category: "Calendar Management",
@@ -371,64 +374,102 @@ export default function AgentDetail() {
           Back to all agents
         </Link>
 
-        <div className="grid lg:grid-cols-2 gap-8">
-          {/* Agent Info */}
-          <div className="space-y-6">
-            <div className="flex items-start gap-4">
-              <Avatar
-                className={cn(
-                  "w-20 h-20 ring-4",
-                  `ring-agent-${agent.color}/30`
-                )}
+        {/* Agent Header */}
+        <div className="flex flex-col md:flex-row md:items-center gap-6 mb-8 p-6 rounded-2xl bg-gradient-card border border-border/50">
+          <Avatar
+            className={cn(
+              "w-24 h-24 ring-4 shrink-0",
+              `ring-agent-${agent.color}/30`
+            )}
+          >
+            <AvatarImage src={agent.avatar} alt={agent.name} />
+            <AvatarFallback>{agent.name[0]}</AvatarFallback>
+          </Avatar>
+          <div className="flex-1">
+            <div className="flex flex-wrap items-center gap-3 mb-2">
+              <h1 className="font-display text-3xl font-bold text-foreground">
+                {agent.name}
+              </h1>
+              <Badge
+                variant="outline"
+                className="bg-emerald-500/20 text-emerald-400 border-emerald-500/30"
               >
-                <AvatarImage src={agent.avatar} alt={agent.name} />
-                <AvatarFallback>{agent.name[0]}</AvatarFallback>
-              </Avatar>
-              <div>
-                <h1 className="font-display text-3xl font-bold text-foreground">
-                  {agent.name}
-                </h1>
-                <p className={cn("text-lg", `text-agent-${agent.color}`)}>
-                  {agent.role}
-                </p>
-                <Badge
-                  variant="outline"
-                  className="mt-2 bg-emerald-500/20 text-emerald-400 border-emerald-500/30"
-                >
-                  ● Active
-                </Badge>
-              </div>
+                ● Active
+              </Badge>
             </div>
-
-            <p className="text-muted-foreground text-lg">{agent.description}</p>
-
-            <div>
-              <h3 className="font-semibold text-foreground mb-3">Capabilities</h3>
-              <ul className="space-y-2">
-                {agent.capabilities.map((cap) => (
-                  <li key={cap} className="flex items-center gap-2 text-muted-foreground">
-                    <CheckCircle className={cn("w-4 h-4", `text-agent-${agent.color}`)} />
-                    {cap}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          {/* Chat Interface */}
-          <div>
-            <h2 className="font-display text-xl font-semibold text-foreground mb-4">
-              Chat with {agent.name.split(" ")[0]}
-            </h2>
-            <AgentChat
-              agentName={agent.name}
-              agentAvatar={agent.avatar}
-              agentColor={agent.color}
-              suggestedPrompts={agent.suggestedPrompts}
-              edgeFunctionName={agent.edgeFunction}
-            />
+            <p className={cn("text-lg mb-2", `text-agent-${agent.color}`)}>
+              {agent.role}
+            </p>
+            <p className="text-muted-foreground">{agent.description}</p>
           </div>
         </div>
+
+        {/* Tabs */}
+        <Tabs defaultValue="chat" className="space-y-6">
+          <TabsList className="bg-muted/50 p-1">
+            <TabsTrigger value="chat" className="gap-2">
+              <MessageSquare className="w-4 h-4" />
+              Chat
+            </TabsTrigger>
+            <TabsTrigger value="settings" className="gap-2">
+              <Settings className="w-4 h-4" />
+              Settings
+            </TabsTrigger>
+            <TabsTrigger value="activity" className="gap-2">
+              <Clock className="w-4 h-4" />
+              Activity
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="chat" className="mt-6">
+            <div className="grid lg:grid-cols-3 gap-8">
+              {/* Capabilities */}
+              <div className="lg:col-span-1 space-y-4">
+                <h3 className="font-semibold text-foreground flex items-center gap-2">
+                  <CheckCircle className={cn("w-5 h-5", `text-agent-${agent.color}`)} />
+                  Capabilities
+                </h3>
+                <ul className="space-y-2">
+                  {agent.capabilities.map((cap) => (
+                    <li key={cap} className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <div className={cn("w-1.5 h-1.5 rounded-full", `bg-agent-${agent.color}`)} />
+                      {cap}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Chat Interface */}
+              <div className="lg:col-span-2">
+                <AgentChat
+                  agentName={agent.name}
+                  agentAvatar={agent.avatar}
+                  agentColor={agent.color}
+                  suggestedPrompts={agent.suggestedPrompts}
+                  edgeFunctionName={agent.edgeFunction}
+                />
+              </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="settings" className="mt-6">
+            <div className="max-w-3xl">
+              <div className="p-6 rounded-2xl bg-card border border-border/50">
+                {agentId && (
+                  <AgentConfigPanel agentSlug={agentId} agentName={agent.name} />
+                )}
+              </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="activity" className="mt-6">
+            <div className="max-w-3xl">
+              <div className="p-6 rounded-2xl bg-card border border-border/50">
+                {agentId && <ActivityHistory agentSlug={agentId} />}
+              </div>
+            </div>
+          </TabsContent>
+        </Tabs>
       </main>
 
       <Footer />
