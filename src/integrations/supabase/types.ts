@@ -14,7 +14,72 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      agent_activity_history: {
+        Row: {
+          activity_type: string
+          agent_slug: string
+          created_at: string
+          details: Json | null
+          id: string
+          summary: string
+        }
+        Insert: {
+          activity_type: string
+          agent_slug: string
+          created_at?: string
+          details?: Json | null
+          id?: string
+          summary: string
+        }
+        Update: {
+          activity_type?: string
+          agent_slug?: string
+          created_at?: string
+          details?: Json | null
+          id?: string
+          summary?: string
+        }
+        Relationships: []
+      }
+      agent_configurations: {
+        Row: {
+          agent_slug: string
+          created_at: string
+          custom_instructions: string | null
+          formality_level: string
+          greeting_style: string
+          id: string
+          is_active: boolean
+          personality_tone: string
+          response_length: string
+          updated_at: string
+        }
+        Insert: {
+          agent_slug: string
+          created_at?: string
+          custom_instructions?: string | null
+          formality_level?: string
+          greeting_style?: string
+          id?: string
+          is_active?: boolean
+          personality_tone?: string
+          response_length?: string
+          updated_at?: string
+        }
+        Update: {
+          agent_slug?: string
+          created_at?: string
+          custom_instructions?: string | null
+          formality_level?: string
+          greeting_style?: string
+          id?: string
+          is_active?: boolean
+          personality_tone?: string
+          response_length?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
