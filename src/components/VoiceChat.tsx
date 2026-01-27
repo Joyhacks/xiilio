@@ -1,6 +1,6 @@
 import { useConversation } from "@elevenlabs/react";
 import { useState, useCallback, useEffect, useRef } from "react";
-import { Mic, MicOff, Phone, PhoneOff, Loader2, Volume2, VolumeX, Settings2, ExternalLink } from "lucide-react";
+import { Mic, MicOff, Phone, PhoneOff, Loader2, Volume2, VolumeX, Settings2, ExternalLink, ChevronDown, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
@@ -9,6 +9,17 @@ import { cn } from "@/lib/utils";
 import { toast } from "@/hooks/use-toast";
 import { VoiceVisualizer } from "@/components/voice/VoiceVisualizer";
 import { AudioWaveform } from "@/components/voice/AudioWaveform";
+import { 
+  getEffectiveAgentId, 
+  saveCustomAgentId, 
+  getVoiceAgentConfig, 
+  hasVoiceAgent 
+} from "@/lib/voiceAgentConfig";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 
 interface VoiceChatProps {
   agentName: string;
@@ -17,9 +28,6 @@ interface VoiceChatProps {
   agentType?: string;
   onTranscript?: (text: string, isUser: boolean) => void;
 }
-
-// Local storage key for agent ID
-const AGENT_ID_STORAGE_KEY = "elevenlabs_agent_id";
 
 export function VoiceChat({ 
   agentName, 
@@ -32,19 +40,32 @@ export function VoiceChat({
   const [isMuted, setIsMuted] = useState(false);
   const [transcript, setTranscript] = useState("");
   const [agentResponse, setAgentResponse] = useState("");
-  const [agentId, setAgentId] = useState("");
+  const [customAgentId, setCustomAgentId] = useState("");
   const [showSetup, setShowSetup] = useState(true);
+  const [showAdvanced, setShowAdvanced] = useState(false);
   const [inputVolume, setInputVolume] = useState(0);
   const [outputVolume, setOutputVolume] = useState(0);
   const volumeIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Load saved agent ID on mount
+  // Check if we have a preset for this agent type
+  const hasPreset = hasVoiceAgent(agentType);
+  const presetConfig = getVoiceAgentConfig(agentType);
+
+  // Load saved custom agent ID on mount
   useEffect(() => {
-    const savedId = localStorage.getItem(AGENT_ID_STORAGE_KEY);
-    if (savedId) {
-      setAgentId(savedId);
+    const savedId = getEffectiveAgentId(agentType);
+    if (savedId && !hasPreset) {
+      setCustomAgentId(savedId);
     }
-  }, []);
+  }, [agentType, hasPreset]);
+
+  // Get the agent ID to use (preset or custom)
+  const getAgentId = useCallback(() => {
+    if (customAgentId.trim()) {
+      return customAgentId.trim();
+    }
+    return getEffectiveAgentId(agentType);
+  }, [customAgentId, agentType]);
 
   const conversation = useConversation({
     onConnect: () => {
@@ -107,7 +128,9 @@ export function VoiceChat({
   });
 
   const startConversation = useCallback(async () => {
-    if (!agentId.trim()) {
+    const effectiveAgentId = getAgentId();
+    
+    if (!effectiveAgentId) {
       toast({
         variant: "destructive",
         title: "Agent ID Required",
@@ -121,12 +144,14 @@ export function VoiceChat({
       // Request microphone permission
       await navigator.mediaDevices.getUserMedia({ audio: true });
 
-      // Save agent ID for future sessions
-      localStorage.setItem(AGENT_ID_STORAGE_KEY, agentId.trim());
+      // Save custom agent ID if provided
+      if (customAgentId.trim()) {
+        saveCustomAgentId(agentType, customAgentId.trim());
+      }
 
       // Start with WebRTC for low latency
       await conversation.startSession({
-        agentId: agentId.trim(),
+        agentId: effectiveAgentId,
         connectionType: "webrtc",
       });
 
@@ -148,7 +173,7 @@ export function VoiceChat({
       }
       setIsConnecting(false);
     }
-  }, [conversation, agentId]);
+  }, [conversation, getAgentId, customAgentId, agentType]);
 
   const stopConversation = useCallback(async () => {
     if (volumeIntervalRef.current) {
@@ -222,33 +247,89 @@ export function VoiceChat({
             </div>
 
             <div className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="agent-id" className="text-sm">
-                  ElevenLabs Agent ID
-                </Label>
-                <Input
-                  id="agent-id"
-                  placeholder="Enter your ElevenLabs Agent ID"
-                  value={agentId}
-                  onChange={(e) => setAgentId(e.target.value)}
-                  className="bg-background"
-                />
-                <p className="text-xs text-muted-foreground">
-                  Create a public agent at{" "}
-                  <a
-                    href="https://elevenlabs.io/conversational-ai"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-primary hover:underline inline-flex items-center gap-1"
-                  >
-                    elevenlabs.io <ExternalLink className="w-3 h-3" />
-                  </a>
-                </p>
-              </div>
+              {/* Show preset info if available */}
+              {hasPreset && presetConfig ? (
+                <div className="bg-primary/5 border border-primary/20 rounded-lg p-4 space-y-3">
+                  <div className="flex items-center gap-2">
+                    <Check className="w-4 h-4 text-primary" />
+                    <span className="text-sm font-medium text-foreground">
+                      Voice Ready
+                    </span>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    {presetConfig.description}
+                  </p>
+                </div>
+              ) : null}
+
+              {/* Custom Agent ID - show as expandable if preset exists */}
+              {hasPreset ? (
+                <Collapsible open={showAdvanced} onOpenChange={setShowAdvanced}>
+                  <CollapsibleTrigger asChild>
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="w-full justify-between text-muted-foreground hover:text-foreground"
+                    >
+                      <span className="flex items-center gap-2">
+                        <Settings2 className="w-4 h-4" />
+                        Use Custom Agent ID
+                      </span>
+                      <ChevronDown className={cn(
+                        "w-4 h-4 transition-transform",
+                        showAdvanced && "rotate-180"
+                      )} />
+                    </Button>
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="space-y-2 pt-2">
+                    <Input
+                      placeholder="Enter custom ElevenLabs Agent ID"
+                      value={customAgentId}
+                      onChange={(e) => setCustomAgentId(e.target.value)}
+                      className="bg-background"
+                    />
+                    <p className="text-xs text-muted-foreground">
+                      Override with your own agent from{" "}
+                      <a
+                        href="https://elevenlabs.io/conversational-ai"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-primary hover:underline inline-flex items-center gap-1"
+                      >
+                        elevenlabs.io <ExternalLink className="w-3 h-3" />
+                      </a>
+                    </p>
+                  </CollapsibleContent>
+                </Collapsible>
+              ) : (
+                <div className="space-y-2">
+                  <Label htmlFor="agent-id" className="text-sm">
+                    ElevenLabs Agent ID
+                  </Label>
+                  <Input
+                    id="agent-id"
+                    placeholder="Enter your ElevenLabs Agent ID"
+                    value={customAgentId}
+                    onChange={(e) => setCustomAgentId(e.target.value)}
+                    className="bg-background"
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    Create a public agent at{" "}
+                    <a
+                      href="https://elevenlabs.io/conversational-ai"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline inline-flex items-center gap-1"
+                    >
+                      elevenlabs.io <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </p>
+                </div>
+              )}
 
               <Button
                 onClick={startConversation}
-                disabled={isConnecting || !agentId.trim()}
+                disabled={isConnecting || (!hasPreset && !customAgentId.trim())}
                 className="w-full gap-2"
                 size="lg"
                 variant="hero"
