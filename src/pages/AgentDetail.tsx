@@ -134,7 +134,7 @@ const agents: Record<string, AgentData> = {
       "Progress tracking",
       "Learning & development",
     ],
-    edgeFunction: "receptionist-chat",
+    edgeFunction: "kate-chat",
     voiceId: "FGY2WhTYpPnrIDTdsKH5", // Laura - elegant, refined female voice
     suggestedPrompts: [
       {
@@ -205,7 +205,7 @@ const agents: Record<string, AgentData> = {
       "Security awareness",
       "User rights management",
     ],
-    edgeFunction: "receptionist-chat",
+    edgeFunction: "halle-chat",
     voiceId: "pFZP5JQG7iQjIQuC4Bku", // Lily - confident, authoritative female voice
     suggestedPrompts: [
       {
@@ -266,7 +266,7 @@ const agents: Record<string, AgentData> = {
       "Campaign management",
       "Brand voice",
     ],
-    edgeFunction: "receptionist-chat",
+    edgeFunction: "george-chat",
     voiceId: "JBFqnCBsd6RMkjVDRZzb", // George - charismatic, smooth male voice
     suggestedPrompts: [
       {
@@ -299,7 +299,7 @@ const agents: Record<string, AgentData> = {
       "Topic ideation",
       "Editorial calendar",
     ],
-    edgeFunction: "receptionist-chat",
+    edgeFunction: "arnie-chat",
     voiceId: "nPczCjzI2devNBz1zQrb", // Brian - strong, powerful male voice
     suggestedPrompts: [
       {
@@ -335,7 +335,7 @@ const agents: Record<string, AgentData> = {
       "Market research",
       "Sales strategy development",
     ],
-    edgeFunction: "receptionist-chat",
+    edgeFunction: "brad-chat",
     voiceId: "TX3LPaxmHKxFdv7VOQHJ", // Liam - charming, persuasive male voice
     suggestedPrompts: [
       {
@@ -392,7 +392,7 @@ const agents: Record<string, AgentData> = {
       "Self-reflection exercises",
       "Achievement tracking",
     ],
-    edgeFunction: "receptionist-chat",
+    edgeFunction: "sam-chat",
     voiceId: "onwK4e9ZLuTAKqWW03F9", // Daniel - deep, authoritative voice for Sam (Samuel L. Jackson style)
     suggestedPrompts: [
       {
@@ -455,7 +455,7 @@ const agents: Record<string, AgentData> = {
       "Financial goal tracking",
       "Spending optimization",
     ],
-    edgeFunction: "receptionist-chat",
+    edgeFunction: "jerry-chat",
     voiceId: "cjVigY5qzO86Huf0OWal", // Eric - witty, personable male voice
     suggestedPrompts: [
       {

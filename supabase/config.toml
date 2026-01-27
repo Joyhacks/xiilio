@@ -2,3 +2,24 @@ project_id = "pppsvyrxlmnbcplylkfn"
 
 [functions.receptionist-chat]
 verify_jwt = false
+
+[functions.kate-chat]
+verify_jwt = false
+
+[functions.halle-chat]
+verify_jwt = false
+
+[functions.george-chat]
+verify_jwt = false
+
+[functions.arnie-chat]
+verify_jwt = false
+
+[functions.brad-chat]
+verify_jwt = false
+
+[functions.sam-chat]
+verify_jwt = false
+
+[functions.jerry-chat]
+verify_jwt = false
