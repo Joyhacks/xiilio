@@ -1,4 +1,5 @@
 import { LucideIcon } from "lucide-react";
+import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -13,6 +14,7 @@ interface AgentCardProps {
   tasksCompleted: number;
   color: "booking" | "calls" | "email" | "reminder" | "tasks" | "analytics" | "receptionist" | "assistant" | "legal" | "social" | "writer" | "sales" | "coach" | "finance";
   features: string[];
+  slug?: string;
 }
 
 const colorClasses = {
@@ -117,6 +119,7 @@ export function AgentCard({
   tasksCompleted,
   color,
   features,
+  slug,
 }: AgentCardProps) {
   const colors = colorClasses[color];
 
@@ -186,9 +189,15 @@ export function AgentCard({
           </div>
           <div className="text-xs text-muted-foreground">Tasks completed</div>
         </div>
-        <Button variant="agent" size="sm">
-          Configure
-        </Button>
+        {slug ? (
+          <Button variant="agent" size="sm" asChild>
+            <Link to={`/agent/${slug}`}>Chat Now</Link>
+          </Button>
+        ) : (
+          <Button variant="agent" size="sm">
+            Configure
+          </Button>
+        )}
       </div>
     </div>
   );
