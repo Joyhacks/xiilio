@@ -1,10 +1,11 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { Send, Loader2, Sparkles } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
+import { Loader2 } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
-import ReactMarkdown from "react-markdown";
+import { ChatHeader } from "@/components/chat/ChatHeader";
+import { ChatMessage } from "@/components/chat/ChatMessage";
+import { SuggestedPrompts } from "@/components/chat/SuggestedPrompts";
+import { ChatInput } from "@/components/chat/ChatInput";
 
 interface Message {
   role: "user" | "assistant";
@@ -163,109 +164,31 @@ export function AgentChat({
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = () => {
     sendMessage(input);
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage(input);
-    }
   };
 
   return (
     <div className="flex flex-col h-[600px] bg-card rounded-2xl border border-border/50 overflow-hidden">
-      {/* Chat Header */}
-      <div className="flex items-center gap-3 p-4 border-b border-border/50 bg-muted/30">
-        <Avatar className="w-10 h-10 ring-2 ring-agent-receptionist/30">
-          <AvatarImage src={agentAvatar} alt={agentName} />
-          <AvatarFallback>{agentName[0]}</AvatarFallback>
-        </Avatar>
-        <div>
-          <h3 className="font-semibold text-foreground">{agentName}</h3>
-          <p className="text-xs text-muted-foreground flex items-center gap-1">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            Online
-          </p>
-        </div>
-      </div>
+      <ChatHeader agentName={agentName} agentAvatar={agentAvatar} />
 
       {/* Messages Area */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.length === 0 && showPrompts && (
-          <div className="space-y-6">
-            <div className="text-center py-6">
-              <Sparkles className="w-12 h-12 mx-auto text-agent-receptionist/60 mb-3" />
-              <h4 className="text-lg font-semibold text-foreground mb-2">
-                Hi! I'm {agentName.split(" ")[0]}
-              </h4>
-              <p className="text-sm text-muted-foreground max-w-md mx-auto">
-                I'm here to help with visitor management, scheduling, and more. Try one of the
-                suggested prompts below or type your own message!
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              {suggestedPrompts.slice(0, 5).map((category) => (
-                <div key={category.category}>
-                  <h5 className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-2">
-                    {category.category}
-                  </h5>
-                  <div className="flex flex-wrap gap-2">
-                    {category.prompts.slice(0, 2).map((prompt) => (
-                      <button
-                        key={prompt}
-                        onClick={() => sendMessage(prompt)}
-                        className="text-left text-sm px-3 py-2 rounded-lg bg-muted/50 hover:bg-muted text-muted-foreground hover:text-foreground transition-colors border border-border/50 hover:border-border"
-                      >
-                        {prompt}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+          <SuggestedPrompts
+            agentName={agentName}
+            basePrompts={suggestedPrompts}
+            onSelectPrompt={sendMessage}
+          />
         )}
 
         {messages.map((msg, i) => (
-          <div
+          <ChatMessage
             key={i}
-            className={cn(
-              "flex gap-3",
-              msg.role === "user" ? "justify-end" : "justify-start"
-            )}
-          >
-            {msg.role === "assistant" && (
-              <Avatar className="w-8 h-8 shrink-0">
-                <AvatarImage src={agentAvatar} alt={agentName} />
-                <AvatarFallback>{agentName[0]}</AvatarFallback>
-              </Avatar>
-            )}
-            <div
-              className={cn(
-                "max-w-[80%] rounded-2xl px-4 py-3 text-sm",
-                msg.role === "user"
-                  ? "bg-primary text-primary-foreground rounded-br-md"
-                  : "bg-muted/50 text-foreground rounded-bl-md"
-              )}
-            >
-              {msg.role === "assistant" ? (
-                <div className="prose prose-sm prose-invert max-w-none">
-                  <ReactMarkdown>{msg.content}</ReactMarkdown>
-                </div>
-              ) : (
-                msg.content
-              )}
-            </div>
-            {msg.role === "user" && (
-              <Avatar className="w-8 h-8 shrink-0 bg-primary/20">
-                <AvatarFallback className="text-xs">You</AvatarFallback>
-              </Avatar>
-            )}
-          </div>
+            message={msg}
+            agentName={agentName}
+            agentAvatar={agentAvatar}
+          />
         ))}
 
         {isLoading && messages[messages.length - 1]?.role !== "assistant" && (
@@ -283,31 +206,13 @@ export function AgentChat({
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Input Area */}
-      <form onSubmit={handleSubmit} className="p-4 border-t border-border/50 bg-muted/30">
-        <div className="flex gap-2">
-          <Textarea
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder={`Message ${agentName.split(" ")[0]}...`}
-            className="min-h-[44px] max-h-32 resize-none bg-background"
-            rows={1}
-          />
-          <Button
-            type="submit"
-            size="icon"
-            disabled={!input.trim() || isLoading}
-            className="shrink-0"
-          >
-            {isLoading ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
-            ) : (
-              <Send className="w-4 h-4" />
-            )}
-          </Button>
-        </div>
-      </form>
+      <ChatInput
+        value={input}
+        onChange={setInput}
+        onSubmit={handleSubmit}
+        isLoading={isLoading}
+        placeholder={`Message ${agentName.split(" ")[0]}...`}
+      />
     </div>
   );
 }
