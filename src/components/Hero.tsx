@@ -10,9 +10,10 @@ export function Hero() {
       {/* Circuit pattern background */}
       <div className="absolute inset-0 circuit-pattern opacity-30" />
       
-      {/* Gradient orbs */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-pulse-glow" />
-      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-accent/20 rounded-full blur-3xl animate-pulse-glow" style={{ animationDelay: '1s' }} />
+      {/* Luxurious gradient orbs */}
+      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/15 rounded-full blur-[100px] animate-pulse-glow" />
+      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-accent/15 rounded-full blur-[80px] animate-pulse-glow" style={{ animationDelay: '1s' }} />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-secondary/10 rounded-full blur-[120px] animate-pulse-glow" style={{ animationDelay: '2s' }} />
       
       <div className="relative z-10 container mx-auto px-6 text-center">
         {/* Logo */}
@@ -25,9 +26,9 @@ export function Hero() {
         </div>
 
         {/* Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-muted/50 border border-border/50 backdrop-blur-sm mb-6 animate-fade-in" style={{ animationDelay: '0.1s' }}>
+        <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full glass-card mb-6 animate-fade-in shimmer" style={{ animationDelay: '0.1s' }}>
           <Sparkles className="w-4 h-4 text-primary" />
-          <span className="text-sm text-muted-foreground">AI-Powered Business Automation</span>
+          <span className="text-sm text-foreground/80">AI-Powered Business Automation</span>
         </div>
 
         {/* Main heading */}
@@ -59,15 +60,15 @@ export function Hero() {
 
         {/* Stats */}
         <div className="grid grid-cols-3 gap-8 max-w-2xl mx-auto mt-16 animate-fade-in" style={{ animationDelay: '0.4s' }}>
-          <div className="text-center">
+          <div className="text-center glass-card rounded-2xl p-6">
             <div className="text-3xl md:text-4xl font-display font-bold text-gradient">10K+</div>
             <div className="text-sm text-muted-foreground mt-1">Tasks Automated</div>
           </div>
-          <div className="text-center">
+          <div className="text-center glass-card rounded-2xl p-6">
             <div className="text-3xl md:text-4xl font-display font-bold text-gradient">99.9%</div>
             <div className="text-sm text-muted-foreground mt-1">Uptime</div>
           </div>
-          <div className="text-center">
+          <div className="text-center glass-card rounded-2xl p-6">
             <div className="text-3xl md:text-4xl font-display font-bold text-gradient">500+</div>
             <div className="text-sm text-muted-foreground mt-1">Happy Businesses</div>
           </div>

@@ -85,7 +85,7 @@ export default function Contact() {
           <div className="container mx-auto px-6">
             <div className="grid lg:grid-cols-2 gap-16 max-w-6xl mx-auto">
               {/* Contact Form */}
-              <div className="bg-card rounded-2xl border border-border/50 p-8">
+              <div className="glass-luxury rounded-2xl p-8">
                 <div className="flex items-center gap-3 mb-6">
                   <MessageSquare className="w-6 h-6 text-primary" />
                   <h2 className="font-display text-2xl font-bold">Send a Message</h2>

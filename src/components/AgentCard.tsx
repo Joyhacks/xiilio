@@ -126,8 +126,9 @@ export function AgentCard({
   return (
     <div
       className={cn(
-        "group relative p-6 rounded-2xl bg-gradient-card border border-border/50 transition-all duration-500",
-        "hover:border-border hover:scale-[1.02]",
+        "group relative p-6 rounded-2xl glass-card transition-all duration-500",
+        "hover:border-primary/30 hover:scale-[1.02]",
+        "hover:shadow-[0_20px_60px_hsl(210_40%_70%/0.15)]",
         status === "active" && colors.glow
       )}
     >

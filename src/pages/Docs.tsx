@@ -116,7 +116,7 @@ export default function Docs() {
               {docCategories.map((category) => (
                 <div
                   key={category.title}
-                  className="p-6 bg-card rounded-2xl border border-border/50 hover:border-border transition-colors"
+                  className="p-6 glass-card rounded-2xl hover:scale-[1.02] transition-all duration-300"
                 >
                   <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4">
                     <category.icon className="w-6 h-6 text-primary" />

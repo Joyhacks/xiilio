@@ -7,132 +7,142 @@
 @layer base {
   :root,
   .dark {
-    --background: 220 20% 4%;
+    --background: 222 30% 4%;
     --foreground: 210 40% 98%;
 
-    --card: 220 20% 7%;
+    --card: 222 28% 7%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 220 20% 7%;
+    --popover: 222 28% 8%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 38 92% 50%;
-    --primary-foreground: 220 20% 4%;
+    /* Sophisticated silver-blue primary */
+    --primary: 210 40% 70%;
+    --primary-foreground: 222 30% 6%;
 
-    --secondary: 32 85% 55%;
-    --secondary-foreground: 220 20% 4%;
+    /* Cool steel secondary */
+    --secondary: 215 30% 60%;
+    --secondary-foreground: 222 30% 6%;
 
-    --muted: 220 15% 12%;
-    --muted-foreground: 220 10% 55%;
+    --muted: 222 20% 12%;
+    --muted-foreground: 215 15% 55%;
 
-    --accent: 45 90% 48%;
-    --accent-foreground: 220 20% 4%;
+    /* Platinum accent */
+    --accent: 205 35% 75%;
+    --accent-foreground: 222 30% 6%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 220 15% 16%;
-    --input: 220 15% 16%;
-    --ring: 38 92% 50%;
+    --border: 222 20% 16%;
+    --input: 222 20% 16%;
+    --ring: 210 40% 70%;
 
     --radius: 0.75rem;
 
-    /* Custom tokens - Gold/Amber theme matching logo */
-    --gradient-primary: linear-gradient(135deg, hsl(38 92% 50%) 0%, hsl(32 85% 55%) 100%);
-    --gradient-card: linear-gradient(180deg, hsl(220 20% 9%) 0%, hsl(220 20% 5%) 100%);
-    --gradient-hero: linear-gradient(180deg, hsl(220 20% 6%) 0%, hsl(220 20% 3%) 100%);
-    --glow-primary: 0 0 60px hsl(38 92% 50% / 0.3);
-    --glow-secondary: 0 0 40px hsl(32 85% 55% / 0.2);
+    /* Luxurious gradient tokens - Silver/Steel blue theme */
+    --gradient-primary: linear-gradient(135deg, hsl(210 40% 75%) 0%, hsl(220 35% 65%) 50%, hsl(215 30% 70%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(222 28% 10%) 0%, hsl(222 30% 6%) 100%);
+    --gradient-hero: linear-gradient(180deg, hsl(222 30% 6%) 0%, hsl(222 35% 3%) 100%);
+    --gradient-glass: linear-gradient(135deg, hsl(210 30% 95% / 0.05) 0%, hsl(220 30% 80% / 0.02) 100%);
+    --glow-primary: 0 0 80px hsl(210 40% 70% / 0.25), 0 0 40px hsl(215 35% 75% / 0.15);
+    --glow-secondary: 0 0 60px hsl(215 30% 60% / 0.2);
+    --glow-luxury: 0 0 100px hsl(210 50% 80% / 0.15), 0 0 50px hsl(220 40% 70% / 0.1);
 
     /* Agent colors */
     --agent-booking: 160 84% 45%;
     --agent-calls: 217 91% 60%;
     --agent-email: 270 70% 60%;
-    --agent-reminder: 45 93% 58%;
+    --agent-reminder: 200 70% 65%;
     --agent-tasks: 340 82% 60%;
     --agent-analytics: 190 95% 50%;
     
-    /* New team agent colors */
-    --agent-receptionist: 350 80% 55%;
-    --agent-assistant: 280 75% 55%;
-    --agent-legal: 220 70% 50%;
-    --agent-social: 200 85% 55%;
-    --agent-writer: 30 90% 50%;
-    --agent-sales: 15 85% 55%;
-    --agent-coach: 260 75% 55%;
-    --agent-finance: 140 70% 45%;
+    /* Team agent colors - refined palette */
+    --agent-receptionist: 350 65% 55%;
+    --agent-assistant: 270 60% 60%;
+    --agent-legal: 220 70% 55%;
+    --agent-social: 200 75% 55%;
+    --agent-writer: 180 60% 50%;
+    --agent-sales: 210 65% 60%;
+    --agent-coach: 260 60% 55%;
+    --agent-finance: 170 60% 45%;
 
-    --sidebar-background: 222 47% 6%;
+    --sidebar-background: 222 35% 6%;
     --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 217 91% 60%;
-    --sidebar-primary-foreground: 222 47% 6%;
-    --sidebar-accent: 222 30% 14%;
+    --sidebar-primary: 210 40% 70%;
+    --sidebar-primary-foreground: 222 35% 6%;
+    --sidebar-accent: 222 25% 14%;
     --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 222 30% 18%;
-    --sidebar-ring: 217 91% 60%;
+    --sidebar-border: 222 25% 18%;
+    --sidebar-ring: 210 40% 70%;
   }
 
   .light {
-    --background: 40 30% 98%;
-    --foreground: 220 20% 10%;
+    --background: 220 25% 97%;
+    --foreground: 222 30% 12%;
 
-    --card: 40 25% 96%;
-    --card-foreground: 220 20% 10%;
+    --card: 220 20% 95%;
+    --card-foreground: 222 30% 12%;
 
-    --popover: 40 30% 98%;
-    --popover-foreground: 220 20% 10%;
+    --popover: 220 25% 97%;
+    --popover-foreground: 222 30% 12%;
 
-    --primary: 38 92% 45%;
-    --primary-foreground: 40 30% 98%;
+    /* Sophisticated steel-blue primary */
+    --primary: 215 50% 45%;
+    --primary-foreground: 220 25% 97%;
 
-    --secondary: 32 85% 50%;
-    --secondary-foreground: 40 30% 98%;
+    /* Cool grey secondary */
+    --secondary: 210 35% 55%;
+    --secondary-foreground: 220 25% 97%;
 
-    --muted: 40 20% 92%;
-    --muted-foreground: 220 10% 40%;
+    --muted: 220 15% 90%;
+    --muted-foreground: 215 15% 40%;
 
-    --accent: 45 90% 43%;
-    --accent-foreground: 40 30% 98%;
+    /* Elegant slate accent */
+    --accent: 210 40% 50%;
+    --accent-foreground: 220 25% 97%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 40 20% 88%;
-    --input: 40 20% 88%;
-    --ring: 38 92% 45%;
+    --border: 220 20% 88%;
+    --input: 220 20% 88%;
+    --ring: 215 50% 45%;
 
-    /* Custom tokens - Gold/Amber theme matching logo */
-    --gradient-primary: linear-gradient(135deg, hsl(38 92% 45%) 0%, hsl(32 85% 50%) 100%);
-    --gradient-card: linear-gradient(180deg, hsl(40 25% 98%) 0%, hsl(40 20% 94%) 100%);
-    --gradient-hero: linear-gradient(180deg, hsl(40 25% 96%) 0%, hsl(40 30% 98%) 100%);
-    --glow-primary: 0 0 60px hsl(38 92% 45% / 0.2);
-    --glow-secondary: 0 0 40px hsl(32 85% 50% / 0.15);
+    /* Luxurious gradient tokens - light mode */
+    --gradient-primary: linear-gradient(135deg, hsl(215 50% 50%) 0%, hsl(220 45% 45%) 50%, hsl(210 40% 55%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(220 20% 98%) 0%, hsl(220 20% 94%) 100%);
+    --gradient-hero: linear-gradient(180deg, hsl(220 20% 95%) 0%, hsl(220 25% 97%) 100%);
+    --gradient-glass: linear-gradient(135deg, hsl(220 30% 100% / 0.7) 0%, hsl(215 25% 95% / 0.4) 100%);
+    --glow-primary: 0 0 60px hsl(215 50% 45% / 0.2);
+    --glow-secondary: 0 0 40px hsl(210 35% 55% / 0.15);
+    --glow-luxury: 0 0 80px hsl(215 40% 50% / 0.12);
 
-    /* Agent colors - slightly adjusted for light mode */
+    /* Agent colors - adjusted for light mode */
     --agent-booking: 160 84% 40%;
     --agent-calls: 217 91% 50%;
     --agent-email: 270 70% 50%;
-    --agent-reminder: 45 93% 48%;
+    --agent-reminder: 200 70% 50%;
     --agent-tasks: 340 82% 50%;
     --agent-analytics: 190 95% 40%;
     
-    --agent-receptionist: 350 80% 45%;
-    --agent-assistant: 280 75% 45%;
+    --agent-receptionist: 350 65% 45%;
+    --agent-assistant: 270 60% 50%;
     --agent-legal: 220 70% 45%;
-    --agent-social: 200 85% 45%;
-    --agent-writer: 30 90% 45%;
-    --agent-sales: 15 85% 45%;
-    --agent-coach: 260 75% 45%;
-    --agent-finance: 140 70% 40%;
+    --agent-social: 200 75% 45%;
+    --agent-writer: 180 60% 40%;
+    --agent-sales: 210 65% 50%;
+    --agent-coach: 260 60% 45%;
+    --agent-finance: 170 60% 35%;
 
     --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 222 47% 11%;
-    --sidebar-primary: 217 91% 50%;
+    --sidebar-foreground: 222 35% 11%;
+    --sidebar-primary: 215 50% 45%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 220 14% 96%;
-    --sidebar-accent-foreground: 222 47% 11%;
+    --sidebar-accent-foreground: 222 35% 11%;
     --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217 91% 50%;
+    --sidebar-ring: 215 50% 45%;
   }
 }
 
@@ -169,6 +179,10 @@
     background-image: var(--gradient-hero);
   }
 
+  .bg-gradient-glass {
+    background-image: var(--gradient-glass);
+  }
+
   .glow-primary {
     box-shadow: var(--glow-primary);
   }
@@ -177,11 +191,105 @@
     box-shadow: var(--glow-secondary);
   }
 
+  .glow-luxury {
+    box-shadow: var(--glow-luxury);
+  }
+
+  /* Luxurious glass morphism effect */
+  .glass {
+    background: hsl(222 30% 10% / 0.6);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid hsl(210 30% 50% / 0.15);
+  }
+
+  .glass-card {
+    background: linear-gradient(135deg, hsl(222 30% 12% / 0.8) 0%, hsl(222 28% 8% / 0.9) 100%);
+    backdrop-filter: blur(24px) saturate(200%);
+    -webkit-backdrop-filter: blur(24px) saturate(200%);
+    border: 1px solid hsl(210 40% 70% / 0.1);
+    box-shadow: 
+      0 8px 32px hsl(222 30% 0% / 0.3),
+      inset 0 1px 0 hsl(210 40% 80% / 0.05);
+  }
+
+  .glass-luxury {
+    background: linear-gradient(
+      135deg, 
+      hsl(222 30% 15% / 0.7) 0%, 
+      hsl(222 28% 10% / 0.85) 50%,
+      hsl(222 30% 8% / 0.9) 100%
+    );
+    backdrop-filter: blur(30px) saturate(200%) brightness(1.05);
+    -webkit-backdrop-filter: blur(30px) saturate(200%) brightness(1.05);
+    border: 1px solid hsl(210 40% 70% / 0.12);
+    box-shadow: 
+      0 20px 60px hsl(222 30% 0% / 0.4),
+      0 8px 24px hsl(222 30% 0% / 0.3),
+      inset 0 1px 1px hsl(210 40% 80% / 0.08),
+      inset 0 -1px 1px hsl(222 30% 0% / 0.2);
+  }
+
+  /* Light mode glass variants */
+  .light .glass {
+    background: hsl(220 25% 98% / 0.7);
+    border: 1px solid hsl(215 30% 80% / 0.3);
+  }
+
+  .light .glass-card {
+    background: linear-gradient(135deg, hsl(220 20% 100% / 0.9) 0%, hsl(220 20% 96% / 0.95) 100%);
+    border: 1px solid hsl(215 30% 85% / 0.4);
+    box-shadow: 
+      0 8px 32px hsl(220 30% 50% / 0.08),
+      inset 0 1px 0 hsl(0 0% 100% / 0.8);
+  }
+
+  .light .glass-luxury {
+    background: linear-gradient(
+      135deg, 
+      hsl(220 20% 100% / 0.95) 0%, 
+      hsl(220 20% 97% / 0.9) 50%,
+      hsl(220 20% 95% / 0.85) 100%
+    );
+    border: 1px solid hsl(215 30% 80% / 0.5);
+    box-shadow: 
+      0 20px 60px hsl(220 30% 50% / 0.1),
+      0 8px 24px hsl(220 30% 50% / 0.08),
+      inset 0 1px 1px hsl(0 0% 100% / 0.9);
+  }
+
   .circuit-pattern {
     background-image: 
-      linear-gradient(90deg, hsl(222 30% 15% / 0.3) 1px, transparent 1px),
-      linear-gradient(180deg, hsl(222 30% 15% / 0.3) 1px, transparent 1px);
+      linear-gradient(90deg, hsl(215 30% 40% / 0.08) 1px, transparent 1px),
+      linear-gradient(180deg, hsl(215 30% 40% / 0.08) 1px, transparent 1px);
     background-size: 40px 40px;
+  }
+
+  /* Shimmer effect for luxury feel */
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .shimmer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      hsl(210 40% 80% / 0.1),
+      transparent
+    );
+    animation: shimmer 3s infinite;
+  }
+
+  @keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
   }
 
   .agent-glow-booking {
