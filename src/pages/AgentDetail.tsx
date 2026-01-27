@@ -1,10 +1,11 @@
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, CheckCircle, MessageSquare, Settings, Clock } from "lucide-react";
+import { ArrowLeft, CheckCircle, MessageSquare, Settings, Clock, Mic } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { AgentChat } from "@/components/AgentChat";
 import { AgentConfigPanel } from "@/components/AgentConfigPanel";
 import { ActivityHistory } from "@/components/ActivityHistory";
+import { VoiceChat } from "@/components/VoiceChat";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -392,7 +393,7 @@ export default function AgentDetail() {
               </h1>
               <Badge
                 variant="outline"
-                className="bg-emerald-500/20 text-emerald-400 border-emerald-500/30"
+                className="bg-primary/20 text-primary border-primary/30"
               >
                 ● Active
               </Badge>
@@ -410,6 +411,10 @@ export default function AgentDetail() {
             <TabsTrigger value="chat" className="gap-2">
               <MessageSquare className="w-4 h-4" />
               Chat
+            </TabsTrigger>
+            <TabsTrigger value="voice" className="gap-2">
+              <Mic className="w-4 h-4" />
+              Voice
             </TabsTrigger>
             <TabsTrigger value="settings" className="gap-2">
               <Settings className="w-4 h-4" />
@@ -447,6 +452,57 @@ export default function AgentDetail() {
                   agentColor={agent.color}
                   suggestedPrompts={agent.suggestedPrompts}
                   edgeFunctionName={agent.edgeFunction}
+                />
+              </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="voice" className="mt-6">
+            <div className="grid lg:grid-cols-3 gap-8">
+              {/* Capabilities */}
+              <div className="lg:col-span-1 space-y-4">
+                <h3 className="font-semibold text-foreground flex items-center gap-2">
+                  <CheckCircle className={cn("w-5 h-5", `text-agent-${agent.color}`)} />
+                  Voice Capabilities
+                </h3>
+                <ul className="space-y-2">
+                  <li className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <div className={cn("w-1.5 h-1.5 rounded-full", `bg-agent-${agent.color}`)} />
+                    Real-time voice conversations
+                  </li>
+                  <li className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <div className={cn("w-1.5 h-1.5 rounded-full", `bg-agent-${agent.color}`)} />
+                    Natural language understanding
+                  </li>
+                  <li className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <div className={cn("w-1.5 h-1.5 rounded-full", `bg-agent-${agent.color}`)} />
+                    Lifelike AI voice responses
+                  </li>
+                  <li className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <div className={cn("w-1.5 h-1.5 rounded-full", `bg-agent-${agent.color}`)} />
+                    Powered by ElevenLabs
+                  </li>
+                </ul>
+                <p className="text-xs text-muted-foreground mt-4">
+                  To use voice chat, you'll need an ElevenLabs account and a configured AI agent. Visit{" "}
+                  <a
+                    href="https://elevenlabs.io/conversational-ai"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:underline"
+                  >
+                    elevenlabs.io
+                  </a>{" "}
+                  to get started.
+                </p>
+              </div>
+
+              {/* Voice Interface */}
+              <div className="lg:col-span-2">
+                <VoiceChat
+                  agentName={agent.name}
+                  agentAvatar={agent.avatar}
+                  agentColor={agent.color}
                 />
               </div>
             </div>
