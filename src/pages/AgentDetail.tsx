@@ -129,42 +129,58 @@ const agents: Record<string, AgentData> = {
       "Task prioritization",
       "Reminder scheduling",
       "Resource access",
+      "Progress tracking",
+      "Learning & development",
     ],
     edgeFunction: "receptionist-chat",
     suggestedPrompts: [
       {
-        category: "Task Management",
+        category: "General Assistance",
         prompts: [
-          "Create a new task for quarterly review due on Friday.",
-          "Remind me to follow up with the team at 3pm today.",
+          "What can you do for me today?",
+          "Help me with organizing my weekly priorities.",
         ],
       },
       {
-        category: "Scheduling",
+        category: "Task Management",
         prompts: [
-          "Schedule a meeting with the board on Thursday at 10am.",
-          "What does my calendar look like this week?",
+          "Create a new task titled 'Project Review' and set a deadline for Friday.",
+          "Organize my tasks by priority and due date.",
+        ],
+      },
+      {
+        category: "Scheduling & Calendar",
+        prompts: [
+          "Schedule a meeting with the leadership team on Thursday at 10am.",
+          "Check my calendar for availability next week.",
         ],
       },
       {
         category: "Communication",
         prompts: [
           "Draft an email to the team about the upcoming deadline.",
-          "Connect me with customer support for a billing issue.",
-        ],
-      },
-      {
-        category: "Personalization",
-        prompts: [
-          "Update my preferences for notifications and alerts.",
-          "Suggest content based on my recent interests.",
+          "Send a follow-up message regarding yesterday's discussion.",
         ],
       },
       {
         category: "Information Retrieval",
         prompts: [
-          "Summarize the key points from yesterday's meeting notes.",
-          "Find resources related to project management best practices.",
+          "Summarize the key points from the quarterly report.",
+          "Search for articles related to productivity best practices.",
+        ],
+      },
+      {
+        category: "Progress Tracking",
+        prompts: [
+          "Show me my progress toward Q4 goals.",
+          "Review my achievements for the past month.",
+        ],
+      },
+      {
+        category: "Continuous Improvement",
+        prompts: [
+          "Suggest ways to enhance my productivity.",
+          "What are the best practices for using this app?",
         ],
       },
     ],
@@ -182,6 +198,9 @@ const agents: Record<string, AgentData> = {
       "Legal documentation",
       "Risk assessment",
       "Policy drafting",
+      "Data protection",
+      "Security awareness",
+      "User rights management",
     ],
     edgeFunction: "receptionist-chat",
     suggestedPrompts: [
@@ -193,10 +212,38 @@ const agents: Record<string, AgentData> = {
         ],
       },
       {
-        category: "Compliance",
+        category: "Compliance & Regulations",
         prompts: [
-          "Check if our data practices meet GDPR requirements.",
-          "What are our obligations under the new privacy regulation?",
+          "Review how we comply with GDPR and other data protection regulations.",
+          "Understand your rights regarding data access and deletion under applicable laws.",
+        ],
+      },
+      {
+        category: "Security Awareness",
+        prompts: [
+          "Learn about our data protection policies and how we keep information secure.",
+          "Explore tips on creating strong passwords for your accounts.",
+        ],
+      },
+      {
+        category: "Security Settings",
+        prompts: [
+          "Enable two-factor authentication to enhance account security.",
+          "Check account activity for any unauthorized access.",
+        ],
+      },
+      {
+        category: "Data Management",
+        prompts: [
+          "Request to delete your account and all associated data.",
+          "Manage consent settings for data sharing with third parties.",
+        ],
+      },
+      {
+        category: "Reporting & Safe Usage",
+        prompts: [
+          "Report suspicious activity or potential security breaches.",
+          "Avoid sharing login credentials and use secure networks.",
         ],
       },
     ],
@@ -334,6 +381,9 @@ const agents: Record<string, AgentData> = {
       "Progress tracking",
       "Habit formation",
       "Accountability",
+      "Wellness guidance",
+      "Self-reflection exercises",
+      "Achievement tracking",
     ],
     edgeFunction: "receptionist-chat",
     suggestedPrompts: [
@@ -341,14 +391,42 @@ const agents: Record<string, AgentData> = {
         category: "Goal Setting",
         prompts: [
           "Help me set SMART goals for this quarter.",
-          "What's a good daily routine for productivity?",
+          "What are some strategies for achieving my career goals?",
         ],
       },
       {
         category: "Motivation",
         prompts: [
           "I'm feeling stuck. Can you help motivate me?",
-          "How can I stay focused on my long-term goals?",
+          "Provide me with daily affirmations to stay positive.",
+        ],
+      },
+      {
+        category: "Wellness & Self-Care",
+        prompts: [
+          "Guide me through a mindfulness exercise.",
+          "Help me reflect on my goals with a self-assessment.",
+        ],
+      },
+      {
+        category: "Learning & Development",
+        prompts: [
+          "Provide tips on improving my communication skills.",
+          "Recommend books or resources about personal growth.",
+        ],
+      },
+      {
+        category: "Progress Tracking",
+        prompts: [
+          "What are my recent achievements?",
+          "Track my progress on my monthly wellness goals.",
+        ],
+      },
+      {
+        category: "Interactive Features",
+        prompts: [
+          "Try our AI-powered mood tracker! Share how you're feeling today.",
+          "Complete this challenge to unlock a productivity badge!",
         ],
       },
     ],
@@ -366,6 +444,8 @@ const agents: Record<string, AgentData> = {
       "Tax planning",
       "Financial reports",
       "Expense tracking",
+      "Financial goal tracking",
+      "Spending optimization",
     ],
     edgeFunction: "receptionist-chat",
     suggestedPrompts: [
@@ -373,7 +453,7 @@ const agents: Record<string, AgentData> = {
         category: "Budgeting",
         prompts: [
           "Help me create a monthly budget for my department.",
-          "What's the deal with our Q4 expenses?",
+          "Track my financial spending this week.",
         ],
       },
       {
@@ -381,6 +461,27 @@ const agents: Record<string, AgentData> = {
         prompts: [
           "What should we prioritize in next year's budget?",
           "Analyze our spending trends for this quarter.",
+        ],
+      },
+      {
+        category: "Investment Monitoring",
+        prompts: [
+          "Check the performance of our investments and market trends.",
+          "What are the best investment strategies for this quarter?",
+        ],
+      },
+      {
+        category: "Expense Tracking",
+        prompts: [
+          "Categorize our recent expenses by department.",
+          "Identify areas where we can reduce costs.",
+        ],
+      },
+      {
+        category: "Financial Reports",
+        prompts: [
+          "Generate a financial summary for the board meeting.",
+          "Compare our revenue performance vs. last quarter.",
         ],
       },
     ],
