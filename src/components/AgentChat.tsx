@@ -1,11 +1,13 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { Loader2 } from "lucide-react";
+import { Loader2, Mic, MessageSquare } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ChatHeader } from "@/components/chat/ChatHeader";
 import { ChatMessage } from "@/components/chat/ChatMessage";
 import { SuggestedPrompts } from "@/components/chat/SuggestedPrompts";
 import { ChatInput } from "@/components/chat/ChatInput";
+import { VoiceChat } from "@/components/VoiceChat";
 
 interface Message {
   role: "user" | "assistant";
@@ -35,6 +37,7 @@ export function AgentChat({
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showPrompts, setShowPrompts] = useState(true);
+  const [isVoiceMode, setIsVoiceMode] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -170,9 +173,70 @@ export function AgentChat({
     sendMessage(input);
   };
 
+  // Handle voice transcripts being added to chat
+  const handleVoiceTranscript = (text: string, isUser: boolean) => {
+    const msg: Message = { 
+      role: isUser ? "user" : "assistant", 
+      content: text 
+    };
+    setMessages((prev) => [...prev, msg]);
+  };
+
+  // Derive agent type from slug for voice selection
+  const getAgentType = () => {
+    if (!agentSlug) return "assistant";
+    if (agentSlug.includes("receptionist") || agentSlug.includes("julia")) return "receptionist";
+    if (agentSlug.includes("kate")) return "assistant";
+    if (agentSlug.includes("halle")) return "legal";
+    if (agentSlug.includes("george")) return "social";
+    if (agentSlug.includes("arnie")) return "writer";
+    if (agentSlug.includes("brad")) return "sales";
+    if (agentSlug.includes("sam")) return "coach";
+    if (agentSlug.includes("jerry")) return "finance";
+    return "assistant";
+  };
+
+  if (isVoiceMode) {
+    return (
+      <div className="h-[600px]">
+        <VoiceChat
+          agentName={agentName}
+          agentAvatar={agentAvatar}
+          agentColor={agentColor}
+          agentType={getAgentType()}
+          onTranscript={handleVoiceTranscript}
+        />
+        <div className="mt-4 flex justify-center">
+          <Button
+            variant="outline"
+            onClick={() => setIsVoiceMode(false)}
+            className="gap-2"
+          >
+            <MessageSquare className="w-4 h-4" />
+            Switch to Text Chat
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col h-[600px] bg-card rounded-2xl border border-border/50 overflow-hidden">
-      <ChatHeader agentName={agentName} agentAvatar={agentAvatar} />
+      <ChatHeader 
+        agentName={agentName} 
+        agentAvatar={agentAvatar}
+        rightContent={
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setIsVoiceMode(true)}
+            className="text-muted-foreground hover:text-primary"
+            title="Switch to voice mode"
+          >
+            <Mic className="w-5 h-5" />
+          </Button>
+        }
+      />
 
       {/* Messages Area */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
