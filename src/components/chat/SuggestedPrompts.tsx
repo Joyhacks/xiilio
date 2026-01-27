@@ -1,14 +1,21 @@
-import { Sparkles, MessageCircle, Heart, Lightbulb, Smile } from "lucide-react";
-import { funEngaging, personalityDevelopment, creativePrompts } from "@/lib/agentPersonality";
+import { Sparkles, MessageCircle, Heart, Lightbulb, Smile, Briefcase } from "lucide-react";
+import { funEngaging, personalityDevelopment, creativePrompts, getAgentSuggestedPrompts } from "@/lib/agentPersonality";
 
 interface SuggestedPromptsProps {
   agentName: string;
+  agentSlug?: string;
   basePrompts: { category: string; prompts: string[] }[];
   onSelectPrompt: (prompt: string) => void;
 }
 
-export function SuggestedPrompts({ agentName, basePrompts, onSelectPrompt }: SuggestedPromptsProps) {
-  // Enhanced prompts combining base agent prompts with personality prompts
+export function SuggestedPrompts({ agentName, agentSlug, basePrompts, onSelectPrompt }: SuggestedPromptsProps) {
+  // Get agent-specific prompts if slug is provided
+  const agentSpecificPrompts = agentSlug ? getAgentSuggestedPrompts(agentSlug) : [];
+  
+  // Use agent-specific prompts if available, otherwise fall back to basePrompts
+  const displayPrompts = agentSpecificPrompts.length > 0 ? agentSpecificPrompts : basePrompts;
+
+  // Enhanced prompts for personality engagement
   const personalityCategories = [
     {
       category: "Get to Know Me",
@@ -44,13 +51,13 @@ export function SuggestedPrompts({ agentName, basePrompts, onSelectPrompt }: Sug
         </p>
       </div>
 
-      {/* Base agent prompts */}
+      {/* Agent-specific prompts */}
       <div className="space-y-4">
         <h5 className="text-xs font-medium text-muted-foreground uppercase tracking-wide flex items-center gap-2">
-          <MessageCircle className="w-3.5 h-3.5" />
+          <Briefcase className="w-3.5 h-3.5" />
           My Specialties
         </h5>
-        {basePrompts.slice(0, 3).map((category) => (
+        {displayPrompts.slice(0, 4).map((category) => (
           <div key={category.category}>
             <p className="text-xs text-muted-foreground mb-2">{category.category}</p>
             <div className="flex flex-wrap gap-2">

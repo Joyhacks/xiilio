@@ -608,6 +608,7 @@ export default function AgentDetail() {
                   agentName={agent.name}
                   agentAvatar={agent.avatar}
                   agentColor={agent.color}
+                  agentSlug={agentId}
                   suggestedPrompts={agent.suggestedPrompts}
                   edgeFunctionName={agent.edgeFunction}
                 />
