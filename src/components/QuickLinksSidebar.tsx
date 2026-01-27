@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { getAgentLinks, type AgentLinkCategory } from "@/lib/agentLinks";
+import { getAgentLinks, type AgentLinkCategory, type AgentLinkItem } from "@/lib/agentLinks";
 import { useIsMobile } from "@/hooks/use-mobile";
 import {
   Mail,
@@ -46,6 +46,11 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 // Icon mapping
 const iconMap: Record<string, LucideIcon> = {
@@ -80,6 +85,118 @@ function LinkIcon({ iconKey, className }: { iconKey: string; className?: string 
   return <Icon className={className} />;
 }
 
+// Collapsed icon with hover popover showing category links
+function CollapsedCategoryIcon({
+  category,
+  agentColor,
+}: {
+  category: AgentLinkCategory;
+  agentColor?: string;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="ghost"
+          size="icon"
+          className={cn(
+            "w-10 h-10 text-muted-foreground relative group",
+            "transition-all duration-200 ease-out",
+            "hover:text-foreground hover:bg-muted/50 hover:scale-110",
+            "focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background",
+            isOpen && "bg-muted/50 text-foreground scale-110"
+          )}
+          aria-label={category.category}
+          onMouseEnter={() => setIsOpen(true)}
+          onMouseLeave={() => setIsOpen(false)}
+        >
+          <LinkIcon 
+            iconKey={category.iconKey} 
+            className={cn(
+              "w-5 h-5 transition-transform duration-200",
+              "group-hover:scale-110"
+            )} 
+          />
+          {/* Glow effect on hover */}
+          <span 
+            className={cn(
+              "absolute inset-0 rounded-lg opacity-0 transition-opacity duration-300",
+              "group-hover:opacity-100",
+              "bg-primary/10 blur-sm"
+            )} 
+          />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent
+        side="right"
+        align="start"
+        sideOffset={8}
+        className={cn(
+          "w-56 p-2 bg-card/95 backdrop-blur-md border-border/50",
+          "animate-in fade-in-0 zoom-in-95 slide-in-from-left-2",
+          "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95"
+        )}
+        onMouseEnter={() => setIsOpen(true)}
+        onMouseLeave={() => setIsOpen(false)}
+      >
+        <div className="space-y-1">
+          <p className="text-xs font-semibold text-muted-foreground px-2 py-1 flex items-center gap-2">
+            <LinkIcon iconKey={category.iconKey} className="w-3 h-3" />
+            {category.category}
+          </p>
+          {category.items.map((item) => (
+            <CollapsedLinkItem key={item.label} item={item} agentColor={agentColor} />
+          ))}
+        </div>
+      </PopoverContent>
+    </Popover>
+  );
+}
+
+function CollapsedLinkItem({ 
+  item, 
+  agentColor 
+}: { 
+  item: AgentLinkItem; 
+  agentColor?: string;
+}) {
+  if (item.enabled === false) {
+    return (
+      <div
+        className={cn(
+          "flex items-center gap-2 px-2 py-1.5 rounded-md text-sm",
+          "text-muted-foreground/50 cursor-not-allowed"
+        )}
+      >
+        <LinkIcon iconKey={item.iconKey} className="w-4 h-4" />
+        <span className="flex-1 truncate">{item.label}</span>
+        <span className="text-xs">N/A</span>
+      </div>
+    );
+  }
+
+  return (
+    <a
+      href={item.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={cn(
+        "flex items-center gap-2 px-2 py-1.5 rounded-md text-sm",
+        "text-muted-foreground hover:text-foreground hover:bg-muted/50",
+        "transition-all duration-150 group/link",
+        "focus:outline-none focus:ring-2 focus:ring-ring",
+        agentColor && `hover:text-agent-${agentColor}`
+      )}
+    >
+      <LinkIcon iconKey={item.iconKey} className="w-4 h-4 transition-transform group-hover/link:scale-110" />
+      <span className="flex-1 truncate">{item.label}</span>
+      <ExternalLink className="w-3 h-3 opacity-0 group-hover/link:opacity-50 transition-opacity" />
+    </a>
+  );
+}
+
 function SidebarContent({
   categories,
   agentColor,
@@ -110,23 +227,36 @@ function SidebarContent({
             <Button
               variant="ghost"
               size="sm"
-              className="w-full justify-between px-2 h-9 text-muted-foreground hover:text-foreground hover:bg-muted/50"
+              className={cn(
+                "w-full justify-between px-2 h-9",
+                "text-muted-foreground hover:text-foreground hover:bg-muted/50",
+                "transition-all duration-200 group"
+              )}
               aria-label={`Toggle ${category.category} section`}
             >
               <span className="flex items-center gap-2">
-                <LinkIcon iconKey={category.iconKey} className="w-4 h-4" />
+                <LinkIcon 
+                  iconKey={category.iconKey} 
+                  className="w-4 h-4 transition-transform duration-200 group-hover:scale-110" 
+                />
                 <span className="text-sm font-medium">{category.category}</span>
               </span>
-              {openCategories[category.category] ? (
-                <ChevronDown className="w-4 h-4" />
-              ) : (
-                <ChevronRight className="w-4 h-4" />
-              )}
+              <ChevronDown 
+                className={cn(
+                  "w-4 h-4 transition-transform duration-200",
+                  !openCategories[category.category] && "-rotate-90"
+                )} 
+              />
             </Button>
           </CollapsibleTrigger>
           
-          <CollapsibleContent className="pl-4 mt-1 space-y-1">
-            {category.items.map((item) => (
+          <CollapsibleContent 
+            className={cn(
+              "pl-4 mt-1 space-y-1 overflow-hidden",
+              "data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up"
+            )}
+          >
+            {category.items.map((item, idx) => (
               <Tooltip key={item.label}>
                 <TooltipTrigger asChild>
                   {item.enabled !== false ? (
@@ -135,23 +265,31 @@ function SidebarContent({
                       target="_blank"
                       rel="noopener noreferrer"
                       className={cn(
-                        "flex items-center gap-2 px-2 py-2 rounded-lg text-sm transition-all",
+                        "flex items-center gap-2 px-2 py-2 rounded-lg text-sm",
                         "text-muted-foreground hover:text-foreground hover:bg-muted/50",
+                        "transition-all duration-200 group/item",
                         "focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background",
+                        "animate-fade-in",
                         agentColor && `hover:text-agent-${agentColor}`
                       )}
+                      style={{ animationDelay: `${idx * 50}ms` }}
                       aria-label={`${item.label} - ${item.description || "Open external link"}`}
                     >
-                      <LinkIcon iconKey={item.iconKey} className="w-4 h-4" />
+                      <LinkIcon 
+                        iconKey={item.iconKey} 
+                        className="w-4 h-4 transition-transform duration-200 group-hover/item:scale-110" 
+                      />
                       <span className="flex-1">{item.label}</span>
-                      <ExternalLink className="w-3 h-3 opacity-50" />
+                      <ExternalLink className="w-3 h-3 opacity-0 group-hover/item:opacity-50 transition-opacity duration-200" />
                     </a>
                   ) : (
                     <div
                       className={cn(
                         "flex items-center gap-2 px-2 py-2 rounded-lg text-sm",
-                        "text-muted-foreground/50 cursor-not-allowed"
+                        "text-muted-foreground/50 cursor-not-allowed",
+                        "animate-fade-in"
                       )}
+                      style={{ animationDelay: `${idx * 50}ms` }}
                       aria-label={`${item.label} - Not configured`}
                     >
                       <LinkIcon iconKey={item.iconKey} className="w-4 h-4" />
@@ -188,14 +326,18 @@ export function QuickLinksSidebar({
           <Button
             variant="outline"
             size="sm"
-            className="fixed bottom-4 left-4 z-40 shadow-lg"
+            className={cn(
+              "fixed bottom-4 left-4 z-40 shadow-lg",
+              "transition-all duration-300 hover:scale-105",
+              "bg-card/95 backdrop-blur-sm"
+            )}
             aria-label="Open quick links"
           >
             <ExternalLink className="w-4 h-4 mr-2" />
             Quick Links
           </Button>
         </SheetTrigger>
-        <SheetContent side="left" className="w-72 p-0 bg-card">
+        <SheetContent side="left" className="w-72 p-0 bg-card/95 backdrop-blur-md">
           <SheetHeader className="p-4 border-b border-border/50">
             <SheetTitle className="text-foreground">Quick Links</SheetTitle>
           </SheetHeader>
@@ -205,60 +347,95 @@ export function QuickLinksSidebar({
     );
   }
 
-  // Desktop: fixed sidebar
+  // Desktop: fixed sidebar with animated collapse
   return (
     <aside
       className={cn(
         "fixed left-0 top-16 bottom-0 z-30",
         "bg-card/95 backdrop-blur-sm border-r border-border/50",
         "transition-all duration-300 ease-in-out",
-        isCollapsed ? "w-14" : "w-64",
+        isCollapsed ? "w-16" : "w-64",
         className
       )}
     >
-      {/* Collapse toggle */}
+      {/* Collapse toggle button with animation */}
       <div className="absolute -right-3 top-4 z-10">
         <Button
           variant="outline"
           size="icon"
-          className="h-6 w-6 rounded-full bg-card border-border shadow-sm"
+          className={cn(
+            "h-6 w-6 rounded-full bg-card border-border shadow-md",
+            "transition-all duration-300 hover:scale-110 hover:shadow-lg",
+            "hover:bg-primary hover:text-primary-foreground hover:border-primary",
+            "focus:outline-none focus:ring-2 focus:ring-ring"
+          )}
           onClick={() => setIsCollapsed(!isCollapsed)}
           aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
-          {isCollapsed ? (
-            <PanelLeft className="w-3 h-3" />
-          ) : (
-            <PanelLeftClose className="w-3 h-3" />
-          )}
+          <PanelLeft 
+            className={cn(
+              "w-3 h-3 transition-transform duration-300",
+              !isCollapsed && "rotate-180"
+            )} 
+          />
         </Button>
       </div>
 
-      {/* Content */}
-      <div className={cn("h-full overflow-y-auto", isCollapsed && "hidden")}>
+      {/* Expanded content with fade animation */}
+      <div 
+        className={cn(
+          "h-full overflow-y-auto transition-all duration-300",
+          isCollapsed ? "opacity-0 scale-95 pointer-events-none" : "opacity-100 scale-100"
+        )}
+      >
         <SidebarContent categories={categories} agentColor={agentColor} />
       </div>
 
-      {/* Collapsed state: show icons only */}
-      {isCollapsed && (
-        <div className="flex flex-col items-center gap-2 pt-6">
-          {categories.map((category) => (
-            <Tooltip key={category.category}>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="w-10 h-10 text-muted-foreground hover:text-foreground"
-                  onClick={() => setIsCollapsed(false)}
-                  aria-label={category.category}
-                >
-                  <LinkIcon iconKey={category.iconKey} className="w-5 h-5" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent side="right">{category.category}</TooltipContent>
-            </Tooltip>
-          ))}
+      {/* Collapsed state: animated icons with hover popovers */}
+      <div 
+        className={cn(
+          "absolute inset-0 pt-6 flex flex-col items-center gap-1",
+          "transition-all duration-300",
+          isCollapsed ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"
+        )}
+      >
+        {/* Mini header */}
+        <div className="mb-2 w-8 h-8 rounded-lg bg-muted/50 flex items-center justify-center">
+          <ExternalLink className="w-4 h-4 text-muted-foreground" />
         </div>
-      )}
+        
+        {/* Separator */}
+        <div className="w-8 h-px bg-border/50 mb-2" />
+        
+        {/* Category icons with hover reveal */}
+        {categories.map((category, idx) => (
+          <div
+            key={category.category}
+            className="animate-fade-in"
+            style={{ animationDelay: `${idx * 75}ms` }}
+          >
+            <CollapsedCategoryIcon category={category} agentColor={agentColor} />
+          </div>
+        ))}
+        
+        {/* Expand hint at bottom */}
+        <div className="mt-auto mb-4">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="w-8 h-8 text-muted-foreground hover:text-foreground transition-all duration-200 hover:scale-110"
+                onClick={() => setIsCollapsed(false)}
+                aria-label="Expand sidebar"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="right">Expand sidebar</TooltipContent>
+          </Tooltip>
+        </div>
+      </div>
     </aside>
   );
 }
