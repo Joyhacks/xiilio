@@ -15,10 +15,12 @@ interface UseAgentTTSReturn {
   isLoading: boolean;
   autoSpeak: boolean;
   volume: number;
+  speed: number;
   speak: (text: string) => Promise<void>;
   stop: () => void;
   setAutoSpeak: (enabled: boolean) => void;
   setVolume: (volume: number) => void;
+  setSpeed: (speed: number) => void;
 }
 
 export function useAgentTTS({
@@ -94,6 +96,7 @@ export function useAgentTTS({
       
       const audio = new Audio(audioUrl);
       audio.volume = settings.volume;
+      audio.playbackRate = settings.speed;
       audioRef.current = audio;
 
       audio.onplay = () => {
@@ -148,14 +151,28 @@ export function useAgentTTS({
     }
   }, [settings]);
 
+  const setSpeed = useCallback((speed: number) => {
+    const clampedSpeed = Math.max(0.8, Math.min(1.5, speed));
+    const newSettings = { ...settings, speed: clampedSpeed };
+    setSettings(newSettings);
+    saveUserVoiceSettings(newSettings);
+    
+    // Update current audio if playing
+    if (audioRef.current) {
+      audioRef.current.playbackRate = clampedSpeed;
+    }
+  }, [settings]);
+
   return {
     isSpeaking,
     isLoading,
     autoSpeak: settings.autoSpeak,
     volume: settings.volume,
+    speed: settings.speed,
     speak,
     stop,
     setAutoSpeak,
     setVolume,
+    setSpeed,
   };
 }

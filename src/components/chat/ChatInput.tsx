@@ -24,8 +24,10 @@ interface ChatInputProps {
   isSpeaking?: boolean;
   autoSpeak?: boolean;
   volume?: number;
+  speed?: number;
   onAutoSpeakChange?: (enabled: boolean) => void;
   onVolumeChange?: (volume: number) => void;
+  onSpeedChange?: (speed: number) => void;
   onStopSpeaking?: () => void;
 }
 
@@ -44,8 +46,10 @@ export function ChatInput({
   isSpeaking = false,
   autoSpeak = true,
   volume = 1,
+  speed = 1,
   onAutoSpeakChange,
   onVolumeChange,
+  onSpeedChange,
   onStopSpeaking,
 }: ChatInputProps) {
   const isRecording = voiceState === "recording";
@@ -160,9 +164,11 @@ export function ChatInput({
             <VoiceControls
               autoSpeak={autoSpeak}
               volume={volume}
+              speed={speed}
               isSpeaking={isSpeaking}
               onAutoSpeakChange={onAutoSpeakChange || (() => {})}
               onVolumeChange={onVolumeChange || (() => {})}
+              onSpeedChange={onSpeedChange || (() => {})}
               onStopSpeaking={onStopSpeaking || (() => {})}
             />
             

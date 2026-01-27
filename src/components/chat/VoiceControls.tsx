@@ -12,18 +12,22 @@ import { cn } from "@/lib/utils";
 interface VoiceControlsProps {
   autoSpeak: boolean;
   volume: number;
+  speed: number;
   isSpeaking: boolean;
   onAutoSpeakChange: (enabled: boolean) => void;
   onVolumeChange: (volume: number) => void;
+  onSpeedChange: (speed: number) => void;
   onStopSpeaking: () => void;
 }
 
 export function VoiceControls({
   autoSpeak,
   volume,
+  speed,
   isSpeaking,
   onAutoSpeakChange,
   onVolumeChange,
+  onSpeedChange,
   onStopSpeaking,
 }: VoiceControlsProps) {
   return (
@@ -81,6 +85,23 @@ export function VoiceControls({
                 max={1}
                 step={0.1}
                 onValueChange={([val]) => onVolumeChange(val)}
+                className="w-full"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium">Speed</span>
+                <span className="text-xs text-muted-foreground">
+                  {speed.toFixed(1)}x
+                </span>
+              </div>
+              <Slider
+                value={[speed]}
+                min={0.8}
+                max={1.5}
+                step={0.1}
+                onValueChange={([val]) => onSpeedChange(val)}
                 className="w-full"
               />
             </div>
