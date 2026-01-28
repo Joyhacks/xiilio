@@ -4,6 +4,7 @@ import { getAgentLinks, agentConfigs, type AgentLinkCategory, type AgentLinkItem
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useAgentLinksSettings } from "@/hooks/useAgentLinksSettings";
 import { QuickLinksSettings } from "@/components/QuickLinksSettings";
+import { ContactPicker } from "@/components/ContactPicker";
 import {
   Mail,
   Send,
@@ -28,6 +29,7 @@ import {
   Linkedin,
   Twitter,
   Settings,
+  Phone,
   type LucideIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -74,6 +76,7 @@ const iconMap: Record<string, LucideIcon> = {
   Facebook,
   Linkedin,
   Twitter,
+  Phone,
 };
 
 interface QuickLinksSidebarProps {
@@ -219,6 +222,15 @@ function SidebarContent({
   return (
     <div className="flex flex-col gap-2 p-4">
       <h2 className="text-sm font-semibold text-foreground mb-2 px-2">Quick Links</h2>
+      
+      {/* Phone Contacts Access */}
+      <div className="px-2 pb-2 border-b border-border/30 mb-2">
+        <ContactPicker 
+          variant="ghost" 
+          size="sm" 
+          className="w-full justify-start gap-2 text-muted-foreground hover:text-foreground"
+        />
+      </div>
       
       {categories.map((category) => (
         <Collapsible
