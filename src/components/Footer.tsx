@@ -179,13 +179,13 @@ export function Footer() {
                   href="https://play.google.com/store/apps/details?id=com.twentyfourtwelve"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block hover:opacity-80 transition-opacity"
+                  className="inline-flex items-center justify-center h-10 hover:opacity-80 transition-opacity"
                   aria-label="Get it on Google Play"
                 >
                   <img 
                     src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" 
                     alt="Get it on Google Play" 
-                    className="h-10 w-auto"
+                    className="h-[60px] w-auto -my-2.5"
                   />
                 </a>
               </div>
