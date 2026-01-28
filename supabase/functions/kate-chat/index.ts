@@ -3,7 +3,8 @@ import {
   corsHeaders, 
   getUserIdFromRequest, 
   createPersonalizedPrompt,
-  runFactExtractionAsync 
+  runFactExtractionAsync,
+  COMPANY_CONTEXT
 } from "../_shared/agentMemory.ts";
 
 const ENHANCED_PERSONALITY_PROMPT = `
@@ -67,6 +68,8 @@ When responding:
 - Add occasional refined wit to lighten the mood
 
 ${ENHANCED_PERSONALITY_PROMPT}
+
+${COMPANY_CONTEXT}
 
 Remember: You are the executive's right hand. Your goal is to make their work life seamlessly efficient while maintaining the highest standards of professionalism!`;
 
