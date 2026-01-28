@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
 import { 
   Shield, Database, Eye, Trash2, Download, Lock, 
-  Mail, Globe, Clock, Users, FileText, AlertCircle
+  Mail, Globe, Clock, Users, FileText, AlertCircle,
+  Bell, Plane
 } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -293,7 +294,74 @@ export default function Privacy() {
               </div>
             </Section>
 
-            <Section icon={Globe} title="8. Cookies & Tracking">
+            <Section icon={Bell} title="8. Data Breach Notification">
+              <p>
+                In the event of a personal data breach that poses a risk to your rights and 
+                freedoms, we are committed to:
+              </p>
+              <ul className="list-disc pl-6 space-y-2 mt-3">
+                <li>
+                  <strong className="text-foreground">Authority Notification:</strong> Notifying 
+                  the relevant supervisory authority (e.g., ICO in UK, CNIL in France) within 
+                  72 hours of becoming aware of the breach, as required by GDPR Article 33.
+                </li>
+                <li>
+                  <strong className="text-foreground">User Notification:</strong> Informing 
+                  affected users without undue delay when the breach is likely to result in 
+                  high risk to their rights and freedoms (GDPR Article 34).
+                </li>
+                <li>
+                  <strong className="text-foreground">Breach Details:</strong> Providing clear 
+                  information about the nature of the breach, categories of data affected, 
+                  likely consequences, and measures taken to address it.
+                </li>
+                <li>
+                  <strong className="text-foreground">Remediation:</strong> Taking immediate 
+                  steps to contain and remediate the breach, including security patches and 
+                  password resets where appropriate.
+                </li>
+              </ul>
+              <p className="mt-4">
+                We maintain detailed records of all data breaches, including their effects 
+                and remedial actions taken, regardless of whether notification is required.
+              </p>
+            </Section>
+
+            <Section icon={Plane} title="9. Cross-Border Data Transfers">
+              <p>
+                Your data may be transferred to and processed in countries outside your 
+                country of residence. We ensure all cross-border transfers comply with 
+                applicable data protection laws:
+              </p>
+              <ul className="list-disc pl-6 space-y-2 mt-3">
+                <li>
+                  <strong className="text-foreground">Standard Contractual Clauses (SCCs):</strong> We 
+                  use EU-approved SCCs for transfers from the EEA/UK to countries without 
+                  adequacy decisions, ensuring equivalent protection.
+                </li>
+                <li>
+                  <strong className="text-foreground">Adequacy Decisions:</strong> Where possible, 
+                  we transfer data only to countries recognized by the European Commission 
+                  as providing adequate data protection.
+                </li>
+                <li>
+                  <strong className="text-foreground">UK IDTA:</strong> For UK transfers post-Brexit, 
+                  we implement the UK International Data Transfer Agreement where required.
+                </li>
+                <li>
+                  <strong className="text-foreground">Supplementary Measures:</strong> We implement 
+                  additional technical and organizational measures (encryption, access controls, 
+                  pseudonymization) to protect transferred data.
+                </li>
+              </ul>
+              <p className="mt-4">
+                Our primary infrastructure is hosted in the European Union. You may request 
+                information about the specific safeguards applied to your data by contacting 
+                our privacy team.
+              </p>
+            </Section>
+
+            <Section icon={Globe} title="10. Cookies & Tracking">
               <p>
                 We use cookies and similar technologies with your explicit consent:
               </p>
@@ -310,21 +378,25 @@ export default function Privacy() {
                   <strong className="text-foreground">Functional Cookies:</strong> Remember your 
                   preferences for a personalized experience. Opt-in only.
                 </li>
+                <li>
+                  <strong className="text-foreground">Marketing Cookies:</strong> Used for targeted 
+                  advertising and measuring campaign effectiveness. Opt-in only.
+                </li>
               </ul>
               <p className="mt-4">
                 You can manage your cookie preferences at any time using the cookie consent 
-                banner or by clearing your browser cookies.
+                banner or through Cookie Settings in the footer.
               </p>
             </Section>
 
-            <Section icon={FileText} title="9. Third-Party Services">
+            <Section icon={FileText} title="11. Third-Party Services">
               <p>
                 We use the following third-party services to operate our platform:
               </p>
               <ul className="list-disc pl-6 space-y-2 mt-3">
                 <li>
                   <strong className="text-foreground">Cloud Infrastructure:</strong> Secure hosting 
-                  and database services (SOC 2 compliant).
+                  and database services (SOC 2 compliant, EU-hosted).
                 </li>
                 <li>
                   <strong className="text-foreground">AI Services:</strong> Language models for 
@@ -337,11 +409,11 @@ export default function Privacy() {
               </ul>
               <p className="mt-4">
                 We do not sell your data to third parties. Data shared with service providers 
-                is subject to strict confidentiality agreements.
+                is subject to strict confidentiality agreements and Data Processing Agreements (DPAs).
               </p>
             </Section>
 
-            <Section icon={Mail} title="10. Contact Us">
+            <Section icon={Mail} title="12. Contact Us">
               <p>
                 If you have questions about this Privacy Policy or wish to exercise your 
                 data rights, please contact us:
@@ -355,6 +427,11 @@ export default function Privacy() {
                 </p>
                 <p className="text-sm mt-1">
                   Response time: Within 30 days as required by GDPR
+                </p>
+                <p className="text-sm mt-1 text-muted-foreground">
+                  For data breach inquiries: <a href="mailto:security@24twelve.ai" className="text-primary hover:underline">
+                    security@24twelve.ai
+                  </a>
                 </p>
               </div>
               <p className="mt-4">
