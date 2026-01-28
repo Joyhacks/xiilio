@@ -151,9 +151,36 @@
     @apply border-border;
   }
 
+  html {
+    /* Use dvh for dynamic viewport height on mobile - handles browser chrome */
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
   body {
     @apply bg-background text-foreground font-sans antialiased;
     font-family: 'Inter', sans-serif;
+    min-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    /* Ensure scrolling works in landscape */
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Fix landscape viewport issues on mobile */
+  @media screen and (orientation: landscape) and (max-height: 500px) {
+    html, body {
+      height: auto;
+      min-height: 100dvh;
+      overflow-y: auto !important;
+    }
+    
+    /* Ensure main containers don't restrict scrolling */
+    .min-h-screen {
+      min-height: 100dvh;
+      height: auto;
+    }
   }
 
   h1, h2, h3, h4, h5, h6 {
