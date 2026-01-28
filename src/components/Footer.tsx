@@ -170,7 +170,7 @@ export function Footer() {
                   <img 
                     src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" 
                     alt="Download on the App Store" 
-                    className="h-10"
+                    className="h-10 w-auto"
                   />
                 </a>
                 
@@ -185,7 +185,7 @@ export function Footer() {
                   <img 
                     src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" 
                     alt="Get it on Google Play" 
-                    className="h-12 -ml-2"
+                    className="h-10 w-auto"
                   />
                 </a>
               </div>
