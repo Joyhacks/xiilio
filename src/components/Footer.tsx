@@ -158,7 +158,7 @@ export function Footer() {
             {/* App Downloads */}
             <div className="space-y-4">
               <h4 className="font-semibold text-foreground text-lg">Get the App</h4>
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-row flex-wrap gap-3 items-center">
                 {/* App Store Badge */}
                 <a
                   href="https://apps.apple.com/app/24twelve"
