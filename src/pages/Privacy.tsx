@@ -13,17 +13,20 @@ import { Link } from "react-router-dom";
 const Section = ({ 
   icon: Icon, 
   title, 
-  children 
+  children,
+  id
 }: { 
   icon: React.ElementType; 
   title: string; 
   children: React.ReactNode;
+  id?: string;
 }) => (
   <motion.section
+    id={id}
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
-    className="mb-10"
+    className="mb-10 scroll-mt-24"
   >
     <div className="flex items-center gap-3 mb-4">
       <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
@@ -242,7 +245,7 @@ export default function Privacy() {
               </div>
             </Section>
 
-            <Section icon={MapPin} title="6. California Privacy Rights (CCPA)">
+            <Section icon={MapPin} title="6. California Privacy Rights (CCPA)" id="ccpa">
               <p>
                 If you are a California resident, the California Consumer Privacy Act (CCPA) 
                 and California Privacy Rights Act (CPRA) provide you with additional rights 
