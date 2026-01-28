@@ -6,7 +6,6 @@ import logo from "@/assets/logo-24twelve-transparent.png";
 import { AgentDemoModal } from "@/components/AgentDemoModal";
 import { AuthOverlay } from "@/components/auth/AuthOverlay";
 import { useAuth } from "@/hooks/useAuth";
-import { VoiceDemoButton } from "@/components/VoiceDemoButton";
 
 export function Hero() {
   const { isAuthenticated } = useAuth();
@@ -59,7 +58,7 @@ export function Hero() {
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Button variant="hero" size="xl" onClick={handleGetStarted}>
               <Zap className="w-5 h-5" />
               Get Started Free
@@ -72,12 +71,6 @@ export function Hero() {
                 </Button>
               }
             />
-          </div>
-          
-          {/* Voice Demo Button */}
-          <div className="flex flex-col items-center gap-2 mt-4">
-            <VoiceDemoButton />
-            <p className="text-xs text-muted-foreground">Click to try our AI voice</p>
           </div>
 
           {/* Stats */}

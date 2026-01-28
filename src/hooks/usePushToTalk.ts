@@ -5,12 +5,17 @@ import { VoiceState } from "@/lib/voiceConfig";
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
+// Silence detection timeout (1.4 seconds)
+const SILENCE_TIMEOUT_MS = 1400;
+const SILENCE_THRESHOLD = 0.03; // RMS threshold for detecting silence
+
 interface UsePushToTalkOptions {
   agentType: string;
   onTranscriptReady: (text: string) => void;
   onPartialTranscript?: (text: string) => void;
   onStateChange?: (state: VoiceState) => void;
   stopAgentAudio?: () => void; // For barge-in
+  autoSend?: boolean; // Auto-send after silence detection
 }
 
 interface UsePushToTalkReturn {
@@ -30,6 +35,7 @@ export function usePushToTalk({
   onPartialTranscript,
   onStateChange,
   stopAgentAudio,
+  autoSend = true,
 }: UsePushToTalkOptions): UsePushToTalkReturn {
   const [state, setState] = useState<VoiceState>("idle");
   const [partialTranscript, setPartialTranscript] = useState("");
@@ -43,6 +49,8 @@ export function usePushToTalk({
   const audioContextRef = useRef<AudioContext | null>(null);
   const animationRef = useRef<number | null>(null);
   const hasAudioRef = useRef(false);
+  const silenceTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const lastSoundTimeRef = useRef<number>(0);
 
   // Update state and notify
   const updateState = useCallback((newState: VoiceState) => {
@@ -50,102 +58,18 @@ export function usePushToTalk({
     onStateChange?.(newState);
   }, [onStateChange]);
 
-  // Analyze audio levels
-  const analyzeAudio = useCallback(() => {
-    if (!analyserRef.current) return;
-
-    const dataArray = new Uint8Array(analyserRef.current.frequencyBinCount);
-    analyserRef.current.getByteFrequencyData(dataArray);
-
-    // Calculate RMS level
-    let sum = 0;
-    for (let i = 0; i < dataArray.length; i++) {
-      sum += dataArray[i] * dataArray[i];
+  // Clear silence timer
+  const clearSilenceTimer = useCallback(() => {
+    if (silenceTimerRef.current) {
+      clearTimeout(silenceTimerRef.current);
+      silenceTimerRef.current = null;
     }
-    const rms = Math.sqrt(sum / dataArray.length) / 255;
-    setAudioLevel(rms);
+  }, []);
 
-    // Detect if there's actual audio (voice activity)
-    if (rms > 0.05) {
-      hasAudioRef.current = true;
-    }
-
-    if (state === "recording") {
-      animationRef.current = requestAnimationFrame(analyzeAudio);
-    }
-  }, [state]);
-
-  // Start recording
-  const startRecording = useCallback(async () => {
-    // Barge-in: stop any playing agent audio
-    stopAgentAudio?.();
-
-    setError(null);
-    setPartialTranscript("");
-    hasAudioRef.current = false;
-    audioChunksRef.current = [];
-
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ 
-        audio: {
-          echoCancellation: true,
-          noiseSuppression: true,
-          autoGainControl: true,
-        } 
-      });
-      streamRef.current = stream;
-
-      // Set up audio analysis
-      audioContextRef.current = new AudioContext();
-      const source = audioContextRef.current.createMediaStreamSource(stream);
-      analyserRef.current = audioContextRef.current.createAnalyser();
-      analyserRef.current.fftSize = 256;
-      source.connect(analyserRef.current);
-
-      // Set up MediaRecorder
-      const mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus') 
-        ? 'audio/webm;codecs=opus' 
-        : 'audio/webm';
-      
-      const mediaRecorder = new MediaRecorder(stream, { mimeType });
-      mediaRecorderRef.current = mediaRecorder;
-
-      mediaRecorder.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          audioChunksRef.current.push(event.data);
-        }
-      };
-
-      mediaRecorder.start(100); // Collect data every 100ms
-      updateState("recording");
-
-      // Start audio level analysis
-      analyzeAudio();
-
-    } catch (err: any) {
-      console.error("Failed to start recording:", err);
-      
-      if (err.name === "NotAllowedError") {
-        setError("Microphone access denied");
-        toast({
-          variant: "destructive",
-          title: "Microphone Access Denied",
-          description: "Please allow microphone access in your browser settings.",
-        });
-      } else {
-        setError("Failed to start recording");
-        toast({
-          variant: "destructive",
-          title: "Recording Error",
-          description: "Failed to access microphone. Please try again.",
-        });
-      }
-      updateState("error");
-    }
-  }, [analyzeAudio, stopAgentAudio, updateState]);
-
-  // Stop recording and transcribe
-  const stopRecording = useCallback(async () => {
+  // Stop recording and process (called by silence detection or manual stop)
+  const processRecording = useCallback(async () => {
+    clearSilenceTimer();
+    
     if (animationRef.current) {
       cancelAnimationFrame(animationRef.current);
       animationRef.current = null;
@@ -241,11 +165,124 @@ export function usePushToTalk({
 
       mediaRecorder.stop();
     });
-  }, [onTranscriptReady, updateState]);
+  }, [clearSilenceTimer, onTranscriptReady, updateState]);
+
+  // Analyze audio levels with silence detection
+  const analyzeAudio = useCallback(() => {
+    if (!analyserRef.current) return;
+
+    const dataArray = new Uint8Array(analyserRef.current.frequencyBinCount);
+    analyserRef.current.getByteFrequencyData(dataArray);
+
+    // Calculate RMS level
+    let sum = 0;
+    for (let i = 0; i < dataArray.length; i++) {
+      sum += dataArray[i] * dataArray[i];
+    }
+    const rms = Math.sqrt(sum / dataArray.length) / 255;
+    setAudioLevel(rms);
+
+    // Detect if there's actual audio (voice activity)
+    if (rms > SILENCE_THRESHOLD) {
+      hasAudioRef.current = true;
+      lastSoundTimeRef.current = Date.now();
+      clearSilenceTimer();
+    } else if (hasAudioRef.current && autoSend) {
+      // User has spoken and now is silent - start silence timer
+      const timeSinceSound = Date.now() - lastSoundTimeRef.current;
+      
+      if (timeSinceSound >= SILENCE_TIMEOUT_MS && !silenceTimerRef.current) {
+        // Silence detected for 1.4s, auto-stop
+        processRecording();
+        return;
+      }
+    }
+
+    if (state === "recording") {
+      animationRef.current = requestAnimationFrame(analyzeAudio);
+    }
+  }, [state, autoSend, clearSilenceTimer, processRecording]);
+
+  // Start recording
+  const startRecording = useCallback(async () => {
+    // Barge-in: stop any playing agent audio
+    stopAgentAudio?.();
+
+    setError(null);
+    setPartialTranscript("");
+    hasAudioRef.current = false;
+    audioChunksRef.current = [];
+    lastSoundTimeRef.current = Date.now();
+    clearSilenceTimer();
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ 
+        audio: {
+          echoCancellation: true,
+          noiseSuppression: true,
+          autoGainControl: true,
+        } 
+      });
+      streamRef.current = stream;
+
+      // Set up audio analysis
+      audioContextRef.current = new AudioContext();
+      const source = audioContextRef.current.createMediaStreamSource(stream);
+      analyserRef.current = audioContextRef.current.createAnalyser();
+      analyserRef.current.fftSize = 256;
+      source.connect(analyserRef.current);
+
+      // Set up MediaRecorder
+      const mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus') 
+        ? 'audio/webm;codecs=opus' 
+        : 'audio/webm';
+      
+      const mediaRecorder = new MediaRecorder(stream, { mimeType });
+      mediaRecorderRef.current = mediaRecorder;
+
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          audioChunksRef.current.push(event.data);
+        }
+      };
+
+      mediaRecorder.start(100); // Collect data every 100ms
+      updateState("recording");
+
+      // Start audio level analysis
+      analyzeAudio();
+
+    } catch (err: any) {
+      console.error("Failed to start recording:", err);
+      
+      if (err.name === "NotAllowedError") {
+        setError("Microphone access denied");
+        toast({
+          variant: "destructive",
+          title: "Microphone Access Denied",
+          description: "Please allow microphone access in your browser settings.",
+        });
+      } else {
+        setError("Failed to start recording");
+        toast({
+          variant: "destructive",
+          title: "Recording Error",
+          description: "Failed to access microphone. Please try again.",
+        });
+      }
+      updateState("error");
+    }
+  }, [analyzeAudio, clearSilenceTimer, stopAgentAudio, updateState]);
+
+  // Manual stop recording
+  const stopRecording = useCallback(async () => {
+    await processRecording();
+  }, [processRecording]);
 
   // Cleanup on unmount
   useEffect(() => {
     return () => {
+      clearSilenceTimer();
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
@@ -254,7 +291,7 @@ export function usePushToTalk({
         audioContextRef.current.close();
       }
     };
-  }, []);
+  }, [clearSilenceTimer]);
 
   return {
     state,
