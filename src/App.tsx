@@ -27,6 +27,7 @@ const Careers = lazy(() => import("./pages/Careers"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 const Terms = lazy(() => import("./pages/Terms"));
 const CookiePolicy = lazy(() => import("./pages/CookiePolicy"));
+const CCPA = lazy(() => import("./pages/CCPA"));
 const Install = lazy(() => import("./pages/Install"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
@@ -76,6 +77,7 @@ const App = () => (
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/terms" element={<Terms />} />
                 <Route path="/cookies" element={<CookiePolicy />} />
+                <Route path="/ccpa" element={<CCPA />} />
                 <Route path="/install" element={<Install />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
