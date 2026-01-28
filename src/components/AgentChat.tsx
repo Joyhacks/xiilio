@@ -11,6 +11,7 @@ import { ExportButton } from "@/components/chat/ExportButton";
 import { VoiceChat } from "@/components/VoiceChat";
 import { usePushToTalk } from "@/hooks/usePushToTalk";
 import { useAgentTTS } from "@/hooks/useAgentTTS";
+import { useAnalyticsLogger } from "@/hooks/useAnalyticsLogger";
 import { VoiceState } from "@/lib/voiceConfig";
 
 interface Message {
@@ -48,7 +49,16 @@ export function AgentChat({
   const [voiceState, setVoiceState] = useState<VoiceState>("idle");
   const [pendingVoiceMessage, setPendingVoiceMessage] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const pttStartTimeRef = useRef<number | null>(null);
+  const conversationStartedRef = useRef(false);
 
+  // Analytics logger
+  const {
+    startConversation,
+    logMessage,
+    logVoiceInteraction,
+    endConversation,
+  } = useAnalyticsLogger();
   // Derive agent type from slug
   const getAgentType = useCallback(() => {
     if (!agentSlug) return "assistant";
@@ -104,6 +114,24 @@ export function AgentChat({
     },
     stopAgentAudio: stopSpeaking, // Barge-in support
   });
+
+  // Push-to-talk with analytics wrappers
+  const handlePttStart = useCallback(() => {
+    pttStartTimeRef.current = Date.now();
+    if (agentSlug) {
+      logVoiceInteraction(agentSlug, "ptt_start");
+    }
+    startRecording();
+  }, [agentSlug, logVoiceInteraction, startRecording]);
+
+  const handlePttEnd = useCallback(() => {
+    const duration = pttStartTimeRef.current ? Date.now() - pttStartTimeRef.current : undefined;
+    if (agentSlug) {
+      logVoiceInteraction(agentSlug, "ptt_end", duration);
+    }
+    pttStartTimeRef.current = null;
+    stopRecording();
+  }, [agentSlug, logVoiceInteraction, stopRecording]);
 
   // Send voice message when transcript is ready
   useEffect(() => {
@@ -222,6 +250,12 @@ export function AgentChat({
   const sendMessage = async (text: string, speakResponse: boolean = false) => {
     if (!text.trim() || isLoading) return;
 
+    // Start conversation tracking on first message
+    if (!conversationStartedRef.current && agentSlug) {
+      startConversation(agentSlug);
+      conversationStartedRef.current = true;
+    }
+
     const userMsg: Message = { role: "user", content: text.trim(), timestamp: new Date(), isVoice: speakResponse };
     setMessages((prev) => [...prev, userMsg]);
     setInput("");
@@ -229,8 +263,18 @@ export function AgentChat({
     setIsLoading(true);
     setVoiceState("sending");
 
+    // Log user message
+    if (agentSlug) {
+      logMessage(agentSlug, "user", text.trim(), speakResponse);
+    }
+
     try {
       const response = await streamChat([...messages, userMsg]);
+      
+      // Log assistant response
+      if (agentSlug && response) {
+        logMessage(agentSlug, "assistant", response, speakResponse);
+      }
       
       // Speak the response if voice was used and autoSpeak is enabled
       if (speakResponse && autoSpeak && response) {
@@ -272,6 +316,21 @@ export function AgentChat({
   // Determine current voice state (combine PTT and TTS states)
   const currentVoiceState = isSpeaking ? "speaking" : pttState;
 
+  // Track voice mode changes
+  const handleEnterVoiceMode = useCallback(() => {
+    if (agentSlug) {
+      logVoiceInteraction(agentSlug, "voice_mode_start");
+    }
+    setIsVoiceMode(true);
+  }, [agentSlug, logVoiceInteraction]);
+
+  const handleExitVoiceMode = useCallback(() => {
+    if (agentSlug) {
+      logVoiceInteraction(agentSlug, "voice_mode_end");
+    }
+    setIsVoiceMode(false);
+  }, [agentSlug, logVoiceInteraction]);
+
   if (isVoiceMode) {
     return (
       <div className="h-[600px]">
@@ -285,7 +344,7 @@ export function AgentChat({
         <div className="mt-4 flex justify-center">
           <Button
             variant="outline"
-            onClick={() => setIsVoiceMode(false)}
+            onClick={handleExitVoiceMode}
             className="gap-2"
           >
             <MessageSquare className="w-4 h-4" />
@@ -307,7 +366,7 @@ export function AgentChat({
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => setIsVoiceMode(true)}
+              onClick={handleEnterVoiceMode}
               className="text-muted-foreground hover:text-primary"
               title="Switch to full voice mode"
             >
@@ -362,8 +421,8 @@ export function AgentChat({
         voiceState={currentVoiceState}
         audioLevel={audioLevel}
         partialTranscript={partialTranscript}
-        onPushToTalkStart={startRecording}
-        onPushToTalkEnd={stopRecording}
+        onPushToTalkStart={handlePttStart}
+        onPushToTalkEnd={handlePttEnd}
         isSpeaking={isSpeaking || ttsLoading}
         autoSpeak={autoSpeak}
         volume={volume}
