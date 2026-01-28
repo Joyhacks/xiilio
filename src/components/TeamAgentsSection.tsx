@@ -108,7 +108,7 @@ export function TeamAgentsSection() {
   const { ref: gridRef, isVisible: gridVisible } = useScrollAnimation({ threshold: 0.05 });
 
   return (
-    <section className="relative py-24 bg-gradient-hero">
+    <section className="relative py-16 bg-gradient-hero">
       <div className="container mx-auto px-6">
         {/* Section header */}
         <div

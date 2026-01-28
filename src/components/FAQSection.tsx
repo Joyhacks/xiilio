@@ -55,7 +55,7 @@ export function FAQSection() {
   const { ref: accordionRef, isVisible: accordionVisible } = useScrollAnimation({ threshold: 0.1 });
 
   return (
-    <section id="faq" className="relative py-24 bg-muted/30">
+    <section id="faq" className="relative py-16 bg-muted/30">
       <div className="absolute inset-0 circuit-pattern opacity-10" />
 
       <div className="relative container mx-auto px-6">
