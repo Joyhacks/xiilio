@@ -153,10 +153,10 @@ export function Footer() {
               </nav>
             </div>
 
-            {/* Company */}
+            {/* Company - Side by Side */}
             <div className="space-y-4">
               <h4 className="font-semibold text-foreground text-lg">Company</h4>
-              <nav className="flex flex-col gap-3 text-sm text-muted-foreground">
+              <nav className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm text-muted-foreground">
                 <Link to="/about" className="hover:text-foreground transition-colors">
                   About Us
                 </Link>
@@ -191,18 +191,18 @@ export function Footer() {
                   />
                 </a>
                 
-                {/* Google Play Badge - cropped to match App Store visual dimensions */}
+                {/* Google Play Badge */}
                 <a
                   href="https://play.google.com/store/apps/details?id=com.twentyfourtwelve"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center hover:opacity-80 transition-opacity h-10 overflow-hidden"
+                  className="inline-flex items-center hover:opacity-80 transition-opacity"
                   aria-label="Get it on Google Play"
                 >
                   <img 
-                    src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" 
+                    src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" 
                     alt="Get it on Google Play" 
-                    className="h-[60px] w-auto -my-2.5"
+                    className="h-10 w-auto"
                   />
                 </a>
               </div>
