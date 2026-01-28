@@ -33,12 +33,26 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
 
   const navLinks = [
     { href: "/#agents", label: "Agents", isHash: true },
-    { href: "/#features", label: "Features", isHash: true },
+    { href: "/#how-it-works", label: "How It Works", isHash: true },
+    { href: "/#faq", label: "FAQ", isHash: true },
     { href: "/pricing", label: "Pricing", isHash: false },
     { href: "/docs", label: "Docs", isHash: false },
-    { href: "/about", label: "About", isHash: false },
-    { href: "/contact", label: "Contact", isHash: false },
   ];
+
+  const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    const hash = href.split('#')[1];
+    if (!hash) return;
+    
+    // If we're on the home page, prevent default and scroll smoothly
+    if (isHomePage) {
+      e.preventDefault();
+      const element = document.getElementById(hash);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+    // If not on home page, the default behavior (navigation) will occur
+  };
 
   const handleSignIn = () => {
     setAuthTab('signin');
@@ -85,11 +99,12 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center gap-8">
-              {navLinks.slice(0, 4).map((link) =>
+              {navLinks.map((link) =>
                 link.isHash ? (
                   <a
                     key={link.href}
                     href={link.href}
+                    onClick={(e) => handleSmoothScroll(e, link.href)}
                     className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                   >
                     {link.label}
@@ -223,6 +238,7 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
                             {link.isHash ? (
                               <a
                                 href={link.href}
+                                onClick={(e) => handleSmoothScroll(e, link.href)}
                                 className="flex items-center gap-3 px-4 py-3 rounded-xl text-muted-foreground hover:text-foreground hover:bg-primary/10 transition-colors"
                               >
                                 <span>{link.label}</span>
