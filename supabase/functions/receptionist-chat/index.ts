@@ -1,9 +1,10 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-};
+import { 
+  corsHeaders, 
+  getUserIdFromRequest, 
+  createPersonalizedPrompt,
+  runFactExtractionAsync 
+} from "../_shared/agentMemory.ts";
 
 const ENHANCED_PERSONALITY_PROMPT = `
 ### Enhanced Personality Traits:
@@ -69,6 +70,8 @@ ${ENHANCED_PERSONALITY_PROMPT}
 
 Remember: You represent the first impression of 24Twelve. Make every interaction memorable and enjoyable!`;
 
+const AGENT_SLUG = "julia";
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -77,12 +80,31 @@ serve(async (req) => {
   try {
     const { messages } = await req.json();
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+    const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
+    const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
     
     if (!LOVABLE_API_KEY) {
       throw new Error("LOVABLE_API_KEY is not configured");
     }
 
-    console.log("Receptionist chat request received, messages:", messages.length);
+    // Get user ID from auth header
+    const userId = await getUserIdFromRequest(req, SUPABASE_URL || "", SUPABASE_SERVICE_ROLE_KEY || "");
+
+    console.log("Receptionist chat request, messages:", messages.length, "userId:", userId ? "authenticated" : "anonymous");
+
+    // Get personalized prompt with learned facts
+    const personalizedPrompt = await createPersonalizedPrompt(
+      JULIA_SYSTEM_PROMPT,
+      userId,
+      SUPABASE_URL,
+      SUPABASE_SERVICE_ROLE_KEY
+    );
+
+    // Extract facts from latest user message (async, non-blocking)
+    const latestUserMessage = messages.filter((m: { role: string }) => m.role === 'user').pop()?.content;
+    if (latestUserMessage && userId && SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY) {
+      runFactExtractionAsync(latestUserMessage, userId, AGENT_SLUG, LOVABLE_API_KEY, SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+    }
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
@@ -93,7 +115,7 @@ serve(async (req) => {
       body: JSON.stringify({
         model: "google/gemini-3-flash-preview",
         messages: [
-          { role: "system", content: JULIA_SYSTEM_PROMPT },
+          { role: "system", content: personalizedPrompt },
           ...messages,
         ],
         stream: true,
