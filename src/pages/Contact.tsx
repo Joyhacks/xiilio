@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Mail, Phone, MapPin, Send, MessageSquare, Clock } from "lucide-react";
+import { ScrollToTop } from "@/components/ScrollToTop";
 
 const contactInfo = [
   {
@@ -196,6 +197,7 @@ export default function Contact() {
       </main>
       
       <Footer />
+      <ScrollToTop />
     </div>
   );
 }
