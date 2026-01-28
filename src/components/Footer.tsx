@@ -220,17 +220,11 @@ export function Footer() {
                 Terms
               </Link>
               <Link to="/cookies" className="hover:text-foreground transition-colors">
-                Cookies
+                Cookie Settings
               </Link>
               <Link to="/privacy#ccpa" className="hover:text-foreground transition-colors">
                 Do Not Sell My Info
               </Link>
-              <button
-                onClick={() => setCookieModalOpen(true)}
-                className="hover:text-foreground transition-colors"
-              >
-                Cookie Settings
-              </button>
               <Link to="/contact" className="hover:text-foreground transition-colors">
                 Contact
               </Link>
