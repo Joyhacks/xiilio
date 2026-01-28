@@ -1,5 +1,6 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { ScrollToTop } from "@/components/ScrollToTop";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
@@ -184,6 +185,7 @@ export default function Docs() {
       </main>
       
       <Footer />
+      <ScrollToTop />
     </div>
   );
 }

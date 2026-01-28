@@ -1,6 +1,7 @@
 import { Check, Zap, Crown, Building2, ArrowRight } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { ScrollToTop } from "@/components/ScrollToTop";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -274,6 +275,7 @@ export default function Pricing() {
       </main>
 
       <Footer />
+      <ScrollToTop />
     </div>
   );
 }
