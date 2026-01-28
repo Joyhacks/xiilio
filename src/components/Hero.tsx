@@ -22,7 +22,7 @@ export function Hero() {
 
   return (
     <>
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-hero">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-hero pt-20">
         {/* Circuit pattern background */}
         <div className="absolute inset-0 circuit-pattern opacity-30" />
         
