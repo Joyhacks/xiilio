@@ -12,3 +12,5 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+Sitemap: https://automagic-biz-buddy.lovable.app/sitemap.xml
