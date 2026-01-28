@@ -52,25 +52,25 @@ interface StatsCard {
 }
 
 const AGENT_COLORS: Record<string, string> = {
-  "julia-receptionist": "hsl(350, 65%, 55%)",
-  "kate-assistant": "hsl(270, 60%, 60%)",
-  "halle-legal": "hsl(220, 70%, 55%)",
-  "george-social": "hsl(200, 75%, 55%)",
-  "arnie-writer": "hsl(180, 60%, 50%)",
-  "brad-sales": "hsl(210, 65%, 60%)",
-  "sam-coach": "hsl(260, 60%, 55%)",
-  "jerry-finance": "hsl(170, 60%, 45%)",
+  "julia": "hsl(350, 65%, 55%)",
+  "kate": "hsl(270, 60%, 60%)",
+  "halle": "hsl(220, 70%, 55%)",
+  "george": "hsl(200, 75%, 55%)",
+  "arnie": "hsl(180, 60%, 50%)",
+  "brad": "hsl(210, 65%, 60%)",
+  "sam": "hsl(260, 60%, 55%)",
+  "jerry": "hsl(170, 60%, 45%)",
 };
 
 const AGENT_NAMES: Record<string, string> = {
-  "julia-receptionist": "Julia",
-  "kate-assistant": "Kate",
-  "halle-legal": "Halle",
-  "george-social": "George",
-  "arnie-writer": "Arnie",
-  "brad-sales": "Brad",
-  "sam-coach": "Sam",
-  "jerry-finance": "Jerry",
+  "julia": "Julia",
+  "kate": "Kate",
+  "halle": "Halle",
+  "george": "George",
+  "arnie": "Arnie",
+  "brad": "Brad",
+  "sam": "Sam",
+  "jerry": "Jerry",
 };
 
 export default function Analytics() {
