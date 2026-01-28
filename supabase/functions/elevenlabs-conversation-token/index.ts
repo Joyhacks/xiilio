@@ -5,6 +5,22 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version',
 };
 
+// Server-side agent ID mapping - never exposed to client
+// These are the ElevenLabs Conversational AI Agent IDs for each agent type
+const AGENT_IDS: Record<string, string> = {
+  receptionist: Deno.env.get("ELEVENLABS_AGENT_RECEPTIONIST") || "",
+  assistant: Deno.env.get("ELEVENLABS_AGENT_ASSISTANT") || "",
+  legal: Deno.env.get("ELEVENLABS_AGENT_LEGAL") || "",
+  social: Deno.env.get("ELEVENLABS_AGENT_SOCIAL") || "",
+  writer: Deno.env.get("ELEVENLABS_AGENT_WRITER") || "",
+  sales: Deno.env.get("ELEVENLABS_AGENT_SALES") || "",
+  coach: Deno.env.get("ELEVENLABS_AGENT_COACH") || "",
+  finance: Deno.env.get("ELEVENLABS_AGENT_FINANCE") || "",
+};
+
+// Default/fallback agent ID if specific agent not configured
+const DEFAULT_AGENT_ID = Deno.env.get("ELEVENLABS_DEFAULT_AGENT_ID") || "";
+
 serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
@@ -25,11 +41,11 @@ serve(async (req) => {
       );
     }
 
-    const { agentId } = await req.json();
+    const { agentType } = await req.json();
 
-    if (!agentId) {
+    if (!agentType) {
       return new Response(
-        JSON.stringify({ error: "Agent ID is required" }),
+        JSON.stringify({ error: "Agent type is required" }),
         { 
           status: 400, 
           headers: { ...corsHeaders, "Content-Type": "application/json" } 
@@ -37,7 +53,21 @@ serve(async (req) => {
       );
     }
 
-    console.log(`Generating conversation token for agent: ${agentId}`);
+    // Look up the agent ID server-side
+    const agentId = AGENT_IDS[agentType] || DEFAULT_AGENT_ID;
+
+    if (!agentId) {
+      console.error(`No agent ID configured for type: ${agentType}`);
+      return new Response(
+        JSON.stringify({ error: "Voice agent not configured for this agent type" }),
+        { 
+          status: 400, 
+          headers: { ...corsHeaders, "Content-Type": "application/json" } 
+        }
+      );
+    }
+
+    console.log(`Generating conversation token for agent type: ${agentType}`);
 
     // Get a conversation token from ElevenLabs
     const response = await fetch(

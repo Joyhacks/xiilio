@@ -1,25 +1,13 @@
 import { useConversation } from "@elevenlabs/react";
 import { useState, useCallback, useEffect, useRef } from "react";
-import { Mic, MicOff, Phone, PhoneOff, Loader2, Volume2, VolumeX, Settings2, ExternalLink, ChevronDown, Check } from "lucide-react";
+import { Mic, MicOff, Phone, PhoneOff, Loader2, Volume2, VolumeX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { toast } from "@/hooks/use-toast";
 import { VoiceVisualizer } from "@/components/voice/VoiceVisualizer";
 import { AudioWaveform } from "@/components/voice/AudioWaveform";
-import { 
-  getEffectiveAgentId, 
-  saveCustomAgentId, 
-  getVoiceAgentConfig, 
-  hasVoiceAgent 
-} from "@/lib/voiceAgentConfig";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
+import { supabase } from "@/integrations/supabase/client";
 
 interface VoiceChatProps {
   agentName: string;
@@ -40,32 +28,9 @@ export function VoiceChat({
   const [isMuted, setIsMuted] = useState(false);
   const [transcript, setTranscript] = useState("");
   const [agentResponse, setAgentResponse] = useState("");
-  const [customAgentId, setCustomAgentId] = useState("");
-  const [showSetup, setShowSetup] = useState(true);
-  const [showAdvanced, setShowAdvanced] = useState(false);
   const [inputVolume, setInputVolume] = useState(0);
   const [outputVolume, setOutputVolume] = useState(0);
   const volumeIntervalRef = useRef<NodeJS.Timeout | null>(null);
-
-  // Check if we have a preset for this agent type
-  const hasPreset = hasVoiceAgent(agentType);
-  const presetConfig = getVoiceAgentConfig(agentType);
-
-  // Load saved custom agent ID on mount
-  useEffect(() => {
-    const savedId = getEffectiveAgentId(agentType);
-    if (savedId && !hasPreset) {
-      setCustomAgentId(savedId);
-    }
-  }, [agentType, hasPreset]);
-
-  // Get the agent ID to use (preset or custom)
-  const getAgentId = useCallback(() => {
-    if (customAgentId.trim()) {
-      return customAgentId.trim();
-    }
-    return getEffectiveAgentId(agentType);
-  }, [customAgentId, agentType]);
 
   const conversation = useConversation({
     onConnect: () => {
@@ -74,7 +39,6 @@ export function VoiceChat({
         title: "Voice Connected",
         description: `You're now speaking with ${agentName}`,
       });
-      setShowSetup(false);
       
       // Start polling audio levels
       volumeIntervalRef.current = setInterval(() => {
@@ -90,7 +54,6 @@ export function VoiceChat({
       console.log("Disconnected from agent");
       setTranscript("");
       setAgentResponse("");
-      setShowSetup(true);
       
       // Stop polling
       if (volumeIntervalRef.current) {
@@ -120,39 +83,33 @@ export function VoiceChat({
       toast({
         variant: "destructive",
         title: "Voice Error",
-        description: "Connection issue. Please check your Agent ID and try again.",
+        description: "Connection issue. Please try again.",
       });
       setIsConnecting(false);
-      setShowSetup(true);
     },
   });
 
   const startConversation = useCallback(async () => {
-    const effectiveAgentId = getAgentId();
-    
-    if (!effectiveAgentId) {
-      toast({
-        variant: "destructive",
-        title: "Agent ID Required",
-        description: "Please enter your ElevenLabs Agent ID to start voice chat.",
-      });
-      return;
-    }
-
     setIsConnecting(true);
     try {
       // Request microphone permission
       await navigator.mediaDevices.getUserMedia({ audio: true });
 
-      // Save custom agent ID if provided
-      if (customAgentId.trim()) {
-        saveCustomAgentId(agentType, customAgentId.trim());
+      // Get signed URL from server (agent ID is handled server-side)
+      const { data, error } = await supabase.functions.invoke(
+        "elevenlabs-conversation-token",
+        {
+          body: { agentType },
+        }
+      );
+
+      if (error || !data?.signed_url) {
+        throw new Error(error?.message || "Failed to get voice session");
       }
 
-      // Start with WebRTC for low latency
+      // Start with WebSocket using signed URL
       await conversation.startSession({
-        agentId: effectiveAgentId,
-        connectionType: "webrtc",
+        signedUrl: data.signed_url,
       });
 
     } catch (error: any) {
@@ -168,12 +125,12 @@ export function VoiceChat({
         toast({
           variant: "destructive",
           title: "Connection Failed",
-          description: "Unable to start voice chat. Please check your Agent ID.",
+          description: error.message || "Unable to start voice chat. Please try again.",
         });
       }
       setIsConnecting(false);
     }
-  }, [conversation, getAgentId, customAgentId, agentType]);
+  }, [conversation, agentType]);
 
   const stopConversation = useCallback(async () => {
     if (volumeIntervalRef.current) {
@@ -229,7 +186,8 @@ export function VoiceChat({
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col items-center justify-center p-6 relative overflow-y-auto">
-        {showSetup && !isConnected ? (
+        {!isConnected ? (
+          // Simple start button - no setup overlay
           <div className="w-full max-w-sm space-y-6">
             <div className="text-center space-y-2">
               <div className={cn(
@@ -242,111 +200,29 @@ export function VoiceChat({
                 Voice Conversation
               </h4>
               <p className="text-sm text-muted-foreground">
-                Have a spoken conversation with {agentName.split(" ")[0]} using ElevenLabs.
+                Have a spoken conversation with {agentName.split(" ")[0]}.
               </p>
             </div>
 
-            <div className="space-y-4">
-              {/* Show preset info if available */}
-              {hasPreset && presetConfig ? (
-                <div className="bg-primary/5 border border-primary/20 rounded-lg p-4 space-y-3">
-                  <div className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-primary" />
-                    <span className="text-sm font-medium text-foreground">
-                      Voice Ready
-                    </span>
-                  </div>
-                  <p className="text-xs text-muted-foreground">
-                    {presetConfig.description}
-                  </p>
-                </div>
-              ) : null}
-
-              {/* Custom Agent ID - show as expandable if preset exists */}
-              {hasPreset ? (
-                <Collapsible open={showAdvanced} onOpenChange={setShowAdvanced}>
-                  <CollapsibleTrigger asChild>
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      className="w-full justify-between text-muted-foreground hover:text-foreground"
-                    >
-                      <span className="flex items-center gap-2">
-                        <Settings2 className="w-4 h-4" />
-                        Use Custom Agent ID
-                      </span>
-                      <ChevronDown className={cn(
-                        "w-4 h-4 transition-transform",
-                        showAdvanced && "rotate-180"
-                      )} />
-                    </Button>
-                  </CollapsibleTrigger>
-                  <CollapsibleContent className="space-y-2 pt-2">
-                    <Input
-                      placeholder="Enter custom ElevenLabs Agent ID"
-                      value={customAgentId}
-                      onChange={(e) => setCustomAgentId(e.target.value)}
-                      className="bg-background"
-                    />
-                    <p className="text-xs text-muted-foreground">
-                      Override with your own agent from{" "}
-                      <a
-                        href="https://elevenlabs.io/conversational-ai"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-primary hover:underline inline-flex items-center gap-1"
-                      >
-                        elevenlabs.io <ExternalLink className="w-3 h-3" />
-                      </a>
-                    </p>
-                  </CollapsibleContent>
-                </Collapsible>
+            <Button
+              onClick={startConversation}
+              disabled={isConnecting}
+              className="w-full gap-2"
+              size="lg"
+              variant="hero"
+            >
+              {isConnecting ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  Connecting...
+                </>
               ) : (
-                <div className="space-y-2">
-                  <Label htmlFor="agent-id" className="text-sm">
-                    ElevenLabs Agent ID
-                  </Label>
-                  <Input
-                    id="agent-id"
-                    placeholder="Enter your ElevenLabs Agent ID"
-                    value={customAgentId}
-                    onChange={(e) => setCustomAgentId(e.target.value)}
-                    className="bg-background"
-                  />
-                  <p className="text-xs text-muted-foreground">
-                    Create a public agent at{" "}
-                    <a
-                      href="https://elevenlabs.io/conversational-ai"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary hover:underline inline-flex items-center gap-1"
-                    >
-                      elevenlabs.io <ExternalLink className="w-3 h-3" />
-                    </a>
-                  </p>
-                </div>
+                <>
+                  <Phone className="w-4 h-4" />
+                  Start Voice Call
+                </>
               )}
-
-              <Button
-                onClick={startConversation}
-                disabled={isConnecting || (!hasPreset && !customAgentId.trim())}
-                className="w-full gap-2"
-                size="lg"
-                variant="hero"
-              >
-                {isConnecting ? (
-                  <>
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                    Connecting...
-                  </>
-                ) : (
-                  <>
-                    <Phone className="w-4 h-4" />
-                    Start Voice Call
-                  </>
-                )}
-              </Button>
-            </div>
+            </Button>
           </div>
         ) : (
           <div className="flex flex-col items-center gap-6 w-full">
@@ -475,15 +351,9 @@ export function VoiceChat({
               </Button>
             </>
           ) : (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setShowSetup(true)}
-              className="gap-2 text-muted-foreground"
-            >
-              <Settings2 className="w-4 h-4" />
-              Configure Agent
-            </Button>
+            <p className="text-sm text-muted-foreground">
+              Click "Start Voice Call" to begin
+            </p>
           )}
         </div>
       </div>
