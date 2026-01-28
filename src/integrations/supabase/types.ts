@@ -80,6 +80,141 @@ export type Database = {
         }
         Relationships: []
       }
+      user_links: {
+        Row: {
+          created_at: string
+          default_email_to: string | null
+          email_body_template: string | null
+          email_subject_template: string | null
+          facebook_url: string | null
+          id: string
+          inbox_url: string | null
+          instagram_url: string | null
+          linkedin_url: string | null
+          tiktok_url: string | null
+          updated_at: string
+          user_id: string
+          whatsapp_phone_e164: string | null
+          whatsapp_prefill_message: string | null
+        }
+        Insert: {
+          created_at?: string
+          default_email_to?: string | null
+          email_body_template?: string | null
+          email_subject_template?: string | null
+          facebook_url?: string | null
+          id?: string
+          inbox_url?: string | null
+          instagram_url?: string | null
+          linkedin_url?: string | null
+          tiktok_url?: string | null
+          updated_at?: string
+          user_id: string
+          whatsapp_phone_e164?: string | null
+          whatsapp_prefill_message?: string | null
+        }
+        Update: {
+          created_at?: string
+          default_email_to?: string | null
+          email_body_template?: string | null
+          email_subject_template?: string | null
+          facebook_url?: string | null
+          id?: string
+          inbox_url?: string | null
+          instagram_url?: string | null
+          linkedin_url?: string | null
+          tiktok_url?: string | null
+          updated_at?: string
+          user_id?: string
+          whatsapp_phone_e164?: string | null
+          whatsapp_prefill_message?: string | null
+        }
+        Relationships: []
+      }
+      user_memory: {
+        Row: {
+          created_at: string
+          id: string
+          memory_type: string
+          structured_data: Json | null
+          text_summary: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          memory_type?: string
+          structured_data?: Json | null
+          text_summary?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          memory_type?: string
+          structured_data?: Json | null
+          text_summary?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_profiles: {
+        Row: {
+          company_name: string | null
+          created_at: string
+          data_consent: boolean | null
+          full_name: string | null
+          id: string
+          industry: string | null
+          onboarding_completed: boolean | null
+          personalization_enabled: boolean | null
+          preferred_tone: string | null
+          primary_goal: string | null
+          role_use_case: string | null
+          target_audience: string | null
+          timezone: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          company_name?: string | null
+          created_at?: string
+          data_consent?: boolean | null
+          full_name?: string | null
+          id?: string
+          industry?: string | null
+          onboarding_completed?: boolean | null
+          personalization_enabled?: boolean | null
+          preferred_tone?: string | null
+          primary_goal?: string | null
+          role_use_case?: string | null
+          target_audience?: string | null
+          timezone?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          company_name?: string | null
+          created_at?: string
+          data_consent?: boolean | null
+          full_name?: string | null
+          id?: string
+          industry?: string | null
+          onboarding_completed?: boolean | null
+          personalization_enabled?: boolean | null
+          preferred_tone?: string | null
+          primary_goal?: string | null
+          role_use_case?: string | null
+          target_audience?: string | null
+          timezone?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
