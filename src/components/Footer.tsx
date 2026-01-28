@@ -104,7 +104,7 @@ export function Footer() {
               <img 
                 src={logoTransparent} 
                 alt="24TWELVE - AI Lead Generation Agency" 
-                className="h-12 w-auto" 
+                className="h-12 w-auto dark:invert-0 invert" 
               />
               <p className="text-sm text-muted-foreground leading-relaxed">
                 AI-powered agents that automate your business operations and drive growth around the clock.
