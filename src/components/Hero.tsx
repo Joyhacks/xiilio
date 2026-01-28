@@ -68,7 +68,7 @@ export function Hero() {
               trigger={
                 <Button variant="glass" size="xl">
                   <Play className="w-5 h-5" />
-                  Explore Demo
+                  Take A Tour
                 </Button>
               }
             />
