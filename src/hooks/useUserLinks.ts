@@ -7,6 +7,8 @@ export interface UserLinks {
   instagram_url?: string | null;
   tiktok_url?: string | null;
   linkedin_url?: string | null;
+  x_url?: string | null;
+  youtube_url?: string | null;
   whatsapp_phone_e164?: string | null;
   whatsapp_prefill_message?: string | null;
   inbox_url?: string | null;

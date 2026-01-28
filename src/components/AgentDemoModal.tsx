@@ -307,7 +307,9 @@ export function AgentDemoModal({ trigger }: AgentDemoModalProps) {
   const [workflowStep, setWorkflowStep] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [voiceState, setVoiceState] = useState<"idle" | "loading" | "speaking">("idle");
+  const [overviewVoiceState, setOverviewVoiceState] = useState<"idle" | "loading" | "speaking">("idle");
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const overviewAudioRef = useRef<HTMLAudioElement | null>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
 
   // Cleanup audio on unmount or agent change
@@ -316,6 +318,10 @@ export function AgentDemoModal({ trigger }: AgentDemoModalProps) {
       if (audioRef.current) {
         audioRef.current.pause();
         audioRef.current = null;
+      }
+      if (overviewAudioRef.current) {
+        overviewAudioRef.current.pause();
+        overviewAudioRef.current = null;
       }
       if (abortControllerRef.current) {
         abortControllerRef.current.abort();
@@ -413,6 +419,52 @@ export function AgentDemoModal({ trigger }: AgentDemoModalProps) {
     }
   };
 
+  // Team Overview voiceover text
+  const teamOverviewText = `Your 24Twelve AI Team consists of 8 specialized agents working together around the clock. Julia greets visitors and manages the front desk. Kate orchestrates all operations and coordinates tasks across the team. Brad drives sales and nurtures leads. Halle handles legal reviews and compliance. George manages your social media presence. Arnie creates powerful blog content. Sam provides motivation and life coaching. Jerry guides your financial planning. Together, they form a cohesive unit, handling product launches, client onboarding, content creation, and more as a unified team.`;
+
+  const playTeamOverview = () => {
+    // Stop any existing overview audio
+    if (overviewAudioRef.current) {
+      overviewAudioRef.current.pause();
+      overviewAudioRef.current = null;
+    }
+
+    // Use Web Speech API for TTS
+    if ('speechSynthesis' in window) {
+      // Stop any current speech
+      window.speechSynthesis.cancel();
+      
+      setOverviewVoiceState("speaking");
+      const utterance = new SpeechSynthesisUtterance(teamOverviewText);
+      utterance.rate = 1.0;
+      utterance.pitch = 1.0;
+      
+      utterance.onend = () => setOverviewVoiceState("idle");
+      utterance.onerror = () => setOverviewVoiceState("idle");
+      
+      window.speechSynthesis.speak(utterance);
+    }
+  };
+
+  const stopTeamOverview = () => {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+    if (overviewAudioRef.current) {
+      overviewAudioRef.current.pause();
+      overviewAudioRef.current = null;
+    }
+    setOverviewVoiceState("idle");
+  };
+
+  const toggleTeamOverview = () => {
+    if (overviewVoiceState === "speaking") {
+      stopTeamOverview();
+    } else {
+      playTeamOverview();
+    }
+  };
+
   const playWorkflow = () => {
     setIsPlaying(true);
     setWorkflowStep(0);
@@ -450,10 +502,34 @@ export function AgentDemoModal({ trigger }: AgentDemoModalProps) {
           </DialogTitle>
           {/* Voiceover Summary */}
           <div className="mt-4 p-4 bg-muted/30 rounded-lg border border-border/50">
-            <h3 className="font-semibold text-sm text-foreground mb-2 flex items-center gap-2">
-              <Volume2 className="w-4 h-4 text-primary" />
-              Team Overview
-            </h3>
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="font-semibold text-sm text-foreground flex items-center gap-2">
+                <Volume2 className="w-4 h-4 text-primary" />
+                Team Overview
+              </h3>
+              <button
+                onClick={toggleTeamOverview}
+                className={cn(
+                  "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all",
+                  overviewVoiceState === "speaking"
+                    ? "bg-primary text-primary-foreground animate-pulse"
+                    : "bg-muted hover:bg-muted/80 text-foreground"
+                )}
+                title={overviewVoiceState === "speaking" ? "Stop voiceover" : "Play voiceover"}
+              >
+                {overviewVoiceState === "speaking" ? (
+                  <>
+                    <Volume2 className="w-3.5 h-3.5" />
+                    Stop
+                  </>
+                ) : (
+                  <>
+                    <Play className="w-3.5 h-3.5" />
+                    Listen
+                  </>
+                )}
+              </button>
+            </div>
             <p className="text-sm text-muted-foreground leading-relaxed">
               <strong>Your 24Twelve AI Team</strong> consists of 8 specialized agents working together around the clock. 
               <strong> Julia</strong> greets visitors and manages the front desk. 

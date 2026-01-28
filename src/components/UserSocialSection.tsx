@@ -28,6 +28,8 @@ export function UserSocialSection() {
     instagram: links?.instagram_url || undefined,
     tiktok: links?.tiktok_url || undefined,
     linkedin: links?.linkedin_url || undefined,
+    x: links?.x_url || undefined,
+    youtube: links?.youtube_url || undefined,
     whatsapp: links?.whatsapp_phone_e164 
       ? `https://wa.me/${links.whatsapp_phone_e164.replace(/\D/g, "")}` 
       : undefined,

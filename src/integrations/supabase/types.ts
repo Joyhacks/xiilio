@@ -147,6 +147,8 @@ export type Database = {
           user_id: string
           whatsapp_phone_e164: string | null
           whatsapp_prefill_message: string | null
+          x_url: string | null
+          youtube_url: string | null
         }
         Insert: {
           created_at?: string
@@ -163,6 +165,8 @@ export type Database = {
           user_id: string
           whatsapp_phone_e164?: string | null
           whatsapp_prefill_message?: string | null
+          x_url?: string | null
+          youtube_url?: string | null
         }
         Update: {
           created_at?: string
@@ -179,6 +183,8 @@ export type Database = {
           user_id?: string
           whatsapp_phone_e164?: string | null
           whatsapp_prefill_message?: string | null
+          x_url?: string | null
+          youtube_url?: string | null
         }
         Relationships: []
       }
