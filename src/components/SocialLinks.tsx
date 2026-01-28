@@ -59,46 +59,40 @@ const SocialIcon = ({ platform }: { platform: SocialPlatform }) => {
   return <SimpleIcon icon={iconData} />;
 };
 
-const platformConfig: Record<SocialPlatform, { name: string; bgColor: string; fallbackUrl: string }> = {
+// Platform configuration - URLs are only set when user provides them
+// DO NOT add fallback URLs - social links should ONLY connect to user's own accounts
+const platformConfig: Record<SocialPlatform, { name: string; bgColor: string }> = {
   facebook: {
     name: "Facebook",
     bgColor: "bg-[#1877F2]",
-    fallbackUrl: "https://www.facebook.com/",
   },
   instagram: {
     name: "Instagram",
     bgColor: "bg-gradient-to-br from-[#833AB4] via-[#FD1D1D] to-[#F77737]",
-    fallbackUrl: "https://www.instagram.com/",
   },
   tiktok: {
     name: "TikTok",
     bgColor: "bg-gradient-to-br from-[#00F2EA] via-[#000000] to-[#FF0050]",
-    fallbackUrl: "https://www.tiktok.com/",
   },
   linkedin: {
     name: "LinkedIn",
     bgColor: "bg-[#0A66C2]",
-    fallbackUrl: "https://www.linkedin.com/",
   },
   whatsapp: {
     name: "WhatsApp",
     bgColor: "bg-[#25D366]",
-    fallbackUrl: "https://www.whatsapp.com/",
   },
   x: {
     name: "X",
     bgColor: "bg-[#000000]",
-    fallbackUrl: "https://www.x.com/",
   },
   threads: {
     name: "Threads",
     bgColor: "bg-[#000000]",
-    fallbackUrl: "https://www.threads.net/",
   },
   youtube: {
     name: "YouTube",
     bgColor: "bg-[#FF0000]",
-    fallbackUrl: "https://www.youtube.com/",
   },
 };
 
@@ -115,18 +109,16 @@ export interface SocialLinksConfig {
 
 interface SocialLinksProps {
   config?: SocialLinksConfig;
-  useFallbacks?: boolean;
   className?: string;
   platforms?: SocialPlatform[];
 }
 
 export function SocialLinks({ 
   config = {},
-  useFallbacks = false,
   className,
   platforms: customPlatforms,
 }: SocialLinksProps) {
-  // Build list of platforms to render
+  // Build list of platforms to render - ONLY show platforms with user-provided URLs
   const platformsToRender: { key: SocialPlatform; url: string }[] = [];
   
   // Default platforms if none specified
@@ -134,14 +126,13 @@ export function SocialLinks({
   
   for (const platform of allPlatforms) {
     const userUrl = config[platform];
+    // Only render if user has provided their own URL
     if (userUrl) {
       platformsToRender.push({ key: platform, url: userUrl });
-    } else if (useFallbacks) {
-      platformsToRender.push({ key: platform, url: platformConfig[platform].fallbackUrl });
     }
   }
 
-  // If no platforms to render, hide the entire section
+  // If no platforms to render (user hasn't configured any), hide the section
   if (platformsToRender.length === 0) {
     return null;
   }
@@ -182,6 +173,13 @@ export function SocialLinks({
 }
 
 export function SocialSection({ config }: { config?: SocialLinksConfig }) {
+  // Only show section if user has configured social links
+  const hasLinks = config && Object.values(config).some(Boolean);
+  
+  if (!hasLinks) {
+    return null;
+  }
+  
   return (
     <section className="py-12 bg-muted/10 border-t border-border/50">
       <div className="container mx-auto px-6">
@@ -195,7 +193,7 @@ export function SocialSection({ config }: { config?: SocialLinksConfig }) {
         </div>
 
         <div className="max-w-2xl mx-auto pb-6">
-          <SocialLinks config={config} useFallbacks={true} />
+          <SocialLinks config={config} />
         </div>
       </div>
     </section>

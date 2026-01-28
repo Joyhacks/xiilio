@@ -38,70 +38,42 @@ export interface AgentConfig {
 }
 
 // Agent-specific configurations
+// NOTE: No hardcoded external URLs - users configure their own links via Settings
+// Social media and external service links ONLY connect to user's own accounts
 export const agentConfigs: Record<string, AgentConfig> = {
   julia: {
     slug: "julia",
     name: "Receptionist Julia",
-    email: "julia@24twelve.ai",
-    phoneNumber: "+1234567890",
-    bookingUrl: "https://calendly.com/24twelve/reception",
-    sharedInboxUrl: "https://mail.google.com/mail/u/0/#inbox",
+    // User configures their own email, phone, booking URL, etc.
   },
   kate: {
     slug: "kate",
     name: "Executive Assistant Kate",
-    email: "kate@24twelve.ai",
-    bookingUrl: "https://calendly.com/24twelve/executive",
-    crmUrl: "https://app.hubspot.com/contacts",
   },
   halle: {
     slug: "halle",
     name: "Legal Associate Halle",
-    email: "halle@24twelve.ai",
-    knowledgeBaseUrl: "https://notion.so/legal-docs",
   },
   george: {
     slug: "george",
     name: "Social Media Manager George",
-    email: "george@24twelve.ai",
-    blogNewPostUrl: "https://wordpress.com/post",
-    socialProfiles: {
-      instagram: "https://www.instagram.com/",
-      facebook: "https://www.facebook.com/",
-      linkedin: "https://www.linkedin.com/",
-      tiktok: "https://www.tiktok.com/",
-      twitter: "https://twitter.com/compose/tweet",
-    },
+    // Social profiles configured by user
   },
   arnie: {
     slug: "arnie",
     name: "Blog Writer Arnie",
-    email: "arnie@24twelve.ai",
-    blogNewPostUrl: "https://wordpress.com/post",
   },
   brad: {
     slug: "brad",
     name: "Sales Associate Brad",
-    email: "brad@24twelve.ai",
-    phoneNumber: "+1234567891",
-    bookingUrl: "https://calendly.com/24twelve/sales-demo",
-    crmUrl: "https://app.hubspot.com/sales",
-    socialProfiles: {
-      linkedin: "https://www.linkedin.com/",
-    },
   },
   sam: {
     slug: "sam",
     name: "Life Coach Sam",
-    email: "sam@24twelve.ai",
-    bookingUrl: "https://calendly.com/24twelve/coaching-session",
   },
   jerry: {
     slug: "jerry",
     name: "Financial Planner Jerry",
-    email: "jerry@24twelve.ai",
-    bookingUrl: "https://calendly.com/24twelve/financial-review",
-    crmUrl: "https://app.hubspot.com/contacts",
   },
 };
 
