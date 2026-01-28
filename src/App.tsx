@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
 import { CookieConsentBanner } from "@/components/CookieConsentBanner";
+import { PWAInstallPrompt } from "@/components/PWAInstallPrompt";
 import { Loader2 } from "lucide-react";
 
 // Eager load the landing page for instant first paint
@@ -24,6 +25,7 @@ const Docs = lazy(() => import("./pages/Docs"));
 const Careers = lazy(() => import("./pages/Careers"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 const Terms = lazy(() => import("./pages/Terms"));
+const Install = lazy(() => import("./pages/Install"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient({
@@ -68,12 +70,14 @@ const App = () => (
               <Route path="/careers" element={<Careers />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/terms" element={<Terms />} />
+              <Route path="/install" element={<Install />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
         </BrowserRouter>
         <CookieConsentBanner />
+        <PWAInstallPrompt />
       </TooltipProvider>
     </AuthProvider>
   </QueryClientProvider>
