@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import logo from "@/assets/logo-24twelve.png";
 import qrCode from "@/assets/qr-code.png";
+import { CookiePreferencesModal } from "@/components/CookiePreferencesModal";
 
 interface SocialLink {
   name: string;
@@ -74,7 +76,10 @@ const socialLinks: SocialLink[] = [
 ];
 
 export function Footer() {
+  const [cookieModalOpen, setCookieModalOpen] = useState(false);
+
   return (
+    <>
     <footer className="py-12 glass-luxury border-t border-primary/10">
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
@@ -202,6 +207,12 @@ export function Footer() {
             <Link to="/terms" className="hover:text-foreground transition-colors">
               Terms
             </Link>
+            <button
+              onClick={() => setCookieModalOpen(true)}
+              className="hover:text-foreground transition-colors"
+            >
+              Cookie Settings
+            </button>
             <Link to="/contact" className="hover:text-foreground transition-colors">
               Contact
             </Link>
@@ -209,5 +220,11 @@ export function Footer() {
         </div>
       </div>
     </footer>
+
+    <CookiePreferencesModal
+      open={cookieModalOpen}
+      onOpenChange={setCookieModalOpen}
+    />
+    </>
   );
 }
