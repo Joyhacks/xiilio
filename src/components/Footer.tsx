@@ -195,15 +195,15 @@ export function Footer() {
         <div className="pt-6 border-t border-border/50 flex flex-col md:flex-row items-center justify-between gap-4">
           {/* Copyright & Legal */}
           <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-            <p>© 2025 24Twelve. All rights reserved.</p>
-            <Link to="/docs" className="hover:text-foreground transition-colors">
+            <p>© {new Date().getFullYear()} 24Twelve. All rights reserved.</p>
+            <Link to="/privacy" className="hover:text-foreground transition-colors">
               Privacy
             </Link>
-            <Link to="/docs" className="hover:text-foreground transition-colors">
+            <Link to="/terms" className="hover:text-foreground transition-colors">
               Terms
             </Link>
             <Link to="/contact" className="hover:text-foreground transition-colors">
-              Status
+              Contact
             </Link>
           </div>
         </div>
