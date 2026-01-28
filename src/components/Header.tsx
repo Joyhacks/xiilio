@@ -127,24 +127,22 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
             {/* Desktop CTA + Quick Links + Theme Toggle + Language */}
             <div className="hidden md:flex items-center gap-2">
               <HeaderQuickLinks agentSlug={agentSlug} agentColor={agentColor} />
-              {hasWhatsApp && whatsappUrl && (
-                <a
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center w-9 h-9 rounded-full bg-[#25D366] hover:bg-[#20BD5A] transition-colors"
-                  aria-label="WhatsApp"
+              <a
+                href={whatsappUrl || "https://wa.me/12345678900"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center w-9 h-9 rounded-full bg-[#25D366] hover:bg-[#20BD5A] transition-colors"
+                aria-label="WhatsApp"
+              >
+                <svg
+                  role="img"
+                  viewBox="0 0 24 24"
+                  className="w-5 h-5"
+                  fill="white"
                 >
-                  <svg
-                    role="img"
-                    viewBox="0 0 24 24"
-                    className="w-5 h-5"
-                    fill="white"
-                  >
-                    <path d={siWhatsapp.path} />
-                  </svg>
-                </a>
-              )}
+                  <path d={siWhatsapp.path} />
+                </svg>
+              </a>
               <LanguageSelector />
               <ThemeToggle />
               
