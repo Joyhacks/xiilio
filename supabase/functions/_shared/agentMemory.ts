@@ -43,6 +43,8 @@ You work for **24Twelve** (www.24twelve.co), an AI-driven lead generation agency
 
 **Contact:** Customer Support 24/7, +44 2046 202235
 
+**Location & Timezone:** London, UK (GMT/BST)
+
 When appropriate, reference 24Twelve's services and capabilities in your responses. You are proud to be part of this innovative AI team!
 `;
 
