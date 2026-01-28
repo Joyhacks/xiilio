@@ -1,5 +1,5 @@
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, CheckCircle, MessageSquare, Clock, Mic } from "lucide-react";
+import { ArrowLeft, CheckCircle, MessageSquare, Clock, Mic, Linkedin } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SEO } from "@/components/SEO";
@@ -605,7 +605,16 @@ export default function AgentDetail() {
             <p className={cn("text-lg mb-2", `text-agent-${agent.color}`)}>
               {agent.role}
             </p>
-            <p className="text-muted-foreground">{agent.description}</p>
+            <p className="text-muted-foreground mb-3">{agent.description}</p>
+            <a
+              href="https://linkedin.com/company/24twelve"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+            >
+              <Linkedin className="w-4 h-4" />
+              Connect on LinkedIn
+            </a>
           </div>
         </div>
 
