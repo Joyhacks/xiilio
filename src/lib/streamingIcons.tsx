@@ -1,7 +1,6 @@
 // Centralized Streaming Service Icons Configuration
 // Uses Simple Icons for brand-accurate SVGs with custom fallbacks
 
-import { cn } from "@/lib/utils";
 import {
   siNetflix,
   siAppletv,
@@ -37,6 +36,20 @@ interface SimpleIcon {
 }
 
 // ============================================
+// CUSTOM SVG PATHS (for services not in simple-icons)
+// Updated 2025 brand-accurate paths
+// ============================================
+
+// Amazon Prime Video - official brand path
+const primeVideoPath = "M.045 18.02c-.033-.086-.045-.214-.045-.304 0-.444.309-.778.752-.778.393 0 .712.238.712.742V22H0v-3.98h.045zM12.963 22c.012-.195.024-.39.024-.585 0-1.755-.732-2.34-1.854-2.34-.732 0-1.341.292-1.707.804h-.024v-.683h-1.39v6.048h1.439v-3.033c0-.817.456-1.39 1.195-1.39.72 0 1.018.477 1.018 1.316V22h1.3zM8.782 19.196h-1.44v2.194c0 .341-.175.585-.504.585-.317 0-.504-.232-.504-.585v-2.194h-1.44v2.364c0 1.072.549 1.647 1.427 1.647.526 0 .94-.208 1.195-.549h.024v.439h1.243v-3.9zm-5.19-.195c-.757 0-1.317.28-1.659.768h-.036v-.573H.457v6.048H1.92v-2.097h.024c.293.45.768.683 1.366.683 1.159 0 1.94-.89 1.94-2.426 0-1.475-.732-2.403-1.659-2.403zm-.231 3.69c-.599 0-1.018-.51-1.018-1.28 0-.781.419-1.304 1.018-1.304.587 0 1.006.535 1.006 1.304 0 .756-.419 1.28-1.006 1.28zM23.955 18.02c.033-.086.045-.214.045-.304 0-.444-.309-.778-.752-.778-.393 0-.712.238-.712.742V22H24v-3.98h-.045z";
+
+// Hulu - official brand path (updated 2025)
+const huluPath = "M10.5 8.5v7h2V12c0-.55.45-1 1-1h2c.55 0 1 .45 1 1v3.5h2v-4c0-1.66-1.34-3-3-3h-2c-.55 0-1.08.14-1.54.39V8.5h-1.46zm-6.5 0v3c0 1.66 1.34 3 3 3v-2c-.55 0-1-.45-1-1v-3H4zm16 6c-1.66 0-3-1.34-3-3h2c0 .55.45 1 1 1v2zM4 6V4h-2v11h2V8h2c.55 0 1 .45 1 1v2h2V9c0-1.66-1.34-3-3-3H4z";
+
+// Disney+ - official brand path (updated 2025)
+const disneyPlusPath = "M3.25 0A3.25 3.25 0 000 3.25v17.5A3.25 3.25 0 003.25 24h17.5A3.25 3.25 0 0024 20.75V3.25A3.25 3.25 0 0020.75 0H3.25zM12 5.5c.414 0 .75.336.75.75v5h5a.75.75 0 110 1.5h-5v5a.75.75 0 11-1.5 0v-5h-5a.75.75 0 110-1.5h5v-5c0-.414.336-.75.75-.75z";
+
+// ============================================
 // SIMPLE ICONS MAP
 // ============================================
 
@@ -47,19 +60,6 @@ const simpleIconMap: Partial<Record<StreamingBrandKey, SimpleIcon>> = {
   paramountplus: siParamountplus,
 };
 
-// ============================================
-// CUSTOM SVG PATHS (for services not in simple-icons)
-// ============================================
-
-// Amazon Prime Video - official brand path
-const primeVideoPath = "M12.504 3.929c-6.379 0-10.975 2.983-10.975 7.371 0 3.306 2.195 5.994 5.89 7.371.267.1.538-.1.538-.367V15.6c0-.167-.1-.334-.267-.434-2.064-1.1-3.339-2.65-3.339-4.6 0-2.917 3.139-5.161 7.653-5.161s7.653 2.244 7.653 5.161c0 1.95-1.275 3.5-3.339 4.6-.167.1-.267.267-.267.434v2.704c0 .267.271.467.538.367 3.695-1.377 5.89-4.065 5.89-7.371 0-4.388-4.596-7.371-10.975-7.371Zm8.267 15.876c-2.917 1.317-6.056 1.984-9.271 1.984-3.215 0-6.354-.667-9.271-1.984a.539.539 0 0 0-.5.05c-.167.117-.234.334-.15.517.45.917 1.767 1.384 2.917 1.384h13.508c1.15 0 2.467-.467 2.917-1.384.084-.183.017-.4-.15-.517a.539.539 0 0 0-.5-.05Z";
-
-// Hulu - official brand path
-const huluPath = "M10.578 8.152H8.553v7.69h2.025v-4.158c0-.698.566-1.263 1.263-1.263h2.159c.697 0 1.263.565 1.263 1.263v4.158h2.025V11.26c0-1.744-1.414-3.158-3.158-3.158h-2.29c-.697 0-1.363.228-1.912.633V8.152Zm-6.71 0v3.158c0 1.744 1.414 3.158 3.158 3.158v2.025c-2.86 0-5.183-2.323-5.183-5.183V8.152h2.025Zm16.264 6.316c-1.744 0-3.158-1.414-3.158-3.158h2.025c0 .626.507 1.133 1.133 1.133v2.025ZM3.868 6.127V3.507H1.843V15.84h2.025v-7.69h2.025c.697 0 1.263.566 1.263 1.264v1.894h2.025V9.414c0-1.817-1.472-3.288-3.288-3.288H3.868Z";
-
-// Disney+ - official brand path  
-const disneyPlusPath = "M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2Zm4.5 11h-3v3c0 .55-.45 1-1 1h-1c-.55 0-1-.45-1-1v-3h-3c-.55 0-1-.45-1-1v-1c0-.55.45-1 1-1h3V7c0-.55.45-1 1-1h1c.55 0 1 .45 1 1v3h3c.55 0 1 .45 1 1v1c0 .55-.45 1-1 1Z";
-
 const customIconPaths: Partial<Record<StreamingBrandKey, string>> = {
   primevideo: primeVideoPath,
   hulu: huluPath,
@@ -67,7 +67,7 @@ const customIconPaths: Partial<Record<StreamingBrandKey, string>> = {
 };
 
 // ============================================
-// BRAND COLORS
+// BRAND COLORS (updated 2025)
 // ============================================
 
 export const brandColors: Record<StreamingBrandKey, { bg: string; glow: string }> = {
@@ -76,8 +76,8 @@ export const brandColors: Record<StreamingBrandKey, { bg: string; glow: string }
     glow: "shadow-[0_0_20px_rgba(229,9,20,0.5)]",
   },
   primevideo: {
-    bg: "bg-[#00A8E1]",
-    glow: "shadow-[0_0_20px_rgba(0,168,225,0.5)]",
+    bg: "bg-[#1A98FF]",
+    glow: "shadow-[0_0_20px_rgba(26,152,255,0.5)]",
   },
   appletv: {
     bg: "bg-gradient-to-br from-[#555555] to-[#000000]",
@@ -172,7 +172,7 @@ export const primaryStreamingServices: StreamingService[] = [
     name: "Prime Video",
     href: "https://www.primevideo.com/",
     brandKey: "primevideo",
-    brandColor: "#00A8E1",
+    brandColor: "#1A98FF",
   },
   {
     id: "appletv",

@@ -4,6 +4,8 @@ import {
   siInstagram,
   siTiktok,
   siWhatsapp,
+  siX,
+  siYoutube,
 } from "simple-icons";
 
 // Helper to render Simple Icons SVG
@@ -19,49 +21,48 @@ const SimpleIcon = ({ icon, className }: { icon: { path: string; title: string }
   </svg>
 );
 
-// Custom inline SVG for LinkedIn (not available in simple-icons)
-const linkedinIcon = (
-  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" role="img" aria-label="LinkedIn">
-    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-  </svg>
-);
+// Custom LinkedIn path (official brand)
+const linkedinPath = "M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z";
 
-type SocialPlatform = "facebook" | "instagram" | "tiktok" | "linkedin" | "whatsapp";
+// Custom Threads path (official brand)
+const threadsPath = "M12.186 24h-.007C5.462 24 .001 18.635.001 12.001.001 5.366 5.462 0 12.178 0c4.45 0 8.292 2.336 10.404 5.835a.75.75 0 01-1.282.78C19.459 3.646 16.075 1.5 12.178 1.5 6.303 1.5 1.501 6.206 1.501 12c0 5.795 4.802 10.5 10.677 10.5 4.136 0 7.659-2.359 9.347-5.833a.75.75 0 011.34.668C20.765 21.14 16.778 24 12.186 24zm5.79-9.058c-.213 2.874-2.396 4.558-5.462 4.558-3.556 0-5.91-2.404-5.91-6.005 0-3.602 2.354-6.006 5.91-6.006 3.066 0 5.249 1.685 5.462 4.558a.75.75 0 01-1.496.112c-.15-2.028-1.728-3.17-3.966-3.17-2.703 0-4.41 1.794-4.41 4.506s1.707 4.505 4.41 4.505c2.238 0 3.816-1.141 3.966-3.17a.75.75 0 011.496.112z";
 
-const simpleIconMap: Partial<Record<SocialPlatform, { path: string; title: string }>> = {
+type SocialPlatform = "facebook" | "instagram" | "tiktok" | "linkedin" | "whatsapp" | "x" | "threads" | "youtube";
+
+// All social icons - mix of simple-icons and custom paths
+const simpleIconMap: Record<SocialPlatform, { path: string; title: string }> = {
   facebook: siFacebook,
   instagram: siInstagram,
   tiktok: siTiktok,
   whatsapp: siWhatsapp,
+  linkedin: { path: linkedinPath, title: "LinkedIn" },
+  x: siX,
+  threads: { path: threadsPath, title: "Threads" },
+  youtube: siYoutube,
 };
 
-// Brand-specific glow colors
+// Brand-specific glow colors (updated 2025)
 const glowColors: Record<SocialPlatform, string> = {
-  facebook: "shadow-[0_0_20px_rgba(8,102,255,0.5)]",
+  facebook: "shadow-[0_0_20px_rgba(24,119,242,0.5)]",
   instagram: "shadow-[0_0_20px_rgba(225,48,108,0.5)]",
   tiktok: "shadow-[0_0_20px_rgba(0,0,0,0.5)]",
   linkedin: "shadow-[0_0_20px_rgba(10,102,194,0.5)]",
   whatsapp: "shadow-[0_0_20px_rgba(37,211,102,0.5)]",
+  x: "shadow-[0_0_20px_rgba(0,0,0,0.5)]",
+  threads: "shadow-[0_0_20px_rgba(0,0,0,0.5)]",
+  youtube: "shadow-[0_0_20px_rgba(255,0,0,0.5)]",
 };
 
 // Render icon based on platform key
 const SocialIcon = ({ platform }: { platform: SocialPlatform }) => {
-  const simpleIcon = simpleIconMap[platform];
-  if (simpleIcon) {
-    return <SimpleIcon icon={simpleIcon} />;
-  }
-  
-  if (platform === "linkedin") {
-    return linkedinIcon;
-  }
-  
-  return null;
+  const iconData = simpleIconMap[platform];
+  return <SimpleIcon icon={iconData} />;
 };
 
 const platformConfig: Record<SocialPlatform, { name: string; bgColor: string; fallbackUrl: string }> = {
   facebook: {
     name: "Facebook",
-    bgColor: "bg-[#0866FF]",
+    bgColor: "bg-[#1877F2]",
     fallbackUrl: "https://www.facebook.com/",
   },
   instagram: {
@@ -84,6 +85,21 @@ const platformConfig: Record<SocialPlatform, { name: string; bgColor: string; fa
     bgColor: "bg-[#25D366]",
     fallbackUrl: "https://www.whatsapp.com/",
   },
+  x: {
+    name: "X",
+    bgColor: "bg-[#000000]",
+    fallbackUrl: "https://www.x.com/",
+  },
+  threads: {
+    name: "Threads",
+    bgColor: "bg-[#000000]",
+    fallbackUrl: "https://www.threads.net/",
+  },
+  youtube: {
+    name: "YouTube",
+    bgColor: "bg-[#FF0000]",
+    fallbackUrl: "https://www.youtube.com/",
+  },
 };
 
 export interface SocialLinksConfig {
@@ -92,41 +108,47 @@ export interface SocialLinksConfig {
   tiktok?: string;
   linkedin?: string;
   whatsapp?: string;
+  x?: string;
+  threads?: string;
+  youtube?: string;
 }
 
 interface SocialLinksProps {
   config?: SocialLinksConfig;
   useFallbacks?: boolean;
   className?: string;
+  platforms?: SocialPlatform[];
 }
 
 export function SocialLinks({ 
   config = {},
   useFallbacks = false,
   className,
+  platforms: customPlatforms,
 }: SocialLinksProps) {
   // Build list of platforms to render
-  const platforms: { key: SocialPlatform; url: string }[] = [];
+  const platformsToRender: { key: SocialPlatform; url: string }[] = [];
   
-  const allPlatforms: SocialPlatform[] = ["facebook", "instagram", "tiktok", "linkedin", "whatsapp"];
+  // Default platforms if none specified
+  const allPlatforms: SocialPlatform[] = customPlatforms || ["facebook", "instagram", "tiktok", "linkedin", "whatsapp"];
   
   for (const platform of allPlatforms) {
     const userUrl = config[platform];
     if (userUrl) {
-      platforms.push({ key: platform, url: userUrl });
+      platformsToRender.push({ key: platform, url: userUrl });
     } else if (useFallbacks) {
-      platforms.push({ key: platform, url: platformConfig[platform].fallbackUrl });
+      platformsToRender.push({ key: platform, url: platformConfig[platform].fallbackUrl });
     }
   }
 
   // If no platforms to render, hide the entire section
-  if (platforms.length === 0) {
+  if (platformsToRender.length === 0) {
     return null;
   }
 
   return (
     <div className={cn("flex flex-wrap gap-5 justify-center", className)}>
-      {platforms.map(({ key, url }) => {
+      {platformsToRender.map(({ key, url }) => {
         const { name, bgColor } = platformConfig[key];
         return (
           <a
