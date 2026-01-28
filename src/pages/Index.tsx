@@ -7,6 +7,7 @@ import { FAQSection } from "@/components/FAQSection";
 import { CTASection } from "@/components/CTASection";
 import { StreamingSection } from "@/components/StreamingSection";
 import { Footer } from "@/components/Footer";
+import { ScrollToTop } from "@/components/ScrollToTop";
 import { useUXTracking } from "@/hooks/useUXTracking";
 
 const Index = () => {
@@ -24,6 +25,7 @@ const Index = () => {
       <CTASection />
       <StreamingSection />
       <Footer />
+      <ScrollToTop />
     </div>
   );
 };
