@@ -22,6 +22,7 @@ export type Database = {
           details: Json | null
           id: string
           summary: string
+          user_id: string | null
         }
         Insert: {
           activity_type: string
@@ -30,6 +31,7 @@ export type Database = {
           details?: Json | null
           id?: string
           summary: string
+          user_id?: string | null
         }
         Update: {
           activity_type?: string
@@ -38,6 +40,7 @@ export type Database = {
           details?: Json | null
           id?: string
           summary?: string
+          user_id?: string | null
         }
         Relationships: []
       }
