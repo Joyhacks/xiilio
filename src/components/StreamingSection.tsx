@@ -124,7 +124,7 @@ export function StreamingSection() {
 
   return (
     <section 
-      className="py-16 bg-muted/20 border-t border-border/50"
+      className="py-12 bg-muted/20 border-t border-border/50"
       aria-labelledby="streaming-section-title"
     >
       <div 

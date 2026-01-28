@@ -34,7 +34,7 @@ export function HowItWorksSection() {
   const { ref: stepsRef, isVisible: stepsVisible } = useScrollAnimation({ threshold: 0.1 });
 
   return (
-    <section id="how-it-works" className="relative py-24 bg-background">
+    <section id="how-it-works" className="relative py-16 bg-background">
       <div className="absolute inset-0 circuit-pattern opacity-10" />
 
       <div className="relative container mx-auto px-6">
