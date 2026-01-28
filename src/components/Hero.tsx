@@ -44,7 +44,7 @@ export function Hero() {
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full glass-card mb-6 animate-fade-in shimmer" style={{ animationDelay: '0.1s' }}>
             <Sparkles className="w-4 h-4 text-primary" />
-            <span className="text-sm text-foreground/80">AI-Powered Business Automation</span>
+            <span className="text-sm text-foreground/80">Meet Your AI Agent Team</span>
           </div>
 
           {/* Main heading */}
@@ -53,7 +53,7 @@ export function Hero() {
           </h1>
           
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 animate-fade-in" style={{ animationDelay: '0.2s' }}>
-            24 hours a day, 12 months a year. Automate bookings, calls, emails, reminders, and more with intelligent AI agents.
+            Specialized AI agents ready to handle tasks, manage communications, and grow your business around the clock.
           </p>
 
           {/* CTA Buttons */}
