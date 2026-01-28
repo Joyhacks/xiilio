@@ -108,8 +108,8 @@ export function TeamAgentsSection() {
   const { ref: gridRef, isVisible: gridVisible } = useScrollAnimation({ threshold: 0.05 });
 
   return (
-    <section id="agents" className="relative py-16 bg-gradient-hero scroll-mt-20">
-      <div className="container mx-auto px-6">
+    <section id="agents" className="relative py-12 md:py-16 bg-gradient-hero scroll-mt-20">
+      <div className="container mx-auto px-4 md:px-6">
         {/* Section header */}
         <div
           ref={headerRef}
@@ -120,10 +120,10 @@ export function TeamAgentsSection() {
               : "opacity-0 translate-y-8"
           )}
         >
-          <h2 className="font-display text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-4">
             Meet Your <span className="text-gradient">AI Team</span>
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto px-2">
             Eight celebrity-caliber AI agents ready to handle every aspect of
             your business with star-powered efficiency.
           </p>
@@ -133,7 +133,7 @@ export function TeamAgentsSection() {
         <div
           ref={gridRef}
           className={cn(
-            "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 transition-all duration-700 ease-out delay-150",
+            "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 transition-all duration-700 ease-out delay-150",
             gridVisible
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-12"
