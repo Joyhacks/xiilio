@@ -2,6 +2,7 @@
 // Displays streaming service icons with hover effects and accessibility
 
 import { cn } from "@/lib/utils";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import {
   StreamingIcon,
   brandColors,
@@ -119,12 +120,22 @@ export function StreamingLinks({
 // ============================================
 
 export function StreamingSection() {
+  const { ref, isVisible } = useScrollAnimation({ threshold: 0.2 });
+
   return (
     <section 
       className="py-16 bg-muted/20 border-t border-border/50"
       aria-labelledby="streaming-section-title"
     >
-      <div className="container mx-auto px-6">
+      <div 
+        ref={ref}
+        className={cn(
+          "container mx-auto px-6 transition-all duration-700 ease-out",
+          isVisible
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 translate-y-8"
+        )}
+      >
         <div className="text-center mb-10">
           <p className="text-sm text-muted-foreground uppercase tracking-wider mb-2">
             Watch on
