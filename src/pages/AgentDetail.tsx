@@ -1,6 +1,5 @@
-import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, CheckCircle, MessageSquare, Clock, Mic, Lock } from "lucide-react";
+import { ArrowLeft, CheckCircle, MessageSquare, Clock, Mic } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { AgentChat } from "@/components/AgentChat";
@@ -11,8 +10,6 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { AuthOverlay } from "@/components/auth/AuthOverlay";
-import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 // Avatar imports
@@ -504,18 +501,6 @@ export default function AgentDetail() {
   const { agentId } = useParams<{ agentId: string }>();
   const agent = agentId ? agents[agentId] : null;
   const isMobile = useIsMobile();
-  const { isAuthenticated } = useAuth();
-  const [showAuthOverlay, setShowAuthOverlay] = useState(false);
-  const [authMessage, setAuthMessage] = useState<string | null>(null);
-
-  const requireAuth = (feature: string) => {
-    if (!isAuthenticated) {
-      setAuthMessage(`Sign in to ${feature} and enjoy a personalized experience`);
-      setShowAuthOverlay(true);
-      return false;
-    }
-    return true;
-  };
 
   if (!agent) {
     return (
@@ -628,29 +613,14 @@ export default function AgentDetail() {
 
               {/* Chat Interface */}
               <div className="lg:col-span-2">
-                {isAuthenticated ? (
-                  <AgentChat
-                    agentName={agent.name}
-                    agentAvatar={agent.avatar}
-                    agentColor={agent.color}
-                    agentSlug={agentId}
-                    suggestedPrompts={agent.suggestedPrompts}
-                    edgeFunctionName={agent.edgeFunction}
-                  />
-                ) : (
-                  <div className="p-8 rounded-2xl bg-card border border-border/50 text-center">
-                    <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                      <Lock className="w-8 h-8 text-primary" />
-                    </div>
-                    <h3 className="text-xl font-semibold text-foreground mb-2">Sign in to chat</h3>
-                    <p className="text-muted-foreground mb-6">
-                      Create an account to start chatting with {agent.name} and unlock personalized responses.
-                    </p>
-                    <Button onClick={() => requireAuth('chat with ' + agent.name)}>
-                      Sign In to Continue
-                    </Button>
-                  </div>
-                )}
+                <AgentChat
+                  agentName={agent.name}
+                  agentAvatar={agent.avatar}
+                  agentColor={agent.color}
+                  agentSlug={agentId}
+                  suggestedPrompts={agent.suggestedPrompts}
+                  edgeFunctionName={agent.edgeFunction}
+                />
               </div>
             </div>
           </TabsContent>
@@ -697,26 +667,11 @@ export default function AgentDetail() {
 
               {/* Voice Interface */}
               <div className="lg:col-span-2">
-                {isAuthenticated ? (
-                  <VoiceChat
-                    agentName={agent.name}
-                    agentAvatar={agent.avatar}
-                    agentColor={agent.color}
-                  />
-                ) : (
-                  <div className="p-8 rounded-2xl bg-card border border-border/50 text-center">
-                    <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                      <Lock className="w-8 h-8 text-primary" />
-                    </div>
-                    <h3 className="text-xl font-semibold text-foreground mb-2">Sign in for voice chat</h3>
-                    <p className="text-muted-foreground mb-6">
-                      Create an account to have voice conversations with {agent.name}.
-                    </p>
-                    <Button onClick={() => requireAuth('use voice chat with ' + agent.name)}>
-                      Sign In to Continue
-                    </Button>
-                  </div>
-                )}
+                <VoiceChat
+                  agentName={agent.name}
+                  agentAvatar={agent.avatar}
+                  agentColor={agent.color}
+                />
               </div>
             </div>
           </TabsContent>
@@ -732,13 +687,6 @@ export default function AgentDetail() {
       </main>
 
       <Footer />
-
-      <AuthOverlay
-        isOpen={showAuthOverlay}
-        onClose={() => setShowAuthOverlay(false)}
-        message={authMessage || undefined}
-        defaultTab="signup"
-      />
     </div>
   );
 }
