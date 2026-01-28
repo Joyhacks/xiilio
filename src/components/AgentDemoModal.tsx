@@ -448,10 +448,29 @@ export function AgentDemoModal({ trigger }: AgentDemoModalProps) {
             <Sparkles className="w-6 h-6 text-primary" />
             Meet Your AI Team
           </DialogTitle>
+          {/* Voiceover Summary */}
+          <div className="mt-4 p-4 bg-muted/30 rounded-lg border border-border/50">
+            <h3 className="font-semibold text-sm text-foreground mb-2 flex items-center gap-2">
+              <Volume2 className="w-4 h-4 text-primary" />
+              Team Overview
+            </h3>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              <strong>Your 24Twelve AI Team</strong> consists of 8 specialized agents working together around the clock. 
+              <strong> Julia</strong> greets visitors and manages the front desk. 
+              <strong> Kate</strong> orchestrates all operations and coordinates tasks across the team. 
+              <strong> Brad</strong> drives sales and nurtures leads. 
+              <strong> Halle</strong> handles legal reviews and compliance. 
+              <strong> George</strong> manages your social media presence. 
+              <strong> Arnie</strong> creates powerful blog content. 
+              <strong> Sam</strong> provides motivation and life coaching. 
+              <strong> Jerry</strong> guides your financial planning. 
+              Together, they form a cohesive unit—handling product launches, client onboarding, content creation, and more as a unified team.
+            </p>
+          </div>
         </DialogHeader>
 
         <Tabs defaultValue="agents" className="w-full">
-          <TabsList className="w-full justify-start px-6 bg-transparent border-b border-border rounded-none h-auto py-0">
+          <TabsList className="w-full justify-start px-6 bg-transparent border-b border-border rounded-none h-auto py-0 flex-wrap">
             <TabsTrigger
               value="agents"
               className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent py-3"
