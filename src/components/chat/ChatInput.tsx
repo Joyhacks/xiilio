@@ -23,11 +23,7 @@ interface ChatInputProps {
   // TTS props
   isSpeaking?: boolean;
   autoSpeak?: boolean;
-  volume?: number;
-  speed?: number;
   onAutoSpeakChange?: (enabled: boolean) => void;
-  onVolumeChange?: (volume: number) => void;
-  onSpeedChange?: (speed: number) => void;
   onStopSpeaking?: () => void;
 }
 
@@ -45,25 +41,32 @@ export function ChatInput({
   onPushToTalkEnd,
   isSpeaking = false,
   autoSpeak = true,
-  volume = 1,
-  speed = 1,
   onAutoSpeakChange,
-  onVolumeChange,
-  onSpeedChange,
   onStopSpeaking,
 }: ChatInputProps) {
   const isRecording = voiceState === "recording";
   const isProcessing = voiceState === "transcribing" || voiceState === "sending";
 
-  // Handle keyboard shortcut (Spacebar)
+  // Handle voice button toggle (not hold-to-talk anymore)
+  const handleVoiceToggle = useCallback(() => {
+    if (isRecording) {
+      onPushToTalkEnd?.();
+    } else if (!isProcessing && !isLoading) {
+      // Stop agent speaking if currently speaking
+      if (isSpeaking) {
+        onStopSpeaking?.();
+      }
+      onPushToTalkStart?.();
+    }
+  }, [isRecording, isProcessing, isLoading, isSpeaking, onPushToTalkStart, onPushToTalkEnd, onStopSpeaking]);
+
+  // Handle keyboard shortcut (Spacebar) - now toggle instead of hold
   useEffect(() => {
     if (!voiceEnabled) return;
 
-    let isSpaceHeld = false;
-
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Only trigger if spacebar and not in an input/textarea focused (except our chat)
       if (e.code !== "Space") return;
+      if (e.repeat) return; // Ignore key repeats
       
       const target = e.target as HTMLElement;
       const isInChat = target.closest('[data-chat-input]');
@@ -78,27 +81,15 @@ export function ChatInput({
       // Prevent page scroll
       e.preventDefault();
       
-      if (!isSpaceHeld && !isProcessing && !isLoading) {
-        isSpaceHeld = true;
-        onPushToTalkStart?.();
-      }
-    };
-
-    const handleKeyUp = (e: KeyboardEvent) => {
-      if (e.code === "Space" && isSpaceHeld) {
-        isSpaceHeld = false;
-        onPushToTalkEnd?.();
-      }
+      handleVoiceToggle();
     };
 
     window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("keyup", handleKeyUp);
 
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("keyup", handleKeyUp);
     };
-  }, [voiceEnabled, value, isProcessing, isLoading, onPushToTalkStart, onPushToTalkEnd]);
+  }, [voiceEnabled, value, handleVoiceToggle]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -110,7 +101,7 @@ export function ChatInput({
   // Display content: show partial transcript while recording, otherwise show value
   const displayValue = isRecording && partialTranscript ? partialTranscript : value;
   const displayPlaceholder = isRecording 
-    ? "Listening... (release to send)" 
+    ? "Listening... (auto-sends after 1.4s silence)" 
     : placeholder;
 
   return (
@@ -163,22 +154,15 @@ export function ChatInput({
           <>
             <VoiceControls
               autoSpeak={autoSpeak}
-              volume={volume}
-              speed={speed}
-              isSpeaking={isSpeaking}
               onAutoSpeakChange={onAutoSpeakChange || (() => {})}
-              onVolumeChange={onVolumeChange || (() => {})}
-              onSpeedChange={onSpeedChange || (() => {})}
-              onStopSpeaking={onStopSpeaking || (() => {})}
             />
             
             <PushToTalkButton
               state={voiceState}
               audioLevel={audioLevel}
-              onPressStart={onPushToTalkStart || (() => {})}
-              onPressEnd={onPushToTalkEnd || (() => {})}
+              onToggle={handleVoiceToggle}
               isSpeaking={isSpeaking}
-              disabled={isLoading}
+              disabled={isLoading || isProcessing}
             />
           </>
         )}

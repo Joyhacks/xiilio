@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Dialog,
@@ -22,6 +22,9 @@ import {
   CheckCircle2,
   ListTodo,
   Zap,
+  Mic,
+  Volume2,
+  Loader2,
 } from "lucide-react";
 
 // Avatar imports
@@ -271,11 +274,144 @@ interface AgentDemoModalProps {
   trigger?: React.ReactNode;
 }
 
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+
+// Agent voice mapping
+const agentVoiceMap: Record<string, string> = {
+  julia: "EXAVITQu4vr4xnSDxMaL", // Sarah
+  kate: "FGY2WhTYpPnrIDTdsKH5", // Laura
+  halle: "pFZP5JQG7iQjIQuC4Bku", // Lily
+  george: "JBFqnCBsd6RMkjVDRZzb", // George
+  arnie: "nPczCjzI2devNBz1zQrb", // Brian
+  brad: "TX3LPaxmHKxFdv7VOQHJ", // Liam
+  sam: "onwK4e9ZLuTAKqWW03F9", // Daniel
+  jerry: "cjVigY5qzO86Huf0OWal", // Eric
+};
+
+// Demo greetings for each agent
+const agentGreetings: Record<string, string> = {
+  julia: "Hello! I'm Julia, your AI receptionist. I'm here to welcome visitors and manage front desk operations.",
+  kate: "Hi there! I'm Kate, your executive assistant. I coordinate schedules, meetings, and help you stay organized.",
+  halle: "Greetings. I'm Halle, your legal associate. I review contracts and ensure compliance with precision.",
+  george: "Hey! I'm George, your social media manager. Let me help you build an amazing online presence.",
+  arnie: "What's up! I'm Arnie, your content writer. I create powerful blog posts that drive traffic.",
+  brad: "Hey there! I'm Brad from sales. I'm here to help you close deals and grow your business.",
+  sam: "Hello! I'm Sam, your life coach. I'm here to help you set goals and unlock your potential.",
+  jerry: "Hi! I'm Jerry, your financial planner. Let me help you make smart money decisions.",
+};
+
 export function AgentDemoModal({ trigger }: AgentDemoModalProps) {
   const [selectedAgent, setSelectedAgent] = useState<AgentInfo>(agents[1]); // Kate as default
   const [activeWorkflow, setActiveWorkflow] = useState(0);
   const [workflowStep, setWorkflowStep] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [voiceState, setVoiceState] = useState<"idle" | "loading" | "speaking">("idle");
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
+
+  // Cleanup audio on unmount or agent change
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
+  }, []);
+
+  // Stop audio when agent changes
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+    }
+    setVoiceState("idle");
+  }, [selectedAgent]);
+
+  const playAgentVoice = async (agent: AgentInfo) => {
+    // Stop any existing audio
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+    }
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+
+    setVoiceState("loading");
+    abortControllerRef.current = new AbortController();
+
+    try {
+      const response = await fetch(
+        `${SUPABASE_URL}/functions/v1/elevenlabs-tts`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            apikey: SUPABASE_KEY,
+            Authorization: `Bearer ${SUPABASE_KEY}`,
+          },
+          body: JSON.stringify({
+            text: agentGreetings[agent.id] || `Hi, I'm ${agent.name}. How can I help you today?`,
+            agentType: agent.id,
+          }),
+          signal: abortControllerRef.current.signal,
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("TTS request failed");
+      }
+
+      const audioBlob = await response.blob();
+      const audioUrl = URL.createObjectURL(audioBlob);
+      
+      const audio = new Audio(audioUrl);
+      audioRef.current = audio;
+
+      audio.onplay = () => setVoiceState("speaking");
+      audio.onended = () => {
+        URL.revokeObjectURL(audioUrl);
+        setVoiceState("idle");
+        audioRef.current = null;
+      };
+      audio.onerror = () => {
+        URL.revokeObjectURL(audioUrl);
+        setVoiceState("idle");
+        audioRef.current = null;
+      };
+
+      await audio.play();
+    } catch (error: any) {
+      if (error.name !== "AbortError") {
+        console.error("Voice playback error:", error);
+      }
+      setVoiceState("idle");
+    }
+  };
+
+  const stopVoice = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+    }
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    setVoiceState("idle");
+  };
+
+  const toggleVoice = () => {
+    if (voiceState === "speaking" || voiceState === "loading") {
+      stopVoice();
+    } else {
+      playAgentVoice(selectedAgent);
+    }
+  };
 
   const playWorkflow = () => {
     setIsPlaying(true);
@@ -389,18 +525,42 @@ export function AgentDemoModal({ trigger }: AgentDemoModalProps) {
                     transition={{ duration: 0.2 }}
                   >
                     <div className="flex items-start gap-6 mb-6">
-                      <Avatar
-                        className="w-24 h-24 ring-4"
-                        style={{
-                          ["--tw-ring-color" as string]: selectedAgent.color,
-                        }}
-                      >
-                        <AvatarImage
-                          src={selectedAgent.avatar}
-                          alt={selectedAgent.name}
-                        />
-                        <AvatarFallback>{selectedAgent.name[0]}</AvatarFallback>
-                      </Avatar>
+                      <div className="relative">
+                        <Avatar
+                          className="w-24 h-24 ring-4 cursor-pointer"
+                          style={{
+                            ["--tw-ring-color" as string]: selectedAgent.color,
+                          }}
+                          onClick={toggleVoice}
+                        >
+                          <AvatarImage
+                            src={selectedAgent.avatar}
+                            alt={selectedAgent.name}
+                          />
+                          <AvatarFallback>{selectedAgent.name[0]}</AvatarFallback>
+                        </Avatar>
+                        {/* Voice indicator overlay */}
+                        <button
+                          onClick={toggleVoice}
+                          className={cn(
+                            "absolute -bottom-2 -right-2 w-10 h-10 rounded-full flex items-center justify-center transition-all",
+                            voiceState === "speaking" 
+                              ? "bg-primary text-primary-foreground animate-pulse" 
+                              : voiceState === "loading"
+                                ? "bg-muted text-muted-foreground"
+                                : "bg-card border border-border text-foreground hover:bg-muted"
+                          )}
+                          title={voiceState === "speaking" ? "Stop" : "Hear agent voice"}
+                        >
+                          {voiceState === "loading" ? (
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                          ) : voiceState === "speaking" ? (
+                            <Volume2 className="w-4 h-4" />
+                          ) : (
+                            <Mic className="w-4 h-4" />
+                          )}
+                        </button>
+                      </div>
                       <div>
                         <h3 className="font-display text-2xl font-bold">
                           {selectedAgent.name}

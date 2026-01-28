@@ -425,11 +425,7 @@ export function AgentChat({
         onPushToTalkEnd={handlePttEnd}
         isSpeaking={isSpeaking || ttsLoading}
         autoSpeak={autoSpeak}
-        volume={volume}
-        speed={speed}
         onAutoSpeakChange={setAutoSpeak}
-        onVolumeChange={setVolume}
-        onSpeedChange={setSpeed}
         onStopSpeaking={stopSpeaking}
       />
     </div>
