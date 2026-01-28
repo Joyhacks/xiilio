@@ -551,6 +551,7 @@ export default function AgentDetail() {
         description={`${agent.description} Capabilities: ${agent.capabilities.slice(0, 3).join(", ")}, and more.`}
         keywords={`AI agent, ${agent.role.toLowerCase()}, ${agent.name.toLowerCase()}, business automation, ${agent.capabilities.slice(0, 3).join(", ").toLowerCase()}`}
         canonical={`/agent/${agentId}`}
+        ogImage={`https://pppsvyrxlmnbcplylkfn.supabase.co/functions/v1/generate-og-image?agent=${agentId}`}
         structuredData={agentSchema}
       />
       <div className="min-h-screen bg-background">
