@@ -1,4 +1,7 @@
+import { useState } from "react";
 import { getAgentLinks } from "@/lib/agentLinks";
+import { useAuth } from "@/hooks/useAuth";
+import { AuthOverlay } from "@/components/auth/AuthOverlay";
 import { cn } from "@/lib/utils";
 import {
   Mail,
@@ -21,6 +24,7 @@ import {
   Facebook,
   Linkedin,
   Twitter,
+  Lock,
   type LucideIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -67,8 +71,35 @@ interface HeaderQuickLinksProps {
 }
 
 export function HeaderQuickLinks({ agentSlug, agentColor }: HeaderQuickLinksProps) {
+  const [showAuthOverlay, setShowAuthOverlay] = useState(false);
+  const { isAuthenticated } = useAuth();
+
   if (!agentSlug) {
     return null;
+  }
+
+  // If not authenticated, show locked button that opens auth
+  if (!isAuthenticated) {
+    return (
+      <>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="gap-2"
+          onClick={() => setShowAuthOverlay(true)}
+          aria-label="Sign in to access quick links"
+        >
+          <Lock className="w-4 h-4" />
+          <span className="hidden sm:inline">Quick Links</span>
+        </Button>
+        <AuthOverlay
+          isOpen={showAuthOverlay}
+          onClose={() => setShowAuthOverlay(false)}
+          message="Sign in to access Quick Links and personalize your experience"
+          defaultTab="signup"
+        />
+      </>
+    );
   }
 
   const categories = getAgentLinks(agentSlug);

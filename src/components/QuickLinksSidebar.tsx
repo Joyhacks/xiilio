@@ -3,7 +3,9 @@ import { cn } from "@/lib/utils";
 import { getAgentLinks, agentConfigs, type AgentLinkCategory, type AgentLinkItem } from "@/lib/agentLinks";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useAgentLinksSettings } from "@/hooks/useAgentLinksSettings";
+import { useAuth } from "@/hooks/useAuth";
 import { QuickLinksSettings } from "@/components/QuickLinksSettings";
+import { AuthOverlay } from "@/components/auth/AuthOverlay";
 import {
   Mail,
   Send,
@@ -28,6 +30,7 @@ import {
   Linkedin,
   Twitter,
   Settings,
+  Lock,
   type LucideIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -321,6 +324,8 @@ export function QuickLinksSidebar({
   const isMobile = useIsMobile();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
+  const [showAuthOverlay, setShowAuthOverlay] = useState(false);
+  const { isAuthenticated } = useAuth();
   
   // Get user settings from localStorage
   const { settings, hasCustomSettings } = useAgentLinksSettings(agentSlug);
@@ -335,6 +340,70 @@ export function QuickLinksSidebar({
   const handleSettingsChange = useCallback(() => {
     setRefreshKey((prev) => prev + 1);
   }, []);
+
+  // If not authenticated, show locked state
+  if (!isAuthenticated) {
+    // Mobile: show locked button
+    if (isMobile) {
+      return (
+        <>
+          <Button
+            variant="outline"
+            size="sm"
+            className={cn(
+              "fixed bottom-4 left-4 z-40 shadow-lg",
+              "transition-all duration-300 hover:scale-105",
+              "bg-card/95 backdrop-blur-sm"
+            )}
+            onClick={() => setShowAuthOverlay(true)}
+            aria-label="Sign in to access quick links"
+          >
+            <Lock className="w-4 h-4 mr-2" />
+            Quick Links
+          </Button>
+          <AuthOverlay
+            isOpen={showAuthOverlay}
+            onClose={() => setShowAuthOverlay(false)}
+            message="Sign in to access Quick Links and personalize your experience"
+            defaultTab="signup"
+          />
+        </>
+      );
+    }
+
+    // Desktop: show locked sidebar
+    return (
+      <>
+        <aside
+          className={cn(
+            "fixed left-0 top-16 bottom-0 z-30",
+            "bg-card/95 backdrop-blur-sm border-r border-border/50",
+            "w-64 flex flex-col items-center justify-center p-6",
+            className
+          )}
+        >
+          <div className="text-center space-y-4">
+            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
+              <Lock className="w-8 h-8 text-primary" />
+            </div>
+            <h3 className="font-semibold text-foreground">Quick Links Locked</h3>
+            <p className="text-sm text-muted-foreground">
+              Sign in to access external tools and personalized links.
+            </p>
+            <Button onClick={() => setShowAuthOverlay(true)} size="sm">
+              Sign In
+            </Button>
+          </div>
+        </aside>
+        <AuthOverlay
+          isOpen={showAuthOverlay}
+          onClose={() => setShowAuthOverlay(false)}
+          message="Sign in to access Quick Links and personalize your experience"
+          defaultTab="signup"
+        />
+      </>
+    );
+  }
 
   // Mobile: use Sheet (drawer)
   if (isMobile) {
