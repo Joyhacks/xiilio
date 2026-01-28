@@ -158,25 +158,35 @@ export function Footer() {
             {/* App Downloads */}
             <div className="space-y-4">
               <h4 className="font-semibold text-foreground text-lg">Get the App</h4>
-              <div className="flex flex-row gap-3">
+              <div className="flex flex-col gap-3">
+                {/* App Store Badge */}
                 <a
                   href="https://apps.apple.com/app/24twelve"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center w-11 h-11 bg-card rounded-full border border-border text-foreground hover:bg-muted hover:scale-105 transition-all duration-200"
+                  className="inline-block hover:opacity-80 transition-opacity"
                   aria-label="Download on the App Store"
                 >
-                  <SimpleIcon icon={siAppstore} className="w-5 h-5" />
+                  <img 
+                    src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" 
+                    alt="Download on the App Store" 
+                    className="h-10"
+                  />
                 </a>
                 
+                {/* Google Play Badge */}
                 <a
                   href="https://play.google.com/store/apps/details?id=com.twentyfourtwelve"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center w-11 h-11 bg-card rounded-full border border-border text-foreground hover:bg-muted hover:scale-105 transition-all duration-200"
+                  className="inline-block hover:opacity-80 transition-opacity"
                   aria-label="Get it on Google Play"
                 >
-                  <SimpleIcon icon={siGoogleplay} className="w-5 h-5" />
+                  <img 
+                    src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" 
+                    alt="Get it on Google Play" 
+                    className="h-12 -ml-2"
+                  />
                 </a>
               </div>
             </div>
