@@ -15,6 +15,7 @@ export function useAnalyticsLogger() {
 
   /**
    * Log an activity to the agent_activity_history table
+   * Only logs for authenticated users (RLS requires user_id)
    */
   const logActivity = useCallback(async ({
     agentSlug,
@@ -23,6 +24,14 @@ export function useAnalyticsLogger() {
     details,
   }: LogActivityParams) => {
     try {
+      // Get current user - only log if authenticated
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (!user) {
+        // Skip logging for unauthenticated users (RLS would block anyway)
+        return;
+      }
+
       const { error } = await supabase
         .from("agent_activity_history")
         .insert([{
@@ -30,6 +39,7 @@ export function useAnalyticsLogger() {
           activity_type: activityType,
           summary,
           details: details || null,
+          user_id: user.id,
         }]);
 
       if (error) {
