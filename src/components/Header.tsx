@@ -190,7 +190,10 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
                     <span className="sr-only">Open menu</span>
                   </Button>
                 </SheetTrigger>
-                <SheetContent side="right" className="w-[300px] glass-luxury p-0">
+                <SheetContent 
+                  side="right" 
+                  className="w-[300px] glass-luxury p-0 data-[state=open]:animate-slide-in-right data-[state=closed]:animate-slide-out-right"
+                >
                   <div className="flex flex-col h-full">
                     {/* Mobile Menu Header */}
                     <div className="flex items-center justify-between p-4 border-b border-primary/10">
@@ -234,20 +237,25 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
                           </Link>
                         </SheetClose>
 
-                        {navLinks.map((link) => (
+                        {navLinks.map((link, index) => (
                           <SheetClose asChild key={link.href}>
                             {link.isHash ? (
                               <a
                                 href={link.href}
-                                onClick={(e) => handleSmoothScroll(e, link.href)}
-                                className="flex items-center gap-3 px-4 py-3 rounded-xl text-muted-foreground hover:text-foreground hover:bg-primary/10 transition-colors"
+                                onClick={(e) => {
+                                  handleSmoothScroll(e, link.href);
+                                  setTimeout(() => setIsOpen(false), 150);
+                                }}
+                                className="flex items-center gap-3 px-4 py-3 rounded-xl text-muted-foreground hover:text-foreground hover:bg-primary/10 transition-all duration-200"
+                                style={{ animationDelay: `${(index + 1) * 50}ms` }}
                               >
                                 <span>{link.label}</span>
                               </a>
                             ) : (
                               <Link
                                 to={link.href}
-                                className="flex items-center gap-3 px-4 py-3 rounded-xl text-muted-foreground hover:text-foreground hover:bg-primary/10 transition-colors"
+                                className="flex items-center gap-3 px-4 py-3 rounded-xl text-muted-foreground hover:text-foreground hover:bg-primary/10 transition-all duration-200"
+                                style={{ animationDelay: `${(index + 1) * 50}ms` }}
                               >
                                 <span>{link.label}</span>
                               </Link>
