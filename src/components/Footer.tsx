@@ -158,34 +158,34 @@ export function Footer() {
             {/* App Downloads */}
             <div className="space-y-4">
               <h4 className="font-semibold text-foreground text-lg">Get the App</h4>
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-2">
                 {/* App Store Badge */}
                 <a
                   href="https://apps.apple.com/app/24twelve"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center h-[40px] hover:opacity-80 transition-opacity"
+                  className="inline-flex items-center hover:opacity-80 transition-opacity"
                   aria-label="Download on the App Store"
                 >
                   <img 
                     src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" 
                     alt="Download on the App Store" 
-                    className="h-[40px] w-auto"
+                    className="h-10 w-auto"
                   />
                 </a>
                 
-                {/* Google Play Badge - uses taller image with negative margin to match App Store visual height */}
+                {/* Google Play Badge - cropped to match App Store visual dimensions */}
                 <a
                   href="https://play.google.com/store/apps/details?id=com.twentyfourtwelve"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center h-[40px] hover:opacity-80 transition-opacity overflow-hidden"
+                  className="inline-flex items-center hover:opacity-80 transition-opacity h-10 overflow-hidden"
                   aria-label="Get it on Google Play"
                 >
                   <img 
                     src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" 
                     alt="Get it on Google Play" 
-                    className="h-[58px] w-auto -my-[9px]"
+                    className="h-[60px] w-auto -my-2.5"
                   />
                 </a>
               </div>
