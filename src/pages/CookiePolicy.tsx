@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { 
   Cookie, Shield, BarChart3, Settings, Megaphone, 
@@ -8,6 +9,7 @@ import { Footer } from "@/components/Footer";
 import { SEO } from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { CookiePreferencesModal } from "@/components/CookiePreferencesModal";
 
 interface CookieInfo {
   name: string;
@@ -166,6 +168,7 @@ const CookieTable = ({ type, cookies }: { type: string; cookies: CookieInfo[] })
 
 export default function CookiePolicy() {
   const lastUpdated = "January 28, 2026";
+  const [cookieModalOpen, setCookieModalOpen] = useState(false);
 
   return (
     <>
@@ -374,6 +377,25 @@ export default function CookiePolicy() {
               </div>
             </motion.section>
 
+            {/* Manage Preferences CTA */}
+            <motion.section
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="mb-12"
+            >
+              <div className="p-6 rounded-2xl bg-primary/5 border border-primary/20 text-center">
+                <h3 className="font-semibold text-foreground mb-2">Manage Your Preferences</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Update your cookie consent settings at any time.
+                </p>
+                <Button onClick={() => setCookieModalOpen(true)} className="gap-2">
+                  <Settings className="w-4 h-4" />
+                  Open Cookie Settings
+                </Button>
+              </div>
+            </motion.section>
+
             {/* Contact & Links */}
             <motion.section
               initial={{ opacity: 0, y: 20 }}
@@ -405,6 +427,11 @@ export default function CookiePolicy() {
 
         <Footer />
       </div>
+
+      <CookiePreferencesModal
+        open={cookieModalOpen}
+        onOpenChange={setCookieModalOpen}
+      />
     </>
   );
 }
