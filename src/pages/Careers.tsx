@@ -1,5 +1,6 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { SEO } from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
@@ -78,9 +79,39 @@ const perks = [
 ];
 
 export default function Careers() {
+  const jobPostingSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: openPositions.map((position, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item: {
+        "@type": "JobPosting",
+        title: position.title,
+        hiringOrganization: {
+          "@type": "Organization",
+          name: "24Twelve",
+        },
+        jobLocation: {
+          "@type": "Place",
+          address: position.location,
+        },
+        employmentType: "FULL_TIME",
+      },
+    })),
+  };
+
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
+    <>
+      <SEO
+        title="Careers"
+        description="Join 24Twelve and help build the future of AI automation. We're hiring engineers, designers, and more. Remote-first culture with great benefits."
+        keywords="24Twelve jobs, AI careers, tech jobs, remote work, startup careers"
+        canonical="/careers"
+        structuredData={jobPostingSchema}
+      />
+      <div className="min-h-screen bg-background">
+        <Header />
       
       <main className="pt-24">
         {/* Hero Section */}
@@ -186,6 +217,7 @@ export default function Careers() {
       
       <Footer />
       <ScrollToTop />
-    </div>
+      </div>
+    </>
   );
 }

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { SEO } from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -62,9 +63,36 @@ export default function Contact() {
     setIsSubmitting(false);
   };
 
+  const contactSchema = {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    name: "Contact 24Twelve",
+    description: "Get in touch with the 24Twelve team for questions about AI automation.",
+    mainEntity: {
+      "@type": "Organization",
+      name: "24Twelve",
+      email: "hello@24twelve.ai",
+      telephone: "+1-555-24-TWELVE",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "San Francisco",
+        addressRegion: "CA",
+        addressCountry: "US",
+      },
+    },
+  };
+
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
+    <>
+      <SEO
+        title="Contact Us"
+        description="Have questions? Contact the 24Twelve team. We'd love to hear from you and help with your AI automation needs."
+        keywords="contact 24Twelve, AI support, business automation help, customer service"
+        canonical="/contact"
+        structuredData={contactSchema}
+      />
+      <div className="min-h-screen bg-background">
+        <Header />
       
       <main className="pt-24">
         {/* Hero Section */}
@@ -198,6 +226,7 @@ export default function Contact() {
       
       <Footer />
       <ScrollToTop />
-    </div>
+      </div>
+    </>
   );
 }

@@ -1,6 +1,7 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ScrollToTop } from "@/components/ScrollToTop";
+import { SEO } from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
@@ -65,8 +66,15 @@ const popularArticles = [
 
 export default function Docs() {
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
+    <>
+      <SEO
+        title="Documentation"
+        description="Everything you need to build, deploy, and manage your AI agents. Complete guides, API reference, and troubleshooting."
+        keywords="24Twelve documentation, AI agents API, developer docs, integration guides"
+        canonical="/docs"
+      />
+      <div className="min-h-screen bg-background">
+        <Header />
       
       <main className="pt-24">
         {/* Hero Section */}
@@ -186,6 +194,7 @@ export default function Docs() {
       
       <Footer />
       <ScrollToTop />
-    </div>
+      </div>
+    </>
   );
 }

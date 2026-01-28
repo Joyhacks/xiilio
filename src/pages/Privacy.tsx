@@ -5,6 +5,7 @@ import {
 } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { SEO } from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
@@ -39,8 +40,15 @@ export default function Privacy() {
   const lastUpdated = "January 28, 2026";
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
+    <>
+      <SEO
+        title="Privacy Policy"
+        description="Learn how 24Twelve protects your privacy. We're committed to transparency about data collection, usage, and your rights under GDPR."
+        keywords="privacy policy, data protection, GDPR, user rights, data security, 24Twelve privacy"
+        canonical="/privacy"
+      />
+      <div className="min-h-screen bg-background">
+        <Header />
 
       <main className="container mx-auto px-6 py-12">
         <motion.div
@@ -371,6 +379,7 @@ export default function Privacy() {
       </main>
 
       <Footer />
-    </div>
+      </div>
+    </>
   );
 }

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { SEO } from "@/components/SEO";
 import { usePWAInstall } from "@/hooks/usePWAInstall";
 import { Download, Smartphone, Share, Plus, CheckCircle2, ArrowLeft } from "lucide-react";
 import { Header } from "@/components/Header";
@@ -20,8 +21,15 @@ export default function Install() {
   // If already installed, show success message
   if (isInstalled) {
     return (
-      <div className="min-h-screen bg-background">
-        <Header />
+      <>
+        <SEO
+          title="Install App"
+          description="Install 24Twelve on your device for instant access to your AI team from your home screen."
+          canonical="/install"
+          noindex
+        />
+        <div className="min-h-screen bg-background">
+          <Header />
         <main className="container mx-auto px-4 py-16">
           <div className="max-w-md mx-auto text-center space-y-6">
             <div className="w-20 h-20 mx-auto bg-primary/10 rounded-full flex items-center justify-center">
@@ -38,14 +46,22 @@ export default function Install() {
           </div>
         </main>
         <Footer />
-      </div>
+        </div>
+      </>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      <main className="container mx-auto px-4 py-16">
+    <>
+      <SEO
+        title="Install App"
+        description="Install 24Twelve on your device for instant access to your AI team. Works offline, loads instantly, no app store required."
+        keywords="install 24Twelve, PWA, progressive web app, mobile app, home screen app"
+        canonical="/install"
+      />
+      <div className="min-h-screen bg-background">
+        <Header />
+        <main className="container mx-auto px-4 py-16">
         <div className="max-w-lg mx-auto space-y-8">
           {/* Hero Section */}
           <div className="text-center space-y-4">
@@ -161,8 +177,9 @@ export default function Install() {
             Back to Home
           </Button>
         </div>
-      </main>
-      <Footer />
-    </div>
+        </main>
+        <Footer />
+      </div>
+    </>
   );
 }

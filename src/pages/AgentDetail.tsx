@@ -2,6 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, CheckCircle, MessageSquare, Clock, Mic } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { SEO } from "@/components/SEO";
 import { AgentChat } from "@/components/AgentChat";
 import { ActivityHistory } from "@/components/ActivityHistory";
 import { VoiceChat } from "@/components/VoiceChat";
@@ -504,25 +505,56 @@ export default function AgentDetail() {
 
   if (!agent) {
     return (
-      <div className="min-h-screen bg-background">
-        <Header />
-        <div className="container mx-auto px-6 py-24 text-center">
-          <h1 className="text-2xl font-bold text-foreground mb-4">Agent Not Found</h1>
-          <Link to="/">
-            <Button variant="outline">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Home
-            </Button>
-          </Link>
+      <>
+        <SEO
+          title="Agent Not Found"
+          description="The requested AI agent could not be found."
+          noindex
+        />
+        <div className="min-h-screen bg-background">
+          <Header />
+          <div className="container mx-auto px-6 py-24 text-center">
+            <h1 className="text-2xl font-bold text-foreground mb-4">Agent Not Found</h1>
+            <Link to="/">
+              <Button variant="outline">
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to Home
+              </Button>
+            </Link>
+          </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
+      </>
     );
   }
 
+  // Agent-specific structured data
+  const agentSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: agent.name,
+    applicationCategory: "BusinessApplication",
+    description: agent.description,
+    operatingSystem: "Web",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
+    featureList: agent.capabilities,
+  };
+
   return (
-    <div className="min-h-screen bg-background">
-      <Header agentSlug={agentId} agentColor={agent.color} />
+    <>
+      <SEO
+        title={agent.name}
+        description={`${agent.description} Capabilities: ${agent.capabilities.slice(0, 3).join(", ")}, and more.`}
+        keywords={`AI agent, ${agent.role.toLowerCase()}, ${agent.name.toLowerCase()}, business automation, ${agent.capabilities.slice(0, 3).join(", ").toLowerCase()}`}
+        canonical={`/agent/${agentId}`}
+        structuredData={agentSchema}
+      />
+      <div className="min-h-screen bg-background">
+        <Header agentSlug={agentId} agentColor={agent.color} />
       
       {/* Quick Links Sidebar */}
       {agentId && (
@@ -687,6 +719,7 @@ export default function AgentDetail() {
       </main>
 
       <Footer />
-    </div>
+      </div>
+    </>
   );
 }
