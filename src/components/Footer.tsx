@@ -10,8 +10,7 @@ import {
   siFacebook,
   siGithub,
   siTiktok,
-  siAppstore,
-  siGoogleplay,
+  siWhatsapp,
 } from "simple-icons";
 
 // Simple Icons SVG renderer
@@ -88,6 +87,12 @@ const socialLinks: SocialLink[] = [
     href: "https://github.com/24twelve",
     color: "bg-card hover:bg-muted border border-border",
     icon: siGithub,
+  },
+  {
+    name: "WhatsApp",
+    href: "https://wa.me/",
+    color: "bg-card hover:bg-muted border border-border",
+    icon: siWhatsapp,
   },
 ];
 
