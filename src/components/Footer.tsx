@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import logo from "@/assets/logo-24twelve.png";
-import qrCode from "@/assets/qr-code.png";
 import { CookiePreferencesModal } from "@/components/CookiePreferencesModal";
 import {
   siX,
@@ -49,43 +48,43 @@ const socialLinks: SocialLink[] = [
   {
     name: "X",
     href: "https://x.com/24twelve",
-    color: "bg-black hover:bg-zinc-800",
+    color: "bg-card hover:bg-muted border border-border",
     icon: siX,
   },
   {
     name: "Instagram",
     href: "https://instagram.com/24twelve",
-    color: "bg-gradient-to-br from-[#833AB4] via-[#E1306C] to-[#F77737] hover:opacity-90",
+    color: "bg-card hover:bg-muted border border-border",
     icon: siInstagram,
   },
   {
     name: "LinkedIn",
     href: "https://linkedin.com/company/24twelve",
-    color: "bg-[#0A66C2] hover:bg-[#094d92]",
+    color: "bg-card hover:bg-muted border border-border",
     icon: siLinkedin,
   },
   {
     name: "YouTube",
     href: "https://youtube.com/@24twelve",
-    color: "bg-[#FF0000] hover:bg-[#cc0000]",
+    color: "bg-card hover:bg-muted border border-border",
     icon: siYoutube,
   },
   {
     name: "Facebook",
     href: "https://facebook.com/24twelve",
-    color: "bg-[#1877F2] hover:bg-[#1466d2]",
+    color: "bg-card hover:bg-muted border border-border",
     icon: siFacebook,
   },
   {
     name: "TikTok",
     href: "https://tiktok.com/@24twelve",
-    color: "bg-black hover:bg-zinc-800",
+    color: "bg-card hover:bg-muted border border-border",
     icon: siTiktok,
   },
   {
     name: "GitHub",
     href: "https://github.com/24twelve",
-    color: "bg-[#181717] hover:bg-[#333]",
+    color: "bg-card hover:bg-muted border border-border",
     icon: siGithub,
   },
 ];
@@ -154,58 +153,42 @@ export function Footer() {
               </nav>
             </div>
 
-            {/* QR Code & App Downloads */}
+            {/* App Downloads */}
             <div className="space-y-4">
-              <div className="flex flex-col items-center lg:items-start gap-4">
-                <div className="flex items-center gap-4">
-                  <img 
-                    src={qrCode} 
-                    alt="Scan to connect" 
-                    className="h-20 w-20 rounded-xl border border-border/50" 
-                  />
-                  <p className="text-xs text-muted-foreground lg:hidden">
-                    Scan to connect with us
-                  </p>
-                </div>
-                <p className="text-xs text-muted-foreground hidden lg:block">
-                  Scan to connect
-                </p>
+              <h4 className="font-semibold text-foreground text-lg">Get the App</h4>
+              <div className="flex flex-col gap-3">
+                <a
+                  href="https://apps.apple.com/app/24twelve"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-3 px-4 py-3 bg-card rounded-xl border border-border hover:bg-muted hover:scale-[1.02] transition-all duration-300"
+                >
+                  <svg className="w-6 h-6 text-foreground shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                  </svg>
+                  <div className="flex flex-col min-w-0">
+                    <span className="text-[10px] text-muted-foreground leading-none">Download on the</span>
+                    <span className="text-sm text-foreground font-semibold leading-tight">App Store</span>
+                  </div>
+                </a>
                 
-                {/* App Store Badges - Side by Side */}
-                <div className="flex flex-row gap-2 flex-wrap">
-                  <a
-                    href="https://apps.apple.com/app/24twelve"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex items-center gap-2 px-3 py-2.5 bg-black rounded-xl border border-white/20 hover:border-white/40 hover:scale-105 transition-all duration-300"
-                  >
-                    <svg className="w-5 h-5 text-white shrink-0" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
-                    </svg>
-                    <div className="flex flex-col min-w-0">
-                      <span className="text-[9px] text-white/70 leading-none">Download on the</span>
-                      <span className="text-sm text-white font-semibold leading-tight">App Store</span>
-                    </div>
-                  </a>
-                  
-                  <a
-                    href="https://play.google.com/store/apps/details?id=com.twentyfourtwelve"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex items-center gap-2 px-3 py-2.5 bg-black rounded-xl border border-white/20 hover:border-white/40 hover:scale-105 transition-all duration-300"
-                  >
-                    <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24">
-                      <path fill="#EA4335" d="M3.609 1.814L13.792 12 3.61 22.186a2.372 2.372 0 0 1-.497-1.478V3.292c0-.534.178-1.027.496-1.478z"/>
-                      <path fill="#FBBC04" d="M17.7 8.108l-3.908 3.891 3.908 3.892 4.399-2.502a2.093 2.093 0 0 0 0-3.78L17.7 8.108z"/>
-                      <path fill="#4285F4" d="M3.609 1.814A2.38 2.38 0 0 1 5.024 1.5l.116.004L17.7 8.108l-3.908 3.891L3.609 1.814z"/>
-                      <path fill="#34A853" d="M3.609 22.186L13.792 12l3.908 3.891L5.14 22.496l-.116.004a2.38 2.38 0 0 1-1.415-.314z"/>
-                    </svg>
-                    <div className="flex flex-col min-w-0">
-                      <span className="text-[9px] text-white/70 leading-none">GET IT ON</span>
-                      <span className="text-sm text-white font-semibold leading-tight">Google Play</span>
-                    </div>
-                  </a>
-                </div>
+                <a
+                  href="https://play.google.com/store/apps/details?id=com.twentyfourtwelve"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-3 px-4 py-3 bg-card rounded-xl border border-border hover:bg-muted hover:scale-[1.02] transition-all duration-300"
+                >
+                  <svg className="w-6 h-6 shrink-0" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M3.609 1.814L13.792 12 3.61 22.186a2.372 2.372 0 0 1-.497-1.478V3.292c0-.534.178-1.027.496-1.478z"/>
+                    <path fill="currentColor" d="M17.7 8.108l-3.908 3.891 3.908 3.892 4.399-2.502a2.093 2.093 0 0 0 0-3.78L17.7 8.108z"/>
+                    <path fill="currentColor" d="M3.609 1.814A2.38 2.38 0 0 1 5.024 1.5l.116.004L17.7 8.108l-3.908 3.891L3.609 1.814z"/>
+                    <path fill="currentColor" d="M3.609 22.186L13.792 12l3.908 3.891L5.14 22.496l-.116.004a2.38 2.38 0 0 1-1.415-.314z"/>
+                  </svg>
+                  <div className="flex flex-col min-w-0">
+                    <span className="text-[10px] text-muted-foreground leading-none">GET IT ON</span>
+                    <span className="text-sm text-foreground font-semibold leading-tight">Google Play</span>
+                  </div>
+                </a>
               </div>
             </div>
           </div>
@@ -221,8 +204,8 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className={cn(
-                    "flex items-center gap-2 px-4 py-2.5 rounded-full text-white text-sm font-medium",
-                    "transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105",
+                    "flex items-center gap-2 px-4 py-2.5 rounded-full text-foreground text-sm font-medium",
+                    "transition-all duration-300 hover:scale-105",
                     social.color
                   )}
                   aria-label={`Follow us on ${social.name}`}
