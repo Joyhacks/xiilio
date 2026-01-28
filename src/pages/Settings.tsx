@@ -4,11 +4,12 @@ import { motion } from 'framer-motion';
 import { 
   User, Link as LinkIcon, Brain, ArrowLeft, Save, Trash2, Loader2,
   Facebook, Instagram, Linkedin, MessageCircle, Mail, Inbox,
-  Sparkles, Shield, Globe, Download, FileJson
+  Sparkles, Shield, Download, FileJson
 } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { ScrollToTop } from '@/components/ScrollToTop';
+import { LearnedFactsViewer } from '@/components/LearnedFactsViewer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -577,53 +578,89 @@ export default function Settings() {
 
             {/* Memory Tab */}
             <TabsContent value="memory">
-              <div className="p-6 rounded-2xl bg-card border border-border/50 space-y-6">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                        <Brain className="w-5 h-5 text-primary" />
+              <div className="space-y-6">
+                {/* Personalization Toggle Card */}
+                <div className="p-6 rounded-2xl bg-card border border-border/50 space-y-6">
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                          <Brain className="w-5 h-5 text-primary" />
+                        </div>
+                        <div>
+                          <h3 className="font-medium text-foreground">Personalization Memory</h3>
+                          <p className="text-sm text-muted-foreground">
+                            {memoryCount} memory {memoryCount === 1 ? 'entry' : 'entries'} stored
+                          </p>
+                        </div>
                       </div>
-                      <div>
-                        <h3 className="font-medium text-foreground">Personalization Memory</h3>
-                        <p className="text-sm text-muted-foreground">
-                          {memoryCount} memory {memoryCount === 1 ? 'entry' : 'entries'} stored
-                        </p>
+                      <Switch
+                        checked={profile.personalization_enabled}
+                        onCheckedChange={(checked) => {
+                          setProfile({ ...profile, personalization_enabled: checked });
+                          handleSaveProfile();
+                        }}
+                      />
+                    </div>
+
+                    <div className="p-4 rounded-lg bg-muted/50 border border-border">
+                      <div className="flex items-start gap-3">
+                        <Shield className="w-5 h-5 text-muted-foreground mt-0.5" />
+                        <div className="text-sm text-muted-foreground">
+                          <p className="font-medium text-foreground mb-1">How we use your data</p>
+                          <p>
+                            Agents learn facts from your conversations—names, projects, preferences—to personalize future responses.
+                            You can view, edit, or delete any learned fact below.
+                          </p>
+                        </div>
                       </div>
                     </div>
-                    <Switch
-                      checked={profile.personalization_enabled}
-                      onCheckedChange={(checked) => {
-                        setProfile({ ...profile, personalization_enabled: checked });
-                        handleSaveProfile();
-                      }}
-                    />
                   </div>
 
-                  <div className="p-4 rounded-lg bg-muted/50 border border-border">
-                    <div className="flex items-start gap-3">
-                      <Shield className="w-5 h-5 text-muted-foreground mt-0.5" />
-                      <div className="text-sm text-muted-foreground">
-                        <p className="font-medium text-foreground mb-1">How we use your data</p>
-                        <p>
-                          Your onboarding answers and preferences are used to personalize agent responses.
-                          We store structured data and text summaries to help agents remember your context.
-                          Your social URLs are treated as outbound links only—we never scrape third-party content.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+                  {/* Clear Memory Section */}
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button variant="destructive" disabled={memoryCount === 0 || clearingMemory}>
+                        {clearingMemory ? (
+                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        ) : (
+                          <Trash2 className="w-4 h-4 mr-2" />
+                        )}
+                        Clear All Memory
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Clear personalization memory?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This will permanently delete all stored memory entries used for personalization.
+                          Your profile and links will remain intact. This action cannot be undone.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={handleClearMemory}>
+                          Yes, clear memory
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                </div>
+
+                {/* Learned Facts Viewer */}
+                <div className="p-6 rounded-2xl bg-card border border-border/50">
+                  <LearnedFactsViewer />
                 </div>
 
                 {/* Data Export Section */}
-                <div className="p-4 rounded-lg bg-accent/10 border border-accent/20">
+                <div className="p-6 rounded-2xl bg-card border border-border/50">
                   <div className="flex items-start gap-3">
-                    <FileJson className="w-5 h-5 text-accent mt-0.5" />
+                    <FileJson className="w-5 h-5 text-primary mt-0.5" />
                     <div className="flex-1">
                       <p className="font-medium text-foreground mb-1">Export Your Data (GDPR)</p>
                       <p className="text-sm text-muted-foreground mb-3">
                         Download all your stored data in JSON format. This includes your profile, 
-                        external links, and personalization memory.
+                        external links, learned facts, and personalization memory.
                       </p>
                       <Button 
                         variant="outline" 
@@ -641,35 +678,6 @@ export default function Settings() {
                     </div>
                   </div>
                 </div>
-
-                {/* Clear Memory Section */}
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <Button variant="destructive" disabled={memoryCount === 0 || clearingMemory}>
-                      {clearingMemory ? (
-                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      ) : (
-                        <Trash2 className="w-4 h-4 mr-2" />
-                      )}
-                      Clear All Memory
-                    </Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>Clear personalization memory?</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        This will permanently delete all stored memory entries used for personalization.
-                        Your profile and links will remain intact. This action cannot be undone.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction onClick={handleClearMemory}>
-                        Yes, clear memory
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
               </div>
             </TabsContent>
           </Tabs>

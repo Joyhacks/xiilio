@@ -83,6 +83,54 @@ export type Database = {
         }
         Relationships: []
       }
+      user_learned_facts: {
+        Row: {
+          confidence: number | null
+          created_at: string
+          fact_key: string
+          fact_type: string
+          fact_value: string
+          first_learned_at: string
+          id: string
+          is_verified: boolean | null
+          last_mentioned_at: string
+          mentioned_count: number | null
+          source_agent: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          confidence?: number | null
+          created_at?: string
+          fact_key: string
+          fact_type?: string
+          fact_value: string
+          first_learned_at?: string
+          id?: string
+          is_verified?: boolean | null
+          last_mentioned_at?: string
+          mentioned_count?: number | null
+          source_agent?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          confidence?: number | null
+          created_at?: string
+          fact_key?: string
+          fact_type?: string
+          fact_value?: string
+          first_learned_at?: string
+          id?: string
+          is_verified?: boolean | null
+          last_mentioned_at?: string
+          mentioned_count?: number | null
+          source_agent?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_links: {
         Row: {
           created_at: string
