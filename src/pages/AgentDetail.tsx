@@ -703,6 +703,7 @@ export default function AgentDetail() {
                   agentName={agent.name}
                   agentAvatar={agent.avatar}
                   agentColor={agent.color}
+                  agentType={agentId === "julia" ? "receptionist" : agentId === "kate" ? "assistant" : agentId === "halle" ? "legal" : agentId === "george" ? "social" : agentId === "arnie" ? "writer" : agentId === "brad" ? "sales" : agentId === "sam" ? "coach" : agentId === "jerry" ? "finance" : "assistant"}
                 />
               </div>
             </div>
