@@ -122,12 +122,14 @@ export function StreamingIcon({ brandKey, className, size = 24 }: StreamingIconP
     return null;
   }
   
+  // Treat streaming icons as brand assets - preserve white color on brand backgrounds
+  // Do not auto-style or recolor unless required for accessibility contrast
   return (
     <svg
       role="img"
       viewBox="0 0 24 24"
-      className={cn("fill-current", className)}
-      style={{ width: size, height: size }}
+      className={className}
+      style={{ width: size, height: size, fill: "white" }}
       aria-label={title}
     >
       <title>{title}</title>
