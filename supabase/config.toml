@@ -32,3 +32,6 @@ verify_jwt = false
 
 [functions.elevenlabs-stt]
 verify_jwt = false
+
+[functions.export-user-data]
+verify_jwt = false

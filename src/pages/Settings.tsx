@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { 
   User, Link as LinkIcon, Brain, ArrowLeft, Save, Trash2, Loader2,
   Facebook, Instagram, Linkedin, MessageCircle, Mail, Inbox,
-  Sparkles, Shield, Globe
+  Sparkles, Shield, Globe, Download, FileJson
 } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
@@ -75,6 +75,7 @@ export default function Settings() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [clearingMemory, setClearingMemory] = useState(false);
+  const [exporting, setExporting] = useState(false);
   const [memoryCount, setMemoryCount] = useState(0);
 
   const [profile, setProfile] = useState<UserProfile>({
@@ -253,6 +254,43 @@ export default function Settings() {
       });
     } finally {
       setClearingMemory(false);
+    }
+  };
+
+  const handleExportData = async () => {
+    if (!user) return;
+    setExporting(true);
+
+    try {
+      const { data, error } = await supabase.functions.invoke('export-user-data');
+      
+      if (error) throw error;
+
+      // Create a blob and trigger download
+      const jsonString = JSON.stringify(data, null, 2);
+      const blob = new Blob([jsonString], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `24twelve-data-export-${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      toast({
+        title: 'Data exported',
+        description: 'Your data has been downloaded as a JSON file.',
+      });
+    } catch (error) {
+      console.error('Export error:', error);
+      toast({
+        title: 'Export failed',
+        description: 'Failed to export your data. Please try again.',
+        variant: 'destructive',
+      });
+    } finally {
+      setExporting(false);
     }
   };
 
@@ -576,6 +614,34 @@ export default function Settings() {
                   </div>
                 </div>
 
+                {/* Data Export Section */}
+                <div className="p-4 rounded-lg bg-accent/10 border border-accent/20">
+                  <div className="flex items-start gap-3">
+                    <FileJson className="w-5 h-5 text-accent mt-0.5" />
+                    <div className="flex-1">
+                      <p className="font-medium text-foreground mb-1">Export Your Data (GDPR)</p>
+                      <p className="text-sm text-muted-foreground mb-3">
+                        Download all your stored data in JSON format. This includes your profile, 
+                        external links, and personalization memory.
+                      </p>
+                      <Button 
+                        variant="outline" 
+                        onClick={handleExportData} 
+                        disabled={exporting}
+                        className="gap-2"
+                      >
+                        {exporting ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                          <Download className="w-4 h-4" />
+                        )}
+                        {exporting ? 'Exporting...' : 'Download My Data'}
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Clear Memory Section */}
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
                     <Button variant="destructive" disabled={memoryCount === 0 || clearingMemory}>
