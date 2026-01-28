@@ -21,7 +21,7 @@ interface SignUpWizardProps {
 }
 
 export function SignUpWizard({ onSuccess, onBack }: SignUpWizardProps) {
-  const { signUp, signInWithGoogle } = useAuth();
+  const { signUp, signInWithGoogle, signInWithApple } = useAuth();
   const { toast } = useToast();
   const [currentStep, setCurrentStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
@@ -164,6 +164,15 @@ export function SignUpWizard({ onSuccess, onBack }: SignUpWizardProps) {
     }
   };
 
+  const handleAppleSignUp = async () => {
+    setIsLoading(true);
+    const { error } = await signInWithApple();
+    if (error) {
+      setError(error.message);
+      setIsLoading(false);
+    }
+  };
+
   const handleBack = () => {
     if (currentStep === 1) {
       onBack();
@@ -238,6 +247,7 @@ export function SignUpWizard({ onSuccess, onBack }: SignUpWizardProps) {
             <SignUpStep1
               onNext={handleStep1Complete}
               onGoogleSignUp={handleGoogleSignUp}
+              onAppleSignUp={handleAppleSignUp}
               isLoading={isLoading}
               defaultValues={step1Data || undefined}
             />
