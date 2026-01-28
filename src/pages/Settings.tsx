@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { 
   User, Link as LinkIcon, Brain, ArrowLeft, Save, Trash2, Loader2,
   Facebook, Instagram, Linkedin, MessageCircle, Mail, Inbox,
-  Sparkles, Shield, Download, FileJson
+  Sparkles, Shield, Download, FileJson, Twitter, Youtube
 } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
@@ -63,6 +63,8 @@ interface UserLinks {
   instagram_url: string | null;
   tiktok_url: string | null;
   linkedin_url: string | null;
+  x_url: string | null;
+  youtube_url: string | null;
   whatsapp_phone_e164: string | null;
   whatsapp_prefill_message: string | null;
   inbox_url: string | null;
@@ -97,6 +99,8 @@ export default function Settings() {
     instagram_url: '',
     tiktok_url: '',
     linkedin_url: '',
+    x_url: '',
+    youtube_url: '',
     whatsapp_phone_e164: '',
     whatsapp_prefill_message: '',
     inbox_url: '',
@@ -150,6 +154,8 @@ export default function Settings() {
             instagram_url: linksData.instagram_url || '',
             tiktok_url: linksData.tiktok_url || '',
             linkedin_url: linksData.linkedin_url || '',
+            x_url: linksData.x_url || '',
+            youtube_url: linksData.youtube_url || '',
             whatsapp_phone_e164: linksData.whatsapp_phone_e164 || '',
             whatsapp_prefill_message: linksData.whatsapp_prefill_message || '',
             inbox_url: linksData.inbox_url || '',
@@ -212,6 +218,8 @@ export default function Settings() {
         instagram_url: links.instagram_url || null,
         tiktok_url: links.tiktok_url || null,
         linkedin_url: links.linkedin_url || null,
+        x_url: links.x_url || null,
+        youtube_url: links.youtube_url || null,
         whatsapp_phone_e164: links.whatsapp_phone_e164 || null,
         whatsapp_prefill_message: links.whatsapp_prefill_message || null,
         inbox_url: links.inbox_url || null,
@@ -508,6 +516,28 @@ export default function Settings() {
                         value={links.linkedin_url || ''}
                         onChange={(e) => setLinks({ ...links, linkedin_url: e.target.value })}
                         placeholder="https://linkedin.com/in/yourprofile"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label className="flex items-center gap-2">
+                        <Twitter className="w-4 h-4" />
+                        X (Twitter)
+                      </Label>
+                      <Input
+                        value={links.x_url || ''}
+                        onChange={(e) => setLinks({ ...links, x_url: e.target.value })}
+                        placeholder="https://x.com/yourprofile"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label className="flex items-center gap-2">
+                        <Youtube className="w-4 h-4 text-[#FF0000]" />
+                        YouTube
+                      </Label>
+                      <Input
+                        value={links.youtube_url || ''}
+                        onChange={(e) => setLinks({ ...links, youtube_url: e.target.value })}
+                        placeholder="https://youtube.com/@yourhandle"
                       />
                     </div>
                   </div>
