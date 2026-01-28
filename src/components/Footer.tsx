@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import logoTransparent from "@/assets/logo-24twelve-transparent.png";
 import { CookiePreferencesModal } from "@/components/CookiePreferencesModal";
+import { useUserLinks } from "@/hooks/useUserLinks";
 import {
   siX,
   siInstagram,
@@ -45,7 +46,7 @@ interface SocialLink {
   icon: { path: string; title: string };
 }
 
-const socialLinks: SocialLink[] = [
+const baseSocialLinks: SocialLink[] = [
   {
     name: "X",
     href: "https://x.com/24twelve",
@@ -88,16 +89,27 @@ const socialLinks: SocialLink[] = [
     color: "bg-card hover:bg-muted border border-border",
     icon: siGithub,
   },
-  {
-    name: "WhatsApp",
-    href: "https://wa.me/",
-    color: "bg-card hover:bg-muted border border-border",
-    icon: siWhatsapp,
-  },
 ];
 
 export function Footer() {
   const [cookieModalOpen, setCookieModalOpen] = useState(false);
+  const { whatsappUrl, hasWhatsApp } = useUserLinks();
+
+  // Build social links dynamically, adding WhatsApp only if user has configured it
+  const socialLinks = useMemo(() => {
+    const links = [...baseSocialLinks];
+    
+    if (hasWhatsApp && whatsappUrl) {
+      links.push({
+        name: "WhatsApp",
+        href: whatsappUrl,
+        color: "bg-card hover:bg-muted border border-border",
+        icon: siWhatsapp,
+      });
+    }
+    
+    return links;
+  }, [hasWhatsApp, whatsappUrl]);
 
   return (
     <>
