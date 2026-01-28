@@ -15,8 +15,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useAuth } from "@/hooks/useAuth";
+import { useUserLinks } from "@/hooks/useUserLinks";
 import { AuthOverlay } from "@/components/auth/AuthOverlay";
 import logo from "@/assets/logo-24twelve-transparent.png";
+import { siWhatsapp } from "simple-icons";
 
 interface HeaderProps {
   agentSlug?: string | null;
@@ -30,6 +32,7 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
   const location = useLocation();
   const isHomePage = location.pathname === "/";
   const { user, isAuthenticated, signOut } = useAuth();
+  const { whatsappUrl, hasWhatsApp } = useUserLinks();
 
   const navLinks = [
     { href: "/#agents", label: "Agents", isHash: true },
@@ -124,6 +127,24 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
             {/* Desktop CTA + Quick Links + Theme Toggle + Language */}
             <div className="hidden md:flex items-center gap-2">
               <HeaderQuickLinks agentSlug={agentSlug} agentColor={agentColor} />
+              {hasWhatsApp && whatsappUrl && (
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center w-9 h-9 rounded-full bg-[#25D366] hover:bg-[#20BD5A] transition-colors"
+                  aria-label="WhatsApp"
+                >
+                  <svg
+                    role="img"
+                    viewBox="0 0 24 24"
+                    className="w-5 h-5"
+                    fill="white"
+                  >
+                    <path d={siWhatsapp.path} />
+                  </svg>
+                </a>
+              )}
               <LanguageSelector />
               <ThemeToggle />
               
