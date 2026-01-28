@@ -28,12 +28,15 @@ export interface AgentConfig {
   helpdeskUrl?: string;
   sharedInboxUrl?: string;
   knowledgeBaseUrl?: string;
+  workflowUrl?: string;
+  n8nWebhookUrl?: string;
   socialProfiles?: {
     instagram?: string;
     facebook?: string;
     linkedin?: string;
     tiktok?: string;
     twitter?: string;
+    youtube?: string;
   };
 }
 
@@ -117,12 +120,15 @@ export function getAgentLinks(
         helpdeskUrl: userSettings.helpdeskUrl || baseConfig.helpdeskUrl,
         sharedInboxUrl: userSettings.sharedInboxUrl || baseConfig.sharedInboxUrl,
         knowledgeBaseUrl: userSettings.knowledgeBaseUrl || baseConfig.knowledgeBaseUrl,
+        workflowUrl: userSettings.workflowUrl || baseConfig.workflowUrl,
+        n8nWebhookUrl: userSettings.n8nWebhookUrl || baseConfig.n8nWebhookUrl,
         socialProfiles: {
           instagram: userSettings.instagram || baseConfig.socialProfiles?.instagram,
           facebook: userSettings.facebook || baseConfig.socialProfiles?.facebook,
           linkedin: userSettings.linkedin || baseConfig.socialProfiles?.linkedin,
           tiktok: userSettings.tiktok || baseConfig.socialProfiles?.tiktok,
           twitter: userSettings.twitter || baseConfig.socialProfiles?.twitter,
+          youtube: userSettings.youtube || baseConfig.socialProfiles?.youtube,
         },
       }
     : baseConfig;
@@ -207,6 +213,15 @@ export function getAgentLinks(
       href: config.socialProfiles.twitter,
       iconKey: "Twitter",
       description: "Post to Twitter",
+      enabled: true,
+    });
+  }
+  if (config.socialProfiles?.youtube) {
+    socialItems.push({
+      label: "YouTube",
+      href: config.socialProfiles.youtube,
+      iconKey: "Youtube",
+      description: "Upload to YouTube",
       enabled: true,
     });
   }
@@ -305,12 +320,27 @@ export function getAgentLinks(
       enabled: true,
     });
   }
+  // Phone call link
   if (config.phoneNumber) {
+    crmItems.push({
+      label: "Call",
+      href: `tel:${config.phoneNumber.replace(/\D/g, "")}`,
+      iconKey: "Phone",
+      description: "Make phone call",
+      enabled: true,
+    });
     crmItems.push({
       label: "WhatsApp",
       href: `https://wa.me/${config.phoneNumber.replace(/\D/g, "")}?text=Hello%20from%2024TWELVE`,
       iconKey: "MessageCircle",
       description: "Send WhatsApp message",
+      enabled: true,
+    });
+    crmItems.push({
+      label: "SMS",
+      href: `sms:${config.phoneNumber.replace(/\D/g, "")}`,
+      iconKey: "MessageSquare",
+      description: "Send SMS message",
       enabled: true,
     });
   }
@@ -329,6 +359,34 @@ export function getAgentLinks(
     iconKey: "Headphones",
     items: crmItems,
   });
+
+  // Workflows category
+  const workflowItems: AgentLinkItem[] = [];
+  if (config.workflowUrl) {
+    workflowItems.push({
+      label: "Workflow Dashboard",
+      href: config.workflowUrl,
+      iconKey: "Workflow",
+      description: "Open workflow automation",
+      enabled: true,
+    });
+  }
+  if (config.n8nWebhookUrl) {
+    workflowItems.push({
+      label: "n8n Workflows",
+      href: config.n8nWebhookUrl,
+      iconKey: "Zap",
+      description: "Trigger n8n automation",
+      enabled: true,
+    });
+  }
+  if (workflowItems.length > 0) {
+    categories.push({
+      category: "Workflows",
+      iconKey: "Zap",
+      items: workflowItems,
+    });
+  }
 
   return categories;
 }

@@ -32,12 +32,17 @@ export function Hero() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-secondary/10 rounded-full blur-[120px] animate-pulse-glow" style={{ animationDelay: '2s' }} />
         
         <div className="relative z-10 container mx-auto px-6 text-center">
-          {/* Logo */}
-          <div className="mb-8">
+          {/* Logo with glow effect */}
+          <div className="mb-8 relative">
+            {/* Glow backdrop */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div className="w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 bg-primary/20 rounded-full blur-3xl animate-pulse-glow" />
+            </div>
             <img 
               src={logo} 
               alt="24TWELVE - AI Agent Suite" 
-              className="h-32 md:h-40 lg:h-48 w-auto mx-auto drop-shadow-2xl"
+              className="relative h-32 md:h-40 lg:h-48 w-auto mx-auto drop-shadow-2xl"
+              style={{ filter: "drop-shadow(0 0 20px hsl(var(--primary) / 0.4))" }}
               loading="eager"
             />
           </div>

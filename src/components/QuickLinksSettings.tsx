@@ -43,9 +43,11 @@ import {
   Linkedin,
   Video,
   Twitter,
+  Youtube,
   RotateCcw,
   Save,
   CheckCircle,
+  Zap,
 } from "lucide-react";
 
 // URL validation schema
@@ -67,12 +69,16 @@ const settingsSchema = z.object({
   // CRM & Support
   crmUrl: urlSchema,
   helpdeskUrl: urlSchema,
+  // Workflows
+  workflowUrl: urlSchema,
+  n8nWebhookUrl: urlSchema,
   // Social
   instagram: urlSchema,
   facebook: urlSchema,
   linkedin: urlSchema,
   tiktok: urlSchema,
   twitter: urlSchema,
+  youtube: urlSchema,
 });
 
 type SettingsFormData = z.infer<typeof settingsSchema>;
@@ -108,11 +114,14 @@ export function QuickLinksSettings({
       knowledgeBaseUrl: settings.knowledgeBaseUrl || "",
       crmUrl: settings.crmUrl || "",
       helpdeskUrl: settings.helpdeskUrl || "",
+      workflowUrl: settings.workflowUrl || "",
+      n8nWebhookUrl: settings.n8nWebhookUrl || "",
       instagram: settings.instagram || "",
       facebook: settings.facebook || "",
       linkedin: settings.linkedin || "",
       tiktok: settings.tiktok || "",
       twitter: settings.twitter || "",
+      youtube: settings.youtube || "",
     },
   });
 
@@ -129,11 +138,14 @@ export function QuickLinksSettings({
         knowledgeBaseUrl: settings.knowledgeBaseUrl || "",
         crmUrl: settings.crmUrl || "",
         helpdeskUrl: settings.helpdeskUrl || "",
+        workflowUrl: settings.workflowUrl || "",
+        n8nWebhookUrl: settings.n8nWebhookUrl || "",
         instagram: settings.instagram || "",
         facebook: settings.facebook || "",
         linkedin: settings.linkedin || "",
         tiktok: settings.tiktok || "",
         twitter: settings.twitter || "",
+        youtube: settings.youtube || "",
       });
     }
   };
@@ -168,11 +180,14 @@ export function QuickLinksSettings({
       knowledgeBaseUrl: "",
       crmUrl: "",
       helpdeskUrl: "",
+      workflowUrl: "",
+      n8nWebhookUrl: "",
       instagram: "",
       facebook: "",
       linkedin: "",
       tiktok: "",
       twitter: "",
+      youtube: "",
     });
     onSettingsChange?.();
     
@@ -217,7 +232,7 @@ export function QuickLinksSettings({
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <ScrollArea className="h-[50vh] px-6">
               <Tabs defaultValue="email" className="w-full">
-                <TabsList className="w-full grid grid-cols-5 mb-4">
+                <TabsList className="w-full grid grid-cols-6 mb-4">
                   <TabsTrigger value="email" className="gap-1 text-xs">
                     <Mail className="w-3 h-3" />
                     <span className="hidden sm:inline">Email</span>
@@ -237,6 +252,10 @@ export function QuickLinksSettings({
                   <TabsTrigger value="crm" className="gap-1 text-xs">
                     <Users className="w-3 h-3" />
                     <span className="hidden sm:inline">CRM</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="workflows" className="gap-1 text-xs">
+                    <Zap className="w-3 h-3" />
+                    <span className="hidden sm:inline">Workflows</span>
                   </TabsTrigger>
                 </TabsList>
 
@@ -392,6 +411,22 @@ export function QuickLinksSettings({
                       </FormItem>
                     )}
                   />
+                  <FormField
+                    control={form.control}
+                    name="youtube"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="flex items-center gap-2">
+                          <Youtube className="w-4 h-4" />
+                          YouTube URL
+                        </FormLabel>
+                        <FormControl>
+                          <Input placeholder="https://youtube.com/..." {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </TabsContent>
 
                 {/* Content Tab */}
@@ -509,6 +544,54 @@ export function QuickLinksSettings({
                         </FormControl>
                         <FormDescription>
                           Link to support ticket system
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </TabsContent>
+
+                {/* Workflows Tab */}
+                <TabsContent value="workflows" className="space-y-4 mt-0">
+                  <FormField
+                    control={form.control}
+                    name="workflowUrl"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="flex items-center gap-2">
+                          <Zap className="w-4 h-4" />
+                          Workflow Dashboard URL
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="https://make.com/dashboard/..."
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormDescription>
+                          Link to your workflow automation dashboard (Make, Zapier, etc.)
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="n8nWebhookUrl"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="flex items-center gap-2">
+                          <Zap className="w-4 h-4" />
+                          n8n Webhook URL
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="https://your-n8n.app/webhook/..."
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormDescription>
+                          n8n webhook URL for triggering automations
                         </FormDescription>
                         <FormMessage />
                       </FormItem>

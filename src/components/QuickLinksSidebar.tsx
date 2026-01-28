@@ -19,6 +19,7 @@ import {
   Users,
   LifeBuoy,
   MessageCircle,
+  MessageSquare,
   ExternalLink,
   ChevronDown,
   ChevronRight,
@@ -28,8 +29,11 @@ import {
   Facebook,
   Linkedin,
   Twitter,
+  Youtube,
   Settings,
   Phone,
+  Zap,
+  Workflow,
   type LucideIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -71,12 +75,16 @@ const iconMap: Record<string, LucideIcon> = {
   Users,
   LifeBuoy,
   MessageCircle,
+  MessageSquare,
   Video,
   Instagram,
   Facebook,
   Linkedin,
   Twitter,
+  Youtube,
   Phone,
+  Zap,
+  Workflow,
 };
 
 interface QuickLinksSidebarProps {
