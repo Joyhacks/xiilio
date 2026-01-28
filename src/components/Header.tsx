@@ -4,7 +4,7 @@ import { HeaderQuickLinks } from "@/components/HeaderQuickLinks";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { LanguageSelector } from "@/components/LanguageSelector";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Home, ArrowLeft, Settings, LogOut, User, BarChart3 } from "lucide-react";
+import { Menu, X, Home, ArrowLeft, Settings, LogOut, User, BarChart3, Download } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import {
   DropdownMenu,
@@ -253,6 +253,17 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
                             )}
                           </SheetClose>
                         ))}
+
+                        {/* Install App Link */}
+                        <SheetClose asChild>
+                          <Link
+                            to="/install"
+                            className="flex items-center gap-3 px-4 py-3 rounded-xl text-muted-foreground hover:text-foreground hover:bg-primary/10 transition-colors"
+                          >
+                            <Download className="h-5 w-5" />
+                            <span>Install App</span>
+                          </Link>
+                        </SheetClose>
 
                         {isAuthenticated && (
                           <>
