@@ -141,12 +141,18 @@ export function AgentChat({
     }
   }, [pendingVoiceMessage]);
 
+  // Scroll within chat container only - not page level
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
+    }
   };
 
+  // Only scroll within messages container, not the whole page
   useEffect(() => {
-    scrollToBottom();
+    if (messages.length > 0) {
+      scrollToBottom();
+    }
   }, [messages]);
 
   const streamChat = useCallback(
@@ -376,8 +382,8 @@ export function AgentChat({
         }
       />
 
-      {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      {/* Messages Area - contained scroll */}
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 scroll-smooth">
         {messages.length === 0 && showPrompts && (
           <SuggestedPrompts
             agentName={agentName}
