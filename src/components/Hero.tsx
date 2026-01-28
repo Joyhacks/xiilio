@@ -33,31 +33,32 @@ export function Hero() {
         
         <div className="relative z-10 container mx-auto px-6 text-center">
           {/* Logo */}
-          <div className="mb-8 animate-fade-in">
+          <div className="mb-8">
             <img 
               src={logo} 
               alt="24TWELVE - AI Agent Suite" 
               className="h-32 md:h-40 lg:h-48 w-auto mx-auto drop-shadow-2xl"
+              loading="eager"
             />
           </div>
 
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full glass-card mb-6 animate-fade-in shimmer" style={{ animationDelay: '0.1s' }}>
+          <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full glass-card mb-6 shimmer">
             <Sparkles className="w-4 h-4 text-primary" />
             <span className="text-sm text-foreground/80">Meet Your AI Agent Team</span>
           </div>
 
           {/* Main heading */}
-          <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold mb-6 animate-fade-in" style={{ animationDelay: '0.15s' }}>
+          <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
             <span className="text-gradient">Your AI Agent Team</span>
           </h1>
           
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 animate-fade-in" style={{ animationDelay: '0.2s' }}>
+          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
             Specialized AI agents ready to handle tasks, manage communications, and grow your business around the clock.
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in" style={{ animationDelay: '0.3s' }}>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Button variant="hero" size="xl" onClick={handleGetStarted}>
               <Zap className="w-5 h-5" />
               Get Started Free
@@ -73,7 +74,7 @@ export function Hero() {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-3 gap-8 max-w-2xl mx-auto mt-16 animate-fade-in" style={{ animationDelay: '0.4s' }}>
+          <div className="grid grid-cols-3 gap-4 sm:gap-8 max-w-2xl mx-auto mt-16">
             <div className="text-center glass-card rounded-2xl p-6">
               <div className="text-3xl md:text-4xl font-display font-bold text-gradient">10K+</div>
               <div className="text-sm text-muted-foreground mt-1">Tasks Automated</div>

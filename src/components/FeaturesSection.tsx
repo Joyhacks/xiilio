@@ -65,11 +65,10 @@ export function FeaturesSection() {
 
         {/* Features grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {features.map((feature, index) => (
+          {features.map((feature) => (
             <div
               key={feature.title}
-              className="group p-6 rounded-2xl glass-card transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_20px_60px_hsl(210_40%_70%/0.12)] animate-fade-in"
-              style={{ animationDelay: `${index * 0.1}s` }}
+              className="group p-6 rounded-2xl glass-card transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_20px_60px_hsl(210_40%_70%/0.12)]"
             >
               <div
                 className={cn(

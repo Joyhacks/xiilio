@@ -88,14 +88,8 @@ export function AgentsSection() {
 
         {/* Agents grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {agents.map((agent, index) => (
-            <div
-              key={agent.name}
-              className="animate-fade-in"
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              <AgentCard {...agent} />
-            </div>
+          {agents.map((agent) => (
+            <AgentCard key={agent.name} {...agent} />
           ))}
         </div>
       </div>
