@@ -1,8 +1,5 @@
 import { useState, useRef, useCallback, useEffect } from "react";
-import { getAgentVoiceConfig, getUserVoiceSettings, saveUserVoiceSettings } from "@/lib/voiceConfig";
-
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
-const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+import { getUserVoiceSettings, saveUserVoiceSettings } from "@/lib/voiceConfig";
 
 interface UseAgentTTSOptions {
   agentType: string;
@@ -23,6 +20,37 @@ interface UseAgentTTSReturn {
   setSpeed: (speed: number) => void;
 }
 
+// Map agent types to Web Speech API voice preferences
+const AGENT_VOICE_PREFERENCES: Record<string, { lang: string; gender: "male" | "female" }> = {
+  receptionist: { lang: "en-US", gender: "female" },
+  assistant: { lang: "en-US", gender: "female" },
+  legal: { lang: "en-US", gender: "male" },
+  social: { lang: "en-US", gender: "male" },
+  writer: { lang: "en-US", gender: "male" },
+  sales: { lang: "en-US", gender: "male" },
+  coach: { lang: "en-US", gender: "male" },
+  finance: { lang: "en-US", gender: "male" },
+};
+
+function selectVoice(agentType: string): SpeechSynthesisVoice | null {
+  const voices = window.speechSynthesis.getVoices();
+  const prefs = AGENT_VOICE_PREFERENCES[agentType] || { lang: "en-US", gender: "female" };
+  
+  // Try to find a voice matching language and gender preference
+  const langVoices = voices.filter(v => v.lang.startsWith(prefs.lang.split("-")[0]));
+  
+  // Prefer voices that match gender hint in name
+  const genderHint = prefs.gender === "female" ? /female|woman|samantha|victoria|karen|susan/i : /male|man|daniel|james|david|alex/i;
+  const genderMatch = langVoices.find(v => genderHint.test(v.name));
+  if (genderMatch) return genderMatch;
+  
+  // Fall back to any English voice
+  if (langVoices.length > 0) return langVoices[0];
+  
+  // Last resort: any voice
+  return voices[0] || null;
+}
+
 export function useAgentTTS({
   agentType,
   onSpeakStart,
@@ -31,27 +59,25 @@ export function useAgentTTS({
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [settings, setSettings] = useState(() => getUserVoiceSettings());
+  const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
 
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  const abortControllerRef = useRef<AbortController | null>(null);
-
-  // Cleanup on unmount
+  // Ensure voices are loaded
   useEffect(() => {
+    const loadVoices = () => {
+      window.speechSynthesis.getVoices();
+    };
+    loadVoices();
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+    
     return () => {
+      window.speechSynthesis.onvoiceschanged = null;
       stop();
     };
   }, []);
 
   const stop = useCallback(() => {
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current.currentTime = 0;
-      audioRef.current = null;
-    }
-    if (abortControllerRef.current) {
-      abortControllerRef.current.abort();
-      abortControllerRef.current = null;
-    }
+    window.speechSynthesis.cancel();
+    utteranceRef.current = null;
     setIsSpeaking(false);
     setIsLoading(false);
     onSpeakEnd?.();
@@ -59,79 +85,53 @@ export function useAgentTTS({
 
   const speak = useCallback(async (text: string) => {
     if (!text.trim()) return;
+    if (!window.speechSynthesis) {
+      console.warn("Web Speech API not supported");
+      return;
+    }
     
     // Stop any current playback
     stop();
     
-    const voiceConfig = getAgentVoiceConfig(agentType);
-    
     setIsLoading(true);
-    abortControllerRef.current = new AbortController();
 
-    try {
-      const response = await fetch(
-        `${SUPABASE_URL}/functions/v1/elevenlabs-tts`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            apikey: SUPABASE_KEY,
-            Authorization: `Bearer ${SUPABASE_KEY}`,
-          },
-          body: JSON.stringify({
-            text: text.slice(0, 2000), // Limit text length
-            voiceId: voiceConfig.voiceId,
-            agentType,
-          }),
-          signal: abortControllerRef.current.signal,
-        }
-      );
+    const utterance = new SpeechSynthesisUtterance(text);
+    utteranceRef.current = utterance;
+    
+    // Configure voice
+    const voice = selectVoice(agentType);
+    if (voice) {
+      utterance.voice = voice;
+    }
+    
+    utterance.rate = settings.speed;
+    utterance.volume = settings.volume;
+    utterance.pitch = 1;
 
-      if (!response.ok) {
-        throw new Error(`TTS request failed: ${response.status}`);
-      }
+    utterance.onstart = () => {
+      setIsSpeaking(true);
+      setIsLoading(false);
+      onSpeakStart?.();
+    };
 
-      const audioBlob = await response.blob();
-      const audioUrl = URL.createObjectURL(audioBlob);
-      
-      const audio = new Audio(audioUrl);
-      audio.volume = settings.volume;
-      audio.playbackRate = settings.speed;
-      audioRef.current = audio;
+    utterance.onend = () => {
+      setIsSpeaking(false);
+      utteranceRef.current = null;
+      onSpeakEnd?.();
+    };
 
-      audio.onplay = () => {
-        setIsSpeaking(true);
-        setIsLoading(false);
-        onSpeakStart?.();
-      };
-
-      audio.onended = () => {
-        URL.revokeObjectURL(audioUrl);
-        setIsSpeaking(false);
-        audioRef.current = null;
-        onSpeakEnd?.();
-      };
-
-      audio.onerror = () => {
-        URL.revokeObjectURL(audioUrl);
-        setIsSpeaking(false);
-        setIsLoading(false);
-        audioRef.current = null;
-        onSpeakEnd?.();
-        console.error("Audio playback error");
-      };
-
-      await audio.play();
-    } catch (error: any) {
-      if (error.name === "AbortError") {
-        console.log("TTS request aborted");
-      } else {
-        console.error("TTS error:", error);
+    utterance.onerror = (event) => {
+      if (event.error !== "canceled") {
+        console.error("Speech synthesis error:", event.error);
       }
       setIsSpeaking(false);
       setIsLoading(false);
-    }
-  }, [agentType, settings.volume, onSpeakStart, onSpeakEnd, stop]);
+      utteranceRef.current = null;
+      onSpeakEnd?.();
+    };
+
+    window.speechSynthesis.speak(utterance);
+  }, [agentType, settings.volume, settings.speed, onSpeakStart, onSpeakEnd, stop]);
 
   const setAutoSpeak = useCallback((enabled: boolean) => {
     const newSettings = { ...settings, autoSpeak: enabled };
@@ -144,11 +144,6 @@ export function useAgentTTS({
     const newSettings = { ...settings, volume: clampedVolume };
     setSettings(newSettings);
     saveUserVoiceSettings(newSettings);
-    
-    // Update current audio if playing
-    if (audioRef.current) {
-      audioRef.current.volume = clampedVolume;
-    }
   }, [settings]);
 
   const setSpeed = useCallback((speed: number) => {
@@ -156,11 +151,6 @@ export function useAgentTTS({
     const newSettings = { ...settings, speed: clampedSpeed };
     setSettings(newSettings);
     saveUserVoiceSettings(newSettings);
-    
-    // Update current audio if playing
-    if (audioRef.current) {
-      audioRef.current.playbackRate = clampedSpeed;
-    }
   }, [settings]);
 
   return {
