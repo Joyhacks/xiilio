@@ -5,21 +5,17 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version',
 };
 
-// Server-side agent ID mapping - never exposed to client
-// These are the ElevenLabs Conversational AI Agent IDs for each agent type
+// Public ElevenLabs Agent IDs for each agent type
 const AGENT_IDS: Record<string, string> = {
-  receptionist: Deno.env.get("ELEVENLABS_AGENT_RECEPTIONIST") || "",
-  assistant: Deno.env.get("ELEVENLABS_AGENT_ASSISTANT") || "",
-  legal: Deno.env.get("ELEVENLABS_AGENT_LEGAL") || "",
-  social: Deno.env.get("ELEVENLABS_AGENT_SOCIAL") || "",
-  writer: Deno.env.get("ELEVENLABS_AGENT_WRITER") || "",
-  sales: Deno.env.get("ELEVENLABS_AGENT_SALES") || "",
-  coach: Deno.env.get("ELEVENLABS_AGENT_COACH") || "",
-  finance: Deno.env.get("ELEVENLABS_AGENT_FINANCE") || "",
+  receptionist: "agent_1201kfbaa8ygf1b93g0p4290nx67", // Julia
+  assistant: "agent_7301kfb9x9h7e4p9ptaxvrn3mv57",    // Kate
+  legal: "agent_7201kfbc66gef8srn8dx0kzd7rgs",        // Halle
+  social: "agent_2101kfbaxvp2f8atvytzszwqe7br",       // George
+  writer: "agent_2301kfbbajyrffrbzq7k3n9qm6ff",       // Arnie
+  sales: "agent_4001kfbd4szefvvbfgh30wvpzbbr",        // Brad
+  coach: "agent_2701kfbvg113fhgaw1k0mjavt6h8",        // Sam
+  finance: "agent_5501kfbw5b2wfgtstg4wdaxxqxw2",      // Jerry
 };
-
-// Default/fallback agent ID if specific agent not configured
-const DEFAULT_AGENT_ID = Deno.env.get("ELEVENLABS_DEFAULT_AGENT_ID") || "";
 
 serve(async (req) => {
   // Handle CORS preflight requests
@@ -54,10 +50,9 @@ serve(async (req) => {
     }
 
     // Look up the agent ID server-side
-    const specificAgentId = AGENT_IDS[agentType];
-    const agentId = specificAgentId || DEFAULT_AGENT_ID;
+    const agentId = AGENT_IDS[agentType];
 
-    console.log(`Agent type: ${agentType}, Specific ID found: ${!!specificAgentId}, Using ID: ${agentId ? agentId.substring(0, 15) + '...' : 'NONE'}`);
+    console.log(`Agent type: ${agentType}, Using ID: ${agentId ? agentId.substring(0, 20) + '...' : 'NONE'}`);
 
     if (!agentId) {
       console.error(`No agent ID configured for type: ${agentType}`);
