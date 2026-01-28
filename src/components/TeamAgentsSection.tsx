@@ -1,4 +1,6 @@
 import { AgentCard } from "@/components/AgentCard";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { cn } from "@/lib/utils";
 
 // Avatar imports
 import juliaAvatar from "@/assets/avatars/julia-receptionist.png";
@@ -102,11 +104,22 @@ const teamAgents = [
 ];
 
 export function TeamAgentsSection() {
+  const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation();
+  const { ref: gridRef, isVisible: gridVisible } = useScrollAnimation({ threshold: 0.05 });
+
   return (
     <section className="relative py-24 bg-gradient-hero">
       <div className="container mx-auto px-6">
         {/* Section header */}
-        <div className="text-center mb-16">
+        <div
+          ref={headerRef}
+          className={cn(
+            "text-center mb-16 transition-all duration-700 ease-out",
+            headerVisible
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-8"
+          )}
+        >
           <h2 className="font-display text-4xl md:text-5xl font-bold mb-4">
             Meet Your <span className="text-gradient">AI Team</span>
           </h2>
@@ -117,7 +130,15 @@ export function TeamAgentsSection() {
         </div>
 
         {/* Agents grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div
+          ref={gridRef}
+          className={cn(
+            "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 transition-all duration-700 ease-out delay-150",
+            gridVisible
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-12"
+          )}
+        >
           {teamAgents.map((agent) => (
             <AgentCard key={agent.name} {...agent} />
           ))}

@@ -1,5 +1,6 @@
 import { Bot, Shield, Zap, Globe, Clock, Workflow } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const features = [
   {
@@ -47,13 +48,24 @@ const features = [
 ];
 
 export function FeaturesSection() {
+  const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation();
+  const { ref: gridRef, isVisible: gridVisible } = useScrollAnimation({ threshold: 0.05 });
+
   return (
     <section id="features" className="relative py-24 bg-gradient-hero">
       <div className="absolute inset-0 circuit-pattern opacity-20" />
 
       <div className="relative container mx-auto px-6">
         {/* Section header */}
-        <div className="text-center mb-16">
+        <div
+          ref={headerRef}
+          className={cn(
+            "text-center mb-16 transition-all duration-700 ease-out",
+            headerVisible
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-8"
+          )}
+        >
           <h2 className="font-display text-4xl md:text-5xl font-bold mb-4">
             Built for <span className="text-gradient">Modern Business</span>
           </h2>
@@ -64,7 +76,15 @@ export function FeaturesSection() {
         </div>
 
         {/* Features grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div
+          ref={gridRef}
+          className={cn(
+            "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 transition-all duration-700 ease-out delay-150",
+            gridVisible
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-12"
+          )}
+        >
           {features.map((feature) => (
             <div
               key={feature.title}

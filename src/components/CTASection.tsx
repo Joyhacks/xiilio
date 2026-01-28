@@ -1,8 +1,12 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { cn } from "@/lib/utils";
 
 export function CTASection() {
+  const { ref, isVisible } = useScrollAnimation({ threshold: 0.2 });
+
   return (
     <section className="relative py-24 bg-background overflow-hidden">
       {/* Background effects */}
@@ -13,7 +17,15 @@ export function CTASection() {
       </div>
 
       <div className="relative container mx-auto px-6">
-        <div className="max-w-4xl mx-auto text-center glass-luxury rounded-3xl p-12">
+        <div
+          ref={ref}
+          className={cn(
+            "max-w-4xl mx-auto text-center glass-luxury rounded-3xl p-12 transition-all duration-700 ease-out",
+            isVisible
+              ? "opacity-100 translate-y-0 scale-100"
+              : "opacity-0 translate-y-12 scale-95"
+          )}
+        >
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full glass-card mb-8 shimmer">
             <Sparkles className="w-4 h-4 text-primary" />
