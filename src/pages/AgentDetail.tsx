@@ -1,4 +1,5 @@
 import { useParams, Link } from "react-router-dom";
+import { useEffect, useRef } from "react";
 import { ArrowLeft, CheckCircle, MessageSquare, Clock, Mic, Linkedin } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -502,6 +503,19 @@ export default function AgentDetail() {
   const { agentId } = useParams<{ agentId: string }>();
   const agent = agentId ? agents[agentId] : null;
   const isMobile = useIsMobile();
+  const avatarRef = useRef<HTMLDivElement>(null);
+
+  // Scroll to avatar on mount
+  useEffect(() => {
+    if (avatarRef.current) {
+      // Small delay to ensure DOM is ready
+      setTimeout(() => {
+        avatarRef.current?.scrollIntoView({ behavior: 'instant', block: 'start' });
+        // Adjust for header height
+        window.scrollBy(0, -80);
+      }, 50);
+    }
+  }, [agentId]);
 
   if (!agent) {
     return (
@@ -580,7 +594,10 @@ export default function AgentDetail() {
         </Link>
 
         {/* Agent Header */}
-        <div className="flex flex-col md:flex-row md:items-center gap-6 mb-8 p-6 rounded-2xl bg-gradient-card border border-border/50">
+        <div 
+          ref={avatarRef}
+          className="flex flex-col md:flex-row md:items-center gap-6 mb-8 p-6 rounded-2xl bg-gradient-card border border-border/50 scroll-mt-24"
+        >
           <Avatar
             className={cn(
               "w-24 h-24 ring-4 shrink-0",

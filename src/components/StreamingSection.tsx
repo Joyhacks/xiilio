@@ -32,7 +32,7 @@ function StreamingLink({ service }: StreamingLinkProps) {
       className={cn(
         // Base styles
         "group relative flex items-center justify-center",
-        "w-16 h-16 rounded-full text-white",
+        "w-12 h-12 md:w-16 md:h-16 rounded-full text-white",
         "ring-2 ring-white/20 backdrop-blur-sm",
         // Transitions
         "transition-all duration-300 ease-out",
@@ -49,8 +49,8 @@ function StreamingLink({ service }: StreamingLinkProps) {
     >
       <StreamingIcon 
         brandKey={service.brandKey} 
-        size={24}
-        className="transition-transform duration-200 group-hover:scale-105"
+        size={20}
+        className="transition-transform duration-200 group-hover:scale-105 md:w-6 md:h-6"
       />
       
       {/* Tooltip */}
@@ -98,7 +98,7 @@ export function StreamingLinks({
   return (
     <div className={cn("space-y-4", className)}>
       <div 
-        className="flex flex-wrap gap-6 justify-center"
+        className="flex flex-wrap gap-4 md:gap-6 justify-center"
         role="list"
         aria-label="Streaming services"
       >
@@ -130,19 +130,19 @@ export function StreamingSection() {
       <div 
         ref={ref}
         className={cn(
-          "container mx-auto px-6 transition-all duration-700 ease-out",
+          "container mx-auto px-4 md:px-6 transition-all duration-700 ease-out",
           isVisible
             ? "opacity-100 translate-y-0"
             : "opacity-0 translate-y-8"
         )}
       >
-        <div className="text-center mb-10">
-          <p className="text-sm text-muted-foreground uppercase tracking-wider mb-2">
+        <div className="text-center mb-8 md:mb-10">
+          <p className="text-xs md:text-sm text-muted-foreground uppercase tracking-wider mb-2">
             Watch on
           </p>
           <h2 
             id="streaming-section-title"
-            className="font-display text-2xl font-bold text-foreground"
+            className="font-display text-xl md:text-2xl font-bold text-foreground"
           >
             Available on your favorite platforms
           </h2>
