@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { 
   Shield, Database, Eye, Trash2, Download, Lock, 
   Mail, Globe, Clock, Users, FileText, AlertCircle,
-  Bell, Plane
+  Bell, Plane, MapPin
 } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -242,7 +242,75 @@ export default function Privacy() {
               </div>
             </Section>
 
-            <Section icon={Download} title="6. Exporting Your Data">
+            <Section icon={MapPin} title="6. California Privacy Rights (CCPA)">
+              <p>
+                If you are a California resident, the California Consumer Privacy Act (CCPA) 
+                and California Privacy Rights Act (CPRA) provide you with additional rights 
+                regarding your personal information:
+              </p>
+              <div className="grid gap-4 mt-4 sm:grid-cols-2">
+                <div className="p-4 rounded-lg bg-card border border-border">
+                  <h4 className="font-medium text-foreground mb-2">Right to Know</h4>
+                  <p className="text-sm">
+                    Request disclosure of categories and specific pieces of personal 
+                    information we've collected, sources, purposes, and third parties 
+                    we share it with.
+                  </p>
+                </div>
+                <div className="p-4 rounded-lg bg-card border border-border">
+                  <h4 className="font-medium text-foreground mb-2">Right to Delete</h4>
+                  <p className="text-sm">
+                    Request deletion of personal information we've collected, subject 
+                    to certain exceptions (e.g., legal compliance, security).
+                  </p>
+                </div>
+                <div className="p-4 rounded-lg bg-card border border-border">
+                  <h4 className="font-medium text-foreground mb-2">Right to Correct</h4>
+                  <p className="text-sm">
+                    Request correction of inaccurate personal information we maintain 
+                    about you.
+                  </p>
+                </div>
+                <div className="p-4 rounded-lg bg-card border border-border">
+                  <h4 className="font-medium text-foreground mb-2">Right to Opt-Out</h4>
+                  <p className="text-sm">
+                    Opt out of the "sale" or "sharing" of personal information for 
+                    cross-context behavioral advertising.
+                  </p>
+                </div>
+                <div className="p-4 rounded-lg bg-card border border-border">
+                  <h4 className="font-medium text-foreground mb-2">Right to Limit Use</h4>
+                  <p className="text-sm">
+                    Limit the use and disclosure of sensitive personal information 
+                    to what is necessary for providing services.
+                  </p>
+                </div>
+                <div className="p-4 rounded-lg bg-card border border-border">
+                  <h4 className="font-medium text-foreground mb-2">Non-Discrimination</h4>
+                  <p className="text-sm">
+                    You will not be discriminated against for exercising any of your 
+                    CCPA rights.
+                  </p>
+                </div>
+              </div>
+              <div className="mt-6 p-4 rounded-lg bg-muted/50 border border-border">
+                <h4 className="font-medium text-foreground mb-2">Do Not Sell or Share My Personal Information</h4>
+                <p className="text-sm">
+                  We do not sell your personal information. We do not share your personal 
+                  information for cross-context behavioral advertising. If this changes, 
+                  we will provide a clear opt-out mechanism.
+                </p>
+              </div>
+              <p className="mt-4">
+                To exercise any of these rights, contact us at{" "}
+                <a href="mailto:privacy@24twelve.ai" className="text-primary hover:underline">
+                  privacy@24twelve.ai
+                </a>
+                . We will respond within 45 days as required by CCPA.
+              </p>
+            </Section>
+
+            <Section icon={Download} title="7. Exporting Your Data">
               <p>
                 You can download all your stored data at any time through your account settings:
               </p>
@@ -266,7 +334,7 @@ export default function Privacy() {
               </div>
             </Section>
 
-            <Section icon={Trash2} title="7. Deleting Your Data">
+            <Section icon={Trash2} title="8. Deleting Your Data">
               <p>
                 You have multiple options for data deletion:
               </p>
@@ -294,7 +362,7 @@ export default function Privacy() {
               </div>
             </Section>
 
-            <Section icon={Bell} title="8. Data Breach Notification">
+            <Section icon={Bell} title="9. Data Breach Notification">
               <p>
                 In the event of a personal data breach that poses a risk to your rights and 
                 freedoms, we are committed to:
@@ -327,7 +395,7 @@ export default function Privacy() {
               </p>
             </Section>
 
-            <Section icon={Plane} title="9. Cross-Border Data Transfers">
+            <Section icon={Plane} title="10. Cross-Border Data Transfers">
               <p>
                 Your data may be transferred to and processed in countries outside your 
                 country of residence. We ensure all cross-border transfers comply with 
@@ -361,7 +429,7 @@ export default function Privacy() {
               </p>
             </Section>
 
-            <Section icon={Globe} title="10. Cookies & Tracking">
+            <Section icon={Globe} title="11. Cookies & Tracking">
               <p>
                 We use cookies and similar technologies with your explicit consent:
               </p>
@@ -389,7 +457,7 @@ export default function Privacy() {
               </p>
             </Section>
 
-            <Section icon={FileText} title="11. Third-Party Services">
+            <Section icon={FileText} title="12. Third-Party Services">
               <p>
                 We use the following third-party services to operate our platform:
               </p>
@@ -413,7 +481,7 @@ export default function Privacy() {
               </p>
             </Section>
 
-            <Section icon={Mail} title="12. Contact Us">
+            <Section icon={Mail} title="13. Contact Us">
               <p>
                 If you have questions about this Privacy Policy or wish to exercise your 
                 data rights, please contact us:
