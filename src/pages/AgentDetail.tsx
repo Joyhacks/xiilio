@@ -1,9 +1,8 @@
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, CheckCircle, MessageSquare, Settings, Clock, Mic } from "lucide-react";
+import { ArrowLeft, CheckCircle, MessageSquare, Clock, Mic } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { AgentChat } from "@/components/AgentChat";
-import { AgentConfigPanel } from "@/components/AgentConfigPanel";
 import { ActivityHistory } from "@/components/ActivityHistory";
 import { VoiceChat } from "@/components/VoiceChat";
 import { QuickLinksSidebar } from "@/components/QuickLinksSidebar";
@@ -13,7 +12,6 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
-
 // Avatar imports
 import juliaAvatar from "@/assets/avatars/julia-receptionist.png";
 import kateAvatar from "@/assets/avatars/kate-assistant.png";
@@ -589,10 +587,6 @@ export default function AgentDetail() {
               <Mic className="w-4 h-4" />
               Voice
             </TabsTrigger>
-            <TabsTrigger value="settings" className="gap-2">
-              <Settings className="w-4 h-4" />
-              Settings
-            </TabsTrigger>
             <TabsTrigger value="activity" className="gap-2">
               <Clock className="w-4 h-4" />
               Activity
@@ -678,16 +672,6 @@ export default function AgentDetail() {
                   agentAvatar={agent.avatar}
                   agentColor={agent.color}
                 />
-              </div>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="settings" className="mt-6">
-            <div className="max-w-3xl">
-              <div className="p-6 rounded-2xl bg-card border border-border/50">
-                {agentId && (
-                  <AgentConfigPanel agentSlug={agentId} agentName={agent.name} />
-                )}
               </div>
             </div>
           </TabsContent>
