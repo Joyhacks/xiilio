@@ -75,8 +75,9 @@ export function Hero() {
           </div>
           
           {/* Voice Demo Button */}
-          <div className="flex justify-center">
+          <div className="flex flex-col items-center gap-2 mt-4">
             <VoiceDemoButton />
+            <p className="text-xs text-muted-foreground">Click to try our AI voice</p>
           </div>
 
           {/* Stats */}
