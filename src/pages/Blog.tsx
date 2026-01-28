@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 import { Calendar, Clock, ArrowRight, Sparkles } from "lucide-react";
+import { ScrollToTop } from "@/components/ScrollToTop";
 
 const blogPosts = [
   {
@@ -176,6 +177,7 @@ export default function Blog() {
       </main>
       
       <Footer />
+      <ScrollToTop />
     </div>
   );
 }

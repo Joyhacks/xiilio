@@ -14,6 +14,7 @@ import {
   Coffee,
   Sparkles 
 } from "lucide-react";
+import { ScrollToTop } from "@/components/ScrollToTop";
 
 const openPositions = [
   {
@@ -184,6 +185,7 @@ export default function Careers() {
       </main>
       
       <Footer />
+      <ScrollToTop />
     </div>
   );
 }
