@@ -1,3 +1,4 @@
+import { forwardRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { formatDistanceToNow } from "date-fns";
@@ -29,7 +30,8 @@ const activityColors: Record<string, string> = {
   task_executed: "text-amber-400 bg-amber-500/20",
 };
 
-export function ActivityHistory({ agentSlug }: ActivityHistoryProps) {
+export const ActivityHistory = forwardRef<HTMLDivElement, ActivityHistoryProps>(
+  function ActivityHistory({ agentSlug }, ref) {
   const { data: activities, isLoading } = useQuery({
     queryKey: ["agent-activity", agentSlug],
     queryFn: async () => {
@@ -67,7 +69,7 @@ export function ActivityHistory({ agentSlug }: ActivityHistoryProps) {
   }
 
   return (
-    <div className="space-y-4">
+    <div ref={ref} className="space-y-4">
       <div className="flex items-center gap-2 mb-6">
         <Clock className="w-5 h-5 text-primary" />
         <h3 className="font-semibold text-foreground">Recent Activity</h3>
@@ -137,3 +139,6 @@ export function ActivityHistory({ agentSlug }: ActivityHistoryProps) {
     </div>
   );
 }
+);
+
+ActivityHistory.displayName = "ActivityHistory";

@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Mail, Lock, Eye, EyeOff, User, Building2 } from 'lucide-react';
-import { useState } from 'react';
+import { useState, forwardRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -23,7 +23,8 @@ interface SignUpStep1Props {
   defaultValues?: SignUpStep1Data;
 }
 
-export function SignUpStep1({ onNext, onGoogleSignUp, isLoading, defaultValues }: SignUpStep1Props) {
+export const SignUpStep1 = forwardRef<HTMLFormElement, SignUpStep1Props>(
+  function SignUpStep1({ onNext, onGoogleSignUp, isLoading, defaultValues }, ref) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -43,7 +44,7 @@ export function SignUpStep1({ onNext, onGoogleSignUp, isLoading, defaultValues }
   const termsAccepted = watch('termsAccepted');
 
   return (
-    <form onSubmit={handleSubmit(onNext)} className="space-y-4">
+    <form ref={ref} onSubmit={handleSubmit(onNext)} className="space-y-4">
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="space-y-2">
           <Label htmlFor="fullName">Full Name *</Label>
@@ -239,4 +240,6 @@ export function SignUpStep1({ onNext, onGoogleSignUp, isLoading, defaultValues }
       </Button>
     </form>
   );
-}
+});
+
+SignUpStep1.displayName = "SignUpStep1";
