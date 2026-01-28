@@ -29,6 +29,7 @@ const Terms = lazy(() => import("./pages/Terms"));
 const CookiePolicy = lazy(() => import("./pages/CookiePolicy"));
 const Install = lazy(() => import("./pages/Install"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient({
@@ -77,6 +78,7 @@ const App = () => (
                 <Route path="/cookies" element={<CookiePolicy />} />
                 <Route path="/install" element={<Install />} />
                 <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
