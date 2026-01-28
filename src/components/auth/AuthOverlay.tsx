@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { SignInForm } from './SignInForm';
 import { SignUpWizard } from './SignUpWizard';
+import { ForgotPasswordForm } from './ForgotPasswordForm';
 import { useAuth } from '@/hooks/useAuth';
 import logo from '@/assets/logo-24twelve-transparent.png';
 
@@ -19,6 +20,7 @@ export function AuthOverlay({ isOpen, onClose, message, defaultTab = 'signin' }:
   const { isAuthenticated } = useAuth();
   const [activeTab, setActiveTab] = useState<string>(defaultTab);
   const [showSignUpWizard, setShowSignUpWizard] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
 
   // Close on successful auth
   useEffect(() => {
@@ -49,6 +51,7 @@ export function AuthOverlay({ isOpen, onClose, message, defaultTab = 'signin' }:
   useEffect(() => {
     if (!isOpen) {
       setShowSignUpWizard(false);
+      setShowForgotPassword(false);
       setActiveTab(defaultTab);
     }
   }, [isOpen, defaultTab]);
@@ -61,8 +64,11 @@ export function AuthOverlay({ isOpen, onClose, message, defaultTab = 'signin' }:
   };
 
   const handleForgotPassword = () => {
-    // For now, show a toast - implement password reset flow later
-    console.log('Forgot password clicked');
+    setShowForgotPassword(true);
+  };
+
+  const handleBackFromForgotPassword = () => {
+    setShowForgotPassword(false);
   };
 
   if (!isOpen) return null;
@@ -120,7 +126,9 @@ export function AuthOverlay({ isOpen, onClose, message, defaultTab = 'signin' }:
             </div>
 
             {/* Content */}
-            {showSignUpWizard ? (
+            {showForgotPassword ? (
+              <ForgotPasswordForm onBack={handleBackFromForgotPassword} />
+            ) : showSignUpWizard ? (
               <SignUpWizard
                 onSuccess={onClose}
                 onBack={() => setShowSignUpWizard(false)}
@@ -168,7 +176,7 @@ export function AuthOverlay({ isOpen, onClose, message, defaultTab = 'signin' }:
             )}
 
             {/* Skip button */}
-            {!showSignUpWizard && (
+            {!showSignUpWizard && !showForgotPassword && (
               <div className="mt-6 pt-6 border-t border-border text-center">
                 <button
                   onClick={handleSkip}
