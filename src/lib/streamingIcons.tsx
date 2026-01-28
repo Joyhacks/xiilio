@@ -44,21 +44,21 @@ interface SimpleIcon {
 // Official brand-accurate paths (updated 2025)
 // ============================================
 
-// Prime Video - Play button arrow icon (2024 brand refresh)
+// Prime Video - Play triangle icon
 const siPrimevideo: SimpleIcon = {
-  path: "M12.002 2C6.479 2 2 6.477 2 12c0 5.523 4.478 10 10.002 10 5.522 0 9.998-4.477 9.998-10 0-5.523-4.476-10-9.998-10zm3.703 10.433l-5.003 3.002c-.437.262-.997-.066-.997-.577V9.143c0-.511.56-.839.997-.577l5.003 3.001c.437.263.437.869 0 1.132-.016.01.016-.01 0 0z",
+  path: "M8 5v14l11-7z",
   title: "Prime Video"
 };
 
-// Hulu - Stylized "h" logo (2024)
+// Hulu - Smiling face icon (brand mascot)
 const siHulu: SimpleIcon = {
-  path: "M19.5 12c0 1.93-.789 3.68-2.063 4.938A6.96 6.96 0 0 1 12.5 19a6.96 6.96 0 0 1-4.937-2.063A6.96 6.96 0 0 1 5.5 12V5h3v7a4 4 0 0 0 4 4 4 4 0 0 0 4-4V5h3v7zm-7-7a7 7 0 0 0-7 7v7h3v-7a4 4 0 0 1 4-4 4 4 0 0 1 4 4h3a7 7 0 0 0-7-7z",
+  path: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l7.5 4.5-7.5 4.5z",
   title: "Hulu"
 };
 
-// Disney+ - Stylized D+ logo (2024 brand refresh)
+// Disney+ - D with plus symbol
 const siDisneyplus: SimpleIcon = {
-  path: "M8.813 14.5H6.5V4.938h2.313c3.125 0 5.5 2.062 5.5 4.781 0 2.719-2.375 4.781-5.5 4.781zm0-7.25H8.75v4.938h.063c1.75 0 3.187-1.063 3.187-2.469 0-1.407-1.438-2.47-3.188-2.47zM19.5 9.5h-1.125V7.375H17.25V9.5h-1.125v1.125h1.125v2.125h1.125v-2.125H19.5V9.5zM12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z",
+  path: "M4 4h8c2.21 0 4 1.79 4 4v8c0 2.21-1.79 4-4 4H4V4zm4 12h4c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2H8v8zm10-6h2v2h2v2h-2v2h-2v-2h-2v-2h2V10z",
   title: "Disney+"
 };
 
