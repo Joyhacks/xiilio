@@ -2,6 +2,7 @@ import { Check, Zap, Crown, Building2, ArrowRight } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ScrollToTop } from "@/components/ScrollToTop";
+import { SEO } from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -121,9 +122,32 @@ const agentCapabilities = [
 ];
 
 export default function Pricing() {
+  const pricingSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: "24Twelve AI Agents",
+    description: "AI-powered business automation platform",
+    offers: plans.map((plan) => ({
+      "@type": "Offer",
+      name: plan.name,
+      description: plan.description,
+      price: plan.price === "Custom" ? undefined : plan.price.replace("$", ""),
+      priceCurrency: "USD",
+      priceValidUntil: "2027-12-31",
+    })),
+  };
+
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
+    <>
+      <SEO
+        title="Pricing"
+        description="Choose the perfect AI agent plan for your team. Start with a 14-day free trial. Plans from $49/month for startups to custom enterprise solutions."
+        keywords="24Twelve pricing, AI agent plans, business automation cost, SaaS pricing"
+        canonical="/pricing"
+        structuredData={pricingSchema}
+      />
+      <div className="min-h-screen bg-background">
+        <Header />
 
       <main className="pt-24">
         <div className="container mx-auto px-6 py-16">
@@ -277,6 +301,7 @@ export default function Pricing() {
 
       <Footer />
       <ScrollToTop />
-    </div>
+      </div>
+    </>
   );
 }

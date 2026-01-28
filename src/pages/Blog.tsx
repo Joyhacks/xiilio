@@ -1,5 +1,6 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { SEO } from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
@@ -67,9 +68,30 @@ export default function Blog() {
   const featuredPost = blogPosts.find((post) => post.featured);
   const regularPosts = blogPosts.filter((post) => !post.featured);
 
+  const blogSchema = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    name: "24Twelve Blog",
+    description: "Insights, guides, and updates from the world of AI automation",
+    url: "https://automagic-biz-buddy.lovable.app/blog",
+    publisher: {
+      "@type": "Organization",
+      name: "24Twelve",
+      logo: "https://automagic-biz-buddy.lovable.app/logo-24twelve.png",
+    },
+  };
+
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
+    <>
+      <SEO
+        title="Blog"
+        description="Insights, guides, and updates from the world of AI automation. Learn how to leverage AI agents for your business."
+        keywords="AI automation blog, business automation tips, AI agents guides, productivity insights"
+        canonical="/blog"
+        structuredData={blogSchema}
+      />
+      <div className="min-h-screen bg-background">
+        <Header />
       
       <main className="pt-24">
         {/* Hero Section */}
@@ -178,6 +200,7 @@ export default function Blog() {
       
       <Footer />
       <ScrollToTop />
-    </div>
+      </div>
+    </>
   );
 }

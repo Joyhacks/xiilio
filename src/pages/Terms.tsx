@@ -5,6 +5,7 @@ import {
 } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { SEO } from "@/components/SEO";
 import { Link } from "react-router-dom";
 
 const Section = ({ 
@@ -39,8 +40,15 @@ export default function Terms() {
   const effectiveDate = "January 28, 2026";
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
+    <>
+      <SEO
+        title="Terms of Service"
+        description="Terms of Service for 24Twelve AI agent platform. Understand your rights, responsibilities, and our service policies."
+        keywords="terms of service, user agreement, service terms, AI agent terms, 24Twelve terms"
+        canonical="/terms"
+      />
+      <div className="min-h-screen bg-background">
+        <Header />
 
       <main className="container mx-auto px-6 py-12">
         <motion.div
@@ -362,6 +370,7 @@ export default function Terms() {
       </main>
 
       <Footer />
-    </div>
+      </div>
+    </>
   );
 }

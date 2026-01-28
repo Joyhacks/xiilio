@@ -1,6 +1,7 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ScrollToTop } from "@/components/ScrollToTop";
+import { SEO } from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Users, Target, Lightbulb, Rocket, ArrowRight } from "lucide-react";
@@ -30,8 +31,15 @@ const values = [
 
 export default function About() {
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
+    <>
+      <SEO
+        title="About Us"
+        description="Learn about 24Twelve - we're building the future of business automation with AI agents that work 24 hours a day, 12 months a year."
+        keywords="about 24Twelve, AI automation company, business automation, AI agents team"
+        canonical="/about"
+      />
+      <div className="min-h-screen bg-background">
+        <Header />
       
       <main className="pt-24">
         {/* Hero Section */}
@@ -114,6 +122,7 @@ export default function About() {
       
       <Footer />
       <ScrollToTop />
-    </div>
+      </div>
+    </>
   );
 }
