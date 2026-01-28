@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, forwardRef } from "react";
 import { usePWAInstall } from "@/hooks/usePWAInstall";
 import { Button } from "@/components/ui/button";
 import { X, Download, Smartphone } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export function PWAInstallPrompt() {
+export const PWAInstallPrompt = forwardRef<HTMLDivElement>(function PWAInstallPrompt(_, ref) {
   const { isInstallable, isInstalled, install } = usePWAInstall();
   const [dismissed, setDismissed] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -47,6 +47,7 @@ export function PWAInstallPrompt() {
 
   return (
     <div
+      ref={ref}
       className={cn(
         "fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-80 z-50",
         "bg-card border border-border rounded-xl shadow-lg p-4",
@@ -89,4 +90,4 @@ export function PWAInstallPrompt() {
       </div>
     </div>
   );
-}
+});
