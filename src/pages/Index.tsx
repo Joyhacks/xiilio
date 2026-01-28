@@ -5,6 +5,7 @@ import { HowItWorksSection } from "@/components/HowItWorksSection";
 import { FAQSection } from "@/components/FAQSection";
 import { CTASection } from "@/components/CTASection";
 import { StreamingSection } from "@/components/StreamingSection";
+import { UserSocialSection } from "@/components/UserSocialSection";
 import { Footer } from "@/components/Footer";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { SEO } from "@/components/SEO";
@@ -60,6 +61,7 @@ const Index = () => {
       <FAQSection />
       <CTASection />
       <StreamingSection />
+      <UserSocialSection />
       <Footer />
       <ScrollToTop />
       </div>

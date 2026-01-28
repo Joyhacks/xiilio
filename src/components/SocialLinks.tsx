@@ -107,6 +107,11 @@ export interface SocialLinksConfig {
   youtube?: string;
 }
 
+// Ordered list of all social platforms for consistent rendering
+export const allSocialPlatforms: SocialPlatform[] = [
+  "linkedin", "instagram", "x", "facebook", "youtube", "tiktok", "whatsapp", "threads"
+];
+
 interface SocialLinksProps {
   config?: SocialLinksConfig;
   className?: string;
