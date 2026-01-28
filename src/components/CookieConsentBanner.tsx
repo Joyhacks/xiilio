@@ -17,7 +17,10 @@ export function CookieConsentBanner() {
   } = useConsentManager();
 
   const [showDetails, setShowDetails] = useState(false);
-  const [tempPrefs, setTempPrefs] = useState<ConsentPreferences>(preferences);
+  const [tempPrefs, setTempPrefs] = useState<ConsentPreferences>({
+    ...preferences,
+    marketing: preferences.marketing ?? false,
+  });
 
   // Don't render if already consented or still loading
   if (isLoading || hasConsented) {
@@ -149,6 +152,27 @@ export function CookieConsentBanner() {
                       checked={tempPrefs.functional}
                       onCheckedChange={(checked) =>
                         setTempPrefs({ ...tempPrefs, functional: checked })
+                      }
+                    />
+                  </div>
+
+                  {/* Marketing cookies */}
+                  <div className="flex items-center justify-between p-4 rounded-lg bg-background border border-border">
+                    <div className="flex items-center gap-3">
+                      <div className="w-5 h-5 rounded-full bg-primary/30 flex items-center justify-center">
+                        <div className="w-2 h-2 rounded-full bg-primary" />
+                      </div>
+                      <div>
+                        <Label className="font-medium">Marketing Cookies</Label>
+                        <p className="text-xs text-muted-foreground mt-0.5">
+                          Used for targeted advertising and measuring campaign effectiveness.
+                        </p>
+                      </div>
+                    </div>
+                    <Switch
+                      checked={tempPrefs.marketing}
+                      onCheckedChange={(checked) =>
+                        setTempPrefs({ ...tempPrefs, marketing: checked })
                       }
                     />
                   </div>

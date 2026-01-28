@@ -4,10 +4,11 @@ export type ConsentPreferences = {
   necessary: boolean; // Always true, required for app function
   analytics: boolean;
   functional: boolean;
+  marketing: boolean;
 };
 
 const CONSENT_STORAGE_KEY = "gdpr_consent";
-const CONSENT_VERSION = "1.0";
+const CONSENT_VERSION = "1.1"; // Updated version for new marketing field
 
 interface StoredConsent {
   version: string;
@@ -19,6 +20,7 @@ const defaultPreferences: ConsentPreferences = {
   necessary: true,
   analytics: false,
   functional: false,
+  marketing: false,
 };
 
 export function useConsentManager() {
@@ -65,6 +67,7 @@ export function useConsentManager() {
       necessary: true,
       analytics: true,
       functional: true,
+      marketing: true,
     });
   }, [saveConsent]);
 
@@ -73,6 +76,7 @@ export function useConsentManager() {
       necessary: true,
       analytics: false,
       functional: false,
+      marketing: false,
     });
   }, [saveConsent]);
 
