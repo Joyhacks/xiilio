@@ -169,6 +169,14 @@ export function Footer() {
                 <Link to="/contact" className="hover:text-foreground transition-colors">
                   Contact
                 </Link>
+                <a 
+                  href="https://affiliates.24twelve.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="hover:text-foreground transition-colors"
+                >
+                  Affiliates
+                </a>
               </nav>
             </div>
 
