@@ -12,11 +12,14 @@ export interface UserAgentSettings {
   helpdeskUrl?: string;
   sharedInboxUrl?: string;
   knowledgeBaseUrl?: string;
+  workflowUrl?: string;
+  n8nWebhookUrl?: string;
   instagram?: string;
   facebook?: string;
   linkedin?: string;
   tiktok?: string;
   twitter?: string;
+  youtube?: string;
 }
 
 export type AllAgentSettings = Record<string, UserAgentSettings>;
@@ -110,12 +113,15 @@ export function mergeAgentConfig(
     helpdeskUrl: userSettings.helpdeskUrl || baseConfig.helpdeskUrl,
     sharedInboxUrl: userSettings.sharedInboxUrl || baseConfig.sharedInboxUrl,
     knowledgeBaseUrl: userSettings.knowledgeBaseUrl || baseConfig.knowledgeBaseUrl,
+    workflowUrl: userSettings.workflowUrl || baseConfig.workflowUrl,
+    n8nWebhookUrl: userSettings.n8nWebhookUrl || baseConfig.n8nWebhookUrl,
     socialProfiles: {
       instagram: userSettings.instagram || baseConfig.socialProfiles?.instagram,
       facebook: userSettings.facebook || baseConfig.socialProfiles?.facebook,
       linkedin: userSettings.linkedin || baseConfig.socialProfiles?.linkedin,
       tiktok: userSettings.tiktok || baseConfig.socialProfiles?.tiktok,
       twitter: userSettings.twitter || baseConfig.socialProfiles?.twitter,
+      youtube: userSettings.youtube || baseConfig.socialProfiles?.youtube,
     },
   };
 }
