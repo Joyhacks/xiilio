@@ -164,28 +164,28 @@ export function Footer() {
                   href="https://apps.apple.com/app/24twelve"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block hover:opacity-80 transition-opacity"
+                  className="inline-flex items-center h-[40px] hover:opacity-80 transition-opacity"
                   aria-label="Download on the App Store"
                 >
                   <img 
                     src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" 
                     alt="Download on the App Store" 
-                    className="h-10 w-auto"
+                    className="h-[40px] w-auto"
                   />
                 </a>
                 
-                {/* Google Play Badge */}
+                {/* Google Play Badge - uses taller image with negative margin to match App Store visual height */}
                 <a
                   href="https://play.google.com/store/apps/details?id=com.twentyfourtwelve"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center h-10 hover:opacity-80 transition-opacity"
+                  className="inline-flex items-center h-[40px] hover:opacity-80 transition-opacity overflow-hidden"
                   aria-label="Get it on Google Play"
                 >
                   <img 
                     src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" 
                     alt="Get it on Google Play" 
-                    className="h-[60px] w-auto -my-2.5"
+                    className="h-[58px] w-auto -my-[9px]"
                   />
                 </a>
               </div>
