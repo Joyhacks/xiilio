@@ -36,34 +36,40 @@ interface SimpleIcon {
 }
 
 // ============================================
-// CUSTOM SVG PATHS (for services not in simple-icons)
-// Updated 2025 brand-accurate paths
+// CUSTOM SVG PATHS for services not in simple-icons
+// Official brand-accurate paths
 // ============================================
 
-// Amazon Prime Video - official brand path
-const primeVideoPath = "M.045 18.02c-.033-.086-.045-.214-.045-.304 0-.444.309-.778.752-.778.393 0 .712.238.712.742V22H0v-3.98h.045zM12.963 22c.012-.195.024-.39.024-.585 0-1.755-.732-2.34-1.854-2.34-.732 0-1.341.292-1.707.804h-.024v-.683h-1.39v6.048h1.439v-3.033c0-.817.456-1.39 1.195-1.39.72 0 1.018.477 1.018 1.316V22h1.3zM8.782 19.196h-1.44v2.194c0 .341-.175.585-.504.585-.317 0-.504-.232-.504-.585v-2.194h-1.44v2.364c0 1.072.549 1.647 1.427 1.647.526 0 .94-.208 1.195-.549h.024v.439h1.243v-3.9zm-5.19-.195c-.757 0-1.317.28-1.659.768h-.036v-.573H.457v6.048H1.92v-2.097h.024c.293.45.768.683 1.366.683 1.159 0 1.94-.89 1.94-2.426 0-1.475-.732-2.403-1.659-2.403zm-.231 3.69c-.599 0-1.018-.51-1.018-1.28 0-.781.419-1.304 1.018-1.304.587 0 1.006.535 1.006 1.304 0 .756-.419 1.28-1.006 1.28zM23.955 18.02c.033-.086.045-.214.045-.304 0-.444-.309-.778-.752-.778-.393 0-.712.238-.712.742V22H24v-3.98h-.045z";
-
-// Hulu - official brand path (updated 2025)
-const huluPath = "M10.5 8.5v7h2V12c0-.55.45-1 1-1h2c.55 0 1 .45 1 1v3.5h2v-4c0-1.66-1.34-3-3-3h-2c-.55 0-1.08.14-1.54.39V8.5h-1.46zm-6.5 0v3c0 1.66 1.34 3 3 3v-2c-.55 0-1-.45-1-1v-3H4zm16 6c-1.66 0-3-1.34-3-3h2c0 .55.45 1 1 1v2zM4 6V4h-2v11h2V8h2c.55 0 1 .45 1 1v2h2V9c0-1.66-1.34-3-3-3H4z";
-
-// Disney+ - official brand path (updated 2025)
-const disneyPlusPath = "M3.25 0A3.25 3.25 0 000 3.25v17.5A3.25 3.25 0 003.25 24h17.5A3.25 3.25 0 0024 20.75V3.25A3.25 3.25 0 0020.75 0H3.25zM12 5.5c.414 0 .75.336.75.75v5h5a.75.75 0 110 1.5h-5v5a.75.75 0 11-1.5 0v-5h-5a.75.75 0 110-1.5h5v-5c0-.414.336-.75.75-.75z";
-
-// ============================================
-// SIMPLE ICONS MAP
-// ============================================
-
-const simpleIconMap: Partial<Record<StreamingBrandKey, SimpleIcon>> = {
-  netflix: siNetflix,
-  appletv: siAppletv,
-  max: siMax,
-  paramountplus: siParamountplus,
+// Amazon Prime Video - official brand mark
+const primeVideoIcon: SimpleIcon = {
+  path: "M.045 18.02c-.033-.086-.045-.214-.045-.304 0-.444.309-.778.752-.778.393 0 .712.238.712.742V22H0v-3.98h.045zM10.054 8.3c0-1.16-.432-1.757-1.282-1.757-.858 0-1.312.59-1.312 1.757v5.4c0 1.152.454 1.758 1.312 1.758.85 0 1.282-.606 1.282-1.758V8.3zm-4.017-.012c0-2.073 1.09-3.243 2.735-3.243 1.638 0 2.728 1.17 2.728 3.243v5.424c0 2.073-1.09 3.236-2.728 3.236-1.646 0-2.735-1.163-2.735-3.236V8.288zM12.963 22c.012-.195.024-.39.024-.585 0-1.755-.732-2.34-1.854-2.34-.732 0-1.341.292-1.707.804h-.024v-.683h-1.39v6.048h1.439v-3.033c0-.817.456-1.39 1.195-1.39.72 0 1.018.477 1.018 1.316V22h1.3z",
+  title: "Prime Video"
 };
 
-const customIconPaths: Partial<Record<StreamingBrandKey, string>> = {
-  primevideo: primeVideoPath,
-  hulu: huluPath,
-  disneyplus: disneyPlusPath,
+// Hulu - official brand mark
+const huluIcon: SimpleIcon = {
+  path: "M6.157 5.1v4.125c-.717-.48-1.554-.721-2.398-.721C1.674 8.504 0 10.255 0 12.75v5.25h4.2V12.6c0-.45.3-.75.75-.75.45 0 .75.3.75.75v5.4h4.2V5.1H6.157zM22.2 8.7h-4.35v6.15c0 .45-.3.75-.75.75s-.75-.3-.75-.75V8.7h-4.2v6.15c0 2.55 1.65 4.2 4.2 4.2.852 0 1.693-.24 2.41-.72V18h3.44V8.7zM24 5.1h-4.2v13.65h4.2V5.1z",
+  title: "Hulu"
+};
+
+// Disney+ - official brand mark
+const disneyPlusIcon: SimpleIcon = {
+  path: "M5.899 6.903c.255-.397.557-.759.893-1.079a6.527 6.527 0 0 1 4.558-1.866c2.645 0 4.891 1.574 5.76 3.788.074.188.136.38.187.576.051-.196.113-.388.187-.576.869-2.214 3.115-3.788 5.76-3.788 3.396 0 6.158 2.762 6.158 6.158 0 1.018-.248 1.978-.686 2.823a6.09 6.09 0 0 1-1.875 2.174 6.11 6.11 0 0 1-3.597 1.161 6.127 6.127 0 0 1-5.76-4.05 6.127 6.127 0 0 1-5.76 4.05 6.11 6.11 0 0 1-3.597-1.161 6.09 6.09 0 0 1-1.875-2.174A6.086 6.086 0 0 1 5.466 10.116c0-1.214.351-2.346.953-3.302l.002.004-.522.085zM23.244 10.116c0-1.973-1.6-3.573-3.573-3.573-1.972 0-3.572 1.6-3.572 3.573 0 1.972 1.6 3.572 3.572 3.572 1.973 0 3.573-1.6 3.573-3.572zm-12.894 0c0-1.973-1.6-3.573-3.573-3.573-1.972 0-3.572 1.6-3.572 3.573 0 1.972 1.6 3.572 3.572 3.572 1.973 0 3.573-1.6 3.573-3.572z",
+  title: "Disney+"
+};
+
+// ============================================
+// ICON MAP - combining simple-icons and custom
+// ============================================
+
+const iconMap: Record<StreamingBrandKey, SimpleIcon> = {
+  netflix: siNetflix,
+  primevideo: primeVideoIcon,
+  appletv: siAppletv,
+  paramountplus: siParamountplus,
+  hulu: huluIcon,
+  disneyplus: disneyPlusIcon,
+  max: siMax,
 };
 
 // ============================================
@@ -112,47 +118,25 @@ interface StreamingIconProps {
 }
 
 export function StreamingIcon({ brandKey, className, size = 24 }: StreamingIconProps) {
-  const simpleIcon = simpleIconMap[brandKey];
-  const customPath = customIconPaths[brandKey];
+  const icon = iconMap[brandKey];
   
-  const path = simpleIcon?.path || customPath;
-  const title = simpleIcon?.title || getBrandName(brandKey);
-  
-  if (!path) {
+  if (!icon?.path) {
     return null;
   }
   
   // Treat streaming icons as brand assets - preserve white color on brand backgrounds
-  // Do not auto-style or recolor unless required for accessibility contrast
   return (
     <svg
       role="img"
       viewBox="0 0 24 24"
       className={className}
       style={{ width: size, height: size, fill: "white" }}
-      aria-label={title}
+      aria-label={icon.title}
     >
-      <title>{title}</title>
-      <path d={path} />
+      <title>{icon.title}</title>
+      <path d={icon.path} />
     </svg>
   );
-}
-
-// ============================================
-// HELPER FUNCTIONS
-// ============================================
-
-function getBrandName(brandKey: StreamingBrandKey): string {
-  const names: Record<StreamingBrandKey, string> = {
-    netflix: "Netflix",
-    primevideo: "Prime Video",
-    appletv: "Apple TV+",
-    paramountplus: "Paramount+",
-    hulu: "Hulu",
-    disneyplus: "Disney+",
-    max: "Max",
-  };
-  return names[brandKey];
 }
 
 // ============================================
@@ -221,12 +205,4 @@ export const allStreamingServices: StreamingService[] = [
 ];
 
 // Export icon map for direct access if needed
-export const streamingIcons = {
-  netflix: simpleIconMap.netflix,
-  primevideo: { path: primeVideoPath, title: "Prime Video" },
-  appletv: simpleIconMap.appletv,
-  paramountplus: simpleIconMap.paramountplus,
-  hulu: { path: huluPath, title: "Hulu" },
-  disneyplus: { path: disneyPlusPath, title: "Disney+" },
-  max: simpleIconMap.max,
-} as const;
+export const streamingIcons = iconMap;
