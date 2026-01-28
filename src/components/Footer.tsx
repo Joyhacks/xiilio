@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import logoTransparent from "@/assets/logo-24twelve-transparent.png";
+import qrCode from "@/assets/qr-code.png";
 import { CookiePreferencesModal } from "@/components/CookiePreferencesModal";
 import {
   siX,
@@ -158,36 +159,52 @@ export function Footer() {
             {/* App Downloads */}
             <div className="space-y-4">
               <h4 className="font-semibold text-foreground text-lg">Get the App</h4>
-              <div className="flex flex-col gap-3">
-                {/* App Store Badge */}
-                <a
-                  href="https://apps.apple.com/app/24twelve"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-block hover:opacity-80 transition-opacity"
-                  aria-label="Download on the App Store"
+              <div className="flex items-start gap-4">
+                {/* QR Code */}
+                <Link
+                  to="/install"
+                  className="shrink-0 p-2 bg-white rounded-lg hover:opacity-80 transition-opacity"
+                  aria-label="Scan QR code to download the app"
                 >
                   <img 
-                    src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" 
-                    alt="Download on the App Store" 
-                    className="h-10 w-auto"
+                    src={qrCode} 
+                    alt="QR Code - Scan to download" 
+                    className="w-20 h-20"
                   />
-                </a>
+                </Link>
                 
-                {/* Google Play Badge */}
-                <a
-                  href="https://play.google.com/store/apps/details?id=com.twentyfourtwelve"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-block hover:opacity-80 transition-opacity"
-                  aria-label="Get it on Google Play"
-                >
-                  <img 
-                    src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" 
-                    alt="Get it on Google Play" 
-                    className="h-10 w-auto"
-                  />
-                </a>
+                {/* App Store Badges */}
+                <div className="flex flex-col gap-2">
+                  {/* App Store Badge */}
+                  <a
+                    href="https://apps.apple.com/app/24twelve"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block hover:opacity-80 transition-opacity"
+                    aria-label="Download on the App Store"
+                  >
+                    <img 
+                      src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" 
+                      alt="Download on the App Store" 
+                      className="h-10 w-auto"
+                    />
+                  </a>
+                  
+                  {/* Google Play Badge */}
+                  <a
+                    href="https://play.google.com/store/apps/details?id=com.twentyfourtwelve"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block hover:opacity-80 transition-opacity"
+                    aria-label="Get it on Google Play"
+                  >
+                    <img 
+                      src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" 
+                      alt="Get it on Google Play" 
+                      className="h-10 w-auto"
+                    />
+                  </a>
+                </div>
               </div>
             </div>
           </div>
