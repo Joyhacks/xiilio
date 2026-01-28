@@ -2,8 +2,9 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { HeaderQuickLinks } from "@/components/HeaderQuickLinks";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { LanguageSelector } from "@/components/LanguageSelector";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Home, ArrowLeft, Settings, LogOut, User } from "lucide-react";
+import { Menu, X, Home, ArrowLeft, Settings, LogOut, User, BarChart3 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import {
   DropdownMenu,
@@ -105,9 +106,10 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
               )}
             </nav>
 
-            {/* Desktop CTA + Quick Links + Theme Toggle */}
+            {/* Desktop CTA + Quick Links + Theme Toggle + Language */}
             <div className="hidden md:flex items-center gap-2">
               <HeaderQuickLinks agentSlug={agentSlug} agentColor={agentColor} />
+              <LanguageSelector />
               <ThemeToggle />
               
               {isAuthenticated ? (
@@ -131,6 +133,12 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
                       </p>
                     </div>
                     <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                      <Link to="/analytics" className="flex items-center gap-2">
+                        <BarChart3 className="w-4 h-4" />
+                        Analytics
+                      </Link>
+                    </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                       <Link to="/settings" className="flex items-center gap-2">
                         <Settings className="w-4 h-4" />
@@ -231,15 +239,26 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
                         ))}
 
                         {isAuthenticated && (
-                          <SheetClose asChild>
-                            <Link
-                              to="/settings"
-                              className="flex items-center gap-3 px-4 py-3 rounded-xl text-muted-foreground hover:text-foreground hover:bg-primary/10 transition-colors"
-                            >
-                              <Settings className="h-5 w-5" />
-                              <span>Settings</span>
-                            </Link>
-                          </SheetClose>
+                          <>
+                            <SheetClose asChild>
+                              <Link
+                                to="/analytics"
+                                className="flex items-center gap-3 px-4 py-3 rounded-xl text-muted-foreground hover:text-foreground hover:bg-primary/10 transition-colors"
+                              >
+                                <BarChart3 className="h-5 w-5" />
+                                <span>Analytics</span>
+                              </Link>
+                            </SheetClose>
+                            <SheetClose asChild>
+                              <Link
+                                to="/settings"
+                                className="flex items-center gap-3 px-4 py-3 rounded-xl text-muted-foreground hover:text-foreground hover:bg-primary/10 transition-colors"
+                              >
+                                <Settings className="h-5 w-5" />
+                                <span>Settings</span>
+                              </Link>
+                            </SheetClose>
+                          </>
                         )}
                       </div>
                     </nav>

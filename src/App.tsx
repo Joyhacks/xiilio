@@ -9,6 +9,7 @@ import AgentDetail from "./pages/AgentDetail";
 import Pricing from "./pages/Pricing";
 import Onboarding from "./pages/Onboarding";
 import Settings from "./pages/Settings";
+import Analytics from "./pages/Analytics";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Blog from "./pages/Blog";
@@ -31,6 +32,7 @@ const App = () => (
             <Route path="/pricing" element={<Pricing />} />
             <Route path="/onboarding" element={<Onboarding />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/analytics" element={<Analytics />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/blog" element={<Blog />} />
