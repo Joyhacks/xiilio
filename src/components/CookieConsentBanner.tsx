@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useState, forwardRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Cookie, Settings, Shield, X } from "lucide-react";
+import { Cookie, Settings, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { useConsentManager, ConsentPreferences } from "@/hooks/useConsentManager";
 
-export function CookieConsentBanner() {
+export const CookieConsentBanner = forwardRef<HTMLDivElement>(function CookieConsentBanner(_, ref) {
   const {
     preferences,
     hasConsented,
@@ -34,6 +34,7 @@ export function CookieConsentBanner() {
   return (
     <AnimatePresence>
       <motion.div
+        ref={ref}
         initial={{ y: 100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: 100, opacity: 0 }}
@@ -191,4 +192,4 @@ export function CookieConsentBanner() {
       </motion.div>
     </AnimatePresence>
   );
-}
+});
