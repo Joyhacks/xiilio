@@ -219,6 +219,12 @@ export function Footer() {
               <Link to="/terms" className="hover:text-foreground transition-colors">
                 Terms
               </Link>
+              <Link to="/cookies" className="hover:text-foreground transition-colors">
+                Cookies
+              </Link>
+              <Link to="/privacy#ccpa" className="hover:text-foreground transition-colors">
+                Do Not Sell My Info
+              </Link>
               <button
                 onClick={() => setCookieModalOpen(true)}
                 className="hover:text-foreground transition-colors"

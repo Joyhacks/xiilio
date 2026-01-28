@@ -53,10 +53,6 @@ export function Hero() {
             <span className="text-sm text-foreground/80">Meet Your AI Agent Team</span>
           </div>
 
-          {/* Main heading */}
-          <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-            <span className="text-gradient">Your AI Agent Team</span>
-          </h1>
           
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
             Specialized AI agents ready to handle tasks, manage communications, and grow your business around the clock.
