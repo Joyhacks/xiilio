@@ -54,7 +54,10 @@ serve(async (req) => {
     }
 
     // Look up the agent ID server-side
-    const agentId = AGENT_IDS[agentType] || DEFAULT_AGENT_ID;
+    const specificAgentId = AGENT_IDS[agentType];
+    const agentId = specificAgentId || DEFAULT_AGENT_ID;
+
+    console.log(`Agent type: ${agentType}, Specific ID found: ${!!specificAgentId}, Using ID: ${agentId ? agentId.substring(0, 15) + '...' : 'NONE'}`);
 
     if (!agentId) {
       console.error(`No agent ID configured for type: ${agentType}`);
