@@ -174,14 +174,9 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
                   </DropdownMenuContent>
                 </DropdownMenu>
               ) : (
-                <>
-                  <Button variant="ghost" size="sm" onClick={handleSignIn}>
-                    Sign In
-                  </Button>
-                  <Button variant="hero" size="sm" onClick={handleGetStarted}>
-                    Get Started
-                  </Button>
-                </>
+                <Button variant="ghost" size="sm" onClick={handleSignIn}>
+                  Sign In
+                </Button>
               )}
             </div>
 
@@ -319,32 +314,18 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
                           </Button>
                         </SheetClose>
                       ) : (
-                        <>
-                          <SheetClose asChild>
-                            <Button 
-                              variant="ghost" 
-                              className="w-full justify-center"
-                              onClick={() => {
-                                setIsOpen(false);
-                                handleSignIn();
-                              }}
-                            >
-                              Sign In
-                            </Button>
-                          </SheetClose>
-                          <SheetClose asChild>
-                            <Button 
-                              variant="hero" 
-                              className="w-full"
-                              onClick={() => {
-                                setIsOpen(false);
-                                handleGetStarted();
-                              }}
-                            >
-                              Get Started
-                            </Button>
-                          </SheetClose>
-                        </>
+                        <SheetClose asChild>
+                          <Button 
+                            variant="ghost" 
+                            className="w-full justify-center"
+                            onClick={() => {
+                              setIsOpen(false);
+                              handleSignIn();
+                            }}
+                          >
+                            Sign In
+                          </Button>
+                        </SheetClose>
                       )}
                     </div>
                   </div>
