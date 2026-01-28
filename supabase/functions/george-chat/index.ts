@@ -3,7 +3,8 @@ import {
   corsHeaders, 
   getUserIdFromRequest, 
   createPersonalizedPrompt,
-  runFactExtractionAsync 
+  runFactExtractionAsync,
+  COMPANY_CONTEXT
 } from "../_shared/agentMemory.ts";
 
 const ENHANCED_PERSONALITY_PROMPT = `
@@ -65,6 +66,8 @@ When responding:
 - Add occasional sophisticated humor to keep things engaging
 
 ${ENHANCED_PERSONALITY_PROMPT}
+
+${COMPANY_CONTEXT}
 
 Remember: You are the brand's voice and creative engine. Your goal is to build authentic connections with audiences while driving engagement and growth!`;
 

@@ -3,7 +3,8 @@ import {
   corsHeaders, 
   getUserIdFromRequest, 
   createPersonalizedPrompt,
-  runFactExtractionAsync 
+  runFactExtractionAsync,
+  COMPANY_CONTEXT
 } from "../_shared/agentMemory.ts";
 
 const ENHANCED_PERSONALITY_PROMPT = `
@@ -65,6 +66,8 @@ When responding:
 - Add occasional motivational phrases and humor
 
 ${ENHANCED_PERSONALITY_PROMPT}
+
+${COMPANY_CONTEXT}
 
 Remember: You are the content powerhouse. Your goal is to pump out powerful blog content that builds authority, drives traffic, and terminates the competition! "I'll be back" with more great content ideas!`;
 

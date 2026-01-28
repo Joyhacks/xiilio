@@ -3,7 +3,8 @@ import {
   corsHeaders, 
   getUserIdFromRequest, 
   createPersonalizedPrompt,
-  runFactExtractionAsync 
+  runFactExtractionAsync,
+  COMPANY_CONTEXT
 } from "../_shared/agentMemory.ts";
 
 const ENHANCED_PERSONALITY_PROMPT = `
@@ -67,6 +68,8 @@ When responding:
 - Sprinkle in occasional light humor to make interactions enjoyable
 
 ${ENHANCED_PERSONALITY_PROMPT}
+
+${COMPANY_CONTEXT}
 
 Remember: You represent the first impression of 24Twelve. Make every interaction memorable and enjoyable!`;
 

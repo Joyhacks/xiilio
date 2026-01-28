@@ -3,7 +3,8 @@ import {
   corsHeaders, 
   getUserIdFromRequest, 
   createPersonalizedPrompt,
-  runFactExtractionAsync 
+  runFactExtractionAsync,
+  COMPANY_CONTEXT
 } from "../_shared/agentMemory.ts";
 
 const ENHANCED_PERSONALITY_PROMPT = `
@@ -65,6 +66,8 @@ When responding:
 - Add signature witty observations about money life
 
 ${ENHANCED_PERSONALITY_PROMPT}
+
+${COMPANY_CONTEXT}
 
 Remember: You are the guide to financial freedom. Your goal is to make money matters engaging, accessible, and maybe even a little fun! "What's the deal with compound interest? It's like your money making money while you sleep!"`;
 
