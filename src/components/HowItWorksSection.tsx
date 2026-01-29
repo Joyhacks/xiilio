@@ -34,7 +34,7 @@ export function HowItWorksSection() {
   const { ref: stepsRef, isVisible: stepsVisible } = useScrollAnimation({ threshold: 0.1 });
 
   return (
-    <section id="how-it-works" className="relative py-16 bg-background">
+    <section id="how-it-works" className="relative py-10 md:py-12 bg-background">
       <div className="absolute inset-0 circuit-pattern opacity-10" />
 
       <div className="relative container mx-auto px-6">
@@ -42,7 +42,7 @@ export function HowItWorksSection() {
         <div
           ref={headerRef}
           className={cn(
-            "text-center mb-16 transition-all duration-700 ease-out",
+            "text-center mb-8 md:mb-10 transition-all duration-700 ease-out",
             headerVisible
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-8"
@@ -60,7 +60,7 @@ export function HowItWorksSection() {
         <div
           ref={stepsRef}
           className={cn(
-            "grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto transition-all duration-700 ease-out",
+            "grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-5xl mx-auto transition-all duration-700 ease-out",
             stepsVisible
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-12"
@@ -76,7 +76,7 @@ export function HowItWorksSection() {
                 <div className="hidden md:block absolute top-16 left-[60%] w-[80%] h-0.5 bg-gradient-to-r from-border to-transparent" />
               )}
 
-              <div className="relative p-8 rounded-2xl glass-card transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_20px_60px_hsl(210_40%_70%/0.12)]">
+              <div className="relative p-6 rounded-2xl glass-card transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_20px_60px_hsl(210_40%_70%/0.12)]">
                 {/* Step number */}
                 <div className="absolute -top-4 -left-2 font-display text-6xl font-bold text-primary/10">
                   {step.number}
@@ -85,11 +85,11 @@ export function HowItWorksSection() {
                 {/* Icon */}
                 <div
                   className={cn(
-                    "relative w-14 h-14 rounded-xl flex items-center justify-center mb-6 bg-gradient-to-br",
+                    "relative w-12 h-12 rounded-xl flex items-center justify-center mb-4 bg-gradient-to-br",
                     step.gradient
                   )}
                 >
-                  <step.icon className="w-7 h-7 text-primary-foreground" />
+                  <step.icon className="w-6 h-6 text-primary-foreground" />
                 </div>
 
                 {/* Content */}

@@ -133,7 +133,7 @@ export function StreamingSection() {
 
   return (
     <section 
-      className="py-12 bg-muted/20 border-t border-border/50"
+      className="py-8 md:py-10 bg-muted/20 border-t border-border/50"
       aria-labelledby="streaming-section-title"
     >
       <div 
@@ -145,7 +145,7 @@ export function StreamingSection() {
             : "opacity-0 translate-y-8"
         )}
       >
-        <div className="text-center mb-8 md:mb-10">
+        <div className="text-center mb-6 md:mb-8">
           <p className="text-xs md:text-sm text-muted-foreground uppercase tracking-wider mb-2">
             Watch on
           </p>

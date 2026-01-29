@@ -40,7 +40,7 @@ export function UserSocialSection() {
 
   return (
     <section 
-      className="py-12 bg-muted/10 border-t border-border/50"
+      className="py-8 md:py-10 bg-muted/10 border-t border-border/50"
       aria-labelledby="user-social-section-title"
     >
       <div 
@@ -52,7 +52,7 @@ export function UserSocialSection() {
             : "opacity-0 translate-y-8"
         )}
       >
-        <div className="text-center mb-8">
+        <div className="text-center mb-6">
           <p className="text-sm text-muted-foreground uppercase tracking-wider mb-2">
             Your accounts
           </p>
