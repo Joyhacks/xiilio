@@ -113,110 +113,110 @@ export function Footer() {
 
   return (
     <>
-      <footer className="py-16 glass-luxury border-t border-primary/10">
+      <footer className="py-20 glass-luxury border-t border-primary/10">
         <div className="container mx-auto px-6">
-        {/* Logo & Description */}
-        <div className="text-center mb-10">
-          <img 
-            src={logoTransparent} 
-            alt="24TWELVE - AI Lead Generation Agency" 
-            className="h-12 w-auto mx-auto dark:invert-0 invert mb-4" 
-          />
-          <p className="text-sm text-muted-foreground leading-relaxed max-w-md mx-auto">
-            AI-powered agents that automate your business operations and drive growth around the clock.
-          </p>
-        </div>
+          {/* Logo & Description */}
+          <div className="text-center pb-10 border-b border-border/30">
+            <img 
+              src={logoTransparent} 
+              alt="24TWELVE - AI Lead Generation Agency" 
+              className="h-12 w-auto mx-auto dark:invert-0 invert mb-4" 
+            />
+            <p className="text-sm text-muted-foreground leading-relaxed max-w-md mx-auto">
+              AI-powered agents that automate your business operations and drive growth around the clock.
+            </p>
+          </div>
 
-        {/* Company & Product Side-by-Side */}
-        <div className="flex flex-wrap justify-center gap-16 mb-10">
-          {/* Company */}
-          <div className="space-y-4">
-            <h4 className="font-semibold text-foreground text-lg text-center">Company</h4>
-            <nav className="flex flex-col items-center gap-3 text-sm text-muted-foreground">
-              <Link to="/about" className="hover:text-foreground transition-colors">
-                About Us
-              </Link>
-              <Link to="/careers" className="hover:text-foreground transition-colors">
-                Careers
-              </Link>
-              <Link to="/blog" className="hover:text-foreground transition-colors">
-                Blog
-              </Link>
-              <Link to="/contact" className="hover:text-foreground transition-colors">
-                Contact
-              </Link>
-              <a 
-                href="https://affiliates.24twelve.com" 
-                target="_blank" 
+          {/* Company & Product Side-by-Side */}
+          <div className="flex flex-wrap justify-center gap-20 py-10 border-b border-border/30">
+            {/* Company */}
+            <div className="space-y-4">
+              <h4 className="font-semibold text-foreground text-lg text-center">Company</h4>
+              <nav className="flex flex-col items-center gap-3 text-sm text-muted-foreground">
+                <Link to="/about" className="hover:text-foreground transition-colors">
+                  About Us
+                </Link>
+                <Link to="/careers" className="hover:text-foreground transition-colors">
+                  Careers
+                </Link>
+                <Link to="/blog" className="hover:text-foreground transition-colors">
+                  Blog
+                </Link>
+                <Link to="/contact" className="hover:text-foreground transition-colors">
+                  Contact
+                </Link>
+                <a 
+                  href="https://affiliates.24twelve.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="hover:text-foreground transition-colors"
+                >
+                  Affiliates
+                </a>
+              </nav>
+            </div>
+
+            {/* Product */}
+            <div className="space-y-4">
+              <h4 className="font-semibold text-foreground text-lg text-center">Product</h4>
+              <nav className="flex flex-col items-center gap-3 text-sm text-muted-foreground">
+                <a href="/#agents" className="hover:text-foreground transition-colors">
+                  AI Agents
+                </a>
+                <a href="/#how-it-works" className="hover:text-foreground transition-colors">
+                  How It Works
+                </a>
+                <Link to="/pricing" className="hover:text-foreground transition-colors">
+                  Pricing
+                </Link>
+                <Link to="/docs" className="hover:text-foreground transition-colors">
+                  API Docs
+                </Link>
+                <Link to="/faq" className="hover:text-foreground transition-colors">
+                  FAQ
+                </Link>
+              </nav>
+            </div>
+          </div>
+
+          {/* Get the App - Centered */}
+          <div className="text-center py-10 border-b border-border/30">
+            <h4 className="font-semibold text-foreground text-lg mb-5">Get the App</h4>
+            <div className="flex flex-wrap justify-center gap-4">
+              {/* App Store Badge */}
+              <a
+                href="https://apps.apple.com/app/24twelve"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-foreground transition-colors"
+                className="inline-flex items-center hover:opacity-80 transition-opacity"
+                aria-label="Download on the App Store"
               >
-                Affiliates
+                <img 
+                  src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" 
+                  alt="Download on the App Store" 
+                  className="h-11 w-auto"
+                />
               </a>
-            </nav>
-          </div>
-
-          {/* Product */}
-          <div className="space-y-4">
-            <h4 className="font-semibold text-foreground text-lg text-center">Product</h4>
-            <nav className="flex flex-col items-center gap-3 text-sm text-muted-foreground">
-              <a href="/#agents" className="hover:text-foreground transition-colors">
-                AI Agents
+              
+              {/* Google Play Badge */}
+              <a
+                href="https://play.google.com/store/apps/details?id=com.twentyfourtwelve"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center hover:opacity-80 transition-opacity"
+                aria-label="Get it on Google Play"
+              >
+                <img 
+                  src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" 
+                  alt="Get it on Google Play" 
+                  className="h-11 w-auto"
+                />
               </a>
-              <a href="/#how-it-works" className="hover:text-foreground transition-colors">
-                How It Works
-              </a>
-              <Link to="/pricing" className="hover:text-foreground transition-colors">
-                Pricing
-              </Link>
-              <Link to="/docs" className="hover:text-foreground transition-colors">
-                API Docs
-              </Link>
-              <Link to="/faq" className="hover:text-foreground transition-colors">
-                FAQ
-              </Link>
-            </nav>
+            </div>
           </div>
-        </div>
-
-        {/* Get the App - Centered */}
-        <div className="text-center mb-10">
-          <h4 className="font-semibold text-foreground text-lg mb-4">Get the App</h4>
-          <div className="flex flex-wrap justify-center gap-3">
-            {/* App Store Badge */}
-            <a
-              href="https://apps.apple.com/app/24twelve"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center hover:opacity-80 transition-opacity"
-              aria-label="Download on the App Store"
-            >
-              <img 
-                src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" 
-                alt="Download on the App Store" 
-                className="h-10 w-auto"
-              />
-            </a>
-            
-            {/* Google Play Badge */}
-            <a
-              href="https://play.google.com/store/apps/details?id=com.twentyfourtwelve"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center hover:opacity-80 transition-opacity"
-              aria-label="Get it on Google Play"
-            >
-              <img 
-                src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" 
-                alt="Get it on Google Play" 
-                className="h-10 w-auto"
-              />
-            </a>
-          </div>
-        </div>
 
           {/* Social Media Badges */}
-          <div className="py-8 border-t border-border/50">
+          <div className="pt-10">
             <p className="text-center text-sm text-muted-foreground mb-6">Follow us on social media</p>
             <div className="flex flex-wrap items-center justify-center gap-3">
               {socialLinks.map((social) => (
