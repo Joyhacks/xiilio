@@ -40,7 +40,7 @@ export function UserSocialSection() {
 
   return (
     <section 
-      className="py-6 md:py-8 bg-muted/10 border-t border-border/50"
+      className="py-4 md:py-6 bg-muted/10 border-t border-border/50"
       aria-labelledby="user-social-section-title"
     >
       <div 
