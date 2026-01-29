@@ -22,7 +22,7 @@ export function Hero() {
 
   return (
     <>
-      <section className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden bg-gradient-hero pt-16 md:pt-20 pb-8">
+      <section className="relative flex items-center justify-center overflow-hidden bg-gradient-hero pt-20 md:pt-24 pb-6 md:pb-8">
         {/* Circuit pattern background */}
         <div className="absolute inset-0 circuit-pattern opacity-30" />
         
@@ -33,7 +33,7 @@ export function Hero() {
         
         <div className="relative z-10 container mx-auto px-4 md:px-6 text-center">
           {/* Logo with glow effect */}
-          <div className="mb-6 md:mb-8 relative">
+          <div className="mb-4 md:mb-6 relative">
             {/* Glow backdrop */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <div className="w-32 h-32 md:w-64 md:h-64 lg:w-80 lg:h-80 bg-primary/20 rounded-full blur-2xl md:blur-3xl animate-pulse-glow" />
