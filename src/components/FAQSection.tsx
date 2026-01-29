@@ -7,7 +7,7 @@ export function FAQSection() {
   const { ref, isVisible } = useScrollAnimation();
 
   return (
-    <section id="faq" className="relative py-16 bg-muted/30">
+    <section id="faq" className="relative py-8 md:py-10 bg-muted/30">
       <div className="absolute inset-0 circuit-pattern opacity-10" />
 
       <div className="relative container mx-auto px-6">
@@ -22,7 +22,7 @@ export function FAQSection() {
         >
           <Link
             to="/faq"
-            className="group block glass-card rounded-2xl p-8 hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
+            className="group block glass-card rounded-2xl p-6 hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
           >
             <div className="flex items-center gap-4 mb-4">
               <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center">

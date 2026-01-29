@@ -22,7 +22,8 @@ export type StreamingBrandKey =
   | "hulu"
   | "disneyplus"
   | "spotify"
-  | "uber";
+  | "uber"
+  | "cnn";
 
 export interface StreamingService {
   id: string;
@@ -66,6 +67,12 @@ const siMax: SimpleIcon = {
   title: "Max"
 };
 
+// CNN - Letters
+const siCnn: SimpleIcon = {
+  path: "M3.11 8.05c-.42-.26-1-.37-1.71-.37H0v8.64h1.37v-3.2h.03c.72 0 1.3-.12 1.73-.39.64-.39.96-1.06.96-2.04v-.64c0-.95-.32-1.62-.98-2zM2.8 10.68c0 .7-.22 1.17-.67 1.39-.25.12-.6.18-1.03.18h-.03V8.89h.03c.44 0 .78.06 1.03.18.45.22.67.68.67 1.37v.24zm5.45 1.64c0 .97-.47 1.51-1.42 1.51-.95 0-1.42-.54-1.42-1.51V8.05H4.05v4.38c0 1.66.92 2.59 2.78 2.59s2.78-.93 2.78-2.59V8.05H8.25v4.27zm11.7-4.27v5.42L16.13 8.05h-1.98v8.64h1.36v-5.62l3.9 5.62h1.9V8.05h-1.36zm6.05 0h-1.98l-2.37 8.64h1.45l.49-1.93h2.84l.5 1.93H24L21.63 8.05zm-2.2 5.52l1.21-4.75 1.22 4.75h-2.43z",
+  title: "CNN"
+};
+
 // ============================================
 // ICON MAP
 // ============================================
@@ -80,6 +87,7 @@ const iconMap: Record<StreamingBrandKey, SimpleIcon> = {
   disneyplus: siDisneyplus,
   spotify: siSpotify,
   uber: siUber,
+  cnn: siCnn,
 };
 
 // ============================================
@@ -122,6 +130,10 @@ export const brandColors: Record<StreamingBrandKey, { bg: string; glow: string }
   uber: {
     bg: "bg-[#000000]",
     glow: "shadow-[0_0_20px_rgba(0,0,0,0.4)]",
+  },
+  cnn: {
+    bg: "bg-[#CC0000]",
+    glow: "shadow-[0_0_20px_rgba(204,0,0,0.6)]",
   },
 };
 
@@ -228,6 +240,13 @@ export const additionalStreamingServices: StreamingService[] = [
     href: "https://www.uber.com/",
     brandKey: "uber",
     brandColor: "#000000",
+  },
+  {
+    id: "cnn",
+    name: "CNN",
+    href: "https://www.cnn.com/",
+    brandKey: "cnn",
+    brandColor: "#CC0000",
   },
 ];
 
