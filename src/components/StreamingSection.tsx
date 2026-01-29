@@ -30,40 +30,49 @@ function StreamingLink({ service }: StreamingLinkProps) {
       rel="noopener noreferrer"
       aria-label={`Watch on ${service.name} (opens in new tab)`}
       className={cn(
-        // Base styles
+        // Base styles - glass morphism container
         "group relative flex items-center justify-center",
-        "w-12 h-12 md:w-16 md:h-16 rounded-full text-white",
-        "ring-2 ring-white/20 backdrop-blur-sm",
+        "w-14 h-14 md:w-18 md:h-18 rounded-2xl",
+        // 3D Glass effect
+        "border border-white/30",
+        "bg-gradient-to-br from-white/20 via-transparent to-black/20",
+        "backdrop-blur-md",
         // Transitions
         "transition-all duration-300 ease-out",
-        // Hover effects
-        "hover:scale-110 hover:ring-white/40",
-        "hover:shadow-[0_0_30px_rgba(255,255,255,0.3)]",
+        // Hover effects - lift and glow
+        "hover:scale-110 hover:-translate-y-1",
+        "hover:border-white/50",
         // Focus states for accessibility
         "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background",
-        "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
-        // Brand-specific styles
+        // Brand-specific background and glow
         colors.bg,
         colors.glow
       )}
     >
+      {/* Glass highlight overlay */}
+      <div className="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none">
+        <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/40 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/30 to-transparent" />
+      </div>
+      
+      {/* Icon */}
       <StreamingIcon 
         brandKey={service.brandKey} 
-        size={20}
-        className="transition-transform duration-200 group-hover:scale-105 md:w-6 md:h-6"
+        size={24}
+        className="relative z-10 drop-shadow-lg transition-transform duration-200 group-hover:scale-110 md:w-7 md:h-7"
       />
       
       {/* Tooltip */}
       <span 
         className={cn(
-          "absolute -bottom-9 left-1/2 -translate-x-1/2",
+          "absolute -bottom-10 left-1/2 -translate-x-1/2",
           "px-3 py-1.5 text-xs font-medium",
           "bg-popover/95 text-popover-foreground",
-          "rounded-lg shadow-lg backdrop-blur-sm",
+          "rounded-lg shadow-xl backdrop-blur-sm",
           "border border-border/50",
-          "opacity-0 group-hover:opacity-100",
-          "transition-opacity duration-200",
-          "whitespace-nowrap pointer-events-none"
+          "opacity-0 group-hover:opacity-100 scale-90 group-hover:scale-100",
+          "transition-all duration-200",
+          "whitespace-nowrap pointer-events-none z-20"
         )}
         role="tooltip"
       >
