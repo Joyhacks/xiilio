@@ -203,9 +203,6 @@ export const primaryStreamingServices: StreamingService[] = [
     brandKey: "disneyplus",
     brandColor: "#113CCF",
   },
-];
-
-export const additionalStreamingServices: StreamingService[] = [
   {
     id: "max",
     name: "Max",
@@ -213,6 +210,9 @@ export const additionalStreamingServices: StreamingService[] = [
     brandKey: "max",
     brandColor: "#002BE7",
   },
+];
+
+export const additionalStreamingServices: StreamingService[] = [
   {
     id: "hulu",
     name: "Hulu",

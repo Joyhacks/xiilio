@@ -97,27 +97,42 @@ export function StreamingLinks({
   showAll = true,
   className 
 }: StreamingLinksProps) {
-  const displayServices = showAll 
-    ? [...services, ...additionalStreamingServices] 
-    : services;
-  
-  // Filter out services without valid URLs
-  const validServices = displayServices.filter(service => service.href);
+  const firstRowServices = services.filter(service => service.href);
+  const secondRowServices = showAll 
+    ? additionalStreamingServices.filter(service => service.href) 
+    : [];
 
   return (
-    <div className={cn("space-y-4", className)}>
+    <div className={cn("space-y-3", className)}>
+      {/* First row */}
       <div 
-        className="flex flex-wrap gap-4 md:gap-6 justify-center"
+        className="flex flex-wrap gap-3 md:gap-5 justify-center"
         role="list"
-        aria-label="Streaming services"
+        aria-label="Primary streaming services"
       >
-        {validServices.map((service) => (
+        {firstRowServices.map((service) => (
           <div key={service.id} role="listitem">
             <StreamingLink service={service} />
           </div>
         ))}
       </div>
-      <p className="text-xs text-muted-foreground text-center pt-6">
+      
+      {/* Second row */}
+      {secondRowServices.length > 0 && (
+        <div 
+          className="flex flex-wrap gap-3 md:gap-5 justify-center"
+          role="list"
+          aria-label="Additional streaming services"
+        >
+          {secondRowServices.map((service) => (
+            <div key={service.id} role="listitem">
+              <StreamingLink service={service} />
+            </div>
+          ))}
+        </div>
+      )}
+      
+      <p className="text-xs text-muted-foreground text-center pt-4">
         Links open in a new tab.
       </p>
     </div>
