@@ -114,13 +114,13 @@ export function TeamAgentsSection() {
         <div
           ref={headerRef}
           className={cn(
-            "text-center mb-16 transition-all duration-700 ease-out",
+            "text-center mb-8 md:mb-10 transition-all duration-700 ease-out",
             headerVisible
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-8"
           )}
         >
-          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-4">
+          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-2 md:mb-3">
             Meet Your <span className="text-gradient">AI Team</span>
           </h2>
           <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto px-2">
@@ -133,7 +133,7 @@ export function TeamAgentsSection() {
         <div
           ref={gridRef}
           className={cn(
-            "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 transition-all duration-700 ease-out delay-150",
+            "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 transition-all duration-700 ease-out delay-150",
             gridVisible
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-12"
