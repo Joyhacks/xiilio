@@ -7,7 +7,7 @@ export function FAQSection() {
   const { ref, isVisible } = useScrollAnimation();
 
   return (
-    <section id="faq" className="relative py-8 md:py-10 bg-muted/30">
+    <section id="faq" className="relative py-4 md:py-6 bg-muted/30">
       <div className="absolute inset-0 circuit-pattern opacity-10" />
 
       <div className="relative container mx-auto px-6">
