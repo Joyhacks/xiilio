@@ -217,7 +217,42 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
             </div>
 
             {/* Mobile Menu */}
-            <div className="flex md:hidden items-center gap-2">
+            <div className="flex md:hidden items-center gap-1.5">
+              {/* Share Button - Mobile */}
+              <button
+                onClick={() => {
+                  if (navigator.share) {
+                    navigator.share({
+                      title: '24TWELVE - AI Agent Team',
+                      text: 'Check out 24TWELVE - AI agents that automate your business!',
+                      url: window.location.href,
+                    });
+                  } else {
+                    navigator.clipboard.writeText(window.location.href);
+                  }
+                }}
+                className="flex items-center justify-center w-8 h-8 rounded-full bg-[#0EA5E9] hover:bg-[#0284C7] transition-colors"
+                aria-label="Share"
+              >
+                <Share2 className="w-4 h-4 text-white" />
+              </button>
+              {/* WhatsApp Button - Mobile */}
+              <a
+                href={whatsappUrl || "https://wa.me/12345678900"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center w-8 h-8 rounded-full bg-[#25D366] hover:bg-[#20BD5A] transition-colors"
+                aria-label="WhatsApp"
+              >
+                <svg
+                  role="img"
+                  viewBox="0 0 24 24"
+                  className="w-4 h-4"
+                  fill="white"
+                >
+                  <path d={siWhatsapp.path} />
+                </svg>
+              </a>
               <ThemeToggle />
               <Sheet open={isOpen} onOpenChange={setIsOpen}>
                 <SheetTrigger asChild>
