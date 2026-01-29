@@ -4,7 +4,7 @@ import { HeaderQuickLinks } from "@/components/HeaderQuickLinks";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { LanguageSelector } from "@/components/LanguageSelector";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Home, ArrowLeft, Settings, LogOut, User, BarChart3, Download, LayoutDashboard } from "lucide-react";
+import { Menu, X, Home, ArrowLeft, Settings, LogOut, User, BarChart3, Download, LayoutDashboard, Share2 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import {
   DropdownMenu,
@@ -124,9 +124,28 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
               )}
             </nav>
 
-            {/* Desktop CTA + Quick Links + Theme Toggle + Language */}
+            {/* Desktop CTA + Quick Links + Share + WhatsApp + Theme Toggle + Language */}
             <div className="hidden md:flex items-center gap-2">
               <HeaderQuickLinks agentSlug={agentSlug} agentColor={agentColor} />
+              <Button
+                variant="ghost"
+                size="icon"
+                className="w-9 h-9"
+                onClick={() => {
+                  if (navigator.share) {
+                    navigator.share({
+                      title: '24TWELVE - AI Agent Team',
+                      text: 'Check out 24TWELVE - AI agents that automate your business!',
+                      url: window.location.href,
+                    });
+                  } else {
+                    navigator.clipboard.writeText(window.location.href);
+                  }
+                }}
+                aria-label="Share"
+              >
+                <Share2 className="w-4 h-4" />
+              </Button>
               <a
                 href={whatsappUrl || "https://wa.me/12345678900"}
                 target="_blank"

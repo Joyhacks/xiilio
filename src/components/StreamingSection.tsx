@@ -132,7 +132,7 @@ export function StreamingLinks({
         </div>
       )}
       
-      <p className="text-xs text-muted-foreground text-center pt-4">
+      <p className="text-xs text-muted-foreground text-center pt-2">
         Links open in a new tab.
       </p>
     </div>
