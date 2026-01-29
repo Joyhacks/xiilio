@@ -113,154 +113,99 @@ export function Footer() {
 
   return (
     <>
-      <footer className="py-20 glass-luxury border-t border-primary/10">
+      <footer className="py-10 glass-luxury border-t border-primary/10">
         <div className="container mx-auto px-6">
-          {/* Logo & Description */}
-          <div className="text-center pb-10 border-b border-border/30">
-            <img 
-              src={logoTransparent} 
-              alt="24TWELVE - AI Lead Generation Agency" 
-              className="h-12 w-auto mx-auto dark:invert-0 invert mb-4" 
-            />
-            <p className="text-sm text-muted-foreground leading-relaxed max-w-md mx-auto">
-              AI-powered agents that automate your business operations and drive growth around the clock.
-            </p>
-          </div>
-
-          {/* Company & Product Side-by-Side */}
-          <div className="flex flex-wrap justify-center gap-20 py-10 border-b border-border/30">
-            {/* Company */}
-            <div className="space-y-4">
-              <h4 className="font-semibold text-foreground text-lg text-center">Company</h4>
-              <nav className="flex flex-col items-center gap-3 text-sm text-muted-foreground">
-                <Link to="/about" className="hover:text-foreground transition-colors">
-                  About Us
-                </Link>
-                <Link to="/careers" className="hover:text-foreground transition-colors">
-                  Careers
-                </Link>
-                <Link to="/blog" className="hover:text-foreground transition-colors">
-                  Blog
-                </Link>
-                <Link to="/contact" className="hover:text-foreground transition-colors">
-                  Contact
-                </Link>
-                <a 
-                  href="https://affiliates.24twelve.com" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="hover:text-foreground transition-colors"
-                >
-                  Affiliates
-                </a>
-              </nav>
+          {/* Main Footer Content - All in one row on desktop */}
+          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8 mb-8">
+            {/* Logo & Description */}
+            <div className="lg:max-w-xs">
+              <img 
+                src={logoTransparent} 
+                alt="24TWELVE" 
+                className="h-8 w-auto dark:invert-0 invert mb-2" 
+              />
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                AI-powered agents that automate your business operations 24/7.
+              </p>
             </div>
 
-            {/* Product */}
-            <div className="space-y-4">
-              <h4 className="font-semibold text-foreground text-lg text-center">Product</h4>
-              <nav className="flex flex-col items-center gap-3 text-sm text-muted-foreground">
-                <a href="/#agents" className="hover:text-foreground transition-colors">
-                  AI Agents
-                </a>
-                <a href="/#how-it-works" className="hover:text-foreground transition-colors">
-                  How It Works
-                </a>
-                <Link to="/pricing" className="hover:text-foreground transition-colors">
-                  Pricing
-                </Link>
-                <Link to="/docs" className="hover:text-foreground transition-colors">
-                  API Docs
-                </Link>
-                <Link to="/faq" className="hover:text-foreground transition-colors">
-                  FAQ
-                </Link>
-              </nav>
+            {/* Navigation Links */}
+            <div className="flex flex-wrap gap-12">
+              {/* Company */}
+              <div>
+                <h4 className="font-semibold text-foreground text-sm mb-3">Company</h4>
+                <nav className="flex flex-col gap-2 text-xs text-muted-foreground">
+                  <Link to="/about" className="hover:text-foreground transition-colors">About</Link>
+                  <Link to="/careers" className="hover:text-foreground transition-colors">Careers</Link>
+                  <Link to="/blog" className="hover:text-foreground transition-colors">Blog</Link>
+                  <Link to="/contact" className="hover:text-foreground transition-colors">Contact</Link>
+                  <a href="https://affiliates.24twelve.com" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">Affiliates</a>
+                </nav>
+              </div>
+
+              {/* Product */}
+              <div>
+                <h4 className="font-semibold text-foreground text-sm mb-3">Product</h4>
+                <nav className="flex flex-col gap-2 text-xs text-muted-foreground">
+                  <a href="/#agents" className="hover:text-foreground transition-colors">AI Agents</a>
+                  <a href="/#how-it-works" className="hover:text-foreground transition-colors">How It Works</a>
+                  <Link to="/pricing" className="hover:text-foreground transition-colors">Pricing</Link>
+                  <Link to="/docs" className="hover:text-foreground transition-colors">API Docs</Link>
+                  <Link to="/faq" className="hover:text-foreground transition-colors">FAQ</Link>
+                </nav>
+              </div>
+
+              {/* Get the App */}
+              <div>
+                <h4 className="font-semibold text-foreground text-sm mb-3">Get the App</h4>
+                <div className="flex gap-2">
+                  <a
+                    href="https://apps.apple.com/app/24twelve"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:opacity-80 transition-opacity"
+                    aria-label="Download on the App Store"
+                  >
+                    <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="App Store" className="h-8 w-auto" />
+                  </a>
+                  <a
+                    href="https://play.google.com/store/apps/details?id=com.twentyfourtwelve"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:opacity-80 transition-opacity"
+                    aria-label="Get it on Google Play"
+                  >
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play" className="h-8 w-auto" />
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Get the App - Centered */}
-          <div className="text-center py-10 border-b border-border/30">
-            <h4 className="font-semibold text-foreground text-lg mb-5">Get the App</h4>
-            <div className="flex flex-wrap justify-center gap-4">
-              {/* App Store Badge */}
+          {/* Social Media - Compact icons only */}
+          <div className="flex flex-wrap items-center justify-center gap-3 py-6 border-t border-border/30">
+            {socialLinks.map((social) => (
               <a
-                href="https://apps.apple.com/app/24twelve"
+                key={social.name}
+                href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center hover:opacity-80 transition-opacity"
-                aria-label="Download on the App Store"
+                className="p-2 rounded-full bg-card hover:bg-muted border border-border text-foreground transition-all hover:scale-110"
+                aria-label={`Follow us on ${social.name}`}
               >
-                <img 
-                  src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" 
-                  alt="Download on the App Store" 
-                  className="h-11 w-auto"
-                />
+                <SimpleIcon icon={social.icon} />
               </a>
-              
-              {/* Google Play Badge */}
-              <a
-                href="https://play.google.com/store/apps/details?id=com.twentyfourtwelve"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center hover:opacity-80 transition-opacity"
-                aria-label="Get it on Google Play"
-              >
-                <img 
-                  src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" 
-                  alt="Get it on Google Play" 
-                  className="h-11 w-auto"
-                />
-              </a>
-            </div>
+            ))}
           </div>
 
-          {/* Social Media Badges */}
-          <div className="pt-10">
-            <p className="text-center text-sm text-muted-foreground mb-6">Follow us on social media</p>
-            <div className="flex flex-wrap items-center justify-center gap-3">
-              {socialLinks.map((social) => (
-                <a
-                  key={social.name}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={cn(
-                    "flex items-center gap-2 px-4 py-2.5 rounded-full text-foreground text-sm font-medium",
-                    "transition-all duration-300 hover:scale-105",
-                    social.color
-                  )}
-                  aria-label={`Follow us on ${social.name}`}
-                >
-                  <SimpleIcon icon={social.icon} />
-                  <span>{social.name}</span>
-                </a>
-              ))}
-            </div>
-          </div>
-
-          {/* Bottom Section */}
-          <div className="pt-8 border-t border-border/50 flex flex-col md:flex-row items-center justify-between gap-4">
-            {/* Copyright & Legal */}
-            <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 text-sm text-muted-foreground">
-              <p>© {new Date().getFullYear()} 24Twelve. All rights reserved.</p>
-            </div>
-            <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-muted-foreground">
-              <Link to="/privacy" className="hover:text-foreground transition-colors">
-                Privacy
-              </Link>
-              <Link to="/terms" className="hover:text-foreground transition-colors">
-                Terms
-              </Link>
-              <Link to="/cookies" className="hover:text-foreground transition-colors">
-                Cookie Settings
-              </Link>
-              <Link to="/privacy#ccpa" className="hover:text-foreground transition-colors">
-                Do Not Sell My Info
-              </Link>
-              <Link to="/contact" className="hover:text-foreground transition-colors">
-                Contact
-              </Link>
+          {/* Bottom Section - Copyright & Legal */}
+          <div className="pt-4 border-t border-border/30 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-muted-foreground">
+            <p>© {new Date().getFullYear()} 24Twelve. All rights reserved.</p>
+            <div className="flex flex-wrap items-center justify-center gap-4">
+              <Link to="/privacy" className="hover:text-foreground transition-colors">Privacy</Link>
+              <Link to="/terms" className="hover:text-foreground transition-colors">Terms</Link>
+              <Link to="/cookies" className="hover:text-foreground transition-colors">Cookies</Link>
+              <Link to="/privacy#ccpa" className="hover:text-foreground transition-colors">CCPA</Link>
             </div>
           </div>
         </div>
