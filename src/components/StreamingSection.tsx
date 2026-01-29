@@ -160,7 +160,7 @@ export function StreamingSection() {
             : "opacity-0 translate-y-8"
         )}
       >
-        <div className="text-center mb-6 md:mb-8">
+        <div className="text-center mb-4 md:mb-6">
           <p className="text-xs md:text-sm text-muted-foreground uppercase tracking-wider mb-2">
             Watch on
           </p>
