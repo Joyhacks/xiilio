@@ -113,7 +113,7 @@ export function Footer() {
 
   return (
     <>
-      <footer className="py-3 bg-muted/30 border-t border-border/50">
+      <footer className="py-2 bg-muted/30 border-t border-border/50">
         <div className="container mx-auto px-4">
           {/* Compact single-row layout */}
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
