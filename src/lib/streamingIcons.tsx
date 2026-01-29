@@ -8,6 +8,7 @@ import {
   siYoutube,
   siSpotify,
   siTwitch,
+  siUber,
 } from "simple-icons";
 
 // ============================================
@@ -23,7 +24,8 @@ export type StreamingBrandKey =
   | "hulu"
   | "disneyplus"
   | "spotify"
-  | "twitch";
+  | "twitch"
+  | "uber";
 
 export interface StreamingService {
   id: string;
@@ -76,6 +78,7 @@ const iconMap: Record<StreamingBrandKey, SimpleIcon> = {
   disneyplus: siDisneyplus,
   spotify: siSpotify,
   twitch: siTwitch,
+  uber: siUber,
 };
 
 // ============================================
@@ -118,6 +121,10 @@ export const brandColors: Record<StreamingBrandKey, { bg: string; glow: string }
   twitch: {
     bg: "bg-[#9146FF]",
     glow: "shadow-[0_0_20px_rgba(145,70,255,0.5)]",
+  },
+  uber: {
+    bg: "bg-[#000000]",
+    glow: "shadow-[0_0_20px_rgba(0,0,0,0.5)]",
   },
 };
 
@@ -217,6 +224,13 @@ export const additionalStreamingServices: StreamingService[] = [
     href: "https://www.spotify.com/",
     brandKey: "spotify",
     brandColor: "#1DB954",
+  },
+  {
+    id: "uber",
+    name: "Uber",
+    href: "https://www.uber.com/",
+    brandKey: "uber",
+    brandColor: "#000000",
   },
 ];
 
