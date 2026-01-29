@@ -1,5 +1,5 @@
 // Centralized Streaming Service Icons Configuration
-// Uses Simple Icons where available, custom SVG paths for others
+// Uses Simple Icons where available, image assets for others
 
 import {
   siNetflix,
@@ -8,6 +8,11 @@ import {
   siSpotify,
   siUber,
 } from "simple-icons";
+
+// Import official brand logos for services not in simple-icons
+import primeVideoLogo from "@/assets/streaming/primevideo.svg";
+import huluLogo from "@/assets/streaming/hulu.svg";
+import disneyPlusLogo from "@/assets/streaming/disneyplus.svg";
 
 // ============================================
 // TYPE DEFINITIONS
@@ -40,55 +45,38 @@ interface SimpleIcon {
 }
 
 // ============================================
-// CUSTOM SVG PATHS for services not in simple-icons
-// Using brand-accurate icon representations
+// ICON TYPE: SVG path or image URL
 // ============================================
 
-// Prime Video - Amazon's play arrow icon (official app icon style)
-const siPrimevideo: SimpleIcon = {
-  path: "M1.178 3.596v16.808L18.283 12 1.178 3.596zM3.03 6.322L14.912 12 3.03 17.678V6.322z M20.822 4.5h1.5v15h-1.5z",
-  title: "Prime Video"
-};
+type IconSource = 
+  | { type: "svg"; icon: SimpleIcon }
+  | { type: "image"; src: string };
 
-// Hulu - Stylized "HULU" text as icon
-const siHulu: SimpleIcon = {
-  path: "M4 5v14h2v-6c0-.55.45-1 1-1s1 .45 1 1v6h2v-6c0-1.66-1.34-3-3-3-.74 0-1.42.27-1.95.71V5H4zm8 6v8h2v-8h-2zm4 0v8h2v-8h-2zm4 0v6c0 1.1.9 2 2 2h1v-2h-1v-6h-2z",
-  title: "Hulu"
-};
-
-// Disney+ - Stylized D with plus (official streaming icon)  
-const siDisneyplus: SimpleIcon = {
-  path: "M6.5 4C4.015 4 2 6.015 2 8.5v7C2 17.985 4.015 20 6.5 20H12v-2H6.5C5.12 18 4 16.88 4 15.5v-7C4 7.12 5.12 6 6.5 6h5c.913 0 1.713.49 2.15 1.222.438.731.458 1.638.019 2.389L11.5 13.5v.5h2l2.169-3.889c.732-1.25.698-2.762-.033-3.983C14.905 5.008 13.536 4 11.5 4H6.5zM17 12v3h-3v2h3v3h2v-3h3v-2h-3v-3h-2z",
-  title: "Disney+"
-};
-
-// Max - Simplified rounded M logo 
-const siMax: SimpleIcon = {
-  path: "M2 4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h20a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H2zm3 4h2.5l2.5 4 2.5-4H15v8h-2v-5l-1.5 2.5h-1L9 11v5H7V8zm10 0h2v8h-2V8zm3 0h2v8h-2V8z",
-  title: "Max"
-};
-
-// CNN - Stylized CNN letters  
-const siCnn: SimpleIcon = {
-  path: "M4 6c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h1.5c.83 0 1.5-.67 1.5-1.5V16H5.5v.5h-1v-9h1v.5H7V7.5C7 6.67 6.33 6 5.5 6H4zm5 0v12h1.5l2.5-6v6H15V6h-1.5l-2.5 6V6H9zm9 0v12h1.5l2.5-6v6H24V6h-1.5l-2.5 6V6h-2z",
-  title: "CNN"
-};
-
-// ============================================
-// ICON MAP
-// ============================================
-
-const iconMap: Record<StreamingBrandKey, SimpleIcon> = {
-  netflix: siNetflix,
-  primevideo: siPrimevideo,
-  appletv: siAppletv,
-  max: siMax,
-  youtube: siYoutube,
-  hulu: siHulu,
-  disneyplus: siDisneyplus,
-  spotify: siSpotify,
-  uber: siUber,
-  cnn: siCnn,
+const iconSources: Record<StreamingBrandKey, IconSource> = {
+  netflix: { type: "svg", icon: siNetflix },
+  primevideo: { type: "image", src: primeVideoLogo },
+  appletv: { type: "svg", icon: siAppletv },
+  max: { 
+    type: "svg", 
+    icon: {
+      // Max - Simplified M logo
+      path: "M2 4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h20a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H2zm3 4h2l3 5 3-5h2v8h-2v-5l-2 3.5h-2L7 11v5H5V8zm12 0h2v8h-2V8z",
+      title: "Max"
+    }
+  },
+  youtube: { type: "svg", icon: siYoutube },
+  hulu: { type: "image", src: huluLogo },
+  disneyplus: { type: "image", src: disneyPlusLogo },
+  spotify: { type: "svg", icon: siSpotify },
+  uber: { type: "svg", icon: siUber },
+  cnn: { 
+    type: "svg", 
+    icon: {
+      // CNN - Three C/N letters stylized  
+      path: "M5 5a3 3 0 0 0-3 3v8a3 3 0 0 0 3 3h2v-2H5a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h2V5H5zm5 0v14h2V12l3 7h2V5h-2v7l-3-7h-2zm8 0v14h2V12l3 7h2V5h-2v7l-3-7h-2z",
+      title: "CNN"
+    }
+  },
 };
 
 // ============================================
@@ -149,13 +137,36 @@ interface StreamingIconProps {
 }
 
 export function StreamingIcon({ brandKey, className, size = 24 }: StreamingIconProps) {
-  const icon = iconMap[brandKey];
+  const source = iconSources[brandKey];
   
+  if (!source) {
+    return null;
+  }
+  
+  // Handle image-based icons (official brand logos)
+  if (source.type === "image") {
+    return (
+      <img
+        src={source.src}
+        alt={brandKey}
+        className={className}
+        style={{ 
+          width: size, 
+          height: size, 
+          objectFit: "contain",
+          // Apply white filter to make logos white on colored backgrounds
+          filter: "brightness(0) invert(1)"
+        }}
+      />
+    );
+  }
+  
+  // Handle SVG path-based icons
+  const icon = source.icon;
   if (!icon?.path) {
     return null;
   }
   
-  // Treat streaming icons as brand assets - preserve white color on brand backgrounds
   return (
     <svg
       role="img"
@@ -256,5 +267,5 @@ export const allStreamingServices: StreamingService[] = [
   ...additionalStreamingServices,
 ];
 
-// Export icon map for direct access if needed
-export const streamingIcons = iconMap;
+// Export icon sources for direct access if needed
+export const streamingIcons = iconSources;
