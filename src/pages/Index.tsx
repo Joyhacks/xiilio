@@ -15,44 +15,10 @@ const Index = () => {
   // Initialize UX tracking for the page
   useUXTracking();
 
-  // FAQ structured data for rich snippets
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "What are AI agents?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "AI agents are specialized artificial intelligence assistants designed to handle specific business tasks like customer service, content creation, legal assistance, and more.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "How do 24Twelve AI agents work?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Our AI agents work 24/7 to handle your business tasks. Simply chat with them via text or voice, and they'll help with content creation, customer communications, legal drafts, financial analysis, and more.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Can I customize the AI agents?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes! You can customize agent personalities, response styles, and integrate them with your existing tools through our API and webhook integrations.",
-        },
-      },
-    ],
-  };
 
   return (
     <>
-      <SEO
-        canonical="/"
-        structuredData={faqSchema}
-      />
+      <SEO canonical="/" />
       <div className="min-h-screen bg-background">
       <Header />
       <Hero />
