@@ -113,7 +113,7 @@ export function Footer() {
 
   return (
     <>
-      <footer className="py-10 glass-luxury border-t border-primary/10">
+      <footer className="py-6 glass-luxury border-t border-primary/10">
         <div className="container mx-auto px-6">
           {/* Main Footer Content - All in one row on desktop */}
           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8 mb-8">
