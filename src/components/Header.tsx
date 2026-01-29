@@ -127,10 +127,7 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
             {/* Desktop CTA + Quick Links + Share + WhatsApp + Theme Toggle + Language */}
             <div className="hidden md:flex items-center gap-2">
               <HeaderQuickLinks agentSlug={agentSlug} agentColor={agentColor} />
-              <Button
-                variant="ghost"
-                size="icon"
-                className="w-9 h-9"
+              <button
                 onClick={() => {
                   if (navigator.share) {
                     navigator.share({
@@ -142,10 +139,11 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
                     navigator.clipboard.writeText(window.location.href);
                   }
                 }}
+                className="flex items-center justify-center w-9 h-9 rounded-full bg-[#0EA5E9] hover:bg-[#0284C7] transition-colors"
                 aria-label="Share"
               >
-                <Share2 className="w-4 h-4" />
-              </Button>
+                <Share2 className="w-4 h-4 text-white" />
+              </button>
               <a
                 href={whatsappUrl || "https://wa.me/12345678900"}
                 target="_blank"
