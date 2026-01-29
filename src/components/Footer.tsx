@@ -113,99 +113,48 @@ export function Footer() {
 
   return (
     <>
-      <footer className="py-4 glass-luxury border-t border-primary/10">
-        <div className="container mx-auto px-6">
-          {/* Main Footer Content - All in one row on desktop */}
-          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8 mb-8">
-            {/* Logo & Description */}
-            <div className="lg:max-w-xs">
+      <footer className="py-3 bg-muted/30 border-t border-border/50">
+        <div className="container mx-auto px-4">
+          {/* Compact single-row layout */}
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            {/* Logo + Copyright */}
+            <div className="flex items-center gap-3">
               <img 
                 src={logoTransparent} 
                 alt="24TWELVE" 
-                className="h-8 w-auto dark:invert-0 invert mb-2" 
+                className="h-5 w-auto dark:invert-0 invert" 
               />
-              <p className="text-xs text-muted-foreground leading-relaxed">
-                AI-powered agents that automate your business operations 24/7.
-              </p>
+              <span className="text-xs text-muted-foreground">
+                © {new Date().getFullYear()} 24Twelve
+              </span>
             </div>
 
-            {/* Navigation Links */}
-            <div className="flex flex-wrap gap-12">
-              {/* Company */}
-              <div>
-                <h4 className="font-semibold text-foreground text-sm mb-3">Company</h4>
-                <nav className="flex flex-col gap-2 text-xs text-muted-foreground">
-                  <Link to="/about" className="hover:text-foreground transition-colors">About</Link>
-                  <Link to="/careers" className="hover:text-foreground transition-colors">Careers</Link>
-                  <Link to="/blog" className="hover:text-foreground transition-colors">Blog</Link>
-                  <Link to="/contact" className="hover:text-foreground transition-colors">Contact</Link>
-                  <a href="https://affiliates.24twelve.com" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">Affiliates</a>
-                </nav>
-              </div>
-
-              {/* Product */}
-              <div>
-                <h4 className="font-semibold text-foreground text-sm mb-3">Product</h4>
-                <nav className="flex flex-col gap-2 text-xs text-muted-foreground">
-                  <a href="/#agents" className="hover:text-foreground transition-colors">AI Agents</a>
-                  <a href="/#how-it-works" className="hover:text-foreground transition-colors">How It Works</a>
-                  <Link to="/pricing" className="hover:text-foreground transition-colors">Pricing</Link>
-                  <Link to="/docs" className="hover:text-foreground transition-colors">API Docs</Link>
-                  <Link to="/faq" className="hover:text-foreground transition-colors">FAQ</Link>
-                </nav>
-              </div>
-
-              {/* Get the App */}
-              <div>
-                <h4 className="font-semibold text-foreground text-sm mb-3">Get the App</h4>
-                <div className="flex gap-2">
-                  <a
-                    href="https://apps.apple.com/app/24twelve"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:opacity-80 transition-opacity"
-                    aria-label="Download on the App Store"
-                  >
-                    <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="App Store" className="h-8 w-auto" />
-                  </a>
-                  <a
-                    href="https://play.google.com/store/apps/details?id=com.twentyfourtwelve"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:opacity-80 transition-opacity"
-                    aria-label="Get it on Google Play"
-                  >
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play" className="h-8 w-auto" />
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Social Media - Compact icons only */}
-          <div className="flex flex-wrap items-center justify-center gap-3 py-6 border-t border-border/30">
-            {socialLinks.map((social) => (
-              <a
-                key={social.name}
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 rounded-full bg-card hover:bg-muted border border-border text-foreground transition-all hover:scale-110"
-                aria-label={`Follow us on ${social.name}`}
-              >
-                <SimpleIcon icon={social.icon} />
-              </a>
-            ))}
-          </div>
-
-          {/* Bottom Section - Copyright & Legal */}
-          <div className="pt-4 border-t border-border/30 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-muted-foreground">
-            <p>© {new Date().getFullYear()} 24Twelve. All rights reserved.</p>
-            <div className="flex flex-wrap items-center justify-center gap-4">
+            {/* Navigation Links - Inline */}
+            <nav className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
+              <Link to="/about" className="hover:text-foreground transition-colors">About</Link>
+              <Link to="/pricing" className="hover:text-foreground transition-colors">Pricing</Link>
+              <Link to="/docs" className="hover:text-foreground transition-colors">Docs</Link>
+              <Link to="/faq" className="hover:text-foreground transition-colors">FAQ</Link>
+              <Link to="/contact" className="hover:text-foreground transition-colors">Contact</Link>
+              <span className="text-border">|</span>
               <Link to="/privacy" className="hover:text-foreground transition-colors">Privacy</Link>
               <Link to="/terms" className="hover:text-foreground transition-colors">Terms</Link>
-              <Link to="/cookies" className="hover:text-foreground transition-colors">Cookies</Link>
-              <Link to="/privacy#ccpa" className="hover:text-foreground transition-colors">CCPA</Link>
+            </nav>
+
+            {/* Social Icons - Compact */}
+            <div className="flex items-center gap-2">
+              {socialLinks.slice(0, 5).map((social) => (
+                <a
+                  key={social.name}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-1.5 rounded-full text-muted-foreground hover:text-foreground transition-colors"
+                  aria-label={`Follow us on ${social.name}`}
+                >
+                  <SimpleIcon icon={social.icon} className="w-3.5 h-3.5" />
+                </a>
+              ))}
             </div>
           </div>
         </div>
