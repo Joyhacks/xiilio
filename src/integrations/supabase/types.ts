@@ -138,6 +138,7 @@ export type Database = {
           email_body_template: string | null
           email_subject_template: string | null
           facebook_url: string | null
+          google_meet_url: string | null
           id: string
           inbox_url: string | null
           instagram_url: string | null
@@ -149,6 +150,7 @@ export type Database = {
           whatsapp_prefill_message: string | null
           x_url: string | null
           youtube_url: string | null
+          zoom_url: string | null
         }
         Insert: {
           created_at?: string
@@ -156,6 +158,7 @@ export type Database = {
           email_body_template?: string | null
           email_subject_template?: string | null
           facebook_url?: string | null
+          google_meet_url?: string | null
           id?: string
           inbox_url?: string | null
           instagram_url?: string | null
@@ -167,6 +170,7 @@ export type Database = {
           whatsapp_prefill_message?: string | null
           x_url?: string | null
           youtube_url?: string | null
+          zoom_url?: string | null
         }
         Update: {
           created_at?: string
@@ -174,6 +178,7 @@ export type Database = {
           email_body_template?: string | null
           email_subject_template?: string | null
           facebook_url?: string | null
+          google_meet_url?: string | null
           id?: string
           inbox_url?: string | null
           instagram_url?: string | null
@@ -185,6 +190,7 @@ export type Database = {
           whatsapp_prefill_message?: string | null
           x_url?: string | null
           youtube_url?: string | null
+          zoom_url?: string | null
         }
         Relationships: []
       }

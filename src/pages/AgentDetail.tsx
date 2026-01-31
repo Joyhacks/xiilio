@@ -1,18 +1,21 @@
 import { useParams, Link } from "react-router-dom";
-import { useEffect, useRef } from "react";
-import { ArrowLeft, CheckCircle, MessageSquare, Clock, Mic, Linkedin } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ArrowLeft, CheckCircle, MessageSquare, Clock, Mic, Linkedin, Video } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SEO } from "@/components/SEO";
 import { AgentChat } from "@/components/AgentChat";
 import { ActivityHistory } from "@/components/ActivityHistory";
 import { VoiceChat } from "@/components/VoiceChat";
+import { VideoMeeting } from "@/components/VideoMeeting";
 import { QuickLinksSidebar } from "@/components/QuickLinksSidebar";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 import { useIsMobile } from "@/hooks/use-mobile";
 // Avatar imports
 import juliaAvatar from "@/assets/avatars/julia-receptionist.png";
@@ -504,6 +507,28 @@ export default function AgentDetail() {
   const agent = agentId ? agents[agentId] : null;
   const isMobile = useIsMobile();
   const avatarRef = useRef<HTMLDivElement>(null);
+  const { user } = useAuth();
+  const [meetingLinks, setMeetingLinks] = useState({ googleMeetUrl: "", zoomUrl: "" });
+
+  // Load user's meeting links
+  useEffect(() => {
+    async function loadMeetingLinks() {
+      if (!user) return;
+      const { data } = await supabase
+        .from("user_links")
+        .select("google_meet_url, zoom_url")
+        .eq("user_id", user.id)
+        .maybeSingle();
+      
+      if (data) {
+        setMeetingLinks({
+          googleMeetUrl: (data as any).google_meet_url || "",
+          zoomUrl: (data as any).zoom_url || "",
+        });
+      }
+    }
+    loadMeetingLinks();
+  }, [user]);
 
   // Scroll to avatar on mount
   useEffect(() => {
@@ -646,6 +671,10 @@ export default function AgentDetail() {
               <Mic className="w-4 h-4" />
               Voice
             </TabsTrigger>
+            <TabsTrigger value="video" className="gap-2">
+              <Video className="w-4 h-4" />
+              Video
+            </TabsTrigger>
             <TabsTrigger value="activity" className="gap-2">
               <Clock className="w-4 h-4" />
               Activity
@@ -731,6 +760,54 @@ export default function AgentDetail() {
                   agentAvatar={agent.avatar}
                   agentColor={agent.color}
                   agentType={agentId === "julia" ? "receptionist" : agentId === "kate" ? "assistant" : agentId === "halle" ? "legal" : agentId === "george" ? "social" : agentId === "arnie" ? "writer" : agentId === "brad" ? "sales" : agentId === "sam" ? "coach" : agentId === "jerry" ? "finance" : "assistant"}
+                />
+              </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="video" className="mt-6">
+            <div className="grid lg:grid-cols-3 gap-8">
+              {/* Video Capabilities */}
+              <div className="lg:col-span-1 space-y-4">
+                <h3 className="font-semibold text-foreground flex items-center gap-2">
+                  <CheckCircle className={cn("w-5 h-5", `text-agent-${agent.color}`)} />
+                  Video Options
+                </h3>
+                <ul className="space-y-2">
+                  <li className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <div className={cn("w-1.5 h-1.5 rounded-full", `bg-agent-${agent.color}`)} />
+                    Instant video meetings (Jitsi)
+                  </li>
+                  <li className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <div className={cn("w-1.5 h-1.5 rounded-full", `bg-agent-${agent.color}`)} />
+                    No account required
+                  </li>
+                  <li className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <div className={cn("w-1.5 h-1.5 rounded-full", `bg-agent-${agent.color}`)} />
+                    Google Meet quick launch
+                  </li>
+                  <li className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <div className={cn("w-1.5 h-1.5 rounded-full", `bg-agent-${agent.color}`)} />
+                    Zoom quick launch
+                  </li>
+                </ul>
+                <p className="text-xs text-muted-foreground mt-4">
+                  Configure your Google Meet and Zoom links in{" "}
+                  <a href="/settings" className="text-primary hover:underline">
+                    Settings → Links
+                  </a>{" "}
+                  for quick access.
+                </p>
+              </div>
+
+              {/* Video Interface */}
+              <div className="lg:col-span-2">
+                <VideoMeeting
+                  agentName={agent.name}
+                  agentAvatar={agent.avatar}
+                  agentColor={agent.color}
+                  googleMeetUrl={meetingLinks.googleMeetUrl}
+                  zoomUrl={meetingLinks.zoomUrl}
                 />
               </div>
             </div>
