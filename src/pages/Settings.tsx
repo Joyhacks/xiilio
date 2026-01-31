@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { 
   User, Link as LinkIcon, Brain, ArrowLeft, Save, Trash2, Loader2,
   Facebook, Instagram, Linkedin, MessageCircle, Mail, Inbox,
-  Sparkles, Shield, Download, FileJson, Twitter, Youtube
+  Sparkles, Shield, Download, FileJson, Twitter, Youtube, Video
 } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
@@ -69,6 +69,8 @@ interface UserLinks {
   whatsapp_prefill_message: string | null;
   inbox_url: string | null;
   default_email_to: string | null;
+  google_meet_url: string | null;
+  zoom_url: string | null;
 }
 
 export default function Settings() {
@@ -105,6 +107,8 @@ export default function Settings() {
     whatsapp_prefill_message: '',
     inbox_url: '',
     default_email_to: '',
+    google_meet_url: '',
+    zoom_url: '',
   });
 
   // Redirect if not authenticated
@@ -160,6 +164,8 @@ export default function Settings() {
             whatsapp_prefill_message: linksData.whatsapp_prefill_message || '',
             inbox_url: linksData.inbox_url || '',
             default_email_to: linksData.default_email_to || '',
+            google_meet_url: (linksData as any).google_meet_url || '',
+            zoom_url: (linksData as any).zoom_url || '',
           });
         }
 
@@ -224,7 +230,9 @@ export default function Settings() {
         whatsapp_prefill_message: links.whatsapp_prefill_message || null,
         inbox_url: links.inbox_url || null,
         default_email_to: links.default_email_to || null,
-      });
+        google_meet_url: links.google_meet_url || null,
+        zoom_url: links.zoom_url || null,
+      } as any);
 
       toast({
         title: 'Links saved',
@@ -541,6 +549,45 @@ export default function Settings() {
                       />
                     </div>
                   </div>
+                </div>
+
+                <div className="space-y-4">
+                  <h3 className="text-sm font-medium flex items-center gap-2">
+                    <Video className="w-4 h-4 text-primary" />
+                    Video Meeting Links
+                  </h3>
+                  
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <div className="space-y-2">
+                      <Label className="flex items-center gap-2">
+                        <div className="w-4 h-4 rounded bg-[#00897B] flex items-center justify-center">
+                          <Video className="w-2.5 h-2.5 text-white" />
+                        </div>
+                        Google Meet URL
+                      </Label>
+                      <Input
+                        value={links.google_meet_url || ''}
+                        onChange={(e) => setLinks({ ...links, google_meet_url: e.target.value })}
+                        placeholder="https://meet.google.com/xxx-xxxx-xxx"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label className="flex items-center gap-2">
+                        <div className="w-4 h-4 rounded bg-[#2D8CFF] flex items-center justify-center">
+                          <Video className="w-2.5 h-2.5 text-white" />
+                        </div>
+                        Zoom URL
+                      </Label>
+                      <Input
+                        value={links.zoom_url || ''}
+                        onChange={(e) => setLinks({ ...links, zoom_url: e.target.value })}
+                        placeholder="https://zoom.us/j/1234567890"
+                      />
+                    </div>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Add your personal meeting links for quick access from agent video pages.
+                  </p>
                 </div>
 
                 <div className="space-y-4">
