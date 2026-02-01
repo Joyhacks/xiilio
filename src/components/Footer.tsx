@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import logoTransparent from "@/assets/logo-24twelve-transparent.png";
+import heroLogo from "@/assets/logo-xilio-hero-3d.png";
 import { CookiePreferencesModal } from "@/components/CookiePreferencesModal";
 import { useUserLinks } from "@/hooks/useUserLinks";
 import {
@@ -178,6 +179,11 @@ export function Footer() {
                     <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play" className="h-7 w-auto" />
                   </a>
                 </div>
+                <img 
+                  src={heroLogo} 
+                  alt="Xilio" 
+                  className="h-10 w-auto mt-2 opacity-80" 
+                />
               </div>
             </div>
           </div>
