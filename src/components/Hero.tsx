@@ -41,7 +41,7 @@ export function Hero() {
             <img 
               src={logo} 
               alt="Xilio - Working 24twelve" 
-              className="relative h-40 md:h-56 lg:h-64 w-auto mx-auto"
+              className="relative h-40 md:h-56 lg:h-64 w-auto mx-auto mix-blend-lighten"
               loading="eager"
             />
           </div>
