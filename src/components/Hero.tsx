@@ -22,12 +22,12 @@ export function Hero() {
 
   return (
     <>
-      <section className="relative flex items-center justify-center overflow-hidden bg-gradient-hero pt-20 md:pt-24 pb-6 md:pb-8">
+      <section className="relative flex items-center justify-center overflow-hidden pt-20 md:pt-24 pb-6 md:pb-8" style={{ backgroundColor: '#1a2214' }}>
         {/* Top gradient overlay to match logo background */}
         <div 
           className="absolute inset-x-0 top-0 h-[28rem] md:h-[32rem] pointer-events-none z-[1]"
           style={{ 
-            background: 'linear-gradient(to bottom, hsl(30, 15%, 10%) 0%, hsl(30, 15%, 10%) 55%, transparent 100%)' 
+            background: 'linear-gradient(to bottom, #1a2214 0%, #1a2214 55%, transparent 100%)' 
           }}
         />
         {/* Circuit pattern background */}
