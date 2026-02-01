@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { Loader2, Mic, MessageSquare } from "lucide-react";
+import { Loader2, Mic, MessageSquare, Crown } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -13,6 +13,8 @@ import { usePushToTalk } from "@/hooks/usePushToTalk";
 import { useAgentTTS } from "@/hooks/useAgentTTS";
 import { useAnalyticsLogger } from "@/hooks/useAnalyticsLogger";
 import { VoiceState } from "@/lib/voiceConfig";
+import { useAuth } from "@/hooks/useAuth";
+import { Badge } from "@/components/ui/badge";
 
 interface Message {
   role: "user" | "assistant";
@@ -48,9 +50,12 @@ export function AgentChat({
   const [isVoiceMode, setIsVoiceMode] = useState(false);
   const [voiceState, setVoiceState] = useState<VoiceState>("idle");
   const [pendingVoiceMessage, setPendingVoiceMessage] = useState<string | null>(null);
+  const [isOwnerMode, setIsOwnerMode] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const pttStartTimeRef = useRef<number | null>(null);
   const conversationStartedRef = useRef(false);
+  
+  const { session } = useAuth();
 
   // Analytics logger
   const {
@@ -157,13 +162,26 @@ export function AgentChat({
 
   const streamChat = useCallback(
     async (userMessages: Message[]): Promise<string> => {
+      const headers: Record<string, string> = {
+        "Content-Type": "application/json",
+      };
+      
+      // Add auth header if user is authenticated
+      if (session?.access_token) {
+        headers["Authorization"] = `Bearer ${session.access_token}`;
+      }
+      
       const resp = await fetch(`${SUPABASE_URL}/functions/v1/${edgeFunctionName}`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers,
         body: JSON.stringify({ messages: userMessages }),
       });
+
+      // Check for owner mode header
+      const ownerModeHeader = resp.headers.get("X-Owner-Mode");
+      if (ownerModeHeader === "true" && !isOwnerMode) {
+        setIsOwnerMode(true);
+      }
 
       if (!resp.ok || !resp.body) {
         const errorData = await resp.json().catch(() => ({}));
@@ -250,7 +268,7 @@ export function AgentChat({
 
       return assistantContent;
     },
-    [edgeFunctionName]
+    [edgeFunctionName, session?.access_token, isOwnerMode]
   );
 
   const sendMessage = async (text: string, speakResponse: boolean = false) => {
@@ -367,7 +385,16 @@ export function AgentChat({
         agentName={agentName} 
         agentAvatar={agentAvatar}
         rightContent={
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-2">
+            {isOwnerMode && (
+              <Badge 
+                variant="outline" 
+                className="bg-primary/10 text-primary border-primary/30 gap-1 text-xs"
+              >
+                <Crown className="w-3 h-3" />
+                Owner
+              </Badge>
+            )}
             <ExportButton messages={messages} agentName={agentName} />
             <Button
               variant="ghost"

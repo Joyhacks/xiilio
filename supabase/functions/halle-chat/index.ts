@@ -4,6 +4,7 @@ import {
   getUserIdFromRequest, 
   createPersonalizedPrompt,
   runFactExtractionAsync,
+  isOwner,
   COMPANY_CONTEXT
 } from "../_shared/agentMemory.ts";
 
@@ -89,8 +90,17 @@ serve(async (req) => {
 
     // Get user ID from auth header
     const userId = await getUserIdFromRequest(req, SUPABASE_URL || "", SUPABASE_SERVICE_ROLE_KEY || "");
+    
+    // Check if user is the owner
+    let ownerMode = false;
+    if (userId && SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY) {
+      ownerMode = await isOwner(userId, SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+      if (ownerMode) {
+        console.log("[Halle] Owner mode activated for user:", userId);
+      }
+    }
 
-    console.log("Halle Legal Associate chat request, messages:", messages.length, "userId:", userId ? "authenticated" : "anonymous");
+    console.log("Halle Legal Associate chat request, messages:", messages.length, "userId:", userId ? "authenticated" : "anonymous", "ownerMode:", ownerMode);
 
     // Get personalized prompt with learned facts
     const personalizedPrompt = await createPersonalizedPrompt(
@@ -148,7 +158,11 @@ serve(async (req) => {
     console.log("Streaming response from AI gateway for Halle");
 
     return new Response(response.body, {
-      headers: { ...corsHeaders, "Content-Type": "text/event-stream" },
+      headers: { 
+        ...corsHeaders, 
+        "Content-Type": "text/event-stream",
+        "X-Owner-Mode": ownerMode ? "true" : "false",
+      },
     });
   } catch (e) {
     console.error("Halle chat error:", e);
