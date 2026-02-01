@@ -83,6 +83,69 @@ export type Database = {
         }
         Relationships: []
       }
+      user_calendar_events: {
+        Row: {
+          agent_slug: string | null
+          all_day: boolean | null
+          attendees: Json | null
+          color: string | null
+          created_at: string
+          description: string | null
+          end_time: string | null
+          event_type: string
+          id: string
+          location: string | null
+          recurrence_rule: string | null
+          reminder_minutes: number | null
+          reminder_sent: boolean | null
+          start_time: string
+          status: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          agent_slug?: string | null
+          all_day?: boolean | null
+          attendees?: Json | null
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          end_time?: string | null
+          event_type?: string
+          id?: string
+          location?: string | null
+          recurrence_rule?: string | null
+          reminder_minutes?: number | null
+          reminder_sent?: boolean | null
+          start_time: string
+          status?: string | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          agent_slug?: string | null
+          all_day?: boolean | null
+          attendees?: Json | null
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          end_time?: string | null
+          event_type?: string
+          id?: string
+          location?: string | null
+          recurrence_rule?: string | null
+          reminder_minutes?: number | null
+          reminder_sent?: boolean | null
+          start_time?: string
+          status?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_learned_facts: {
         Row: {
           confidence: number | null
