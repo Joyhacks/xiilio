@@ -256,8 +256,8 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
               <ThemeToggle />
               <Sheet open={isOpen} onOpenChange={setIsOpen}>
                 <SheetTrigger asChild>
-                  <Button variant="ghost" size="icon">
-                    <Menu className="h-5 w-5" />
+                  <Button variant="ghost" size="icon" className="h-10 w-10">
+                    <Menu className="h-7 w-7" />
                     <span className="sr-only">Open menu</span>
                   </Button>
                 </SheetTrigger>

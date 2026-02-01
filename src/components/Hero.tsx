@@ -41,7 +41,7 @@ export function Hero() {
             <img 
               src={logo} 
               alt="Xylo - AI Agent Suite" 
-              className="relative h-24 md:h-40 lg:h-48 w-auto mx-auto drop-shadow-2xl"
+              className="relative h-32 md:h-48 lg:h-56 w-auto mx-auto drop-shadow-2xl"
               style={{ filter: "drop-shadow(0 0 20px hsl(var(--primary) / 0.4))" }}
               loading="eager"
             />
