@@ -12,12 +12,12 @@ export { corsHeaders };
 
 // Company context that all agents share - sourced from www.24twelve.co
 export const COMPANY_CONTEXT = `
-### About Your Employer: 24Twelve
-You work for **24Twelve** (www.24twelve.co), an AI-driven lead generation agency.
+### About Your Employer: 24Twelve & Xilio
+You work for **24Twelve** (www.24twelve.co), an AI-driven lead generation agency, and you are part of the **Xilio** AI agent platform.
 
 **Company Mission:** "Working for you 24 hours a day, twelve months a year."
 
-**Founder & Owner:** Mark McClafferty. When asked about the owner or founder, you can refer to him as "Mark."
+**Founder & Owner:** Mark McClafferty. He is the founder and owner of both 24Twelve and the Xilio app. When asked about the owner or founder, refer to him as "Mark."
 
 **What 24Twelve Does:**
 - AI-powered lead generation and email marketing campaigns with ROI as high as 42:1
@@ -46,6 +46,18 @@ You work for **24Twelve** (www.24twelve.co), an AI-driven lead generation agency
 **Location & Timezone:** London, UK (GMT/BST)
 
 When appropriate, reference 24Twelve's services and capabilities in your responses. You are proud to be part of this innovative AI team!
+`;
+
+// Owner context - injected when Mark McClafferty is logged in
+export const OWNER_CONTEXT = `
+### IMPORTANT: You Are Speaking With Your Boss
+The person you are speaking with is **Mark McClafferty**, the Founder and Owner of 24Twelve and the Xilio app. 
+- You work directly FOR Mark - he is your employer and the creator of this platform
+- Treat him with the respect due to your boss while maintaining your helpful, professional personality
+- Be ready to assist with any business matters, strategic decisions, or operational tasks he needs
+- You can be more candid and direct with Mark as he understands the full capabilities and limitations of the system
+- If he asks about the business, company operations, or agent capabilities, provide thorough and honest answers
+- Remember: Mark built you and your fellow agents - he knows what you're capable of!
 `;
 
 interface ExtractedFact {
@@ -221,6 +233,51 @@ export function runFactExtractionAsync(
     .catch(err => console.error(`[${agentSlug}] Fact extraction failed:`, err));
 }
 
+// Check if the current user is the owner (Mark McClafferty)
+async function isOwner(
+  userId: string,
+  supabaseUrl: string,
+  serviceKey: string
+): Promise<boolean> {
+  try {
+    const supabase = createClient(supabaseUrl, serviceKey);
+    
+    // Check user_profiles for owner identification
+    const { data: profile } = await supabase
+      .from('user_profiles')
+      .select('full_name')
+      .eq('user_id', userId)
+      .maybeSingle();
+    
+    if (profile?.full_name) {
+      const name = (profile.full_name as string).toLowerCase();
+      if (name.includes('mark') && name.includes('mcclafferty')) {
+        return true;
+      }
+    }
+    
+    // Also check user_learned_facts for identity facts
+    const { data: facts } = await supabase
+      .from('user_learned_facts')
+      .select('fact_value')
+      .eq('user_id', userId)
+      .eq('fact_type', 'identity')
+      .eq('fact_key', 'name')
+      .maybeSingle();
+    
+    if (facts?.fact_value) {
+      const name = (facts.fact_value as string).toLowerCase();
+      if (name.includes('mark') && name.includes('mcclafferty')) {
+        return true;
+      }
+    }
+    
+    return false;
+  } catch {
+    return false;
+  }
+}
+
 // Create a personalized system prompt with learned facts
 export async function createPersonalizedPrompt(
   basePrompt: string,
@@ -232,6 +289,14 @@ export async function createPersonalizedPrompt(
     return basePrompt;
   }
 
+  let prompt = basePrompt;
+  
+  // Check if this is the owner and inject special context
+  const ownerCheck = await isOwner(userId, supabaseUrl, serviceKey);
+  if (ownerCheck) {
+    prompt += OWNER_CONTEXT;
+  }
+
   const learnedFacts = await getLearnedFacts(userId, supabaseUrl, serviceKey);
-  return basePrompt + learnedFacts;
+  return prompt + learnedFacts;
 }
