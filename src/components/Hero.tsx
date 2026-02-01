@@ -22,12 +22,12 @@ export function Hero() {
 
   return (
     <>
-      <section className="relative flex items-center justify-center overflow-hidden bg-[hsl(30,10%,12%)] pt-20 md:pt-24 pb-6 md:pb-8">
-        {/* Solid dark background overlay to match logo */}
+      <section className="relative flex items-center justify-center overflow-hidden pt-20 md:pt-24 pb-6 md:pb-8" style={{ backgroundColor: '#4a4035' }}>
+        {/* Solid background to match logo */}
         <div 
           className="absolute inset-0 pointer-events-none z-[1]"
           style={{ 
-            background: 'hsl(30, 10%, 12%)' 
+            background: '#4a4035' 
           }}
         />
         {/* Circuit pattern background */}
