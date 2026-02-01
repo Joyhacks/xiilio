@@ -7,51 +7,51 @@
 @layer base {
   :root,
   .dark {
-    --background: 30 20% 8%;
-    --foreground: 35 30% 95%;
+    --background: 35 22% 12%;
+    --foreground: 40 25% 92%;
 
-    --card: 28 22% 7%;
-    --card-foreground: 35 30% 95%;
+    --card: 32 20% 10%;
+    --card-foreground: 40 25% 92%;
 
-    --popover: 28 22% 8%;
-    --popover-foreground: 35 30% 95%;
+    --popover: 32 20% 11%;
+    --popover-foreground: 40 25% 92%;
 
-    /* Warm bronze/copper primary */
-    --primary: 35 45% 65%;
-    --primary-foreground: 30 25% 6%;
+    /* Warm brown/bronze primary */
+    --primary: 38 50% 58%;
+    --primary-foreground: 35 25% 8%;
 
-    /* Warm taupe secondary */
-    --secondary: 32 25% 55%;
-    --secondary-foreground: 30 25% 6%;
+    /* Earthy brown secondary */
+    --secondary: 35 30% 50%;
+    --secondary-foreground: 35 25% 8%;
 
-    --muted: 30 18% 12%;
-    --muted-foreground: 35 12% 55%;
+    --muted: 34 18% 16%;
+    --muted-foreground: 38 15% 55%;
 
-    /* Warm amber accent */
-    --accent: 40 40% 70%;
-    --accent-foreground: 30 25% 6%;
+    /* Warm brown-green accent */
+    --accent: 45 45% 62%;
+    --accent-foreground: 35 25% 8%;
 
-    /* Green accent for logo glow */
-    --accent-green: 160 70% 45%;
-    --accent-green-light: 160 65% 55%;
+    /* Green accent for logo glow - more prominent */
+    --accent-green: 145 55% 42%;
+    --accent-green-light: 150 50% 52%;
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 35 30% 95%;
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 40 25% 92%;
 
-    --border: 30 18% 16%;
-    --input: 30 18% 16%;
-    --ring: 35 45% 65%;
+    --border: 34 18% 20%;
+    --input: 34 18% 20%;
+    --ring: 38 50% 58%;
 
     --radius: 0.75rem;
 
-    /* Luxurious gradient tokens - Warm bronze/amber theme */
-    --gradient-primary: linear-gradient(135deg, hsl(35 45% 70%) 0%, hsl(30 40% 60%) 50%, hsl(40 35% 65%) 100%);
-    --gradient-card: linear-gradient(180deg, hsl(28 22% 10%) 0%, hsl(30 25% 6%) 100%);
-    --gradient-hero: linear-gradient(180deg, hsl(30 25% 6%) 0%, hsl(28 30% 3%) 100%);
-    --gradient-glass: linear-gradient(135deg, hsl(35 25% 90% / 0.05) 0%, hsl(30 25% 75% / 0.02) 100%);
-    --glow-primary: 0 0 80px hsl(35 45% 65% / 0.25), 0 0 40px hsl(40 40% 70% / 0.15);
-    --glow-secondary: 0 0 60px hsl(32 25% 55% / 0.2);
-    --glow-luxury: 0 0 100px hsl(35 50% 75% / 0.15), 0 0 50px hsl(40 45% 65% / 0.1);
+    /* Luxurious gradient tokens - Warm brown/green theme */
+    --gradient-primary: linear-gradient(135deg, hsl(38 50% 62%) 0%, hsl(35 45% 55%) 50%, hsl(45 40% 58%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(32 20% 13%) 0%, hsl(35 22% 9%) 100%);
+    --gradient-hero: linear-gradient(180deg, hsl(35 22% 10%) 0%, hsl(32 25% 7%) 100%);
+    --gradient-glass: linear-gradient(135deg, hsl(40 25% 85% / 0.06) 0%, hsl(35 25% 70% / 0.03) 100%);
+    --glow-primary: 0 0 80px hsl(38 50% 58% / 0.25), 0 0 40px hsl(145 55% 42% / 0.15);
+    --glow-secondary: 0 0 60px hsl(35 30% 50% / 0.2);
+    --glow-luxury: 0 0 100px hsl(38 55% 65% / 0.15), 0 0 50px hsl(145 50% 50% / 0.1);
 
     /* Agent colors */
     --agent-booking: 160 84% 45%;
