@@ -114,7 +114,7 @@ export function Footer() {
 
   return (
     <>
-      <footer className="py-4 glass-luxury border-t border-primary/10 -mt-4">
+      <footer className="py-4 border-t border-primary/10 -mt-4" style={{ backgroundColor: '#161e0c' }}>
         <div className="container mx-auto px-6">
           {/* Main Footer Content - All in one row on desktop */}
           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-4">
