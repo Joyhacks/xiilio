@@ -17,7 +17,6 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useAuth } from "@/hooks/useAuth";
 import { useUserLinks } from "@/hooks/useUserLinks";
 import { AuthOverlay } from "@/components/auth/AuthOverlay";
-import logo from "@/assets/logo-xylo-new.png";
 import { siWhatsapp } from "simple-icons";
 
 interface HeaderProps {
@@ -95,9 +94,6 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
                   </Button>
                 </Link>
               )}
-              <Link to="/" className="flex items-center">
-                <img src={logo} alt="Xylo - AI Agent Suite" className="h-10 w-auto rounded-lg" />
-              </Link>
             </div>
 
             {/* Desktop Navigation */}
@@ -268,8 +264,8 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
                   <div className="flex flex-col h-full">
                     {/* Mobile Menu Header */}
                     <div className="flex items-center justify-between p-4 border-b border-primary/10">
-                      <Link to="/" onClick={() => setIsOpen(false)}>
-                        <img src={logo} alt="Xylo" className="h-8 w-auto rounded-md" />
+                      <Link to="/" onClick={() => setIsOpen(false)} className="text-lg font-bold text-foreground">
+                        Xilio
                       </Link>
                     </div>
 

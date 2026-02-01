@@ -25,9 +25,9 @@ export function Hero() {
       <section className="relative flex items-center justify-center overflow-hidden bg-gradient-hero pt-20 md:pt-24 pb-6 md:pb-8">
         {/* Top gradient overlay to match logo background */}
         <div 
-          className="absolute inset-x-0 top-0 h-72 md:h-96 pointer-events-none z-[1]"
+          className="absolute inset-x-0 top-0 h-[28rem] md:h-[32rem] pointer-events-none z-[1]"
           style={{ 
-            background: 'linear-gradient(to bottom, hsl(30, 20%, 8%) 0%, hsl(30, 20%, 8%) 30%, transparent 100%)' 
+            background: 'linear-gradient(to bottom, hsl(30, 20%, 8%) 0%, hsl(30, 20%, 8%) 60%, transparent 100%)' 
           }}
         />
         {/* Circuit pattern background */}
