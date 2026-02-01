@@ -26,23 +26,25 @@ export function Hero() {
         {/* Circuit pattern background */}
         <div className="absolute inset-0 circuit-pattern opacity-30" />
         
-        {/* Luxurious gradient orbs - smaller on mobile */}
-        <div className="absolute top-1/4 left-1/4 w-[250px] md:w-[500px] h-[250px] md:h-[500px] bg-primary/15 rounded-full blur-[60px] md:blur-[100px] animate-pulse-glow" />
-        <div className="absolute bottom-1/4 right-1/4 w-[200px] md:w-[400px] h-[200px] md:h-[400px] bg-accent/15 rounded-full blur-[50px] md:blur-[80px] animate-pulse-glow" style={{ animationDelay: '1s' }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-secondary/10 rounded-full blur-[80px] md:blur-[120px] animate-pulse-glow" style={{ animationDelay: '2s' }} />
+        {/* Luxurious gradient orbs - green to match logo accent */}
+        <div className="absolute top-1/4 left-1/4 w-[250px] md:w-[500px] h-[250px] md:h-[500px] bg-accent-green/15 rounded-full blur-[60px] md:blur-[100px] animate-pulse-glow" />
+        <div className="absolute bottom-1/4 right-1/4 w-[200px] md:w-[400px] h-[200px] md:h-[400px] bg-accent-green-light/15 rounded-full blur-[50px] md:blur-[80px] animate-pulse-glow" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-accent-green/10 rounded-full blur-[80px] md:blur-[120px] animate-pulse-glow" style={{ animationDelay: '2s' }} />
         
         <div className="relative z-10 container mx-auto px-4 md:px-6 text-center">
-          {/* Logo with glow effect */}
+          {/* Logo with green glow effect */}
           <div className="mb-4 md:mb-6 relative">
-            {/* Glow backdrop */}
+            {/* Green glow backdrop to match logo accent */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div className="w-32 h-32 md:w-64 md:h-64 lg:w-80 lg:h-80 bg-primary/20 rounded-full blur-2xl md:blur-3xl animate-pulse-glow" />
+              <div className="w-32 h-32 md:w-64 md:h-64 lg:w-80 lg:h-80 bg-accent-green/25 rounded-full blur-2xl md:blur-3xl animate-pulse-glow" />
             </div>
             <img 
               src={logo} 
               alt="Xylo - AI Agent Suite" 
-              className="relative h-32 md:h-48 lg:h-56 w-auto mx-auto drop-shadow-2xl"
-              style={{ filter: "drop-shadow(0 0 20px hsl(var(--primary) / 0.4))" }}
+              className="relative h-32 md:h-48 lg:h-56 w-auto mx-auto drop-shadow-2xl rounded-2xl"
+              style={{ 
+                filter: "drop-shadow(0 0 25px hsl(var(--accent-green) / 0.5))",
+              }}
               loading="eager"
             />
           </div>
