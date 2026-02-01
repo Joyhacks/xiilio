@@ -31,17 +31,17 @@ export function Hero() {
         {/* Circuit pattern background */}
         <div className="absolute inset-0 circuit-pattern opacity-15" />
         
-        {/* Luxurious gradient orbs - darker olive-green to match logo */}
-        <div className="absolute top-1/4 left-1/4 w-[250px] md:w-[500px] h-[250px] md:h-[500px] bg-[#2a4015]/20 rounded-full blur-[60px] md:blur-[100px] animate-pulse-glow" />
-        <div className="absolute bottom-1/4 right-1/4 w-[200px] md:w-[400px] h-[200px] md:h-[400px] bg-[#1e3010]/18 rounded-full blur-[50px] md:blur-[80px] animate-pulse-glow" style={{ animationDelay: '1s' }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-[#8a7018]/10 rounded-full blur-[80px] md:blur-[120px] animate-pulse-glow" style={{ animationDelay: '2s' }} />
+        {/* Luxurious gradient orbs - deep olive to match logo */}
+        <div className="absolute top-1/4 left-1/4 w-[250px] md:w-[500px] h-[250px] md:h-[500px] bg-[#1a2a0c]/25 rounded-full blur-[60px] md:blur-[100px] animate-pulse-glow" />
+        <div className="absolute bottom-1/4 right-1/4 w-[200px] md:w-[400px] h-[200px] md:h-[400px] bg-[#141f08]/22 rounded-full blur-[50px] md:blur-[80px] animate-pulse-glow" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-[#4a3a0c]/12 rounded-full blur-[80px] md:blur-[120px] animate-pulse-glow" style={{ animationDelay: '2s' }} />
         
         <div className="relative z-10 container mx-auto px-4 md:px-6 text-center">
           {/* Logo with edge-blending overlay */}
           <div className="mb-4 md:mb-6 relative">
-            {/* Darker golden glow backdrop to match logo */}
+            {/* Deep muted gold glow to match logo */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div className="w-40 h-40 md:w-72 md:h-72 lg:w-96 lg:h-96 bg-[#7a6015]/25 rounded-full blur-3xl md:blur-[80px] animate-pulse-glow" />
+              <div className="w-40 h-40 md:w-72 md:h-72 lg:w-96 lg:h-96 bg-[#3d300a]/30 rounded-full blur-3xl md:blur-[80px] animate-pulse-glow" />
             </div>
             {/* Logo container with edge masking */}
             <div className="relative inline-block">
