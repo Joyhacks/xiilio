@@ -233,20 +233,23 @@ export function runFactExtractionAsync(
     .catch(err => console.error(`[${agentSlug}] Fact extraction failed:`, err));
 }
 
-// Owner identification constants
+// Owner identification constants - Mark McClafferty, Founder & Owner of 24Twelve and Xilio
+// Contact: mark@24twelve.co | +44 07968 085935
 const OWNER_EMAILS = [
   'mark@24twelve.co',
-  'mark.mcclafferty@24twelve.co',
-  'markmcclafferty@gmail.com',
 ];
 
 const OWNER_PHONES = [
-  '+442046202235',
-  '+44 2046 202235',
+  '+447968085935',
+  '+44 7968 085935',
+  '+44 07968 085935',
+  '07968085935',
+  '07968 085935',
 ];
 
 // Check if the current user is the owner (Mark McClafferty)
-async function isOwner(
+// Exported for use in edge functions
+export async function isOwner(
   userId: string,
   supabaseUrl: string,
   serviceKey: string
