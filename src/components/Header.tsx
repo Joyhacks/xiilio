@@ -17,7 +17,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useAuth } from "@/hooks/useAuth";
 import { useUserLinks } from "@/hooks/useUserLinks";
 import { AuthOverlay } from "@/components/auth/AuthOverlay";
-import logo from "@/assets/logo-24twelve-transparent.png";
+import logo from "@/assets/logo-xylo-new.png";
 import { siWhatsapp } from "simple-icons";
 
 interface HeaderProps {
@@ -96,7 +96,7 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
                 </Link>
               )}
               <Link to="/" className="flex items-center">
-                <img src={logo} alt="24TWELVE - AI Lead Generation Agency" className="h-10 w-auto" />
+                <img src={logo} alt="Xylo - AI Agent Suite" className="h-10 w-auto rounded-lg" />
               </Link>
             </div>
 
@@ -269,7 +269,7 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
                     {/* Mobile Menu Header */}
                     <div className="flex items-center justify-between p-4 border-b border-primary/10">
                       <Link to="/" onClick={() => setIsOpen(false)}>
-                        <img src={logo} alt="24TWELVE" className="h-8 w-auto" />
+                        <img src={logo} alt="Xylo" className="h-8 w-auto rounded-md" />
                       </Link>
                     </div>
 
