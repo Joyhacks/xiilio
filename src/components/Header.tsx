@@ -94,6 +94,11 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
                   </Button>
                 </Link>
               )}
+              <Link to="/" className="flex items-center gap-1">
+                <span className="text-xl md:text-2xl font-bold bg-gradient-to-r from-primary via-accent-green to-accent-green-light bg-clip-text text-transparent">
+                  Xilio
+                </span>
+              </Link>
             </div>
 
             {/* Desktop Navigation */}
