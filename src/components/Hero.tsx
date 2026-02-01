@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sparkles, Zap, Play } from "lucide-react";
 import { Link } from "react-router-dom";
-import logo from "@/assets/logo-xilio-hero-new.jfif";
+import logo from "@/assets/logo-xilio-hero-3d.png";
 import { AgentDemoModal } from "@/components/AgentDemoModal";
 import { AuthOverlay } from "@/components/auth/AuthOverlay";
 import { useAuth } from "@/hooks/useAuth";
@@ -22,12 +22,12 @@ export function Hero() {
 
   return (
     <>
-      <section className="relative flex items-center justify-center overflow-hidden pt-20 md:pt-24 pb-6 md:pb-8" style={{ backgroundColor: '#4a4035' }}>
-        {/* Solid background to match logo */}
+      <section className="relative flex items-center justify-center overflow-hidden bg-gradient-hero pt-20 md:pt-24 pb-6 md:pb-8">
+        {/* Top gradient overlay to match logo background */}
         <div 
-          className="absolute inset-0 pointer-events-none z-[1]"
+          className="absolute inset-x-0 top-0 h-[28rem] md:h-[32rem] pointer-events-none z-[1]"
           style={{ 
-            background: '#4a4035' 
+            background: 'linear-gradient(to bottom, hsl(30, 15%, 10%) 0%, hsl(30, 15%, 10%) 55%, transparent 100%)' 
           }}
         />
         {/* Circuit pattern background */}
@@ -48,7 +48,7 @@ export function Hero() {
             <img 
               src={logo} 
               alt="Xilio - Working 24twelve" 
-              className="relative h-40 md:h-56 lg:h-64 w-auto mx-auto mix-blend-lighten"
+              className="relative h-40 md:h-56 lg:h-64 w-auto mx-auto"
               loading="eager"
             />
           </div>
