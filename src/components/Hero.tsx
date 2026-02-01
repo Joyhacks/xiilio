@@ -27,7 +27,7 @@ export function Hero() {
         <div 
           className="absolute inset-x-0 top-0 h-[28rem] md:h-[32rem] pointer-events-none z-[1]"
           style={{ 
-            background: 'linear-gradient(to bottom, hsl(30, 20%, 8%) 0%, hsl(30, 20%, 8%) 60%, transparent 100%)' 
+            background: 'linear-gradient(to bottom, hsl(38, 18%, 14%) 0%, hsl(38, 18%, 14%) 50%, transparent 100%)' 
           }}
         />
         {/* Circuit pattern background */}
