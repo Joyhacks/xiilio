@@ -58,8 +58,8 @@ function StreamingLink({ service }: StreamingLinkProps) {
       {/* Icon */}
       <StreamingIcon 
         brandKey={service.brandKey} 
-        size={24}
-        className="relative z-10 drop-shadow-lg transition-transform duration-200 group-hover:scale-110 md:w-7 md:h-7"
+        size={32}
+        className="relative z-10 drop-shadow-lg transition-transform duration-200 group-hover:scale-110 md:w-9 md:h-9"
       />
       
       {/* Tooltip */}
