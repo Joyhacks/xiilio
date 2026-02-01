@@ -31,6 +31,10 @@
     --accent: 40 40% 70%;
     --accent-foreground: 30 25% 6%;
 
+    /* Green accent for logo glow */
+    --accent-green: 160 70% 45%;
+    --accent-green-light: 160 65% 55%;
+
     --destructive: 0 84% 60%;
     --destructive-foreground: 35 30% 95%;
 
