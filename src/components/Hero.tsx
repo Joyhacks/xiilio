@@ -48,10 +48,11 @@ export function Hero() {
             <img 
               src={logo} 
               alt="Xilio - Working 24twelve" 
-              className="relative h-40 md:h-56 lg:h-64 w-auto mx-auto rounded-lg"
+              className="relative h-40 md:h-56 lg:h-64 w-auto mx-auto"
               style={{ 
                 backgroundColor: 'hsl(30, 20%, 8%)',
-                boxShadow: '0 0 40px 20px hsl(30, 20%, 8%)'
+                boxShadow: '0 0 80px 60px hsl(30, 20%, 8%), 0 0 120px 80px hsl(30, 20%, 8%)',
+                borderRadius: '16px'
               }}
               loading="eager"
             />
