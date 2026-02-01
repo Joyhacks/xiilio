@@ -22,35 +22,43 @@ export function Hero() {
 
   return (
     <>
-      <section className="relative flex items-center justify-center overflow-hidden pt-20 md:pt-24 pb-6 md:pb-8" style={{ backgroundColor: '#1a2214' }}>
-        {/* Top gradient overlay to match logo background */}
+      <section className="relative flex items-center justify-center overflow-hidden pt-20 md:pt-24 pb-6 md:pb-8" style={{ backgroundColor: '#151c0b' }}>
+        {/* Solid background matching logo's corner color exactly */}
         <div 
-          className="absolute inset-x-0 top-0 h-[28rem] md:h-[32rem] pointer-events-none z-[1]"
-          style={{ 
-            background: 'linear-gradient(to bottom, #1a2214 0%, #1a2214 55%, transparent 100%)' 
-          }}
+          className="absolute inset-0 pointer-events-none z-0"
+          style={{ backgroundColor: '#151c0b' }}
         />
         {/* Circuit pattern background */}
-        <div className="absolute inset-0 circuit-pattern opacity-30" />
+        <div className="absolute inset-0 circuit-pattern opacity-20" />
         
         {/* Luxurious gradient orbs - green to match logo accent */}
-        <div className="absolute top-1/4 left-1/4 w-[250px] md:w-[500px] h-[250px] md:h-[500px] bg-accent-green/15 rounded-full blur-[60px] md:blur-[100px] animate-pulse-glow" />
-        <div className="absolute bottom-1/4 right-1/4 w-[200px] md:w-[400px] h-[200px] md:h-[400px] bg-accent-green-light/15 rounded-full blur-[50px] md:blur-[80px] animate-pulse-glow" style={{ animationDelay: '1s' }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-accent-green/10 rounded-full blur-[80px] md:blur-[120px] animate-pulse-glow" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-1/4 left-1/4 w-[250px] md:w-[500px] h-[250px] md:h-[500px] bg-[#4a7025]/20 rounded-full blur-[60px] md:blur-[100px] animate-pulse-glow" />
+        <div className="absolute bottom-1/4 right-1/4 w-[200px] md:w-[400px] h-[200px] md:h-[400px] bg-[#5a8030]/15 rounded-full blur-[50px] md:blur-[80px] animate-pulse-glow" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-[#d4aa20]/10 rounded-full blur-[80px] md:blur-[120px] animate-pulse-glow" style={{ animationDelay: '2s' }} />
         
         <div className="relative z-10 container mx-auto px-4 md:px-6 text-center">
-          {/* Logo with green glow effect */}
+          {/* Logo with edge-blending overlay */}
           <div className="mb-4 md:mb-6 relative">
             {/* Green glow backdrop to match logo accent */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div className="w-32 h-32 md:w-64 md:h-64 lg:w-80 lg:h-80 bg-accent-green/25 rounded-full blur-2xl md:blur-3xl animate-pulse-glow" />
+              <div className="w-32 h-32 md:w-64 md:h-64 lg:w-80 lg:h-80 bg-[#4a7025]/30 rounded-full blur-2xl md:blur-3xl animate-pulse-glow" />
             </div>
-            <img 
-              src={logo} 
-              alt="Xilio - Working 24twelve" 
-              className="relative h-40 md:h-56 lg:h-64 w-auto mx-auto"
-              loading="eager"
-            />
+            {/* Logo container with edge masking */}
+            <div className="relative inline-block">
+              <img 
+                src={logo} 
+                alt="Xilio - Working 24twelve" 
+                className="relative h-40 md:h-56 lg:h-64 w-auto mx-auto"
+                loading="eager"
+              />
+              {/* Edge-blending gradient overlay */}
+              <div 
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background: 'radial-gradient(ellipse 70% 65% at 50% 45%, transparent 0%, transparent 50%, #151c0b 85%, #151c0b 100%)'
+                }}
+              />
+            </div>
           </div>
 
           {/* Badge */}
