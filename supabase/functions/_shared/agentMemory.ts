@@ -233,6 +233,18 @@ export function runFactExtractionAsync(
     .catch(err => console.error(`[${agentSlug}] Fact extraction failed:`, err));
 }
 
+// Owner identification constants
+const OWNER_EMAILS = [
+  'mark@24twelve.co',
+  'mark.mcclafferty@24twelve.co',
+  'markmcclafferty@gmail.com',
+];
+
+const OWNER_PHONES = [
+  '+442046202235',
+  '+44 2046 202235',
+];
+
 // Check if the current user is the owner (Mark McClafferty)
 async function isOwner(
   userId: string,
@@ -242,7 +254,26 @@ async function isOwner(
   try {
     const supabase = createClient(supabaseUrl, serviceKey);
     
-    // Check user_profiles for owner identification
+    // First check auth.users for email/phone (most reliable)
+    const { data: { user } } = await supabase.auth.admin.getUserById(userId);
+    
+    if (user?.email) {
+      const email = user.email.toLowerCase();
+      if (OWNER_EMAILS.some(ownerEmail => email === ownerEmail.toLowerCase())) {
+        console.log('[Owner Detection] Matched by auth email:', email);
+        return true;
+      }
+    }
+    
+    if (user?.phone) {
+      const phone = user.phone.replace(/\s/g, '');
+      if (OWNER_PHONES.some(ownerPhone => phone === ownerPhone.replace(/\s/g, ''))) {
+        console.log('[Owner Detection] Matched by auth phone:', phone);
+        return true;
+      }
+    }
+    
+    // Check user_profiles for owner identification by name
     const { data: profile } = await supabase
       .from('user_profiles')
       .select('full_name')
@@ -252,6 +283,7 @@ async function isOwner(
     if (profile?.full_name) {
       const name = (profile.full_name as string).toLowerCase();
       if (name.includes('mark') && name.includes('mcclafferty')) {
+        console.log('[Owner Detection] Matched by profile name:', profile.full_name);
         return true;
       }
     }
@@ -268,12 +300,14 @@ async function isOwner(
     if (facts?.fact_value) {
       const name = (facts.fact_value as string).toLowerCase();
       if (name.includes('mark') && name.includes('mcclafferty')) {
+        console.log('[Owner Detection] Matched by learned fact:', facts.fact_value);
         return true;
       }
     }
     
     return false;
-  } catch {
+  } catch (error) {
+    console.error('[Owner Detection] Error:', error);
     return false;
   }
 }
