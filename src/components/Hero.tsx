@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sparkles, Zap, Play } from "lucide-react";
 import { Link } from "react-router-dom";
-import logo from "@/assets/logo-xilio-new-hero.png";
+import logo from "@/assets/logo-xilio-hero-transparent.png";
 import { AgentDemoModal } from "@/components/AgentDemoModal";
 import { AuthOverlay } from "@/components/auth/AuthOverlay";
 import { useAuth } from "@/hooks/useAuth";
@@ -41,8 +41,7 @@ export function Hero() {
             <img 
               src={logo} 
               alt="Xilio - Working 24twelve" 
-              className="relative h-40 md:h-56 lg:h-64 w-auto mx-auto mix-blend-lighten"
-              style={{ backgroundColor: 'hsl(30, 20%, 8%)' }}
+              className="relative h-40 md:h-56 lg:h-64 w-auto mx-auto"
               loading="eager"
             />
           </div>
