@@ -179,13 +179,17 @@ export function Footer() {
                     <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play" className="h-7 w-auto" />
                   </a>
                 </div>
-                <img 
-                  src={heroLogo} 
-                  alt="Xilio" 
-                  className="h-12 w-auto mt-2 opacity-80" 
-                />
               </div>
             </div>
+          </div>
+
+          {/* Centered Xilio Logo */}
+          <div className="flex justify-center py-3">
+            <img 
+              src={heroLogo} 
+              alt="Xilio" 
+              className="h-[3.6rem] w-auto opacity-80" 
+            />
           </div>
 
           {/* Social Media - Compact icons only */}
