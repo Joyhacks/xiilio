@@ -7,47 +7,47 @@
 @layer base {
   :root,
   .dark {
-    --background: 222 25% 8%;
-    --foreground: 210 40% 98%;
+    --background: 30 20% 8%;
+    --foreground: 35 30% 95%;
 
-    --card: 222 28% 7%;
-    --card-foreground: 210 40% 98%;
+    --card: 28 22% 7%;
+    --card-foreground: 35 30% 95%;
 
-    --popover: 222 28% 8%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 28 22% 8%;
+    --popover-foreground: 35 30% 95%;
 
-    /* Sophisticated silver-blue primary */
-    --primary: 210 40% 70%;
-    --primary-foreground: 222 30% 6%;
+    /* Warm bronze/copper primary */
+    --primary: 35 45% 65%;
+    --primary-foreground: 30 25% 6%;
 
-    /* Cool steel secondary */
-    --secondary: 215 30% 60%;
-    --secondary-foreground: 222 30% 6%;
+    /* Warm taupe secondary */
+    --secondary: 32 25% 55%;
+    --secondary-foreground: 30 25% 6%;
 
-    --muted: 222 20% 12%;
-    --muted-foreground: 215 15% 55%;
+    --muted: 30 18% 12%;
+    --muted-foreground: 35 12% 55%;
 
-    /* Platinum accent */
-    --accent: 205 35% 75%;
-    --accent-foreground: 222 30% 6%;
+    /* Warm amber accent */
+    --accent: 40 40% 70%;
+    --accent-foreground: 30 25% 6%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 35 30% 95%;
 
-    --border: 222 20% 16%;
-    --input: 222 20% 16%;
-    --ring: 210 40% 70%;
+    --border: 30 18% 16%;
+    --input: 30 18% 16%;
+    --ring: 35 45% 65%;
 
     --radius: 0.75rem;
 
-    /* Luxurious gradient tokens - Silver/Steel blue theme */
-    --gradient-primary: linear-gradient(135deg, hsl(210 40% 75%) 0%, hsl(220 35% 65%) 50%, hsl(215 30% 70%) 100%);
-    --gradient-card: linear-gradient(180deg, hsl(222 28% 10%) 0%, hsl(222 30% 6%) 100%);
-    --gradient-hero: linear-gradient(180deg, hsl(222 30% 6%) 0%, hsl(222 35% 3%) 100%);
-    --gradient-glass: linear-gradient(135deg, hsl(210 30% 95% / 0.05) 0%, hsl(220 30% 80% / 0.02) 100%);
-    --glow-primary: 0 0 80px hsl(210 40% 70% / 0.25), 0 0 40px hsl(215 35% 75% / 0.15);
-    --glow-secondary: 0 0 60px hsl(215 30% 60% / 0.2);
-    --glow-luxury: 0 0 100px hsl(210 50% 80% / 0.15), 0 0 50px hsl(220 40% 70% / 0.1);
+    /* Luxurious gradient tokens - Warm bronze/amber theme */
+    --gradient-primary: linear-gradient(135deg, hsl(35 45% 70%) 0%, hsl(30 40% 60%) 50%, hsl(40 35% 65%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(28 22% 10%) 0%, hsl(30 25% 6%) 100%);
+    --gradient-hero: linear-gradient(180deg, hsl(30 25% 6%) 0%, hsl(28 30% 3%) 100%);
+    --gradient-glass: linear-gradient(135deg, hsl(35 25% 90% / 0.05) 0%, hsl(30 25% 75% / 0.02) 100%);
+    --glow-primary: 0 0 80px hsl(35 45% 65% / 0.25), 0 0 40px hsl(40 40% 70% / 0.15);
+    --glow-secondary: 0 0 60px hsl(32 25% 55% / 0.2);
+    --glow-luxury: 0 0 100px hsl(35 50% 75% / 0.15), 0 0 50px hsl(40 45% 65% / 0.1);
 
     /* Agent colors */
     --agent-booking: 160 84% 45%;
@@ -67,14 +67,14 @@
     --agent-coach: 260 60% 55%;
     --agent-finance: 170 60% 45%;
 
-    --sidebar-background: 222 35% 6%;
-    --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 210 40% 70%;
-    --sidebar-primary-foreground: 222 35% 6%;
-    --sidebar-accent: 222 25% 14%;
-    --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 222 25% 18%;
-    --sidebar-ring: 210 40% 70%;
+    --sidebar-background: 30 30% 6%;
+    --sidebar-foreground: 35 30% 95%;
+    --sidebar-primary: 35 45% 65%;
+    --sidebar-primary-foreground: 30 30% 6%;
+    --sidebar-accent: 30 22% 14%;
+    --sidebar-accent-foreground: 35 30% 95%;
+    --sidebar-border: 30 22% 18%;
+    --sidebar-ring: 35 45% 65%;
   }
 
   .light {
@@ -224,37 +224,37 @@
 
   /* Luxurious glass morphism effect */
   .glass {
-    background: hsl(222 30% 10% / 0.6);
+    background: hsl(30 25% 10% / 0.6);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid hsl(210 30% 50% / 0.15);
+    border: 1px solid hsl(35 25% 50% / 0.15);
   }
 
   .glass-card {
-    background: linear-gradient(135deg, hsl(222 30% 12% / 0.8) 0%, hsl(222 28% 8% / 0.9) 100%);
+    background: linear-gradient(135deg, hsl(30 25% 12% / 0.8) 0%, hsl(28 22% 8% / 0.9) 100%);
     backdrop-filter: blur(24px) saturate(200%);
     -webkit-backdrop-filter: blur(24px) saturate(200%);
-    border: 1px solid hsl(210 40% 70% / 0.1);
+    border: 1px solid hsl(35 45% 65% / 0.1);
     box-shadow: 
-      0 8px 32px hsl(222 30% 0% / 0.3),
-      inset 0 1px 0 hsl(210 40% 80% / 0.05);
+      0 8px 32px hsl(30 25% 0% / 0.3),
+      inset 0 1px 0 hsl(35 40% 75% / 0.05);
   }
 
   .glass-luxury {
     background: linear-gradient(
       135deg, 
-      hsl(222 30% 15% / 0.7) 0%, 
-      hsl(222 28% 10% / 0.85) 50%,
-      hsl(222 30% 8% / 0.9) 100%
+      hsl(30 25% 15% / 0.7) 0%, 
+      hsl(28 22% 10% / 0.85) 50%,
+      hsl(30 25% 8% / 0.9) 100%
     );
     backdrop-filter: blur(30px) saturate(200%) brightness(1.05);
     -webkit-backdrop-filter: blur(30px) saturate(200%) brightness(1.05);
-    border: 1px solid hsl(210 40% 70% / 0.12);
+    border: 1px solid hsl(35 45% 65% / 0.12);
     box-shadow: 
-      0 20px 60px hsl(222 30% 0% / 0.4),
-      0 8px 24px hsl(222 30% 0% / 0.3),
-      inset 0 1px 1px hsl(210 40% 80% / 0.08),
-      inset 0 -1px 1px hsl(222 30% 0% / 0.2);
+      0 20px 60px hsl(30 25% 0% / 0.4),
+      0 8px 24px hsl(30 25% 0% / 0.3),
+      inset 0 1px 1px hsl(35 40% 75% / 0.08),
+      inset 0 -1px 1px hsl(30 25% 0% / 0.2);
   }
 
   /* Light mode glass variants */
@@ -287,8 +287,8 @@
 
   .circuit-pattern {
     background-image: 
-      linear-gradient(90deg, hsl(215 30% 40% / 0.08) 1px, transparent 1px),
-      linear-gradient(180deg, hsl(215 30% 40% / 0.08) 1px, transparent 1px);
+      linear-gradient(90deg, hsl(35 25% 40% / 0.08) 1px, transparent 1px),
+      linear-gradient(180deg, hsl(35 25% 40% / 0.08) 1px, transparent 1px);
     background-size: 40px 40px;
   }
 
@@ -308,7 +308,7 @@
     background: linear-gradient(
       90deg,
       transparent,
-      hsl(210 40% 80% / 0.1),
+      hsl(35 40% 75% / 0.1),
       transparent
     );
     animation: shimmer 3s infinite;
