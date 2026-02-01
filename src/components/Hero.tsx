@@ -22,11 +22,11 @@ export function Hero() {
 
   return (
     <>
-      <section className="relative flex items-center justify-center overflow-hidden pt-20 md:pt-24 pb-6 md:pb-8" style={{ backgroundColor: '#192310' }}>
-        {/* Solid background matching logo's corner color exactly */}
+      <section className="relative flex items-center justify-center overflow-hidden pt-20 md:pt-24 pb-6 md:pb-8" style={{ backgroundColor: '#161e0c' }}>
+        {/* Solid background matching logo's exact corner color */}
         <div 
           className="absolute inset-0 pointer-events-none z-0"
-          style={{ backgroundColor: '#192310' }}
+          style={{ backgroundColor: '#161e0c' }}
         />
         {/* Circuit pattern background */}
         <div className="absolute inset-0 circuit-pattern opacity-15" />
@@ -51,11 +51,11 @@ export function Hero() {
                 className="relative h-40 md:h-56 lg:h-64 w-auto mx-auto"
                 loading="eager"
               />
-              {/* Edge-blending gradient overlay - wider fade for seamless blend */}
+              {/* Edge-blending gradient overlay */}
               <div 
                 className="absolute inset-0 pointer-events-none"
                 style={{
-                  background: 'radial-gradient(ellipse 60% 55% at 50% 48%, transparent 0%, transparent 35%, #192310 70%, #192310 100%)'
+                  background: 'radial-gradient(ellipse 60% 55% at 50% 48%, transparent 0%, transparent 35%, #161e0c 70%, #161e0c 100%)'
                 }}
               />
             </div>
