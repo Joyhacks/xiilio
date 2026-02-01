@@ -22,12 +22,12 @@ export function Hero() {
 
   return (
     <>
-      <section className="relative flex items-center justify-center overflow-hidden bg-gradient-hero pt-20 md:pt-24 pb-6 md:pb-8">
-        {/* Top gradient overlay to match logo background */}
+      <section className="relative flex items-center justify-center overflow-hidden bg-[hsl(30,10%,12%)] pt-20 md:pt-24 pb-6 md:pb-8">
+        {/* Solid dark background overlay to match logo */}
         <div 
-          className="absolute inset-x-0 top-0 h-[28rem] md:h-[32rem] pointer-events-none z-[1]"
+          className="absolute inset-0 pointer-events-none z-[1]"
           style={{ 
-            background: 'linear-gradient(to bottom, hsl(30, 12%, 11%) 0%, hsl(30, 12%, 11%) 55%, transparent 100%)' 
+            background: 'hsl(30, 10%, 12%)' 
           }}
         />
         {/* Circuit pattern background */}
@@ -48,7 +48,7 @@ export function Hero() {
             <img 
               src={logo} 
               alt="Xilio - Working 24twelve" 
-              className="relative h-40 md:h-56 lg:h-64 w-auto mx-auto"
+              className="relative h-40 md:h-56 lg:h-64 w-auto mx-auto mix-blend-lighten"
               loading="eager"
             />
           </div>
