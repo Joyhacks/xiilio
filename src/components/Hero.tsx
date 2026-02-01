@@ -74,21 +74,6 @@ export function Hero() {
             />
           </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-3 gap-3 md:gap-8 max-w-2xl mx-auto mt-6 md:mt-10">
-            <div className="text-center glass-card rounded-xl md:rounded-2xl p-3 md:p-6">
-              <div className="text-xl md:text-3xl lg:text-4xl font-display font-bold text-gradient">10K+</div>
-              <div className="text-[10px] md:text-sm text-muted-foreground mt-0.5 md:mt-1">Tasks Automated</div>
-            </div>
-            <div className="text-center glass-card rounded-xl md:rounded-2xl p-3 md:p-6">
-              <div className="text-xl md:text-3xl lg:text-4xl font-display font-bold text-gradient">99.9%</div>
-              <div className="text-[10px] md:text-sm text-muted-foreground mt-0.5 md:mt-1">Uptime</div>
-            </div>
-            <div className="text-center glass-card rounded-xl md:rounded-2xl p-3 md:p-6">
-              <div className="text-xl md:text-3xl lg:text-4xl font-display font-bold text-gradient">500+</div>
-              <div className="text-[10px] md:text-sm text-muted-foreground mt-0.5 md:mt-1">Happy Businesses</div>
-            </div>
-          </div>
         </div>
       </section>
 
