@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sparkles, Zap, Play } from "lucide-react";
 import { Link } from "react-router-dom";
-import logo from "@/assets/logo-xilio-hero-matched.png";
+import logo from "@/assets/logo-xilio-hero-dark.png";
 import { AgentDemoModal } from "@/components/AgentDemoModal";
 import { AuthOverlay } from "@/components/auth/AuthOverlay";
 import { useAuth } from "@/hooks/useAuth";
