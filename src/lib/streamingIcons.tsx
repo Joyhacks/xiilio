@@ -152,12 +152,12 @@ export function StreamingIcon({ brandKey, className, size = 24 }: StreamingIconP
         alt={brandKey}
         className={className}
         style={{ 
-          width: size, 
-          height: size, 
-          objectFit: "contain",
+          width: source.noFilter ? size * 1.8 : size, 
+          height: source.noFilter ? size * 1.8 : size, 
+          objectFit: "cover",
           // Apply white filter only for logos that need it
           filter: shouldApplyFilter ? "brightness(0) invert(1)" : undefined,
-          borderRadius: source.noFilter ? "4px" : undefined
+          borderRadius: source.noFilter ? "8px" : undefined
         }}
       />
     );
