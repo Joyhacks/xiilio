@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { WorldClock } from "@/components/WorldClock";
 
 interface DigitalClockProps {
   compact?: boolean;
@@ -30,22 +31,26 @@ export function DigitalClock({ compact = false }: DigitalClockProps) {
 
   if (compact) {
     return (
-      <div className="flex items-center gap-1 px-2 py-1 rounded-md bg-primary/10 border border-primary/20">
-        <span className="text-sm font-mono font-semibold text-foreground tabular-nums">
-          {formatTime(time)}
-        </span>
-      </div>
+      <WorldClock>
+        <button className="flex items-center gap-1 px-2 py-1 rounded-md bg-primary/10 border border-primary/20 hover:bg-primary/20 transition-colors cursor-pointer">
+          <span className="text-sm font-mono font-semibold text-foreground tabular-nums">
+            {formatTime(time)}
+          </span>
+        </button>
+      </WorldClock>
     );
   }
 
   return (
-    <div className="flex items-center gap-2 px-4 py-2 rounded-md bg-primary/10 border border-primary/20">
-      <span className="text-lg font-mono font-semibold text-foreground tabular-nums">
-        {formatTime(time)}
-      </span>
-      <span className="text-base text-muted-foreground font-medium">
-        {getTimezone()}
-      </span>
-    </div>
+    <WorldClock>
+      <button className="flex items-center gap-2 px-4 py-2 rounded-md bg-primary/10 border border-primary/20 hover:bg-primary/20 transition-colors cursor-pointer">
+        <span className="text-lg font-mono font-semibold text-foreground tabular-nums">
+          {formatTime(time)}
+        </span>
+        <span className="text-base text-muted-foreground font-medium">
+          {getTimezone()}
+        </span>
+      </button>
+    </WorldClock>
   );
 }
