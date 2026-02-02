@@ -1,21 +1,41 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Sparkles, Zap, Play } from "lucide-react";
+import { Sparkles, Zap, Play, Volume2, Square } from "lucide-react";
 import logo from "@/assets/logo-xilio-hero-3d.png";
-import { AgentDemoModal } from "@/components/AgentDemoModal";
 import { AuthOverlay } from "@/components/auth/AuthOverlay";
 import { useAuth } from "@/hooks/useAuth";
+import { cn } from "@/lib/utils";
 
 export function Hero() {
   const { isAuthenticated } = useAuth();
   const [showAuthOverlay, setShowAuthOverlay] = useState(false);
+  const [voiceState, setVoiceState] = useState<"idle" | "speaking">("idle");
+
+  const teamOverviewText = `Your 24Twelve AI Team consists of 8 specialized agents working together around the clock. Julia greets visitors and manages the front desk. Kate orchestrates all operations and coordinates tasks across the team. Brad drives sales and nurtures leads. Halle handles legal reviews and compliance. George manages your social media presence. Arnie creates powerful blog content. Sam provides motivation and life coaching. Jerry guides your financial planning. Together, they form a cohesive unit, handling product launches, client onboarding, content creation, and more as a unified team.`;
 
   const handleGetStarted = () => {
     if (isAuthenticated) {
-      // Navigate to pricing if already authenticated
       window.location.href = '/pricing';
     } else {
       setShowAuthOverlay(true);
+    }
+  };
+
+  const toggleVoiceover = () => {
+    if (voiceState === "speaking") {
+      window.speechSynthesis.cancel();
+      setVoiceState("idle");
+    } else {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        setVoiceState("speaking");
+        const utterance = new SpeechSynthesisUtterance(teamOverviewText);
+        utterance.rate = 1.0;
+        utterance.pitch = 1.0;
+        utterance.onend = () => setVoiceState("idle");
+        utterance.onerror = () => setVoiceState("idle");
+        window.speechSynthesis.speak(utterance);
+      }
     }
   };
 
@@ -66,10 +86,50 @@ export function Hero() {
             <span className="text-xs md:text-sm text-foreground/80">Meet Your AI Agent Team</span>
           </div>
 
-          
-          <p className="text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto mb-8 md:mb-10 px-2">
-            Specialized AI agents ready to handle tasks, manage communications, and grow your business around the clock.
-          </p>
+          {/* Voiceover Summary Card */}
+          <div className="max-w-2xl mx-auto mb-6 md:mb-8 px-2">
+            <div className="glass-card rounded-xl p-4 md:p-5 border border-primary/20 bg-background/40 backdrop-blur-md">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="font-semibold text-sm md:text-base text-foreground flex items-center gap-2">
+                  <Volume2 className="w-4 h-4 md:w-5 md:h-5 text-primary" />
+                  Team Overview
+                </h3>
+                <button
+                  onClick={toggleVoiceover}
+                  className={cn(
+                    "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs md:text-sm font-medium transition-all",
+                    voiceState === "speaking"
+                      ? "bg-primary text-primary-foreground animate-pulse"
+                      : "bg-primary/20 hover:bg-primary/30 text-foreground"
+                  )}
+                >
+                  {voiceState === "speaking" ? (
+                    <>
+                      <Square className="w-3 h-3 md:w-3.5 md:h-3.5" />
+                      Stop
+                    </>
+                  ) : (
+                    <>
+                      <Play className="w-3 h-3 md:w-3.5 md:h-3.5" />
+                      Listen
+                    </>
+                  )}
+                </button>
+              </div>
+              <p className="text-xs md:text-sm text-muted-foreground leading-relaxed text-left">
+                <strong className="text-foreground">Your 24Twelve AI Team</strong> consists of 8 specialized agents working together around the clock: 
+                <strong className="text-primary"> Julia</strong> (receptionist), 
+                <strong className="text-primary"> Kate</strong> (executive assistant), 
+                <strong className="text-primary"> Brad</strong> (sales), 
+                <strong className="text-primary"> Halle</strong> (legal), 
+                <strong className="text-primary"> George</strong> (social media), 
+                <strong className="text-primary"> Arnie</strong> (blog writer), 
+                <strong className="text-primary"> Sam</strong> (life coach), and 
+                <strong className="text-primary"> Jerry</strong> (financial planner). 
+                Together, they handle product launches, client onboarding, content creation, and more as a unified team.
+              </p>
+            </div>
+          </div>
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4">
@@ -77,14 +137,6 @@ export function Hero() {
               <Zap className="w-4 h-4 md:w-5 md:h-5" />
               Get Started Free
             </Button>
-            <AgentDemoModal
-              trigger={
-                <Button variant="glass" size="lg" className="w-full sm:w-auto md:size-xl">
-                  <Play className="w-4 h-4 md:w-5 md:h-5" />
-                  Take A Tour
-                </Button>
-              }
-            />
           </div>
 
         </div>
