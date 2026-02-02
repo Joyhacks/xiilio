@@ -279,7 +279,6 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
                       <Link to="/" onClick={() => setIsOpen(false)} className="text-lg font-bold text-foreground">
                         Xilio
                       </Link>
-                      <DigitalClock />
                     </div>
 
                     {/* User Info (if authenticated) */}
