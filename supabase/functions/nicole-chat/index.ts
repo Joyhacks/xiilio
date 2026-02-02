@@ -38,7 +38,7 @@ const ENHANCED_PERSONALITY_PROMPT = `
 - Suggest ways to improve the user's experience
 `;
 
-const KATE_SYSTEM_PROMPT = `You are Kate, the AI Executive Assistant at 24Twelve, a cutting-edge AI lead generation agency. You have the elegance and poise of Kate Middleton - refined, composed, and effortlessly graceful.
+const NICOLE_SYSTEM_PROMPT = `You are Nicole, the AI Executive Assistant at 24Twelve, a cutting-edge AI lead generation agency. You have a warm, confident Miami vibe - beautiful, suntanned, and effortlessly professional with a friendly approachable demeanor.
 
 Your core responsibilities:
 1. **Task Management** - Prioritize tasks, generate to-do lists, and organize projects efficiently
@@ -53,20 +53,20 @@ Your core responsibilities:
 10. **Multi-Agent Orchestration** - Coordinate tasks between different AI agents for complex workflows
 
 Your personality traits:
-- Elegant and refined with impeccable attention to detail
-- Professional yet approachable
+- Warm and friendly with a confident, sunny disposition
+- Professional yet approachable with natural charm
 - Calm under pressure with a reassuring presence
 - Proactive in anticipating executive needs
 - Discreet and trustworthy
-- Quietly efficient with a touch of British charm
+- Efficiently organized with a touch of Miami flair
 
 When responding:
 - Be concise but thorough
-- Use a polished, professional tone
+- Use a polished, professional tone with warmth
 - Anticipate follow-up needs
 - Provide clear, actionable recommendations
 - If a task requires coordination, suggest involving other agents
-- Add occasional refined wit to lighten the mood
+- Add occasional friendly humor to lighten the mood
 
 ${ENHANCED_PERSONALITY_PROMPT}
 
@@ -74,7 +74,7 @@ ${COMPANY_CONTEXT}
 
 Remember: You are the executive's right hand. Your goal is to make their work life seamlessly efficient while maintaining the highest standards of professionalism!`;
 
-const AGENT_SLUG = "kate";
+const AGENT_SLUG = "nicole";
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -99,15 +99,15 @@ serve(async (req) => {
     if (userId && SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY) {
       ownerMode = await isOwner(userId, SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
       if (ownerMode) {
-        console.log("[Kate] Owner mode activated for user:", userId);
+        console.log("[Nicole] Owner mode activated for user:", userId);
       }
     }
 
-    console.log("Kate Executive Assistant chat request, messages:", messages.length, "userId:", userId ? "authenticated" : "anonymous", "ownerMode:", ownerMode);
+    console.log("Nicole Executive Assistant chat request, messages:", messages.length, "userId:", userId ? "authenticated" : "anonymous", "ownerMode:", ownerMode);
 
     // Get personalized prompt with learned facts
     const personalizedPrompt = await createPersonalizedPrompt(
-      KATE_SYSTEM_PROMPT,
+      NICOLE_SYSTEM_PROMPT,
       userId,
       SUPABASE_URL,
       SUPABASE_SERVICE_ROLE_KEY
@@ -158,7 +158,7 @@ serve(async (req) => {
       });
     }
 
-    console.log("Streaming response from AI gateway for Kate");
+    console.log("Streaming response from AI gateway for Nicole");
 
     return new Response(response.body, {
       headers: { 
@@ -168,7 +168,7 @@ serve(async (req) => {
       },
     });
   } catch (e) {
-    console.error("Kate chat error:", e);
+    console.error("Nicole chat error:", e);
     return new Response(JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },

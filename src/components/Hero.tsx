@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 
 // Avatar imports
 import juliaAvatar from "@/assets/avatars/julia-receptionist.png";
-import kateAvatar from "@/assets/avatars/kate-assistant.png";
+import nicoleAvatar from "@/assets/avatars/nicole-assistant.png";
 import halleAvatar from "@/assets/avatars/halle-legal.png";
 import georgeAvatar from "@/assets/avatars/george-social.png";
 import arnieAvatar from "@/assets/avatars/arnie-writer.png";
@@ -20,7 +20,7 @@ import jerryAvatar from "@/assets/avatars/jerry-finance.png";
 
 const agents = [
   { id: "julia", name: "Julia", role: "Receptionist", avatar: juliaAvatar },
-  { id: "kate", name: "Kate", role: "Executive Assistant", avatar: kateAvatar },
+  { id: "nicole", name: "Nicole", role: "Executive Assistant", avatar: nicoleAvatar },
   { id: "brad", name: "Brad", role: "Sales", avatar: bradAvatar },
   { id: "halle", name: "Halle", role: "Legal", avatar: halleAvatar },
   { id: "george", name: "George", role: "Social Media", avatar: georgeAvatar },
@@ -35,7 +35,7 @@ export function Hero() {
   const [voiceState, setVoiceState] = useState<"idle" | "speaking">("idle");
   const [isOpen, setIsOpen] = useState(true);
 
-  const teamOverviewText = `Your 24Twelve AI Team consists of 8 specialized agents working together around the clock. Julia greets visitors and manages the front desk. Kate orchestrates all operations and coordinates tasks across the team. Brad drives sales and nurtures leads. Halle handles legal reviews and compliance. George manages your social media presence. Arnie creates powerful blog content. Sam provides motivation and life coaching. Jerry guides your financial planning. Together, they form a cohesive unit, handling product launches, client onboarding, content creation, and more as a unified team.`;
+  const teamOverviewText = `Your 24Twelve AI Team consists of 8 specialized agents working together around the clock. Julia greets visitors and manages the front desk. Nicole orchestrates all operations and coordinates tasks across the team. Brad drives sales and nurtures leads. Halle handles legal reviews and compliance. George manages your social media presence. Arnie creates powerful blog content. Sam provides motivation and life coaching. Jerry guides your financial planning. Together, they form a cohesive unit, handling product launches, client onboarding, content creation, and more as a unified team.`;
 
   const handleGetStarted = () => {
     if (isAuthenticated) {
@@ -179,7 +179,7 @@ export function Hero() {
                     <p className="text-xs md:text-sm text-muted-foreground leading-relaxed text-left">
                       <strong className="text-foreground">Your 24Twelve AI Team</strong> consists of 8 specialized agents working together around the clock: 
                       <strong className="text-primary"> Julia</strong> (receptionist), 
-                      <strong className="text-primary"> Kate</strong> (executive assistant), 
+                      <strong className="text-primary"> Nicole</strong> (executive assistant),
                       <strong className="text-primary"> Brad</strong> (sales), 
                       <strong className="text-primary"> Halle</strong> (legal), 
                       <strong className="text-primary"> George</strong> (social media), 

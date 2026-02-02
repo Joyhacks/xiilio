@@ -19,7 +19,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useIsMobile } from "@/hooks/use-mobile";
 // Avatar imports
 import juliaAvatar from "@/assets/avatars/julia-receptionist.png";
-import kateAvatar from "@/assets/avatars/kate-assistant.png";
+import nicoleAvatar from "@/assets/avatars/nicole-assistant.png";
 import halleAvatar from "@/assets/avatars/halle-legal.png";
 import georgeAvatar from "@/assets/avatars/george-social.png";
 import arnieAvatar from "@/assets/avatars/arnie-writer.png";
@@ -79,7 +79,7 @@ const agents: Record<string, AgentData> = {
       {
         category: "Phone Call Handling",
         prompts: [
-          "Take a message for Kate from David regarding the quarterly report.",
+          "Take a message for Nicole from David regarding the quarterly report.",
           "Transfer the call to extension 205 and provide them with the caller's details.",
         ],
       },
@@ -120,12 +120,12 @@ const agents: Record<string, AgentData> = {
       },
     ],
   },
-  kate: {
-    name: "Executive Assistant Kate",
+  nicole: {
+    name: "Executive Assistant Nicole",
     role: "Executive Support & Coordination",
     description:
       "Elegantly manages executive schedules, coordinates meetings, and handles high-level correspondence with royal precision.",
-    avatar: kateAvatar,
+    avatar: nicoleAvatar,
     color: "assistant",
     capabilities: [
       "Calendar management",
@@ -139,7 +139,7 @@ const agents: Record<string, AgentData> = {
       "Progress tracking",
       "Learning & development",
     ],
-    edgeFunction: "kate-chat",
+    edgeFunction: "nicole-chat",
     voiceId: "FGY2WhTYpPnrIDTdsKH5", // Laura - elegant, refined female voice
     suggestedPrompts: [
       {
@@ -759,7 +759,7 @@ export default function AgentDetail() {
                   agentName={agent.name}
                   agentAvatar={agent.avatar}
                   agentColor={agent.color}
-                  agentType={agentId === "julia" ? "receptionist" : agentId === "kate" ? "assistant" : agentId === "halle" ? "legal" : agentId === "george" ? "social" : agentId === "arnie" ? "writer" : agentId === "brad" ? "sales" : agentId === "sam" ? "coach" : agentId === "jerry" ? "finance" : "assistant"}
+                  agentType={agentId === "julia" ? "receptionist" : agentId === "nicole" ? "assistant" : agentId === "halle" ? "legal" : agentId === "george" ? "social" : agentId === "arnie" ? "writer" : agentId === "brad" ? "sales" : agentId === "sam" ? "coach" : agentId === "jerry" ? "finance" : "assistant"}
                 />
               </div>
             </div>

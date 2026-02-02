@@ -29,7 +29,7 @@ import {
 
 // Avatar imports
 import juliaAvatar from "@/assets/avatars/julia-receptionist.png";
-import kateAvatar from "@/assets/avatars/kate-assistant.png";
+import nicoleAvatar from "@/assets/avatars/nicole-assistant.png";
 import halleAvatar from "@/assets/avatars/halle-legal.png";
 import georgeAvatar from "@/assets/avatars/george-social.png";
 import arnieAvatar from "@/assets/avatars/arnie-writer.png";
@@ -72,16 +72,16 @@ const agents: AgentInfo[] = [
       "Coordinating meeting room bookings",
       "Sending welcome emails to new visitors",
     ],
-    collaboratesWith: ["kate", "brad", "george"],
+    collaboratesWith: ["nicole", "brad", "george"],
   },
   {
-    id: "kate",
-    name: "Kate",
+    id: "nicole",
+    name: "Nicole",
     role: "Executive Assistant",
-    avatar: kateAvatar,
+    avatar: nicoleAvatar,
     color: "hsl(270, 70%, 60%)",
     description:
-      "The orchestrator of your business operations. Kate coordinates across all agents, manages complex workflows, and ensures nothing falls through the cracks.",
+      "The orchestrator of your business operations. Nicole coordinates across all agents, manages complex workflows, and ensures nothing falls through the cracks.",
     capabilities: [
       "Multi-agent orchestration",
       "Calendar & schedule management",
@@ -120,7 +120,7 @@ const agents: AgentInfo[] = [
       "Drafting NDAs and contracts",
       "Managing data protection policies",
     ],
-    collaboratesWith: ["kate", "brad", "jerry"],
+    collaboratesWith: ["nicole", "brad", "jerry"],
   },
   {
     id: "george",
@@ -144,7 +144,7 @@ const agents: AgentInfo[] = [
       "Tracking engagement metrics",
       "Planning seasonal campaigns",
     ],
-    collaboratesWith: ["kate", "arnie", "brad"],
+    collaboratesWith: ["nicole", "arnie", "brad"],
   },
   {
     id: "arnie",
@@ -168,7 +168,7 @@ const agents: AgentInfo[] = [
       "Developing content strategies",
       "Optimizing posts for search",
     ],
-    collaboratesWith: ["kate", "george", "brad"],
+    collaboratesWith: ["nicole", "george", "brad"],
   },
   {
     id: "brad",
@@ -192,7 +192,7 @@ const agents: AgentInfo[] = [
       "Creating personalized proposals",
       "Tracking sales metrics",
     ],
-    collaboratesWith: ["kate", "julia", "halle", "george"],
+    collaboratesWith: ["nicole", "julia", "halle", "george"],
   },
   {
     id: "sam",
@@ -216,7 +216,7 @@ const agents: AgentInfo[] = [
       "Overcoming obstacles",
       "Celebrating achievements",
     ],
-    collaboratesWith: ["kate", "jerry"],
+    collaboratesWith: ["nicole", "jerry"],
   },
   {
     id: "jerry",
@@ -240,7 +240,7 @@ const agents: AgentInfo[] = [
       "Analyzing spending patterns",
       "Setting savings goals",
     ],
-    collaboratesWith: ["kate", "halle", "sam"],
+    collaboratesWith: ["nicole", "halle", "sam"],
   },
 ];
 
@@ -250,7 +250,7 @@ const collaborationWorkflows = [
     title: "Product Launch Campaign",
     description: "Watch how your AI team collaborates to launch a new product",
     steps: [
-      { agent: "kate", action: "Orchestrates the campaign and assigns tasks" },
+      { agent: "nicole", action: "Orchestrates the campaign and assigns tasks" },
       { agent: "arnie", action: "Creates blog content and product guides" },
       { agent: "george", action: "Develops social media strategy and posts" },
       { agent: "brad", action: "Prepares sales materials and follows up with leads" },
@@ -262,7 +262,7 @@ const collaborationWorkflows = [
     description: "Seamless client onboarding with multi-agent coordination",
     steps: [
       { agent: "julia", action: "Welcomes new client and gathers information" },
-      { agent: "kate", action: "Creates onboarding timeline and coordinates team" },
+      { agent: "nicole", action: "Creates onboarding timeline and coordinates team" },
       { agent: "halle", action: "Prepares contracts and legal documents" },
       { agent: "jerry", action: "Sets up billing and financial arrangements" },
       { agent: "brad", action: "Ensures smooth handoff and client satisfaction" },
@@ -292,7 +292,7 @@ const agentVoiceMap: Record<string, string> = {
 // Demo greetings for each agent
 const agentGreetings: Record<string, string> = {
   julia: "Hello! I'm Julia, your AI receptionist. I'm here to welcome visitors and manage front desk operations.",
-  kate: "Hi there! I'm Kate, your executive assistant. I coordinate schedules, meetings, and help you stay organized.",
+  nicole: "Hi there! I'm Nicole, your executive assistant. I coordinate schedules, meetings, and help you stay organized.",
   halle: "Greetings. I'm Halle, your legal associate. I review contracts and ensure compliance with precision.",
   george: "Hey! I'm George, your social media manager. Let me help you build an amazing online presence.",
   arnie: "What's up! I'm Arnie, your content writer. I create powerful blog posts that drive traffic.",
@@ -302,7 +302,7 @@ const agentGreetings: Record<string, string> = {
 };
 
 export function AgentDemoModal({ trigger }: AgentDemoModalProps) {
-  const [selectedAgent, setSelectedAgent] = useState<AgentInfo>(agents[1]); // Kate as default
+  const [selectedAgent, setSelectedAgent] = useState<AgentInfo>(agents[1]); // Nicole as default
   const [activeWorkflow, setActiveWorkflow] = useState(0);
   const [workflowStep, setWorkflowStep] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -420,7 +420,7 @@ export function AgentDemoModal({ trigger }: AgentDemoModalProps) {
   };
 
   // Team Overview voiceover text
-  const teamOverviewText = `Your 24Twelve AI Team consists of 8 specialized agents working together around the clock. Julia greets visitors and manages the front desk. Kate orchestrates all operations and coordinates tasks across the team. Brad drives sales and nurtures leads. Halle handles legal reviews and compliance. George manages your social media presence. Arnie creates powerful blog content. Sam provides motivation and life coaching. Jerry guides your financial planning. Together, they form a cohesive unit, handling product launches, client onboarding, content creation, and more as a unified team.`;
+  const teamOverviewText = `Your 24Twelve AI Team consists of 8 specialized agents working together around the clock. Julia greets visitors and manages the front desk. Nicole orchestrates all operations and coordinates tasks across the team. Brad drives sales and nurtures leads. Halle handles legal reviews and compliance. George manages your social media presence. Arnie creates powerful blog content. Sam provides motivation and life coaching. Jerry guides your financial planning. Together, they form a cohesive unit, handling product launches, client onboarding, content creation, and more as a unified team.`;
 
   const playTeamOverview = () => {
     // Stop any existing overview audio
@@ -534,8 +534,8 @@ export function AgentDemoModal({ trigger }: AgentDemoModalProps) {
               <strong>Your 24Twelve AI Team</strong> consists of 8 specialized agents working together around the clock. 
               <span className="hidden md:inline">
                 <strong> Julia</strong> greets visitors and manages the front desk. 
-                <strong> Kate</strong> orchestrates all operations and coordinates tasks across the team. 
-                <strong> Brad</strong> drives sales and nurtures leads. 
+                <strong> Nicole</strong> orchestrates all operations and coordinates tasks across the team. 
+                <strong> Brad</strong> drives sales and nurtures leads.
                 <strong> Halle</strong> handles legal reviews and compliance. 
                 <strong> George</strong> manages your social media presence. 
                 <strong> Arnie</strong> creates powerful blog content. 

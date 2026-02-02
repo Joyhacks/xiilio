@@ -43,7 +43,7 @@ export const agentPrompts = {
     ],
   },
 
-  // Kate - Executive Assistant
+  // Nicole - Executive Assistant
   executiveAssistant: {
     taskManagement: [
       "Please prioritize my tasks for today based on urgency and importance.",
@@ -484,7 +484,7 @@ export const getAgentPrompts = (agentSlug: string) => {
     'receptionist': 'receptionist',
     'julia-receptionist': 'receptionist',
     'executive-assistant': 'executiveAssistant',
-    'kate-assistant': 'executiveAssistant',
+    'nicole-assistant': 'executiveAssistant',
     'social-media': 'socialMediaManager',
     'george-social': 'socialMediaManager',
     'blog-writer': 'blogWriter',
