@@ -51,14 +51,14 @@ interface SimpleIcon {
 
 type IconSource = 
   | { type: "svg"; icon: SimpleIcon }
-  | { type: "image"; src: string }
+  | { type: "image"; src: string; noFilter?: boolean }
   | { type: "lucide"; component: "wallet" };
 
 const iconSources: Record<StreamingBrandKey, IconSource> = {
   netflix: { type: "svg", icon: siNetflix },
   primevideo: { type: "image", src: primeVideoLogo },
   appletv: { type: "svg", icon: siAppletv },
-  max: { type: "image", src: hboMaxLogo },
+  max: { type: "image", src: hboMaxLogo, noFilter: true },
   youtube: { type: "svg", icon: siYoutube },
   disneyplus: { type: "image", src: disneyPlusLogo },
   spotify: { type: "svg", icon: siSpotify },
@@ -145,6 +145,7 @@ export function StreamingIcon({ brandKey, className, size = 24 }: StreamingIconP
   
   // Handle image-based icons (official brand logos)
   if (source.type === "image") {
+    const shouldApplyFilter = !source.noFilter;
     return (
       <img
         src={source.src}
@@ -154,8 +155,9 @@ export function StreamingIcon({ brandKey, className, size = 24 }: StreamingIconP
           width: size, 
           height: size, 
           objectFit: "contain",
-          // Apply white filter to make logos white on colored backgrounds
-          filter: "brightness(0) invert(1)"
+          // Apply white filter only for logos that need it
+          filter: shouldApplyFilter ? "brightness(0) invert(1)" : undefined,
+          borderRadius: source.noFilter ? "4px" : undefined
         }}
       />
     );
