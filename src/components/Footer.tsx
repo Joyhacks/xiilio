@@ -181,7 +181,7 @@ export function Footer() {
                       <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play" className="h-7 w-auto" />
                     </a>
                   </div>
-                  <div className="flex items-center justify-center gap-8 mt-6">
+                  <div className="flex items-center justify-center gap-12 mt-6">
                     <a
                       href="https://assistant.google.com/"
                       target="_blank"
@@ -189,11 +189,11 @@ export function Footer() {
                       className="hover:opacity-80 transition-opacity hover:scale-105"
                       aria-label="Try on Google Assistant"
                     >
-                      <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm">
+                      <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm">
                         <svg
                           role="img"
                           viewBox="0 0 24 24"
-                          className="w-6 h-6"
+                          className="w-7 h-7"
                           aria-label="Google Assistant"
                         >
                           <defs>
@@ -216,11 +216,11 @@ export function Footer() {
                       className="hover:opacity-80 transition-opacity hover:scale-105"
                       aria-label="Try with Siri"
                     >
-                      <div className="w-10 h-10 rounded-full flex items-center justify-center shadow-sm overflow-hidden" style={{ background: 'linear-gradient(135deg, #FF2D55 0%, #AF52DE 25%, #5856D6 50%, #007AFF 75%, #34C759 100%)' }}>
+                      <div className="w-12 h-12 rounded-full flex items-center justify-center shadow-sm overflow-hidden" style={{ background: 'linear-gradient(135deg, #FF2D55 0%, #AF52DE 25%, #5856D6 50%, #007AFF 75%, #34C759 100%)' }}>
                         <svg
                           role="img"
                           viewBox="0 0 24 24"
-                          className="w-6 h-6"
+                          className="w-7 h-7"
                           fill="white"
                           aria-label="Siri"
                         >
@@ -239,7 +239,7 @@ export function Footer() {
             <img 
               src={heroLogo} 
               alt="Xilio" 
-              className="h-[5rem] w-auto opacity-80" 
+              className="h-[6rem] w-auto opacity-80" 
             />
           </div>
 
