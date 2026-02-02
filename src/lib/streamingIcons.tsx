@@ -72,7 +72,7 @@ const iconSources: Record<StreamingBrandKey, IconSource> = {
     }
   },
   uber: { type: "svg", icon: siUber },
-  wallet: { type: "image", src: googleWalletLogo, noFilter: true, scale: 2.2 },
+  wallet: { type: "image", src: googleWalletLogo, noFilter: true, scale: 1.6 },
 };
 
 // ============================================
