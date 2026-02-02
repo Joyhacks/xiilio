@@ -133,7 +133,7 @@ export function TeamAgentsSection() {
         <div
           ref={gridRef}
           className={cn(
-            "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 transition-all duration-700 ease-out delay-150",
+            "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 md:gap-5 transition-all duration-700 ease-out delay-150",
             gridVisible
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-12"
