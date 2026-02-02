@@ -47,7 +47,7 @@ export function Hero() {
               <img 
                 src={logo} 
                 alt="Xilio - Working 24twelve" 
-                className="relative h-[15.2rem] md:h-[21.3rem] lg:h-[24.4rem] w-auto mx-auto"
+                className="relative h-[18.2rem] md:h-[25.6rem] lg:h-[29.3rem] w-auto mx-auto"
                 loading="eager"
               />
               {/* Edge-blending gradient overlay */}
