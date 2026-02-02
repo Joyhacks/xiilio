@@ -21,7 +21,7 @@ export function Hero() {
 
   return (
     <>
-      <section className="relative flex items-center justify-center overflow-hidden pt-20 md:pt-24 pb-6 md:pb-8" style={{ backgroundColor: '#161e0c' }}>
+      <section className="relative flex items-center justify-center overflow-hidden pt-16 md:pt-18 pb-4 md:pb-6" style={{ backgroundColor: '#161e0c' }}>
         {/* Solid background matching logo's exact corner color */}
         <div 
           className="absolute inset-0 pointer-events-none z-0"
@@ -37,7 +37,7 @@ export function Hero() {
         
         <div className="relative z-10 container mx-auto px-4 md:px-6 text-center">
           {/* Logo with edge-blending overlay */}
-          <div className="mb-4 md:mb-6 relative">
+          <div className="mb-2 md:mb-3 relative">
             {/* Matched gold glow to logo */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <div className="w-40 h-40 md:w-72 md:h-72 lg:w-96 lg:h-96 bg-[#252008]/35 rounded-full blur-3xl md:blur-[80px] animate-pulse-glow" />
@@ -61,7 +61,7 @@ export function Hero() {
           </div>
 
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 md:px-5 py-2 md:py-2.5 rounded-full glass-card mb-4 md:mb-6 shimmer">
+          <div className="inline-flex items-center gap-2 px-4 md:px-5 py-2 md:py-2.5 rounded-full glass-card mb-3 md:mb-4 shimmer">
             <Sparkles className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary" />
             <span className="text-xs md:text-sm text-foreground/80">Meet Your AI Agent Team</span>
           </div>

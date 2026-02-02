@@ -181,7 +181,7 @@ export function Footer() {
                       <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play" className="h-7 w-auto" />
                     </a>
                   </div>
-                  <div className="flex items-center justify-center gap-3 mt-4">
+                  <div className="flex items-center justify-center gap-8 mt-6">
                     <a
                       href="https://assistant.google.com/"
                       target="_blank"
