@@ -7,6 +7,7 @@ import {
   siYoutube,
   siSpotify,
   siUber,
+  siMax,
 } from "simple-icons";
 import { Wallet } from "lucide-react";
 
@@ -57,14 +58,7 @@ const iconSources: Record<StreamingBrandKey, IconSource> = {
   netflix: { type: "svg", icon: siNetflix },
   primevideo: { type: "image", src: primeVideoLogo },
   appletv: { type: "svg", icon: siAppletv },
-  max: { 
-    type: "svg", 
-    icon: {
-      // Max - Simplified M logo
-      path: "M2 4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h20a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H2zm3 4h2l3 5 3-5h2v8h-2v-5l-2 3.5h-2L7 11v5H5V8zm12 0h2v8h-2V8z",
-      title: "Max"
-    }
-  },
+  max: { type: "svg", icon: siMax },
   youtube: { type: "svg", icon: siYoutube },
   disneyplus: { type: "image", src: disneyPlusLogo },
   spotify: { type: "svg", icon: siSpotify },
@@ -262,7 +256,7 @@ export const additionalStreamingServices: StreamingService[] = [
   {
     id: "wallet",
     name: "Cards",
-    href: "#", // Placeholder - will link to bank cards feature
+    href: "/settings#cards",
     brandKey: "wallet",
     brandColor: "#4F46E5",
   },
