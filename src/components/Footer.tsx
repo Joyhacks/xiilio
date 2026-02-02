@@ -188,7 +188,7 @@ export function Footer() {
             <img 
               src={heroLogo} 
               alt="Xilio" 
-              className="h-[3.6rem] w-auto opacity-80" 
+              className="h-[4.14rem] w-auto opacity-80" 
             />
           </div>
 
