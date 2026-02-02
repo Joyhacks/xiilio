@@ -30,8 +30,8 @@ export function DigitalClock({ compact = false }: DigitalClockProps) {
 
   if (compact) {
     return (
-      <div className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-primary/10 border border-primary/20">
-        <span className="text-xs font-mono font-semibold text-foreground tabular-nums">
+      <div className="flex items-center gap-1 px-2 py-1 rounded-md bg-primary/10 border border-primary/20">
+        <span className="text-sm font-mono font-semibold text-foreground tabular-nums">
           {formatTime(time)}
         </span>
       </div>
@@ -39,11 +39,11 @@ export function DigitalClock({ compact = false }: DigitalClockProps) {
   }
 
   return (
-    <div className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-primary/10 border border-primary/20">
-      <span className="text-sm font-mono font-semibold text-foreground tabular-nums">
+    <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-primary/10 border border-primary/20">
+      <span className="text-base font-mono font-semibold text-foreground tabular-nums">
         {formatTime(time)}
       </span>
-      <span className="text-xs text-muted-foreground font-medium">
+      <span className="text-sm text-muted-foreground font-medium">
         {getTimezone()}
       </span>
     </div>

@@ -103,7 +103,7 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
             </div>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center gap-8">
+            <nav className="hidden md:flex items-center gap-6">
               {navLinks.map((link) =>
                 link.isHash ? (
                   <a
@@ -126,9 +126,13 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
               )}
             </nav>
 
-            {/* Desktop CTA + Clock + Quick Links + Share + WhatsApp + Theme Toggle + Language */}
-            <div className="hidden md:flex items-center gap-2">
+            {/* Centered Clock - Desktop */}
+            <div className="hidden md:flex items-center justify-center">
               <DigitalClock />
+            </div>
+
+            {/* Desktop CTA + Quick Links + Share + WhatsApp + Theme Toggle + Language */}
+            <div className="hidden md:flex items-center gap-2">
               <HeaderQuickLinks agentSlug={agentSlug} agentColor={agentColor} />
               <button
                 onClick={() => {
