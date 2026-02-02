@@ -160,7 +160,7 @@ export function Footer() {
               {/* Get the App */}
               <div>
                 <h4 className="font-semibold text-foreground text-sm mb-2">Get the App</h4>
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col items-center gap-2">
                   <div className="flex gap-2">
                     <a
                       href="https://apps.apple.com/app/24twelve"
@@ -181,7 +181,7 @@ export function Footer() {
                       <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play" className="h-7 w-auto" />
                     </a>
                   </div>
-                  <div className="flex items-center gap-3 mt-1">
+                  <div className="flex items-center justify-center gap-3 mt-4">
                     <a
                       href="https://assistant.google.com/"
                       target="_blank"
