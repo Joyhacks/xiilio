@@ -265,8 +265,8 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
               </a>
               <Sheet open={isOpen} onOpenChange={setIsOpen}>
                 <SheetTrigger asChild>
-                  <Button variant="ghost" size="icon" className="h-14 w-14">
-                    <Menu className="h-9 w-9" />
+                  <Button variant="ghost" size="icon" className="h-9 w-9">
+                    <Menu className="h-6 w-6" />
                     <span className="sr-only">Open menu</span>
                   </Button>
                 </SheetTrigger>
