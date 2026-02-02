@@ -226,7 +226,7 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
             </div>
 
             {/* Mobile Menu */}
-            <div className="flex md:hidden items-center gap-1">
+            <div className="flex md:hidden items-center gap-2.5">
               {/* Share Button - Mobile */}
               <button
                 onClick={() => {
