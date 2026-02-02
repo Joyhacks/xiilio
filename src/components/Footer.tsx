@@ -160,7 +160,7 @@ export function Footer() {
               {/* Get the App */}
               <div>
                 <h4 className="font-semibold text-foreground text-sm mb-2">Get the App</h4>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-4">
                   <div className="flex gap-2">
                     <a
                       href="https://apps.apple.com/app/24twelve"
@@ -185,14 +185,14 @@ export function Footer() {
                     href="https://assistant.google.com/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 hover:opacity-80 transition-opacity group"
+                    className="hover:opacity-80 transition-opacity hover:scale-105"
                     aria-label="Try on Google Assistant"
                   >
-                    <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-sm">
+                    <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm">
                       <svg
                         role="img"
                         viewBox="0 0 24 24"
-                        className="w-5 h-5"
+                        className="w-6 h-6"
                         aria-label="Google Assistant"
                       >
                         <defs>
@@ -207,7 +207,6 @@ export function Footer() {
                         <path fill="url(#assistant-gradient)" d={siGoogleassistant.path} />
                       </svg>
                     </div>
-                    <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors">Google Assistant</span>
                   </a>
                 </div>
               </div>
