@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 
-export function DigitalClock() {
+interface DigitalClockProps {
+  compact?: boolean;
+}
+
+export function DigitalClock({ compact = false }: DigitalClockProps) {
   const [time, setTime] = useState(new Date());
 
   useEffect(() => {
@@ -20,11 +24,19 @@ export function DigitalClock() {
   };
 
   const getTimezone = () => {
-    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    // Get short timezone abbreviation
     const shortTz = new Date().toLocaleTimeString("en-US", { timeZoneName: "short" }).split(" ").pop();
-    return shortTz || timezone.split("/").pop()?.replace("_", " ") || "Local";
+    return shortTz || "Local";
   };
+
+  if (compact) {
+    return (
+      <div className="flex items-center gap-1 px-1.5 py-0.5 rounded bg-primary/10 border border-primary/20">
+        <span className="text-xs font-mono font-semibold text-foreground tabular-nums">
+          {formatTime(time)}
+        </span>
+      </div>
+    );
+  }
 
   return (
     <div className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-primary/10 border border-primary/20">

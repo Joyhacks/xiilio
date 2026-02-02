@@ -221,6 +221,7 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
 
             {/* Mobile Menu */}
             <div className="flex md:hidden items-center gap-1.5">
+              <DigitalClock compact />
               {/* Share Button - Mobile */}
               <button
                 onClick={() => {
