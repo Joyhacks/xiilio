@@ -8,10 +8,10 @@ import {
   siSpotify,
   siUber,
 } from "simple-icons";
+import { Wallet } from "lucide-react";
 
 // Import official brand logos for services not in simple-icons
 import primeVideoLogo from "@/assets/streaming/primevideo.svg";
-import huluLogo from "@/assets/streaming/hulu.svg";
 import disneyPlusLogo from "@/assets/streaming/disneyplus.svg";
 
 // ============================================
@@ -24,11 +24,11 @@ export type StreamingBrandKey =
   | "appletv" 
   | "max"
   | "youtube"
-  | "hulu"
   | "disneyplus"
   | "spotify"
+  | "cnn"
   | "uber"
-  | "cnn";
+  | "wallet";
 
 export interface StreamingService {
   id: string;
@@ -50,7 +50,8 @@ interface SimpleIcon {
 
 type IconSource = 
   | { type: "svg"; icon: SimpleIcon }
-  | { type: "image"; src: string };
+  | { type: "image"; src: string }
+  | { type: "lucide"; component: "wallet" };
 
 const iconSources: Record<StreamingBrandKey, IconSource> = {
   netflix: { type: "svg", icon: siNetflix },
@@ -65,10 +66,8 @@ const iconSources: Record<StreamingBrandKey, IconSource> = {
     }
   },
   youtube: { type: "svg", icon: siYoutube },
-  hulu: { type: "image", src: huluLogo },
   disneyplus: { type: "image", src: disneyPlusLogo },
   spotify: { type: "svg", icon: siSpotify },
-  uber: { type: "svg", icon: siUber },
   cnn: { 
     type: "svg", 
     icon: {
@@ -77,6 +76,8 @@ const iconSources: Record<StreamingBrandKey, IconSource> = {
       title: "CNN"
     }
   },
+  uber: { type: "svg", icon: siUber },
+  wallet: { type: "lucide", component: "wallet" },
 };
 
 // ============================================
@@ -104,10 +105,6 @@ export const brandColors: Record<StreamingBrandKey, { bg: string; glow: string }
     bg: "bg-[#FF0000]",
     glow: "shadow-[0_0_20px_rgba(255,0,0,0.6)]",
   },
-  hulu: {
-    bg: "bg-[#1CE783]",
-    glow: "shadow-[0_0_20px_rgba(28,231,131,0.6)]",
-  },
   disneyplus: {
     bg: "bg-[#113CCF]",
     glow: "shadow-[0_0_20px_rgba(17,60,207,0.6)]",
@@ -116,13 +113,17 @@ export const brandColors: Record<StreamingBrandKey, { bg: string; glow: string }
     bg: "bg-[#1DB954]",
     glow: "shadow-[0_0_20px_rgba(29,185,84,0.6)]",
   },
+  cnn: {
+    bg: "bg-[#CC0000]",
+    glow: "shadow-[0_0_20px_rgba(204,0,0,0.6)]",
+  },
   uber: {
     bg: "bg-[#000000]",
     glow: "shadow-[0_0_20px_rgba(0,0,0,0.4)]",
   },
-  cnn: {
-    bg: "bg-[#CC0000]",
-    glow: "shadow-[0_0_20px_rgba(204,0,0,0.6)]",
+  wallet: {
+    bg: "bg-[#4F46E5]",
+    glow: "shadow-[0_0_20px_rgba(79,70,229,0.6)]",
   },
 };
 
@@ -141,6 +142,11 @@ export function StreamingIcon({ brandKey, className, size = 24 }: StreamingIconP
   
   if (!source) {
     return null;
+  }
+  
+  // Handle Lucide icons
+  if (source.type === "lucide") {
+    return <Wallet className={className} style={{ width: size, height: size, color: "white" }} />;
   }
   
   // Handle image-based icons (official brand logos)
@@ -226,13 +232,6 @@ export const primaryStreamingServices: StreamingService[] = [
 
 export const additionalStreamingServices: StreamingService[] = [
   {
-    id: "hulu",
-    name: "Hulu",
-    href: "https://www.hulu.com/",
-    brandKey: "hulu",
-    brandColor: "#1CE783",
-  },
-  {
     id: "youtube",
     name: "YouTube",
     href: "https://www.youtube.com/",
@@ -247,6 +246,13 @@ export const additionalStreamingServices: StreamingService[] = [
     brandColor: "#1DB954",
   },
   {
+    id: "cnn",
+    name: "CNN",
+    href: "https://www.cnn.com/",
+    brandKey: "cnn",
+    brandColor: "#CC0000",
+  },
+  {
     id: "uber",
     name: "Uber",
     href: "https://www.uber.com/",
@@ -254,11 +260,11 @@ export const additionalStreamingServices: StreamingService[] = [
     brandColor: "#000000",
   },
   {
-    id: "cnn",
-    name: "CNN",
-    href: "https://www.cnn.com/",
-    brandKey: "cnn",
-    brandColor: "#CC0000",
+    id: "wallet",
+    name: "Cards",
+    href: "#", // Placeholder - will link to bank cards feature
+    brandKey: "wallet",
+    brandColor: "#4F46E5",
   },
 ];
 
