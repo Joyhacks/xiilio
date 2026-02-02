@@ -1,15 +1,39 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Sparkles, Zap, Play, Volume2, Square } from "lucide-react";
+import { Sparkles, Zap, Play, Volume2, Square, ChevronDown, ChevronUp } from "lucide-react";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import logo from "@/assets/logo-xilio-hero-3d.png";
 import { AuthOverlay } from "@/components/auth/AuthOverlay";
 import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
 
+// Avatar imports
+import juliaAvatar from "@/assets/avatars/julia-receptionist.png";
+import kateAvatar from "@/assets/avatars/kate-assistant.png";
+import halleAvatar from "@/assets/avatars/halle-legal.png";
+import georgeAvatar from "@/assets/avatars/george-social.png";
+import arnieAvatar from "@/assets/avatars/arnie-writer.png";
+import bradAvatar from "@/assets/avatars/brad-sales.png";
+import samAvatar from "@/assets/avatars/sam-coach.png";
+import jerryAvatar from "@/assets/avatars/jerry-finance.png";
+
+const agents = [
+  { id: "julia", name: "Julia", role: "Receptionist", avatar: juliaAvatar },
+  { id: "kate", name: "Kate", role: "Executive Assistant", avatar: kateAvatar },
+  { id: "brad", name: "Brad", role: "Sales", avatar: bradAvatar },
+  { id: "halle", name: "Halle", role: "Legal", avatar: halleAvatar },
+  { id: "george", name: "George", role: "Social Media", avatar: georgeAvatar },
+  { id: "arnie", name: "Arnie", role: "Blog Writer", avatar: arnieAvatar },
+  { id: "sam", name: "Sam", role: "Life Coach", avatar: samAvatar },
+  { id: "jerry", name: "Jerry", role: "Financial Planner", avatar: jerryAvatar },
+];
+
 export function Hero() {
   const { isAuthenticated } = useAuth();
   const [showAuthOverlay, setShowAuthOverlay] = useState(false);
   const [voiceState, setVoiceState] = useState<"idle" | "speaking">("idle");
+  const [isOpen, setIsOpen] = useState(true);
 
   const teamOverviewText = `Your 24Twelve AI Team consists of 8 specialized agents working together around the clock. Julia greets visitors and manages the front desk. Kate orchestrates all operations and coordinates tasks across the team. Brad drives sales and nurtures leads. Halle handles legal reviews and compliance. George manages your social media presence. Arnie creates powerful blog content. Sam provides motivation and life coaching. Jerry guides your financial planning. Together, they form a cohesive unit, handling product launches, client onboarding, content creation, and more as a unified team.`;
 
@@ -86,49 +110,88 @@ export function Hero() {
             <span className="text-xs md:text-sm text-foreground/80">Meet Your AI Agent Team</span>
           </div>
 
-          {/* Voiceover Summary Card */}
+          {/* Collapsible Voiceover Summary Card */}
           <div className="max-w-2xl mx-auto mb-6 md:mb-8 px-2">
-            <div className="glass-card rounded-xl p-4 md:p-5 border border-primary/20 bg-background/40 backdrop-blur-md">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="font-semibold text-sm md:text-base text-foreground flex items-center gap-2">
-                  <Volume2 className="w-4 h-4 md:w-5 md:h-5 text-primary" />
-                  Team Overview
-                </h3>
-                <button
-                  onClick={toggleVoiceover}
-                  className={cn(
-                    "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs md:text-sm font-medium transition-all",
-                    voiceState === "speaking"
-                      ? "bg-primary text-primary-foreground animate-pulse"
-                      : "bg-primary/20 hover:bg-primary/30 text-foreground"
-                  )}
-                >
-                  {voiceState === "speaking" ? (
-                    <>
-                      <Square className="w-3 h-3 md:w-3.5 md:h-3.5" />
-                      Stop
-                    </>
-                  ) : (
-                    <>
-                      <Play className="w-3 h-3 md:w-3.5 md:h-3.5" />
-                      Listen
-                    </>
-                  )}
-                </button>
+            <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+              <div className="glass-card rounded-xl border border-primary/20 bg-background/40 backdrop-blur-md overflow-hidden">
+                {/* Header - Always visible */}
+                <div className="p-3 md:p-4 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Volume2 className="w-4 h-4 md:w-5 md:h-5 text-primary" />
+                    <h3 className="font-semibold text-sm md:text-base text-foreground">Team Overview</h3>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleVoiceover();
+                      }}
+                      className={cn(
+                        "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs md:text-sm font-medium transition-all",
+                        voiceState === "speaking"
+                          ? "bg-primary text-primary-foreground animate-pulse"
+                          : "bg-primary/20 hover:bg-primary/30 text-foreground"
+                      )}
+                    >
+                      {voiceState === "speaking" ? (
+                        <>
+                          <Square className="w-3 h-3 md:w-3.5 md:h-3.5" />
+                          Stop
+                        </>
+                      ) : (
+                        <>
+                          <Play className="w-3 h-3 md:w-3.5 md:h-3.5" />
+                          Listen
+                        </>
+                      )}
+                    </button>
+                    <CollapsibleTrigger asChild>
+                      <button className="p-1.5 rounded-full hover:bg-primary/10 transition-colors">
+                        {isOpen ? (
+                          <ChevronUp className="w-4 h-4 text-muted-foreground" />
+                        ) : (
+                          <ChevronDown className="w-4 h-4 text-muted-foreground" />
+                        )}
+                      </button>
+                    </CollapsibleTrigger>
+                  </div>
+                </div>
+
+                {/* Collapsible Content */}
+                <CollapsibleContent>
+                  <div className="px-3 md:px-4 pb-4">
+                    {/* Agent Avatars */}
+                    <div className="flex justify-center gap-1 md:gap-2 mb-3 flex-wrap">
+                      {agents.map((agent) => (
+                        <div key={agent.id} className="flex flex-col items-center group">
+                          <Avatar className="w-8 h-8 md:w-10 md:h-10 border-2 border-primary/30 group-hover:border-primary transition-colors">
+                            <AvatarImage src={agent.avatar} alt={agent.name} />
+                            <AvatarFallback>{agent.name[0]}</AvatarFallback>
+                          </Avatar>
+                          <span className="text-[10px] md:text-xs text-muted-foreground mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                            {agent.name}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Description */}
+                    <p className="text-xs md:text-sm text-muted-foreground leading-relaxed text-left">
+                      <strong className="text-foreground">Your 24Twelve AI Team</strong> consists of 8 specialized agents working together around the clock: 
+                      <strong className="text-primary"> Julia</strong> (receptionist), 
+                      <strong className="text-primary"> Kate</strong> (executive assistant), 
+                      <strong className="text-primary"> Brad</strong> (sales), 
+                      <strong className="text-primary"> Halle</strong> (legal), 
+                      <strong className="text-primary"> George</strong> (social media), 
+                      <strong className="text-primary"> Arnie</strong> (blog writer), 
+                      <strong className="text-primary"> Sam</strong> (life coach), and 
+                      <strong className="text-primary"> Jerry</strong> (financial planner). 
+                      Together, they handle product launches, client onboarding, content creation, and more as a unified team.
+                    </p>
+                  </div>
+                </CollapsibleContent>
               </div>
-              <p className="text-xs md:text-sm text-muted-foreground leading-relaxed text-left">
-                <strong className="text-foreground">Your 24Twelve AI Team</strong> consists of 8 specialized agents working together around the clock: 
-                <strong className="text-primary"> Julia</strong> (receptionist), 
-                <strong className="text-primary"> Kate</strong> (executive assistant), 
-                <strong className="text-primary"> Brad</strong> (sales), 
-                <strong className="text-primary"> Halle</strong> (legal), 
-                <strong className="text-primary"> George</strong> (social media), 
-                <strong className="text-primary"> Arnie</strong> (blog writer), 
-                <strong className="text-primary"> Sam</strong> (life coach), and 
-                <strong className="text-primary"> Jerry</strong> (financial planner). 
-                Together, they handle product launches, client onboarding, content creation, and more as a unified team.
-              </p>
-            </div>
+            </Collapsible>
           </div>
 
           {/* CTA Buttons */}
