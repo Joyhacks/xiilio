@@ -86,7 +86,7 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
       <header className="fixed top-0 left-0 right-0 z-50 glass border-b border-primary/10">
         <div className="container mx-auto px-4 md:px-6 relative">
           <div className="flex items-center justify-between h-16">
-            {/* Back/Home Button + Logo + Weather */}
+            {/* Back/Home Button + Weather Widget */}
             <div className="flex items-center gap-2">
               {!isHomePage && (
                 <Link to="/">
@@ -96,14 +96,12 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
                   </Button>
                 </Link>
               )}
-              <Link to="/" className="flex items-center gap-1">
-                <span className="text-xl md:text-2xl font-bold bg-gradient-to-r from-primary via-accent-green to-accent-green-light bg-clip-text text-transparent">
-                  Xilio
-                </span>
+              <Link to="/" className="hidden md:block">
+                <WeatherWidget />
               </Link>
-              <div className="hidden md:block ml-2">
+              <Link to="/" className="md:hidden">
                 <WeatherWidget compact />
-              </div>
+              </Link>
             </div>
 
             {/* Desktop Navigation */}
