@@ -83,7 +83,7 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-50 glass border-b border-primary/10">
-        <div className="container mx-auto px-4 md:px-6">
+        <div className="container mx-auto px-4 md:px-6 relative">
           <div className="flex items-center justify-between h-16">
             {/* Back/Home Button + Logo */}
             <div className="flex items-center gap-2">
@@ -126,8 +126,8 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
               )}
             </nav>
 
-            {/* Centered Clock - Desktop */}
-            <div className="hidden md:flex items-center justify-center">
+            {/* Absolutely Centered Clock - Desktop */}
+            <div className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
               <DigitalClock />
             </div>
 
