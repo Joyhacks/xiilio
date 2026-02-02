@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { HeaderQuickLinks } from "@/components/HeaderQuickLinks";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { LanguageSelector } from "@/components/LanguageSelector";
+import { DigitalClock } from "@/components/DigitalClock";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Home, ArrowLeft, Settings, LogOut, User, BarChart3, Download, LayoutDashboard, Share2 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
@@ -125,8 +126,9 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
               )}
             </nav>
 
-            {/* Desktop CTA + Quick Links + Share + WhatsApp + Theme Toggle + Language */}
+            {/* Desktop CTA + Clock + Quick Links + Share + WhatsApp + Theme Toggle + Language */}
             <div className="hidden md:flex items-center gap-2">
+              <DigitalClock />
               <HeaderQuickLinks agentSlug={agentSlug} agentColor={agentColor} />
               <button
                 onClick={() => {
