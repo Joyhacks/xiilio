@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 
 // Avatar imports
 import juliaAvatar from "@/assets/avatars/julia-receptionist.png";
-import kateAvatar from "@/assets/avatars/kate-assistant.png";
+import nicoleAvatar from "@/assets/avatars/nicole-assistant.png";
 import halleAvatar from "@/assets/avatars/halle-legal.png";
 import georgeAvatar from "@/assets/avatars/george-social.png";
 import arnieAvatar from "@/assets/avatars/arnie-writer.png";
@@ -25,15 +25,15 @@ const teamAgents = [
     slug: "julia",
   },
   {
-    name: "Executive Assistant Kate",
+    name: "Executive Assistant Nicole",
     description:
       "Elegantly manages executive schedules, coordinates meetings, and handles high-level correspondence.",
-    avatar: kateAvatar,
+    avatar: nicoleAvatar,
     status: "active" as const,
     tasksCompleted: 2876,
     color: "assistant" as const,
     features: ["Calendar Mgmt", "Travel Plans", "Correspondence"],
-    slug: "kate",
+    slug: "nicole",
   },
   {
     name: "Legal Associate Halle",

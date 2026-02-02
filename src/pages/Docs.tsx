@@ -28,7 +28,7 @@ const docCategories = [
     icon: Book,
     title: "Agent Guides",
     description: "Comprehensive guides for each AI agent and their capabilities.",
-    links: ["Julia - Receptionist", "Kate - Assistant", "Halle - Legal", "All Agents →"],
+    links: ["Julia - Receptionist", "Nicole - Assistant", "Halle - Legal", "All Agents →"],
   },
   {
     icon: Code,
