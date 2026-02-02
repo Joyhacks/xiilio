@@ -13,6 +13,7 @@ import {
   siGithub,
   siTiktok,
   siWhatsapp,
+  siGoogleassistant,
 } from "simple-icons";
 
 // Simple Icons SVG renderer
@@ -89,6 +90,12 @@ const baseSocialLinks: SocialLink[] = [
     href: "https://github.com/24twelve",
     color: "bg-card hover:bg-muted border border-border",
     icon: siGithub,
+  },
+  {
+    name: "Google Assistant",
+    href: "https://assistant.google.com/",
+    color: "bg-card hover:bg-muted border border-border",
+    icon: siGoogleassistant,
   },
 ];
 
