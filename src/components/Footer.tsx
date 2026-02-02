@@ -91,12 +91,6 @@ const baseSocialLinks: SocialLink[] = [
     color: "bg-card hover:bg-muted border border-border",
     icon: siGithub,
   },
-  {
-    name: "Google Assistant",
-    href: "https://assistant.google.com/",
-    color: "bg-card hover:bg-muted border border-border",
-    icon: siGoogleassistant,
-  },
 ];
 
 export function Footer() {
@@ -166,24 +160,54 @@ export function Footer() {
               {/* Get the App */}
               <div>
                 <h4 className="font-semibold text-foreground text-sm mb-2">Get the App</h4>
-                <div className="flex gap-2">
+                <div className="flex flex-col gap-2">
+                  <div className="flex gap-2">
+                    <a
+                      href="https://apps.apple.com/app/24twelve"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:opacity-80 transition-opacity"
+                      aria-label="Download on the App Store"
+                    >
+                      <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="App Store" className="h-7 w-auto" />
+                    </a>
+                    <a
+                      href="https://play.google.com/store/apps/details?id=com.twentyfourtwelve"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:opacity-80 transition-opacity"
+                      aria-label="Get it on Google Play"
+                    >
+                      <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play" className="h-7 w-auto" />
+                    </a>
+                  </div>
                   <a
-                    href="https://apps.apple.com/app/24twelve"
+                    href="https://assistant.google.com/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="hover:opacity-80 transition-opacity"
-                    aria-label="Download on the App Store"
+                    className="flex items-center gap-2 hover:opacity-80 transition-opacity group"
+                    aria-label="Try on Google Assistant"
                   >
-                    <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="App Store" className="h-7 w-auto" />
-                  </a>
-                  <a
-                    href="https://play.google.com/store/apps/details?id=com.twentyfourtwelve"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:opacity-80 transition-opacity"
-                    aria-label="Get it on Google Play"
-                  >
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play" className="h-7 w-auto" />
+                    <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-sm">
+                      <svg
+                        role="img"
+                        viewBox="0 0 24 24"
+                        className="w-5 h-5"
+                        aria-label="Google Assistant"
+                      >
+                        <defs>
+                          <linearGradient id="assistant-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stopColor="#4285F4" />
+                            <stop offset="25%" stopColor="#EA4335" />
+                            <stop offset="50%" stopColor="#FBBC05" />
+                            <stop offset="75%" stopColor="#34A853" />
+                            <stop offset="100%" stopColor="#4285F4" />
+                          </linearGradient>
+                        </defs>
+                        <path fill="url(#assistant-gradient)" d={siGoogleassistant.path} />
+                      </svg>
+                    </div>
+                    <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors">Google Assistant</span>
                   </a>
                 </div>
               </div>
