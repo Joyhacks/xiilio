@@ -4,6 +4,7 @@ import { HeaderQuickLinks } from "@/components/HeaderQuickLinks";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { LanguageSelector } from "@/components/LanguageSelector";
 import { DigitalClock } from "@/components/DigitalClock";
+import { WeatherWidget } from "@/components/WeatherWidget";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Home, ArrowLeft, Settings, LogOut, User, BarChart3, Download, LayoutDashboard, Share2 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
@@ -85,7 +86,7 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
       <header className="fixed top-0 left-0 right-0 z-50 glass border-b border-primary/10">
         <div className="container mx-auto px-4 md:px-6 relative">
           <div className="flex items-center justify-between h-16">
-            {/* Back/Home Button + Logo */}
+            {/* Back/Home Button + Logo + Weather */}
             <div className="flex items-center gap-2">
               {!isHomePage && (
                 <Link to="/">
@@ -100,6 +101,9 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
                   Xilio
                 </span>
               </Link>
+              <div className="hidden md:block ml-2">
+                <WeatherWidget compact />
+              </div>
             </div>
 
             {/* Desktop Navigation */}
