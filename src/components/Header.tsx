@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { HeaderQuickLinks } from "@/components/HeaderQuickLinks";
-import { ThemeToggle } from "@/components/ThemeToggle";
 import { LanguageSelector } from "@/components/LanguageSelector";
 import { DigitalClock } from "@/components/DigitalClock";
 import { WeatherWidget } from "@/components/WeatherWidget";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Home, ArrowLeft, Settings, LogOut, User, BarChart3, Download, LayoutDashboard, Share2 } from "lucide-react";
+import { Menu, Home, ArrowLeft, Settings, LogOut, BarChart3, Download, LayoutDashboard, Share2 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import {
   DropdownMenu,
@@ -133,8 +132,8 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
               <DigitalClock />
             </div>
 
-            {/* Desktop CTA + Quick Links + Share + WhatsApp + Theme Toggle + Language */}
-            <div className="hidden md:flex items-center gap-2">
+            {/* Desktop CTA + Quick Links + Share + WhatsApp + Language */}
+            <div className="hidden md:flex items-center gap-1.5">
               <HeaderQuickLinks agentSlug={agentSlug} agentColor={agentColor} />
               <button
                 onClick={() => {
@@ -170,7 +169,6 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
                 </svg>
               </a>
               <LanguageSelector />
-              <ThemeToggle />
               
               {isAuthenticated ? (
                 <DropdownMenu>
@@ -226,7 +224,7 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
             </div>
 
             {/* Mobile Menu */}
-            <div className="flex md:hidden items-center gap-1.5">
+            <div className="flex md:hidden items-center gap-1">
               <DigitalClock compact />
               {/* Share Button - Mobile */}
               <button
@@ -263,7 +261,6 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
                   <path d={siWhatsapp.path} />
                 </svg>
               </a>
-              <ThemeToggle />
               <Sheet open={isOpen} onOpenChange={setIsOpen}>
                 <SheetTrigger asChild>
                   <Button variant="ghost" size="icon" className="h-10 w-10">
