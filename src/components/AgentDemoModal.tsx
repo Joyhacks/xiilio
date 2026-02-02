@@ -494,23 +494,23 @@ export function AgentDemoModal({ trigger }: AgentDemoModalProps) {
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent className="w-[95vw] max-w-5xl max-h-[85vh] p-0 overflow-hidden bg-card border-border">
+      <DialogContent className="w-[92vw] max-w-5xl max-h-[80vh] p-0 overflow-hidden bg-card border-border mx-auto left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
         <DialogHeader className="p-4 md:p-6 pb-0">
           <DialogTitle className="font-display text-lg md:text-2xl flex items-center gap-2">
             <Sparkles className="w-5 h-5 md:w-6 md:h-6 text-primary" />
             Meet Your AI Team
           </DialogTitle>
           {/* Voiceover Summary */}
-          <div className="mt-3 md:mt-4 p-3 md:p-4 bg-muted/30 rounded-lg border border-border/50">
-            <div className="flex items-center justify-between mb-2">
-              <h3 className="font-semibold text-xs md:text-sm text-foreground flex items-center gap-2">
-                <Volume2 className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary" />
-                Team Overview
+          <div className="mt-2 md:mt-4 p-2 md:p-4 bg-muted/30 rounded-lg border border-border/50">
+            <div className="flex items-center justify-between mb-1 md:mb-2">
+              <h3 className="font-semibold text-xs text-foreground flex items-center gap-1.5">
+                <Volume2 className="w-3 h-3 md:w-4 md:h-4 text-primary" />
+                <span className="hidden sm:inline">Team </span>Overview
               </h3>
               <button
                 onClick={toggleTeamOverview}
                 className={cn(
-                  "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all",
+                  "flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium transition-all",
                   overviewVoiceState === "speaking"
                     ? "bg-primary text-primary-foreground animate-pulse"
                     : "bg-muted hover:bg-muted/80 text-foreground"
@@ -519,27 +519,29 @@ export function AgentDemoModal({ trigger }: AgentDemoModalProps) {
               >
                 {overviewVoiceState === "speaking" ? (
                   <>
-                    <Volume2 className="w-3.5 h-3.5" />
+                    <Volume2 className="w-3 h-3" />
                     Stop
                   </>
                 ) : (
                   <>
-                    <Play className="w-3.5 h-3.5" />
+                    <Play className="w-3 h-3" />
                     Listen
                   </>
                 )}
               </button>
             </div>
-            <p className="text-sm text-muted-foreground leading-relaxed">
+            <p className="text-xs md:text-sm text-muted-foreground leading-relaxed line-clamp-3 md:line-clamp-none">
               <strong>Your 24Twelve AI Team</strong> consists of 8 specialized agents working together around the clock. 
-              <strong> Julia</strong> greets visitors and manages the front desk. 
-              <strong> Kate</strong> orchestrates all operations and coordinates tasks across the team. 
-              <strong> Brad</strong> drives sales and nurtures leads. 
-              <strong> Halle</strong> handles legal reviews and compliance. 
-              <strong> George</strong> manages your social media presence. 
-              <strong> Arnie</strong> creates powerful blog content. 
-              <strong> Sam</strong> provides motivation and life coaching. 
-              <strong> Jerry</strong> guides your financial planning. 
+              <span className="hidden md:inline">
+                <strong> Julia</strong> greets visitors and manages the front desk. 
+                <strong> Kate</strong> orchestrates all operations and coordinates tasks across the team. 
+                <strong> Brad</strong> drives sales and nurtures leads. 
+                <strong> Halle</strong> handles legal reviews and compliance. 
+                <strong> George</strong> manages your social media presence. 
+                <strong> Arnie</strong> creates powerful blog content. 
+                <strong> Sam</strong> provides motivation and life coaching. 
+                <strong> Jerry</strong> guides your financial planning. 
+              </span>
               Together, they form a cohesive unit—handling product launches, client onboarding, content creation, and more as a unified team.
             </p>
           </div>
@@ -578,10 +580,10 @@ export function AgentDemoModal({ trigger }: AgentDemoModalProps) {
           </TabsList>
 
           <TabsContent value="agents" className="mt-0">
-            <div className="flex flex-col md:flex-row h-[350px] md:h-[500px]">
+            <div className="flex flex-col md:flex-row h-[280px] md:h-[420px]">
               {/* Agent List */}
-              <ScrollArea className="w-full md:w-48 border-b md:border-b-0 md:border-r border-border max-h-[120px] md:max-h-none">
-                <div className="p-2 flex md:flex-col gap-1 md:gap-1 overflow-x-auto md:overflow-x-visible">
+              <ScrollArea className="w-full md:w-44 border-b md:border-b-0 md:border-r border-border max-h-[100px] md:max-h-none">
+                <div className="p-1.5 md:p-2 flex md:flex-col gap-1 overflow-x-auto md:overflow-x-visible">
                   {agents.map((agent) => (
                     <button
                       key={agent.id}
