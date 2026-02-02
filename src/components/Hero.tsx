@@ -7,6 +7,7 @@ import logo from "@/assets/logo-xilio-hero-3d.png";
 import { AuthOverlay } from "@/components/auth/AuthOverlay";
 import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
+import { WeatherWidget } from "@/components/WeatherWidget";
 
 // Avatar imports
 import juliaAvatar from "@/assets/avatars/julia-receptionist.png";
@@ -80,6 +81,10 @@ export function Hero() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-[#2a2208]/15 rounded-full blur-[80px] md:blur-[120px] animate-pulse-glow" style={{ animationDelay: '2s' }} />
         
         <div className="relative z-10 container mx-auto px-4 md:px-6 text-center">
+          {/* Weather Widget - Upper Left Corner */}
+          <div className="absolute top-4 left-4 md:top-6 md:left-6 z-20">
+            <WeatherWidget />
+          </div>
           {/* Logo with edge-blending overlay */}
           <div className="mb-2 md:mb-3 relative">
             {/* Matched gold glow to logo */}
