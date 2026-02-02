@@ -39,11 +39,11 @@ export function DigitalClock({ compact = false }: DigitalClockProps) {
   }
 
   return (
-    <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-primary/10 border border-primary/20">
-      <span className="text-base font-mono font-semibold text-foreground tabular-nums">
+    <div className="flex items-center gap-2 px-4 py-2 rounded-md bg-primary/10 border border-primary/20">
+      <span className="text-lg font-mono font-semibold text-foreground tabular-nums">
         {formatTime(time)}
       </span>
-      <span className="text-sm text-muted-foreground font-medium">
+      <span className="text-base text-muted-foreground font-medium">
         {getTimezone()}
       </span>
     </div>
