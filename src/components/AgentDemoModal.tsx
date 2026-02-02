@@ -494,17 +494,17 @@ export function AgentDemoModal({ trigger }: AgentDemoModalProps) {
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent className="max-w-5xl max-h-[90vh] p-0 overflow-hidden bg-card border-border">
-        <DialogHeader className="p-6 pb-0">
-          <DialogTitle className="font-display text-2xl flex items-center gap-2">
-            <Sparkles className="w-6 h-6 text-primary" />
+      <DialogContent className="w-[95vw] max-w-5xl max-h-[85vh] p-0 overflow-hidden bg-card border-border">
+        <DialogHeader className="p-4 md:p-6 pb-0">
+          <DialogTitle className="font-display text-lg md:text-2xl flex items-center gap-2">
+            <Sparkles className="w-5 h-5 md:w-6 md:h-6 text-primary" />
             Meet Your AI Team
           </DialogTitle>
           {/* Voiceover Summary */}
-          <div className="mt-4 p-4 bg-muted/30 rounded-lg border border-border/50">
+          <div className="mt-3 md:mt-4 p-3 md:p-4 bg-muted/30 rounded-lg border border-border/50">
             <div className="flex items-center justify-between mb-2">
-              <h3 className="font-semibold text-sm text-foreground flex items-center gap-2">
-                <Volume2 className="w-4 h-4 text-primary" />
+              <h3 className="font-semibold text-xs md:text-sm text-foreground flex items-center gap-2">
+                <Volume2 className="w-3.5 h-3.5 md:w-4 md:h-4 text-primary" />
                 Team Overview
               </h3>
               <button
@@ -546,59 +546,59 @@ export function AgentDemoModal({ trigger }: AgentDemoModalProps) {
         </DialogHeader>
 
         <Tabs defaultValue="agents" className="w-full">
-          <TabsList className="w-full justify-start px-6 bg-transparent border-b border-border rounded-none h-auto py-0 flex-wrap">
+          <TabsList className="w-full justify-start px-3 md:px-6 bg-transparent border-b border-border rounded-none h-auto py-0 flex-wrap gap-0">
             <TabsTrigger
               value="agents"
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent py-3"
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent py-2 md:py-3 text-xs md:text-sm px-2 md:px-4"
             >
-              <Users className="w-4 h-4 mr-2" />
-              Agent Profiles
+              <Users className="w-3.5 h-3.5 md:w-4 md:h-4 mr-1 md:mr-2" />
+              <span className="hidden sm:inline">Agent </span>Profiles
             </TabsTrigger>
             <TabsTrigger
               value="collaboration"
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent py-3"
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent py-2 md:py-3 text-xs md:text-sm px-2 md:px-4"
             >
-              <Zap className="w-4 h-4 mr-2" />
-              Collaboration Demo
+              <Zap className="w-3.5 h-3.5 md:w-4 md:h-4 mr-1 md:mr-2" />
+              <span className="hidden sm:inline">Collaboration </span>Demo
             </TabsTrigger>
             <TabsTrigger
               value="tasks"
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent py-3"
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent py-2 md:py-3 text-xs md:text-sm px-2 md:px-4"
             >
-              <ListTodo className="w-4 h-4 mr-2" />
-              Task Assignment
+              <ListTodo className="w-3.5 h-3.5 md:w-4 md:h-4 mr-1 md:mr-2" />
+              Tasks
             </TabsTrigger>
             <TabsTrigger
               value="handoff"
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent py-3"
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent py-2 md:py-3 text-xs md:text-sm px-2 md:px-4"
             >
-              <MessageSquare className="w-4 h-4 mr-2" />
-              Live Handoff
+              <MessageSquare className="w-3.5 h-3.5 md:w-4 md:h-4 mr-1 md:mr-2" />
+              <span className="hidden sm:inline">Live </span>Handoff
             </TabsTrigger>
           </TabsList>
 
-          {/* Agent Profiles Tab */}
           <TabsContent value="agents" className="mt-0">
-            <div className="flex h-[500px]">
+            <div className="flex flex-col md:flex-row h-[350px] md:h-[500px]">
               {/* Agent List */}
-              <ScrollArea className="w-48 border-r border-border">
-                <div className="p-2 space-y-1">
+              <ScrollArea className="w-full md:w-48 border-b md:border-b-0 md:border-r border-border max-h-[120px] md:max-h-none">
+                <div className="p-2 flex md:flex-col gap-1 md:gap-1 overflow-x-auto md:overflow-x-visible">
                   {agents.map((agent) => (
                     <button
                       key={agent.id}
                       onClick={() => setSelectedAgent(agent)}
                       className={cn(
-                        "w-full flex items-center gap-3 p-2 rounded-lg transition-all",
+                        "flex-shrink-0 flex items-center gap-2 md:gap-3 p-2 rounded-lg transition-all",
+                        "md:w-full",
                         selectedAgent.id === agent.id
                           ? "bg-primary/10 border border-primary/30"
                           : "hover:bg-muted"
                       )}
                     >
-                      <Avatar className="w-10 h-10">
+                      <Avatar className="w-8 h-8 md:w-10 md:h-10">
                         <AvatarImage src={agent.avatar} alt={agent.name} />
                         <AvatarFallback>{agent.name[0]}</AvatarFallback>
                       </Avatar>
-                      <div className="text-left">
+                      <div className="text-left hidden md:block">
                         <p className="text-sm font-medium">{agent.name}</p>
                         <p className="text-xs text-muted-foreground">
                           {agent.role}
@@ -609,8 +609,7 @@ export function AgentDemoModal({ trigger }: AgentDemoModalProps) {
                 </div>
               </ScrollArea>
 
-              {/* Agent Detail */}
-              <ScrollArea className="flex-1 p-6">
+              <ScrollArea className="flex-1 p-3 md:p-6">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={selectedAgent.id}
@@ -619,10 +618,10 @@ export function AgentDemoModal({ trigger }: AgentDemoModalProps) {
                     exit={{ opacity: 0, x: -20 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <div className="flex items-start gap-6 mb-6">
+                    <div className="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-6 mb-4 md:mb-6">
                       <div className="relative">
                         <Avatar
-                          className="w-24 h-24 ring-4 cursor-pointer"
+                          className="w-16 h-16 md:w-24 md:h-24 ring-4 cursor-pointer"
                           style={{
                             ["--tw-ring-color" as string]: selectedAgent.color,
                           }}
@@ -656,8 +655,8 @@ export function AgentDemoModal({ trigger }: AgentDemoModalProps) {
                           )}
                         </button>
                       </div>
-                      <div>
-                        <h3 className="font-display text-2xl font-bold">
+                      <div className="text-center md:text-left">
+                        <h3 className="font-display text-xl md:text-2xl font-bold">
                           {selectedAgent.name}
                         </h3>
                         <Badge
@@ -666,15 +665,15 @@ export function AgentDemoModal({ trigger }: AgentDemoModalProps) {
                         >
                           {selectedAgent.role}
                         </Badge>
-                        <p className="text-muted-foreground max-w-lg">
+                        <p className="text-sm md:text-base text-muted-foreground max-w-lg">
                           {selectedAgent.description}
                         </p>
                       </div>
                     </div>
 
-                    <div className="grid md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                       <div>
-                        <h4 className="font-semibold mb-3 flex items-center gap-2">
+                        <h4 className="font-semibold text-sm md:text-base mb-2 md:mb-3 flex items-center gap-2">
                           <CheckCircle2
                             className="w-4 h-4"
                             style={{ color: selectedAgent.color }}
