@@ -85,7 +85,7 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
       <header className="fixed top-0 left-0 right-0 z-50 glass border-b border-primary/10">
         <div className="container mx-auto px-4 md:px-6 relative">
           <div className="flex items-center justify-between h-16">
-            {/* Back/Home Button + Weather Widget */}
+            {/* Left: Back Button + Weather Widget */}
             <div className="flex items-center gap-2">
               {!isHomePage && (
                 <Link to="/">
@@ -95,10 +95,7 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
                   </Button>
                 </Link>
               )}
-              <Link to="/" className="hidden md:block">
-                <WeatherWidget />
-              </Link>
-              <Link to="/" className="md:hidden">
+              <Link to="/">
                 <WeatherWidget compact />
               </Link>
             </div>
@@ -127,9 +124,14 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
               )}
             </nav>
 
-            {/* Absolutely Centered Clock - Desktop */}
-            <div className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-              <DigitalClock />
+            {/* Absolutely Centered Clock */}
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+              <div className="hidden md:block">
+                <DigitalClock />
+              </div>
+              <div className="md:hidden">
+                <DigitalClock compact />
+              </div>
             </div>
 
             {/* Desktop CTA + Quick Links + Share + WhatsApp + Language */}
@@ -225,7 +227,7 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
 
             {/* Mobile Menu */}
             <div className="flex md:hidden items-center gap-1">
-              <DigitalClock compact />
+              {/* Share Button - Mobile */}
               {/* Share Button - Mobile */}
               <button
                 onClick={() => {
