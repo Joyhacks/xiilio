@@ -7,13 +7,13 @@ import {
   siYoutube,
   siSpotify,
   siUber,
-  siMax,
 } from "simple-icons";
 import { Wallet } from "lucide-react";
 
 // Import official brand logos for services not in simple-icons
 import primeVideoLogo from "@/assets/streaming/primevideo.svg";
 import disneyPlusLogo from "@/assets/streaming/disneyplus.svg";
+import hboMaxLogo from "@/assets/streaming/hbomax.png";
 
 // ============================================
 // TYPE DEFINITIONS
@@ -58,7 +58,7 @@ const iconSources: Record<StreamingBrandKey, IconSource> = {
   netflix: { type: "svg", icon: siNetflix },
   primevideo: { type: "image", src: primeVideoLogo },
   appletv: { type: "svg", icon: siAppletv },
-  max: { type: "svg", icon: siMax },
+  max: { type: "image", src: hboMaxLogo },
   youtube: { type: "svg", icon: siYoutube },
   disneyplus: { type: "image", src: disneyPlusLogo },
   spotify: { type: "svg", icon: siSpotify },
