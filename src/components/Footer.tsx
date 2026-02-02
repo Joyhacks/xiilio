@@ -181,33 +181,54 @@ export function Footer() {
                       <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play" className="h-7 w-auto" />
                     </a>
                   </div>
-                  <a
-                    href="https://assistant.google.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:opacity-80 transition-opacity hover:scale-105"
-                    aria-label="Try on Google Assistant"
-                  >
-                    <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm">
-                      <svg
-                        role="img"
-                        viewBox="0 0 24 24"
-                        className="w-6 h-6"
-                        aria-label="Google Assistant"
-                      >
-                        <defs>
-                          <linearGradient id="assistant-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stopColor="#4285F4" />
-                            <stop offset="25%" stopColor="#EA4335" />
-                            <stop offset="50%" stopColor="#FBBC05" />
-                            <stop offset="75%" stopColor="#34A853" />
-                            <stop offset="100%" stopColor="#4285F4" />
-                          </linearGradient>
-                        </defs>
-                        <path fill="url(#assistant-gradient)" d={siGoogleassistant.path} />
-                      </svg>
-                    </div>
-                  </a>
+                  <div className="flex items-center gap-3 mt-1">
+                    <a
+                      href="https://assistant.google.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:opacity-80 transition-opacity hover:scale-105"
+                      aria-label="Try on Google Assistant"
+                    >
+                      <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm">
+                        <svg
+                          role="img"
+                          viewBox="0 0 24 24"
+                          className="w-6 h-6"
+                          aria-label="Google Assistant"
+                        >
+                          <defs>
+                            <linearGradient id="assistant-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                              <stop offset="0%" stopColor="#4285F4" />
+                              <stop offset="25%" stopColor="#EA4335" />
+                              <stop offset="50%" stopColor="#FBBC05" />
+                              <stop offset="75%" stopColor="#34A853" />
+                              <stop offset="100%" stopColor="#4285F4" />
+                            </linearGradient>
+                          </defs>
+                          <path fill="url(#assistant-gradient)" d={siGoogleassistant.path} />
+                        </svg>
+                      </div>
+                    </a>
+                    <a
+                      href="https://www.apple.com/siri/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:opacity-80 transition-opacity hover:scale-105"
+                      aria-label="Try with Siri"
+                    >
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center shadow-sm overflow-hidden" style={{ background: 'linear-gradient(135deg, #FF2D55 0%, #AF52DE 25%, #5856D6 50%, #007AFF 75%, #34C759 100%)' }}>
+                        <svg
+                          role="img"
+                          viewBox="0 0 24 24"
+                          className="w-6 h-6"
+                          fill="white"
+                          aria-label="Siri"
+                        >
+                          <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+                        </svg>
+                      </div>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
