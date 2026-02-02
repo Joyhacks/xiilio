@@ -14,6 +14,7 @@ import { Wallet } from "lucide-react";
 import primeVideoLogo from "@/assets/streaming/primevideo.svg";
 import disneyPlusLogo from "@/assets/streaming/disneyplus.svg";
 import hboMaxLogo from "@/assets/streaming/hbomax.png";
+import googleWalletLogo from "@/assets/streaming/google-wallet.png";
 
 // ============================================
 // TYPE DEFINITIONS
@@ -51,12 +52,12 @@ interface SimpleIcon {
 
 type IconSource = 
   | { type: "svg"; icon: SimpleIcon }
-  | { type: "image"; src: string; noFilter?: boolean }
+  | { type: "image"; src: string; noFilter?: boolean; scale?: number }
   | { type: "lucide"; component: "wallet" };
 
 const iconSources: Record<StreamingBrandKey, IconSource> = {
   netflix: { type: "svg", icon: siNetflix },
-  primevideo: { type: "image", src: primeVideoLogo },
+  primevideo: { type: "image", src: primeVideoLogo, scale: 1.4 },
   appletv: { type: "svg", icon: siAppletv },
   max: { type: "image", src: hboMaxLogo, noFilter: true },
   youtube: { type: "svg", icon: siYoutube },
@@ -71,7 +72,7 @@ const iconSources: Record<StreamingBrandKey, IconSource> = {
     }
   },
   uber: { type: "svg", icon: siUber },
-  wallet: { type: "lucide", component: "wallet" },
+  wallet: { type: "image", src: googleWalletLogo, noFilter: true },
 };
 
 // ============================================
@@ -146,15 +147,16 @@ export function StreamingIcon({ brandKey, className, size = 24 }: StreamingIconP
   // Handle image-based icons (official brand logos)
   if (source.type === "image") {
     const shouldApplyFilter = !source.noFilter;
+    const scale = source.scale || (source.noFilter ? 1.8 : 1);
     return (
       <img
         src={source.src}
         alt={brandKey}
         className={className}
         style={{ 
-          width: source.noFilter ? size * 1.8 : size, 
-          height: source.noFilter ? size * 1.8 : size, 
-          objectFit: "cover",
+          width: size * scale, 
+          height: size * scale, 
+          objectFit: source.noFilter ? "cover" : "contain",
           // Apply white filter only for logos that need it
           filter: shouldApplyFilter ? "brightness(0) invert(1)" : undefined,
           borderRadius: source.noFilter ? "8px" : undefined
