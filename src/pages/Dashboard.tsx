@@ -27,7 +27,7 @@ import { cn } from "@/lib/utils";
 
 // Avatar imports
 import juliaAvatar from "@/assets/avatars/julia-receptionist.png";
-import kateAvatar from "@/assets/avatars/kate-assistant.png";
+import nicoleAvatar from "@/assets/avatars/nicole-assistant.png";
 import halleAvatar from "@/assets/avatars/halle-legal.png";
 import georgeAvatar from "@/assets/avatars/george-social.png";
 import arnieAvatar from "@/assets/avatars/arnie-writer.png";
@@ -37,7 +37,7 @@ import jerryAvatar from "@/assets/avatars/jerry-finance.png";
 
 const agentMeta: Record<string, { name: string; role: string; avatar: string; color: string }> = {
   julia: { name: "Receptionist Julia", role: "Front Desk", avatar: juliaAvatar, color: "receptionist" },
-  kate: { name: "Executive Assistant Kate", role: "Executive Support", avatar: kateAvatar, color: "assistant" },
+  nicole: { name: "Executive Assistant Nicole", role: "Executive Support", avatar: nicoleAvatar, color: "assistant" },
   halle: { name: "Legal Associate Halle", role: "Legal & Compliance", avatar: halleAvatar, color: "legal" },
   george: { name: "Social Media Manager George", role: "Social Media", avatar: georgeAvatar, color: "social" },
   arnie: { name: "Blog Writer Arnie", role: "Content & SEO", avatar: arnieAvatar, color: "writer" },

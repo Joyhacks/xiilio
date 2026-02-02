@@ -19,9 +19,9 @@ export const AGENT_VOICE_CONFIG: Record<string, AgentVoiceConfig> = {
     settings: { stability: 0.5, similarityBoost: 0.75, style: 0.3 },
   },
   assistant: {
-    voiceId: "XrExE9yKIg1WjnnlVkGX", // Matilda
-    voiceName: "Matilda",
-    settings: { stability: 0.5, similarityBoost: 0.75, style: 0.3 },
+    voiceId: "pFZP5JQG7iQjIQuC4Bku", // Lily - warm, expressive American/British accent
+    voiceName: "Lily",
+    settings: { stability: 0.45, similarityBoost: 0.8, style: 0.4 },
   },
   legal: {
     voiceId: "onwK4e9ZLuTAKqWW03F9", // Daniel
