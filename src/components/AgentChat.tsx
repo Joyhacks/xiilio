@@ -68,7 +68,7 @@ export function AgentChat({
   const getAgentType = useCallback(() => {
     if (!agentSlug) return "assistant";
     if (agentSlug.includes("receptionist") || agentSlug.includes("julia")) return "receptionist";
-    if (agentSlug.includes("kate")) return "assistant";
+    if (agentSlug.includes("nicole")) return "assistant";
     if (agentSlug.includes("halle")) return "legal";
     if (agentSlug.includes("george")) return "social";
     if (agentSlug.includes("arnie")) return "writer";

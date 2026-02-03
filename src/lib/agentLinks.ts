@@ -49,9 +49,9 @@ export const agentConfigs: Record<string, AgentConfig> = {
     name: "Receptionist Julia",
     // User configures their own email, phone, booking URL, etc.
   },
-  kate: {
-    slug: "kate",
-    name: "Executive Assistant Kate",
+  nicole: {
+    slug: "nicole",
+    name: "Executive Assistant Nicole",
   },
   halle: {
     slug: "halle",

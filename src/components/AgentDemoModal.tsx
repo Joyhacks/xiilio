@@ -280,7 +280,7 @@ const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 // Agent voice mapping
 const agentVoiceMap: Record<string, string> = {
   julia: "EXAVITQu4vr4xnSDxMaL", // Sarah
-  kate: "FGY2WhTYpPnrIDTdsKH5", // Laura
+  nicole: "FGY2WhTYpPnrIDTdsKH5", // Laura
   halle: "pFZP5JQG7iQjIQuC4Bku", // Lily
   george: "JBFqnCBsd6RMkjVDRZzb", // George
   arnie: "nPczCjzI2devNBz1zQrb", // Brian
@@ -929,7 +929,7 @@ function TaskAssignmentUI({ agents }: { agents: AgentInfo[] }) {
           <p className="text-sm text-muted-foreground flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-primary" />
             <span>
-              <strong>Kate</strong> will automatically coordinate between selected agents
+              <strong>Nicole</strong> will automatically coordinate between selected agents
               for optimal task distribution.
             </span>
           </p>
