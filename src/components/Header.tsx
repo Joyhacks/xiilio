@@ -19,6 +19,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useUserLinks } from "@/hooks/useUserLinks";
 import { AuthOverlay } from "@/components/auth/AuthOverlay";
 import { siWhatsapp } from "simple-icons";
+import xilioLogo from "@/assets/logo-xilio-new.png";
 
 interface HeaderProps {
   agentSlug?: string | null;
@@ -238,8 +239,8 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
                 >
                   <div className="flex flex-col h-full">
                     <div className="flex items-center justify-between p-4 border-b border-primary/10">
-                      <Link to="/" onClick={() => setIsOpen(false)} className="text-lg font-bold text-foreground">
-                        Xilio
+                      <Link to="/" onClick={() => setIsOpen(false)}>
+                        <img src={xilioLogo} alt="Xilio" className="h-10 w-auto" />
                       </Link>
                     </div>
 

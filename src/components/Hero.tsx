@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Sparkles, Zap, Play, Volume2, Square, ChevronDown, ChevronUp } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import logo from "@/assets/logo-xilio-hero-3d.png";
+import logo from "@/assets/logo-xilio-new.png";
 import { AuthOverlay } from "@/components/auth/AuthOverlay";
 import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
