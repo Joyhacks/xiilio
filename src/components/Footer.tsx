@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import logoTransparent from "@/assets/logo-24twelve-transparent.png";
-import heroLogo from "@/assets/logo-xilio-hero-3d.png";
+import heroLogo from "@/assets/logo-xilio-new.png";
 import { CookiePreferencesModal } from "@/components/CookiePreferencesModal";
 import { useUserLinks } from "@/hooks/useUserLinks";
 import {
