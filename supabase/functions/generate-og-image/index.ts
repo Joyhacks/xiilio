@@ -7,7 +7,7 @@ const corsHeaders = {
 
 const agentData: Record<string, { name: string; role: string; tagline: string; color: string }> = {
   julia: { name: "Julia", role: "Receptionist", tagline: "Your 24/7 virtual front desk", color: "#f97316" },
-  kate: { name: "Kate", role: "Executive Assistant", tagline: "Organize your business life", color: "#f59e0b" },
+  nicole: { name: "Nicole", role: "Executive Assistant", tagline: "Organize your business life", color: "#f59e0b" },
   halle: { name: "Halle", role: "Legal Advisor", tagline: "Legal guidance made simple", color: "#8b5cf6" },
   george: { name: "George", role: "Social Media Manager", tagline: "Grow your social presence", color: "#06b6d4" },
   arnie: { name: "Arnie", role: "Blog Writer", tagline: "Content that converts", color: "#10b981" },

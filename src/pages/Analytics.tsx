@@ -53,7 +53,7 @@ interface StatsCard {
 
 const AGENT_COLORS: Record<string, string> = {
   "julia": "hsl(350, 65%, 55%)",
-  "kate": "hsl(270, 60%, 60%)",
+  "nicole": "hsl(270, 60%, 60%)",
   "halle": "hsl(220, 70%, 55%)",
   "george": "hsl(200, 75%, 55%)",
   "arnie": "hsl(180, 60%, 50%)",
@@ -64,7 +64,7 @@ const AGENT_COLORS: Record<string, string> = {
 
 const AGENT_NAMES: Record<string, string> = {
   "julia": "Julia",
-  "kate": "Kate",
+  "nicole": "Nicole",
   "halle": "Halle",
   "george": "George",
   "arnie": "Arnie",
