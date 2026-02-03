@@ -183,6 +183,25 @@ export function Footer() {
                   </div>
                   <div className="flex items-center justify-center gap-12 mt-6">
                     <a
+                      href="https://www.apple.com/siri/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:opacity-80 transition-opacity hover:scale-105"
+                      aria-label="Try with Siri"
+                    >
+                      <div className="w-12 h-12 rounded-full flex items-center justify-center shadow-sm overflow-hidden" style={{ background: 'linear-gradient(135deg, #FF2D55 0%, #AF52DE 25%, #5856D6 50%, #007AFF 75%, #34C759 100%)' }}>
+                        <svg
+                          role="img"
+                          viewBox="0 0 24 24"
+                          className="w-7 h-7"
+                          fill="white"
+                          aria-label="Siri"
+                        >
+                          <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+                        </svg>
+                      </div>
+                    </a>
+                    <a
                       href="https://assistant.google.com/"
                       target="_blank"
                       rel="noopener noreferrer"
@@ -206,25 +225,6 @@ export function Footer() {
                             </linearGradient>
                           </defs>
                           <path fill="url(#assistant-gradient)" d={siGoogleassistant.path} />
-                        </svg>
-                      </div>
-                    </a>
-                    <a
-                      href="https://www.apple.com/siri/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="hover:opacity-80 transition-opacity hover:scale-105"
-                      aria-label="Try with Siri"
-                    >
-                      <div className="w-12 h-12 rounded-full flex items-center justify-center shadow-sm overflow-hidden" style={{ background: 'linear-gradient(135deg, #FF2D55 0%, #AF52DE 25%, #5856D6 50%, #007AFF 75%, #34C759 100%)' }}>
-                        <svg
-                          role="img"
-                          viewBox="0 0 24 24"
-                          className="w-7 h-7"
-                          fill="white"
-                          aria-label="Siri"
-                        >
-                          <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
                         </svg>
                       </div>
                     </a>
