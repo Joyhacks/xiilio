@@ -23,14 +23,14 @@ const Index = () => {
       <div className="min-h-screen bg-background">
       <Header />
       <Hero />
-      <SectionTransition from="#0f1a0a" to="hsl(var(--background))" />
+      <SectionTransition from="#0d1a0b" to="hsl(var(--background))" />
       <TeamAgentsSection />
       <HowItWorksSection />
       <FAQSection />
       <CTASection />
       <StreamingSection />
       <UserSocialSection />
-      <SectionTransition from="hsl(var(--background))" to="#0f1a0a" />
+      <SectionTransition from="hsl(var(--background))" to="#0d1a0b" />
       <Footer />
       <ScrollToTop />
       </div>
