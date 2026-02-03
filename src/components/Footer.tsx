@@ -115,7 +115,7 @@ export function Footer() {
 
   return (
     <>
-      <footer className="py-4 border-t border-primary/10 -mt-4" style={{ backgroundColor: '#0f1a0a' }}>
+      <footer className="py-4 border-t border-primary/10 -mt-4" style={{ backgroundColor: '#0d1a0b' }}>
         <div className="container mx-auto px-6">
           {/* Main Footer Content - All in one row on desktop */}
           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-4">
@@ -236,7 +236,7 @@ export function Footer() {
 
           {/* Centered Xiilio Logo - matching Hero style */}
           <div className="flex justify-center py-3">
-            <div className="relative inline-block overflow-hidden rounded-lg" style={{ backgroundColor: '#0f1a0a' }}>
+            <div className="relative inline-block overflow-hidden rounded-lg" style={{ backgroundColor: '#0d1a0b' }}>
               <img 
                 src={heroLogo} 
                 alt="Xiilio" 
@@ -245,7 +245,7 @@ export function Footer() {
               <div 
                 className="absolute inset-0 pointer-events-none"
                 style={{
-                  background: 'radial-gradient(ellipse 90% 85% at 50% 50%, transparent 0%, transparent 40%, #0f1a0a 75%, #0f1a0a 100%)'
+                  background: 'radial-gradient(ellipse 90% 85% at 50% 50%, transparent 0%, transparent 40%, #0d1a0b 75%, #0d1a0b 100%)'
                 }}
               />
             </div>

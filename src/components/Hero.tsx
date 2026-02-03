@@ -66,19 +66,19 @@ export function Hero() {
 
   return (
     <>
-      <section className="relative flex items-center justify-center overflow-hidden pt-16 md:pt-18 pb-4 md:pb-6" style={{ backgroundColor: '#0f1a0a' }}>
+      <section className="relative flex items-center justify-center overflow-hidden pt-16 md:pt-18 pb-4 md:pb-6" style={{ backgroundColor: '#0d1a0b' }}>
         {/* Solid background matching logo's exact corner color */}
         <div 
           className="absolute inset-0 pointer-events-none z-0"
-          style={{ backgroundColor: '#0f1a0a' }}
+          style={{ backgroundColor: '#0d1a0b' }}
         />
         {/* Circuit pattern background */}
         <div className="absolute inset-0 circuit-pattern opacity-15" />
         
         {/* Luxurious gradient orbs - matched to logo */}
-        <div className="absolute top-1/4 left-1/4 w-[250px] md:w-[500px] h-[250px] md:h-[500px] bg-[#0d1508]/30 rounded-full blur-[60px] md:blur-[100px] animate-pulse-glow" />
-        <div className="absolute bottom-1/4 right-1/4 w-[200px] md:w-[400px] h-[200px] md:h-[400px] bg-[#0b1206]/28 rounded-full blur-[50px] md:blur-[80px] animate-pulse-glow" style={{ animationDelay: '1s' }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-[#1a1805]/15 rounded-full blur-[80px] md:blur-[120px] animate-pulse-glow" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-1/4 left-1/4 w-[250px] md:w-[500px] h-[250px] md:h-[500px] bg-[#0a1407]/30 rounded-full blur-[60px] md:blur-[100px] animate-pulse-glow" />
+        <div className="absolute bottom-1/4 right-1/4 w-[200px] md:w-[400px] h-[200px] md:h-[400px] bg-[#081004]/28 rounded-full blur-[50px] md:blur-[80px] animate-pulse-glow" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-[#151505]/15 rounded-full blur-[80px] md:blur-[120px] animate-pulse-glow" style={{ animationDelay: '2s' }} />
         
         <div className="relative z-10 container mx-auto px-4 md:px-6 text-center">
           {/* Logo with edge-blending overlay */}
@@ -88,7 +88,7 @@ export function Hero() {
               <div className="w-40 h-40 md:w-72 md:h-72 lg:w-96 lg:h-96 bg-[#252008]/35 rounded-full blur-3xl md:blur-[80px] animate-pulse-glow" />
             </div>
             {/* Logo container with enlarged crop - no edge cutting */}
-            <div className="relative inline-block overflow-hidden rounded-xl z-20" style={{ backgroundColor: '#0f1a0a' }}>
+            <div className="relative inline-block overflow-hidden rounded-xl z-20" style={{ backgroundColor: '#0d1a0b' }}>
               <img 
                 src={logo} 
                 alt="Xiilio - Working 24twelve" 
@@ -99,7 +99,7 @@ export function Hero() {
               <div 
                 className="absolute inset-0 pointer-events-none"
                 style={{
-                  background: 'radial-gradient(ellipse 90% 85% at 50% 50%, transparent 0%, transparent 40%, #0f1a0a 75%, #0f1a0a 100%)'
+                  background: 'radial-gradient(ellipse 90% 85% at 50% 50%, transparent 0%, transparent 40%, #0d1a0b 75%, #0d1a0b 100%)'
                 }}
               />
             </div>
