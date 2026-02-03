@@ -6,7 +6,7 @@ import { Footer } from "@/components/Footer";
 import { SEO } from "@/components/SEO";
 import { AgentChat } from "@/components/AgentChat";
 import { ActivityHistory } from "@/components/ActivityHistory";
-import { ElevenLabsWidget } from "@/components/ElevenLabsWidget";
+import { VoiceChat } from "@/components/VoiceChat";
 import { VideoMeeting } from "@/components/VideoMeeting";
 import { QuickLinksSidebar } from "@/components/QuickLinksSidebar";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -755,7 +755,7 @@ export default function AgentDetail() {
 
               {/* Voice Interface */}
               <div className="lg:col-span-2">
-                <ElevenLabsWidget
+                <VoiceChat
                   agentName={agent.name}
                   agentAvatar={agent.avatar}
                   agentColor={agent.color}
