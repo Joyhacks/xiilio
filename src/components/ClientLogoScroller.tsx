@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import doordashLogo from "@/assets/clients/doordash.svg";
 import targetLogo from "@/assets/clients/target.svg";
 import fatsalsLogo from "@/assets/clients/fatsals.png";
-import signapayLogo from "@/assets/clients/signapay.png";
+import dominosLogo from "@/assets/clients/dominos.svg";
 import disneyworldLogo from "@/assets/clients/disneyworld.webp";
 import hiltonLogo from "@/assets/clients/hilton.png";
 import americanairlinesLogo from "@/assets/clients/americanairlines.png";
@@ -14,7 +14,7 @@ const clientLogos = [
   { name: "DoorDash", logo: doordashLogo },
   { name: "Target", logo: targetLogo },
   { name: "Fat Sal's", logo: fatsalsLogo },
-  { name: "SignaPay", logo: signapayLogo },
+  { name: "Domino's Pizza", logo: dominosLogo },
   { name: "Disney World", logo: disneyworldLogo },
   { name: "Hilton Hotels", logo: hiltonLogo },
   { name: "American Airlines", logo: americanairlinesLogo },
