@@ -1,5 +1,6 @@
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
+import { SectionTransition } from "@/components/SectionTransition";
 import { TeamAgentsSection } from "@/components/TeamAgentsSection";
 import { HowItWorksSection } from "@/components/HowItWorksSection";
 import { FAQSection } from "@/components/FAQSection";
@@ -22,12 +23,14 @@ const Index = () => {
       <div className="min-h-screen bg-background">
       <Header />
       <Hero />
+      <SectionTransition from="#0f1a0a" to="hsl(var(--background))" />
       <TeamAgentsSection />
       <HowItWorksSection />
       <FAQSection />
       <CTASection />
       <StreamingSection />
       <UserSocialSection />
+      <SectionTransition from="hsl(var(--background))" to="#0f1a0a" />
       <Footer />
       <ScrollToTop />
       </div>
