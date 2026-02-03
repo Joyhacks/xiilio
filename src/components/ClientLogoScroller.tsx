@@ -8,17 +8,27 @@ import dominosLogo from "@/assets/clients/dominos.svg";
 import disneyworldLogo from "@/assets/clients/disneyworld.webp";
 import hiltonLogo from "@/assets/clients/hilton.png";
 import americanairlinesLogo from "@/assets/clients/americanairlines.png";
-import spotifyLogo from "@/assets/clients/spotify.png";
+import amazonLogo from "@/assets/clients/amazon.svg";
+import netflixLogo from "@/assets/clients/netflix.svg";
+import nikeLogo from "@/assets/clients/nike.svg";
+import mcdonaldsLogo from "@/assets/clients/mcdonalds.svg";
+import starbucksLogo from "@/assets/clients/starbucks.svg";
+import ibmLogo from "@/assets/clients/ibm.svg";
 
 const clientLogos = [
   { name: "DoorDash", logo: doordashLogo },
   { name: "Target", logo: targetLogo },
+  { name: "Amazon", logo: amazonLogo },
+  { name: "Netflix", logo: netflixLogo },
   { name: "Uber", logo: uberLogo },
+  { name: "Nike", logo: nikeLogo },
   { name: "Domino's Pizza", logo: dominosLogo },
+  { name: "McDonald's", logo: mcdonaldsLogo },
   { name: "Disney World", logo: disneyworldLogo },
+  { name: "Starbucks", logo: starbucksLogo },
   { name: "Hilton Hotels", logo: hiltonLogo },
+  { name: "IBM", logo: ibmLogo },
   { name: "American Airlines", logo: americanairlinesLogo },
-  { name: "Spotify", logo: spotifyLogo },
 ];
 
 interface ClientLogoScrollerProps {
