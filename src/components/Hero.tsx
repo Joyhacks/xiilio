@@ -91,8 +91,8 @@ export function Hero() {
             <div className="relative inline-block">
               <img 
                 src={logo} 
-                alt="Xilio - Working 24twelve" 
-                className="relative h-[18.2rem] md:h-[25.6rem] lg:h-[29.3rem] w-auto mx-auto"
+                alt="Xiilio - Working 24twelve" 
+                className="relative h-[20.9rem] md:h-[29.4rem] lg:h-[33.7rem] w-auto mx-auto"
                 loading="eager"
               />
               {/* Edge-blending gradient overlay */}

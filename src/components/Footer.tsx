@@ -238,8 +238,8 @@ export function Footer() {
           <div className="flex justify-center py-3">
             <img 
               src={heroLogo} 
-              alt="Xilio" 
-              className="h-[6rem] w-auto opacity-80" 
+              alt="Xiilio" 
+              className="h-[6.9rem] w-auto opacity-80" 
             />
           </div>
 
