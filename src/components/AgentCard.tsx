@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { ClientLogoScroller } from "@/components/ClientLogoScroller";
 
 interface AgentCardProps {
   name: string;
@@ -134,28 +134,13 @@ export function AgentCard({
     >
       {/* Header */}
       <div className="flex items-start justify-between mb-4">
-        {avatar ? (
-          <Avatar className={cn(
-            "w-12 h-12 md:w-16 md:h-16 ring-2 transition-transform duration-300 group-hover:scale-110",
+        <ClientLogoScroller 
+          size="md" 
+          className={cn(
+            "ring-2 transition-transform duration-300 group-hover:scale-105",
             colors.border.replace("border-", "ring-")
-          )}>
-            <AvatarImage src={avatar} alt={name} className="object-cover" />
-            <AvatarFallback className={cn(colors.bg, colors.text)}>
-              {name.split(" ").map(n => n[0]).join("")}
-            </AvatarFallback>
-          </Avatar>
-        ) : Icon ? (
-          <div
-            className={cn(
-              "w-14 h-14 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110",
-              colors.bg,
-              colors.border,
-              "border"
-            )}
-          >
-            <Icon className={cn("w-7 h-7", colors.text)} />
-          </div>
-        ) : null}
+          )} 
+        />
         <Badge variant="outline" className={cn("text-xs", statusStyles[status])}>
           {status === "active" && "● "}
           {status.charAt(0).toUpperCase() + status.slice(1)}
