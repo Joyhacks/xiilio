@@ -8,7 +8,7 @@ const corsHeaders = {
 // Public ElevenLabs Agent IDs for each agent type
 const AGENT_IDS: Record<string, string> = {
   receptionist: "agent_1201kfbaa8ygf1b93g0p4290nx67", // Julia
-  assistant: "agent_7301kfb9x9h7e4p9ptaxvrn3mv57",    // Nicole
+  assistant: "agent_8801kgjq8rrde4mavz5189ac0bbt",    // Nicole (Liberty X voice)
   legal: "agent_7201kfbc66gef8srn8dx0kzd7rgs",        // Halle
   social: "agent_2101kfbaxvp2f8atvytzszwqe7br",       // George
   writer: "agent_2301kfbbajyrffrbzq7k3n9qm6ff",       // Arnie
