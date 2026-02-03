@@ -87,19 +87,19 @@ export function Hero() {
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <div className="w-40 h-40 md:w-72 md:h-72 lg:w-96 lg:h-96 bg-[#252008]/35 rounded-full blur-3xl md:blur-[80px] animate-pulse-glow" />
             </div>
-            {/* Logo container with edge masking and overflow crop */}
-            <div className="relative inline-block overflow-hidden rounded-lg" style={{ backgroundColor: '#161e0c' }}>
+            {/* Logo container with tight crop and background fill */}
+            <div className="relative inline-block overflow-hidden rounded-xl" style={{ backgroundColor: '#161e0c' }}>
               <img 
                 src={logo} 
                 alt="Xiilio - Working 24twelve" 
-                className="relative h-[18rem] md:h-[26rem] lg:h-[30rem] w-auto mx-auto -rotate-[7deg] scale-125"
+                className="relative h-[16rem] md:h-[24rem] lg:h-[28rem] w-auto mx-auto -rotate-[7deg] scale-[1.4]"
                 loading="eager"
               />
-              {/* Edge-blending gradient overlay - full coverage */}
+              {/* Edge-blending gradient overlay - tighter blend */}
               <div 
                 className="absolute inset-0 pointer-events-none"
                 style={{
-                  background: 'radial-gradient(ellipse 75% 70% at 50% 50%, transparent 0%, transparent 25%, #161e0c 60%, #161e0c 100%)'
+                  background: 'radial-gradient(ellipse 80% 75% at 50% 50%, transparent 0%, transparent 20%, #161e0c 55%, #161e0c 100%)'
                 }}
               />
             </div>
