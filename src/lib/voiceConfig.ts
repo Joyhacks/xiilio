@@ -19,8 +19,8 @@ export const AGENT_VOICE_CONFIG: Record<string, AgentVoiceConfig> = {
     settings: { stability: 0.5, similarityBoost: 0.75, style: 0.3 },
   },
   assistant: {
-    voiceId: "pFZP5JQG7iQjIQuC4Bku", // Lily - warm, expressive American/British accent
-    voiceName: "Lily",
+    voiceId: "iBo5PWT1qLiEyqhM7TrG", // Liberty X
+    voiceName: "Liberty X",
     settings: { stability: 0.45, similarityBoost: 0.8, style: 0.4 },
   },
   legal: {

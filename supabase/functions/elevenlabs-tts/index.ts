@@ -8,7 +8,7 @@ const corsHeaders = {
 // Default voice IDs for different agent types
 const VOICE_MAP: Record<string, string> = {
   receptionist: "EXAVITQu4vr4xnSDxMaL", // Sarah - warm and welcoming
-  assistant: "XrExE9yKIg1WjnnlVkGX", // Matilda - professional
+  assistant: "iBo5PWT1qLiEyqhM7TrG", // Liberty X
   legal: "onwK4e9ZLuTAKqWW03F9", // Daniel - authoritative
   social: "cjVigY5qzO86Huf0OWal", // Eric - energetic
   writer: "JBFqnCBsd6RMkjVDRZzb", // George - creative

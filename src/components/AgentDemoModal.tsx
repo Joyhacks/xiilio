@@ -280,7 +280,7 @@ const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 // Agent voice mapping
 const agentVoiceMap: Record<string, string> = {
   julia: "EXAVITQu4vr4xnSDxMaL", // Sarah
-  nicole: "FGY2WhTYpPnrIDTdsKH5", // Laura
+  nicole: "iBo5PWT1qLiEyqhM7TrG", // Liberty X
   halle: "pFZP5JQG7iQjIQuC4Bku", // Lily
   george: "JBFqnCBsd6RMkjVDRZzb", // George
   arnie: "nPczCjzI2devNBz1zQrb", // Brian
