@@ -1,5 +1,6 @@
 import { AgentCard } from "@/components/AgentCard";
 import { ClientLogoScroller } from "@/components/ClientLogoScroller";
+import { NavMenu } from "@/components/NavMenu";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { cn } from "@/lib/utils";
 
@@ -131,11 +132,16 @@ export function TeamAgentsSection() {
         </div>
 
         {/* Trusted by - Full width logo scroller */}
-        <div className="mb-8 md:mb-10">
+        <div className="mb-4 md:mb-6">
           <p className="text-center text-xs md:text-sm text-muted-foreground uppercase tracking-widest mb-2">
             Trusted by Industry Leaders
           </p>
           <ClientLogoScroller size="lg" fullWidth />
+        </div>
+
+        {/* Navigation Menu */}
+        <div className="mb-6 md:mb-8">
+          <NavMenu />
         </div>
 
         {/* Agents grid */}
