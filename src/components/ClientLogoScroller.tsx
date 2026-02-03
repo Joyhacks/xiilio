@@ -39,10 +39,10 @@ export function ClientLogoScroller({ className, size = "md", fullWidth = false }
 
   if (fullWidth) {
     return (
-      <div className={cn("relative w-full overflow-hidden py-6", className)}>
+      <div className={cn("relative w-full overflow-hidden py-6 glass-card rounded-xl", className)}>
         {/* Gradient overlays for fade effect */}
-        <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+        <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-card/90 to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-card/90 to-transparent z-10 pointer-events-none" />
         
         {/* Scrolling container */}
         <div className="flex items-center gap-8 md:gap-12 animate-scroll-logos">
@@ -58,7 +58,7 @@ export function ClientLogoScroller({ className, size = "md", fullWidth = false }
               <img
                 src={client.logo}
                 alt={client.name}
-                className="w-full h-full object-contain filter brightness-0 invert opacity-60 hover:opacity-100 transition-opacity duration-300"
+                className="w-full h-full object-contain opacity-80 hover:opacity-100 transition-opacity duration-300"
               />
             </div>
           ))}
@@ -68,10 +68,10 @@ export function ClientLogoScroller({ className, size = "md", fullWidth = false }
   }
 
   return (
-    <div className={cn("relative overflow-hidden rounded-xl h-14 w-full", className)}>
+    <div className={cn("relative overflow-hidden rounded-xl h-14 w-full glass-card", className)}>
       {/* Gradient overlays for fade effect */}
-      <div className="absolute left-0 top-0 bottom-0 w-6 bg-gradient-to-r from-background/80 to-transparent z-10 pointer-events-none" />
-      <div className="absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-background/80 to-transparent z-10 pointer-events-none" />
+      <div className="absolute left-0 top-0 bottom-0 w-6 bg-gradient-to-r from-card/80 to-transparent z-10 pointer-events-none" />
+      <div className="absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-card/80 to-transparent z-10 pointer-events-none" />
       
       {/* Scrolling container */}
       <div className="flex items-center gap-6 animate-scroll-logos h-full">
@@ -87,7 +87,7 @@ export function ClientLogoScroller({ className, size = "md", fullWidth = false }
             <img
               src={client.logo}
               alt={client.name}
-              className="w-full h-full object-contain filter brightness-0 invert opacity-70 hover:opacity-100 transition-opacity"
+              className="w-full h-full object-contain opacity-80 hover:opacity-100 transition-opacity"
             />
           </div>
         ))}
