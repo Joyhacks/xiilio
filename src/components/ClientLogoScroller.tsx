@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 // Client logo imports
 import doordashLogo from "@/assets/clients/doordash.svg";
 import targetLogo from "@/assets/clients/target.svg";
-import fatsalsLogo from "@/assets/clients/fatsals.png";
+import uberLogo from "@/assets/clients/uber.png";
 import dominosLogo from "@/assets/clients/dominos.svg";
 import disneyworldLogo from "@/assets/clients/disneyworld.webp";
 import hiltonLogo from "@/assets/clients/hilton.png";
@@ -13,7 +13,7 @@ import spotifyLogo from "@/assets/clients/spotify.png";
 const clientLogos = [
   { name: "DoorDash", logo: doordashLogo },
   { name: "Target", logo: targetLogo },
-  { name: "Fat Sal's", logo: fatsalsLogo },
+  { name: "Uber", logo: uberLogo },
   { name: "Domino's Pizza", logo: dominosLogo },
   { name: "Disney World", logo: disneyworldLogo },
   { name: "Hilton Hotels", logo: hiltonLogo },
