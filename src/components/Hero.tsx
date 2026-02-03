@@ -92,14 +92,14 @@ export function Hero() {
               <img 
                 src={logo} 
                 alt="Xiilio - Working 24twelve" 
-                className="relative h-[20.9rem] md:h-[29.4rem] lg:h-[33.7rem] w-auto mx-auto -rotate-3"
+                className="relative h-[20.9rem] md:h-[29.4rem] lg:h-[33.7rem] w-auto mx-auto -rotate-6"
                 loading="eager"
               />
-              {/* Edge-blending gradient overlay */}
+              {/* Edge-blending gradient overlay - expanded coverage */}
               <div 
                 className="absolute inset-0 pointer-events-none"
                 style={{
-                  background: 'radial-gradient(ellipse 60% 55% at 50% 48%, transparent 0%, transparent 35%, #161e0c 70%, #161e0c 100%)'
+                  background: 'radial-gradient(ellipse 70% 65% at 50% 48%, transparent 0%, transparent 30%, #161e0c 65%, #161e0c 100%)'
                 }}
               />
             </div>
