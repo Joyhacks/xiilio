@@ -5,55 +5,89 @@ import doordashLogo from "@/assets/clients/doordash.svg";
 import targetLogo from "@/assets/clients/target.svg";
 import fatsalsLogo from "@/assets/clients/fatsals.png";
 import signapayLogo from "@/assets/clients/signapay.png";
+import disneyworldLogo from "@/assets/clients/disneyworld.svg";
+import hiltonLogo from "@/assets/clients/hilton.png";
+import americanairlinesLogo from "@/assets/clients/americanairlines.png";
+import spotifyLogo from "@/assets/clients/spotify.png";
 
 const clientLogos = [
   { name: "DoorDash", logo: doordashLogo },
   { name: "Target", logo: targetLogo },
   { name: "Fat Sal's", logo: fatsalsLogo },
   { name: "SignaPay", logo: signapayLogo },
+  { name: "Disney World", logo: disneyworldLogo },
+  { name: "Hilton Hotels", logo: hiltonLogo },
+  { name: "American Airlines", logo: americanairlinesLogo },
+  { name: "Spotify", logo: spotifyLogo },
 ];
 
 interface ClientLogoScrollerProps {
   className?: string;
   size?: "sm" | "md" | "lg";
+  fullWidth?: boolean;
 }
 
-export function ClientLogoScroller({ className, size = "md" }: ClientLogoScrollerProps) {
-  const sizeClasses = {
-    sm: "h-8 w-8",
-    md: "h-12 w-12 md:h-14 md:w-14",
-    lg: "h-16 w-16 md:h-20 md:w-20",
-  };
-
-  const containerSizeClasses = {
-    sm: "h-10 w-24",
-    md: "h-14 w-32 md:h-16 md:w-40",
-    lg: "h-20 w-40 md:h-24 md:w-48",
+export function ClientLogoScroller({ className, size = "md", fullWidth = false }: ClientLogoScrollerProps) {
+  const logoSizeClasses = {
+    sm: "h-6 w-16",
+    md: "h-8 w-20 md:h-10 md:w-24",
+    lg: "h-10 w-24 md:h-12 md:w-32",
   };
 
   // Double the logos for seamless infinite scroll
   const scrollingLogos = [...clientLogos, ...clientLogos];
 
+  if (fullWidth) {
+    return (
+      <div className={cn("relative w-full overflow-hidden py-6", className)}>
+        {/* Gradient overlays for fade effect */}
+        <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+        
+        {/* Scrolling container */}
+        <div className="flex items-center gap-8 md:gap-12 animate-scroll-logos">
+          {scrollingLogos.map((client, index) => (
+            <div
+              key={`${client.name}-${index}`}
+              className={cn(
+                "flex-shrink-0 flex items-center justify-center",
+                logoSizeClasses[size]
+              )}
+              title={client.name}
+            >
+              <img
+                src={client.logo}
+                alt={client.name}
+                className="w-full h-full object-contain filter brightness-0 invert opacity-60 hover:opacity-100 transition-opacity duration-300"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className={cn("relative overflow-hidden rounded-xl", containerSizeClasses[size], className)}>
+    <div className={cn("relative overflow-hidden rounded-xl h-14 w-full", className)}>
       {/* Gradient overlays for fade effect */}
-      <div className="absolute left-0 top-0 bottom-0 w-4 bg-gradient-to-r from-background/80 to-transparent z-10 pointer-events-none" />
-      <div className="absolute right-0 top-0 bottom-0 w-4 bg-gradient-to-l from-background/80 to-transparent z-10 pointer-events-none" />
+      <div className="absolute left-0 top-0 bottom-0 w-6 bg-gradient-to-r from-background/80 to-transparent z-10 pointer-events-none" />
+      <div className="absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-background/80 to-transparent z-10 pointer-events-none" />
       
       {/* Scrolling container */}
-      <div className="flex items-center gap-4 md:gap-6 animate-scroll-logos">
+      <div className="flex items-center gap-6 animate-scroll-logos h-full">
         {scrollingLogos.map((client, index) => (
           <div
             key={`${client.name}-${index}`}
             className={cn(
               "flex-shrink-0 flex items-center justify-center",
-              sizeClasses[size]
+              logoSizeClasses[size]
             )}
+            title={client.name}
           >
             <img
               src={client.logo}
               alt={client.name}
-              className="w-full h-full object-contain filter brightness-0 invert opacity-80 hover:opacity-100 transition-opacity"
+              className="w-full h-full object-contain filter brightness-0 invert opacity-70 hover:opacity-100 transition-opacity"
             />
           </div>
         ))}

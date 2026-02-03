@@ -1,4 +1,5 @@
 import { AgentCard } from "@/components/AgentCard";
+import { ClientLogoScroller } from "@/components/ClientLogoScroller";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { cn } from "@/lib/utils";
 
@@ -127,6 +128,14 @@ export function TeamAgentsSection() {
             Eight celebrity-caliber AI agents ready to handle every aspect of
             your business with star-powered efficiency.
           </p>
+        </div>
+
+        {/* Trusted by - Full width logo scroller */}
+        <div className="mb-8 md:mb-10">
+          <p className="text-center text-xs md:text-sm text-muted-foreground uppercase tracking-widest mb-2">
+            Trusted by Industry Leaders
+          </p>
+          <ClientLogoScroller size="lg" fullWidth />
         </div>
 
         {/* Agents grid */}
