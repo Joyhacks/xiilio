@@ -5,7 +5,7 @@ import doordashLogo from "@/assets/clients/doordash.svg";
 import targetLogo from "@/assets/clients/target.svg";
 import fatsalsLogo from "@/assets/clients/fatsals.png";
 import signapayLogo from "@/assets/clients/signapay.png";
-import disneyworldLogo from "@/assets/clients/disneyworld.png";
+import disneyworldLogo from "@/assets/clients/disneyworld.webp";
 import hiltonLogo from "@/assets/clients/hilton.png";
 import americanairlinesLogo from "@/assets/clients/americanairlines.png";
 import spotifyLogo from "@/assets/clients/spotify.png";
