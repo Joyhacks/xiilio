@@ -234,13 +234,21 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Centered Xilio Logo */}
+          {/* Centered Xiilio Logo - matching Hero style */}
           <div className="flex justify-center py-3">
-            <img 
-              src={heroLogo} 
-              alt="Xiilio" 
-              className="h-[6.9rem] w-auto opacity-80" 
-            />
+            <div className="relative inline-block overflow-hidden rounded-lg" style={{ backgroundColor: '#121809' }}>
+              <img 
+                src={heroLogo} 
+                alt="Xiilio" 
+                className="h-[7rem] w-auto opacity-90 -rotate-[7deg] scale-110" 
+              />
+              <div 
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background: 'radial-gradient(ellipse 90% 85% at 50% 50%, transparent 0%, transparent 40%, #121809 75%, #121809 100%)'
+                }}
+              />
+            </div>
           </div>
 
           {/* Social Media - Compact icons only */}
