@@ -11,10 +11,10 @@ const AGENT_IDS: Record<string, string> = {
   assistant: "agent_1501kgmgkzepemjazvvn9rcbtcqr",    // Nicole
   legal: "agent_7201kfbc66gef8srn8dx0kzd7rgs",        // Halle
   social: "agent_2101kfbaxvp2f8atvytzszwqe7br",       // George
-  writer: "agent_2301kfbbajyrffrbzq7k3n9qm6ff",       // Arnie
-  sales: "agent_4001kfbd4szefvvbfgh30wvpzbbr",        // Brad
+  writer: "agent_3401kgmk7n1eefhr4qnqkjpn40a7",       // Arnie
+  sales: "agent_6101kgmkv8nsej4rf56b7ew9sc5s",        // Brad
   coach: "agent_2701kfbvg113fhgaw1k0mjavt6h8",        // Sam
-  finance: "agent_5501kfbw5b2wfgtstg4wdaxxqxw2",      // Jerry
+  finance: "agent_8601kgmjd54nf3894wgrafx2fgsb",      // Jerry
 };
 
 // Friendly agent display names (used for fallback discovery)
