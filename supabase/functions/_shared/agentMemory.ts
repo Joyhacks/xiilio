@@ -325,7 +325,7 @@ export async function getLearnedFacts(
   }
 }
 
-// Run fact extraction asynchronously (fire and forget)
+// Run fact extraction asynchronously with priority on identity
 export function runFactExtractionAsync(
   latestUserMessage: string,
   userId: string,
@@ -339,8 +339,13 @@ export function runFactExtractionAsync(
   extractFactsFromMessage(latestUserMessage, lovableApiKey)
     .then(facts => {
       if (facts.length > 0) {
-        console.log(`[${agentSlug}] Extracted ${facts.length} facts`);
-        storeFacts(facts, userId, agentSlug, supabaseUrl, serviceKey);
+        // Prioritize identity facts
+        const identityFacts = facts.filter(f => f.fact_type === 'identity');
+        const otherFacts = facts.filter(f => f.fact_type !== 'identity');
+        console.log(`[${agentSlug}] Extracted ${facts.length} facts (${identityFacts.length} identity)`);
+        
+        // Store identity facts first
+        storeFacts([...identityFacts, ...otherFacts], userId, agentSlug, supabaseUrl, serviceKey);
       }
     })
     .catch(err => console.error(`[${agentSlug}] Fact extraction failed:`, err));
