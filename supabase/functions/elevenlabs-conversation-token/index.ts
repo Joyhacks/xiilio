@@ -15,6 +15,7 @@ const AGENT_IDS: Record<string, string> = {
   sales: "agent_6101kgmkv8nsej4rf56b7ew9sc5s",        // Brad
   coach: "agent_5001kgpxv6ktebjszy92339rnc4k",        // Sam
   finance: "agent_8601kgmjd54nf3894wgrafx2fgsb",      // Jerry
+  teamoverview: "agent_2501kgq22y5rfkfvd8ehnzzdq15t", // Team Overview
 };
 
 // Friendly agent display names (used for fallback discovery)
@@ -27,6 +28,7 @@ const AGENT_TYPE_TO_NAME: Record<string, string> = {
   sales: "Brad",
   coach: "Sam",
   finance: "Jerry",
+  teamoverview: "Team Overview",
 };
 
 type ElevenLabsAgentListItem = {
