@@ -57,9 +57,9 @@ export function Hero() {
       setVoiceState("idle");
       toast.error("Voice connection failed. Please try again.");
     },
-    onMessage: (message) => {
+    onMessage: (message: any) => {
       // Track when agent has delivered its message
-      if (message.type === "agent_response" || message.type === "audio") {
+      if (message?.type === "agent_response" || message?.type === "audio") {
         setHasSpoken(true);
       }
     },
