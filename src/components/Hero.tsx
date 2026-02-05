@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Sparkles, Zap, Play, Volume2, Square, ChevronDown, ChevronUp, Loader2 } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -39,21 +39,43 @@ export function Hero() {
   const [voiceState, setVoiceState] = useState<"idle" | "connecting" | "speaking">("idle");
   const [isOpen, setIsOpen] = useState(true);
 
+  const [hasSpoken, setHasSpoken] = useState(false);
+
   const conversation = useConversation({
     onConnect: () => {
       console.log("Team Overview voice connected");
       setVoiceState("speaking");
+      setHasSpoken(false);
     },
     onDisconnect: () => {
       console.log("Team Overview voice disconnected");
       setVoiceState("idle");
+      setHasSpoken(false);
     },
     onError: (error) => {
       console.error("Team Overview voice error:", error);
       setVoiceState("idle");
       toast.error("Voice connection failed. Please try again.");
     },
+    onMessage: (message: any) => {
+      // Track when agent has delivered its message
+      if (message?.type === "agent_response" || message?.type === "audio") {
+        setHasSpoken(true);
+      }
+    },
   });
+
+  // Auto-disconnect after agent finishes speaking
+  useEffect(() => {
+    if (hasSpoken && !conversation.isSpeaking && voiceState === "speaking") {
+      // Small delay to ensure audio completes
+      const timeout = setTimeout(() => {
+        console.log("Team Overview complete - auto-disconnecting");
+        conversation.endSession();
+      }, 500);
+      return () => clearTimeout(timeout);
+    }
+  }, [hasSpoken, conversation.isSpeaking, voiceState, conversation]);
 
   const handleGetStarted = () => {
     if (isAuthenticated) {
