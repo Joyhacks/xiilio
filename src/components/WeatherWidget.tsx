@@ -11,8 +11,8 @@ interface WeatherWidgetProps {
   compact?: boolean;
 }
 
-const getWeatherIcon = (condition: string) => {
-  const iconClass = "w-4 h-4";
+const getWeatherIcon = (condition: string, compact: boolean = false) => {
+  const iconClass = compact ? "w-5 h-5" : "w-5 h-5";
   switch (condition.toLowerCase()) {
     case "clear":
     case "sunny":
