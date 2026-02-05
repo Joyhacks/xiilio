@@ -78,10 +78,9 @@ function CookieCategory({
   );
 }
 
-export function CookiePreferencesModal({
-  open,
-  onOpenChange,
-}: CookiePreferencesModalProps) {
+// Use forwardRef to fix React warnings when used inside Dialog
+export const CookiePreferencesModal = forwardRef<HTMLDivElement, CookiePreferencesModalProps>(
+  function CookiePreferencesModal({ open, onOpenChange }, ref) {
   const {
     preferences,
     hasConsented,
