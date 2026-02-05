@@ -230,13 +230,13 @@ export const CookiePreferencesModal = forwardRef<HTMLDivElement, CookiePreferenc
             </Button>
           )}
 
-          <p className="text-xs text-center text-muted-foreground pt-2">
-            Learn more about our cookie usage in our{" "}
-            <a href="/privacy" className="text-primary hover:underline">
-              Privacy Policy
-            </a>
-            .
-          </p>
+            <p className="text-xs text-center text-muted-foreground pt-2">
+              Learn more about our cookie usage in our{" "}
+              <a href="/privacy" className="text-primary hover:underline">
+                Privacy Policy
+              </a>
+              .
+            </p>
         </div>
       </DialogContent>
     </Dialog>
