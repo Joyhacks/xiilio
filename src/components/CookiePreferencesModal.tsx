@@ -241,4 +241,5 @@ export const CookiePreferencesModal = forwardRef<HTMLDivElement, CookiePreferenc
       </DialogContent>
     </Dialog>
   );
-}
+});
+CookiePreferencesModal.displayName = "CookiePreferencesModal";
