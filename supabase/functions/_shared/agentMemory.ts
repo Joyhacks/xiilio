@@ -433,7 +433,7 @@ export async function isOwner(
   }
 }
 
-// Create a personalized system prompt with learned facts
+// Create a personalized system prompt with learned facts and user greeting
 export async function createPersonalizedPrompt(
   basePrompt: string,
   userId: string | null,
@@ -446,12 +446,20 @@ export async function createPersonalizedPrompt(
 
   let prompt = basePrompt;
   
+  // Get the user's name first for personalized greeting
+  const userName = await getUserName(userId, supabaseUrl, serviceKey);
+  if (userName) {
+    prompt += `\n\n### IMPORTANT - User Identity:\nYou are speaking with **${userName}**. Address them by name naturally in your responses. Make them feel recognized and valued.\n`;
+    console.log(`[Memory] Personalized prompt for user: ${userName}`);
+  }
+  
   // Check if this is the owner and inject special context
   const ownerCheck = await isOwner(userId, supabaseUrl, serviceKey);
   if (ownerCheck) {
     prompt += OWNER_CONTEXT;
   }
 
+  // Add all learned facts
   const learnedFacts = await getLearnedFacts(userId, supabaseUrl, serviceKey);
   return prompt + learnedFacts;
 }
