@@ -154,26 +154,20 @@ export function WeatherWidget({ compact = false }: WeatherWidgetProps) {
 
   if (compact) {
     return (
-      <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20">
+      <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-primary/10 border border-primary/20">
         {getWeatherIcon(weather.condition, true)}
         <span className="text-sm font-mono font-semibold text-foreground tabular-nums">
-          {weather.temperature}°C
-        </span>
-        <span className="text-xs text-muted-foreground truncate max-w-[60px]">
-          {weather.location}
+          {weather.temperature}°
         </span>
       </div>
     );
   }
 
   return (
-    <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-primary/10 border border-primary/20">
+    <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20">
       {getWeatherIcon(weather.condition)}
-      <span className="text-lg font-mono font-semibold text-foreground tabular-nums">
+      <span className="text-base font-mono font-semibold text-foreground tabular-nums">
         {weather.temperature}°C
-      </span>
-      <span className="text-sm text-muted-foreground font-medium truncate max-w-[80px]">
-        {weather.location}
       </span>
     </div>
   );
