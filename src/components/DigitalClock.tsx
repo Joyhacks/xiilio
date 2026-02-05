@@ -24,6 +24,14 @@ export function DigitalClock({ compact = false }: DigitalClockProps) {
     });
   };
 
+  const formatDate = (date: Date) => {
+    return date.toLocaleDateString([], {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+    });
+  };
+
   const getTimezone = () => {
     const shortTz = new Date().toLocaleTimeString("en-US", { timeZoneName: "short" }).split(" ").pop();
     return shortTz || "Local";
@@ -32,9 +40,12 @@ export function DigitalClock({ compact = false }: DigitalClockProps) {
   if (compact) {
     return (
       <WorldClock>
-        <button className="flex items-center gap-1 px-2 py-1 rounded-md bg-primary/10 border border-primary/20 hover:bg-primary/20 transition-colors cursor-pointer">
+        <button className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 hover:bg-primary/20 transition-colors cursor-pointer">
           <span className="text-sm font-mono font-semibold text-foreground tabular-nums">
             {formatTime(time)}
+          </span>
+          <span className="text-xs text-muted-foreground">
+            {formatDate(time)}
           </span>
         </button>
       </WorldClock>
@@ -43,11 +54,14 @@ export function DigitalClock({ compact = false }: DigitalClockProps) {
 
   return (
     <WorldClock>
-      <button className="flex items-center gap-2 px-4 py-2 rounded-md bg-primary/10 border border-primary/20 hover:bg-primary/20 transition-colors cursor-pointer">
+      <button className="flex items-center gap-3 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 hover:bg-primary/20 transition-colors cursor-pointer">
         <span className="text-lg font-mono font-semibold text-foreground tabular-nums">
           {formatTime(time)}
         </span>
-        <span className="text-base text-muted-foreground font-medium">
+        <span className="text-sm text-muted-foreground font-medium">
+          {formatDate(time)}
+        </span>
+        <span className="text-sm text-muted-foreground/70">
           {getTimezone()}
         </span>
       </button>
