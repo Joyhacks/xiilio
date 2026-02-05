@@ -159,12 +159,13 @@ export async function getUserIdFromRequest(
   }
 }
 
-// Extract facts from a user message using AI
+// Extract facts from a user message using AI with enhanced identity detection
 export async function extractFactsFromMessage(
   userMessage: string,
   lovableApiKey: string
 ): Promise<ExtractedFact[]> {
-  if (!userMessage || userMessage.length < 30) {
+  // Lower threshold for identity extraction
+  if (!userMessage || userMessage.length < 10) {
     return [];
   }
 
@@ -178,11 +179,11 @@ export async function extractFactsFromMessage(
       body: JSON.stringify({
         model: "google/gemini-2.5-flash-lite",
         messages: [
-          { role: "system", content: "Return only valid JSON arrays, no markdown." },
+          { role: "system", content: "Return only valid JSON arrays, no markdown. Focus especially on extracting the user's name if mentioned." },
           { role: "user", content: `${FACT_EXTRACTION_PROMPT}\n\nMessage: "${userMessage}"` },
         ],
         temperature: 0.1,
-        max_tokens: 300,
+        max_tokens: 400,
       }),
     });
 
