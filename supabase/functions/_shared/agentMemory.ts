@@ -64,13 +64,81 @@ interface ExtractedFact {
   fact_type: string;
   fact_key: string;
   fact_value: string;
+  confidence?: number;
 }
 
+// Enhanced fact extraction prompt with emphasis on user identity
 const FACT_EXTRACTION_PROMPT = `Analyze the user's latest message and extract any key facts about them.
-Focus on: names of people (colleagues, clients, boss), companies, projects, preferences, goals, workflows.
-Return a JSON array of facts. Each fact: {"fact_type": "category", "fact_key": "label", "fact_value": "value"}
-Categories: identity, colleague, client, company, project, preference, workflow, goal
-Only extract EXPLICIT facts. If none found, return [].`;
+
+PRIORITY EXTRACTIONS (always look for these first):
+1. USER'S NAME - If they mention "I'm [name]", "My name is [name]", "This is [name]", or sign off with a name, extract it!
+2. EMAIL addresses mentioned
+3. Company/organization names
+4. Job titles or roles
+
+Also extract: names of colleagues/clients, projects, preferences, goals, workflows.
+
+Return a JSON array of facts. Each fact: {"fact_type": "category", "fact_key": "label", "fact_value": "value", "confidence": 0.9}
+
+Categories: identity (for user's own name/email), colleague, client, company, project, preference, workflow, goal
+
+Confidence scoring:
+- 1.0: Explicitly stated ("My name is John")
+- 0.9: Strongly implied (signing off with name)
+- 0.7: Contextually mentioned
+- 0.5: Inferred
+
+Only extract EXPLICIT facts. If none found, return [].\n`;
+
+// Get user's primary name from learned facts
+export async function getUserName(
+  userId: string,
+  supabaseUrl: string,
+  serviceKey: string
+): Promise<string | null> {
+  if (!userId) return null;
+
+  try {
+    const supabase = createClient(supabaseUrl, serviceKey);
+    
+    // First check user_profiles
+    const { data: profile } = await supabase
+      .from('user_profiles')
+      .select('full_name')
+      .eq('user_id', userId)
+      .maybeSingle();
+    
+    if (profile?.full_name) {
+      return profile.full_name as string;
+    }
+    
+    // Then check learned facts for identity:name
+    const { data: nameFact } = await supabase
+      .from('user_learned_facts')
+      .select('fact_value')
+      .eq('user_id', userId)
+      .eq('fact_type', 'identity')
+      .eq('fact_key', 'name')
+      .order('confidence', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    
+    if (nameFact?.fact_value) {
+      return nameFact.fact_value as string;
+    }
+    
+    // Check auth.users metadata via admin API
+    const { data: { user } } = await supabase.auth.admin.getUserById(userId);
+    if (user?.user_metadata?.full_name) {
+      return user.user_metadata.full_name as string;
+    }
+    
+    return null;
+  } catch (error) {
+    console.error('[Memory] Error fetching user name:', error);
+    return null;
+  }
+}
 
 // Get authenticated user ID from request
 export async function getUserIdFromRequest(
