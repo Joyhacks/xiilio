@@ -36,10 +36,24 @@ const agents = [
 export function Hero() {
   const { isAuthenticated } = useAuth();
   const [showAuthOverlay, setShowAuthOverlay] = useState(false);
-  const [voiceState, setVoiceState] = useState<"idle" | "speaking">("idle");
+  const [voiceState, setVoiceState] = useState<"idle" | "connecting" | "speaking">("idle");
   const [isOpen, setIsOpen] = useState(true);
 
-  const teamOverviewText = `Your 24Twelve AI Team consists of 8 specialized agents working together around the clock. Julia greets visitors and manages the front desk. Nicole orchestrates all operations and coordinates tasks across the team. Brad drives sales and nurtures leads. Halle handles legal reviews and compliance. George manages your social media presence. Arnie creates powerful blog content. Sam provides motivation and life coaching. Jerry guides your financial planning. Together, they form a cohesive unit, handling product launches, client onboarding, content creation, and more as a unified team.`;
+  const conversation = useConversation({
+    onConnect: () => {
+      console.log("Team Overview voice connected");
+      setVoiceState("speaking");
+    },
+    onDisconnect: () => {
+      console.log("Team Overview voice disconnected");
+      setVoiceState("idle");
+    },
+    onError: (error) => {
+      console.error("Team Overview voice error:", error);
+      setVoiceState("idle");
+      toast.error("Voice connection failed. Please try again.");
+    },
+  });
 
   const handleGetStarted = () => {
     if (isAuthenticated) {
@@ -49,21 +63,43 @@ export function Hero() {
     }
   };
 
+  const startVoiceover = useCallback(async () => {
+    setVoiceState("connecting");
+    try {
+      // Request microphone permission (required for ElevenLabs conversation)
+      await navigator.mediaDevices.getUserMedia({ audio: true });
+
+      // Get signed URL from edge function
+      const { data, error } = await supabase.functions.invoke(
+        "elevenlabs-conversation-token",
+        { body: { agentType: "teamoverview" } }
+      );
+
+      if (error || !data?.signed_url) {
+        throw new Error(error?.message || "Failed to get voice token");
+      }
+
+      // Start the conversation session
+      await conversation.startSession({
+        signedUrl: data.signed_url,
+      });
+    } catch (error) {
+      console.error("Failed to start voiceover:", error);
+      setVoiceState("idle");
+      toast.error("Could not start voice. Please check microphone permissions.");
+    }
+  }, [conversation]);
+
+  const stopVoiceover = useCallback(async () => {
+    await conversation.endSession();
+    setVoiceState("idle");
+  }, [conversation]);
+
   const toggleVoiceover = () => {
     if (voiceState === "speaking") {
-      window.speechSynthesis.cancel();
-      setVoiceState("idle");
-    } else {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        setVoiceState("speaking");
-        const utterance = new SpeechSynthesisUtterance(teamOverviewText);
-        utterance.rate = 1.0;
-        utterance.pitch = 1.0;
-        utterance.onend = () => setVoiceState("idle");
-        utterance.onerror = () => setVoiceState("idle");
-        window.speechSynthesis.speak(utterance);
-      }
+      stopVoiceover();
+    } else if (voiceState === "idle") {
+      startVoiceover();
     }
   };
 
