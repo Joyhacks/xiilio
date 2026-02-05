@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, forwardRef } from "react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import logoTransparent from "@/assets/logo-24twelve-transparent.png";
@@ -17,8 +17,6 @@ import {
 } from "simple-icons";
 
 // Simple Icons SVG renderer - using forwardRef to fix React warnings
-import { forwardRef } from "react";
-
 interface SimpleIconProps {
   icon: { path: string; title: string };
   className?: string;
