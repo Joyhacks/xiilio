@@ -24,6 +24,14 @@ export function DigitalClock({ compact = false }: DigitalClockProps) {
     });
   };
 
+  const formatDate = (date: Date) => {
+    return date.toLocaleDateString([], {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+    });
+  };
+
   const getTimezone = () => {
     const shortTz = new Date().toLocaleTimeString("en-US", { timeZoneName: "short" }).split(" ").pop();
     return shortTz || "Local";
