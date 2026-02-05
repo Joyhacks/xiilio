@@ -261,30 +261,66 @@ export async function storeFacts(
   }
 }
 
-// Retrieve learned facts for a user
+// Retrieve learned facts for a user with enhanced categorization
 export async function getLearnedFacts(
   userId: string,
   supabaseUrl: string,
   serviceKey: string,
-  limit: number = 15
+  limit: number = 20
 ): Promise<string> {
   if (!userId) return "";
 
   try {
     const supabase = createClient(supabaseUrl, serviceKey);
+    
+    // Get facts ordered by confidence and mention count
     const { data: facts } = await supabase
       .from('user_learned_facts')
-      .select('fact_type, fact_key, fact_value')
+      .select('fact_type, fact_key, fact_value, confidence')
       .eq('user_id', userId)
+      .order('confidence', { ascending: false })
       .order('mentioned_count', { ascending: false })
       .limit(limit);
 
     if (!facts || facts.length === 0) return "";
 
-    const factLines = (facts as Array<{ fact_type: string; fact_key: string; fact_value: string }>)
-      .map(f => `- ${f.fact_key}: ${f.fact_value}`);
-    return `\n### What I Know About You:\n${factLines.join('\n')}\n\nUse this information naturally in your responses when relevant.\n`;
-  } catch {
+    // Group facts by category for better prompt injection
+    const grouped: Record<string, string[]> = {};
+    for (const f of facts as Array<{ fact_type: string; fact_key: string; fact_value: string; confidence: number }>) {
+      const category = f.fact_type || 'other';
+      if (!grouped[category]) grouped[category] = [];
+      grouped[category].push(`${f.fact_key}: ${f.fact_value}`);
+    }
+
+    let result = "\n### What I Know About You:\n";
+    
+    // Identity facts first (most important)
+    if (grouped['identity']) {
+      result += "**About You:**\n" + grouped['identity'].map(f => `- ${f}`).join('\n') + "\n";
+    }
+    
+    // Other categories
+    const categoryLabels: Record<string, string> = {
+      colleague: "**Your Colleagues:**",
+      client: "**Your Clients:**",
+      company: "**Companies:**",
+      project: "**Projects:**",
+      preference: "**Your Preferences:**",
+      workflow: "**Your Workflows:**",
+      goal: "**Your Goals:**",
+    };
+    
+    for (const [category, label] of Object.entries(categoryLabels)) {
+      if (grouped[category]) {
+        result += `${label}\n` + grouped[category].map(f => `- ${f}`).join('\n') + "\n";
+      }
+    }
+
+    result += "\n**IMPORTANT:** Use this information naturally - greet the user by name when appropriate, reference their colleagues/projects, and provide personalized assistance based on their preferences and goals.\n";
+    
+    return result;
+  } catch (error) {
+    console.error('[Memory] Error fetching learned facts:', error);
     return "";
   }
 }
