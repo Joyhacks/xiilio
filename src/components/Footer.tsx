@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, forwardRef } from "react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import logoTransparent from "@/assets/logo-24twelve-transparent.png";
@@ -16,24 +16,27 @@ import {
   siGoogleassistant,
 } from "simple-icons";
 
-// Simple Icons SVG renderer
-const SimpleIcon = ({ 
-  icon, 
-  className 
-}: { 
-  icon: { path: string; title: string }; 
-  className?: string 
-}) => (
-  <svg
-    role="img"
-    viewBox="0 0 24 24"
-    className={cn("w-4 h-4", className)}
-    fill="currentColor"
-    aria-label={icon.title}
-  >
-    <path d={icon.path} />
-  </svg>
+// Simple Icons SVG renderer - using forwardRef to fix React warnings
+interface SimpleIconProps {
+  icon: { path: string; title: string };
+  className?: string;
+}
+
+const SimpleIcon = forwardRef<SVGSVGElement, SimpleIconProps>(
+  ({ icon, className }, ref) => (
+    <svg
+      ref={ref}
+      role="img"
+      viewBox="0 0 24 24"
+      className={cn("w-4 h-4", className)}
+      fill="currentColor"
+      aria-label={icon.title}
+    >
+      <path d={icon.path} />
+    </svg>
+  )
 );
+SimpleIcon.displayName = "SimpleIcon";
 
 // Official LinkedIn SVG path
 const siLinkedin = {

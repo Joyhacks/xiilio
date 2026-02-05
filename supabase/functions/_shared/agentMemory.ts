@@ -64,13 +64,81 @@ interface ExtractedFact {
   fact_type: string;
   fact_key: string;
   fact_value: string;
+  confidence?: number;
 }
 
+// Enhanced fact extraction prompt with emphasis on user identity
 const FACT_EXTRACTION_PROMPT = `Analyze the user's latest message and extract any key facts about them.
-Focus on: names of people (colleagues, clients, boss), companies, projects, preferences, goals, workflows.
-Return a JSON array of facts. Each fact: {"fact_type": "category", "fact_key": "label", "fact_value": "value"}
-Categories: identity, colleague, client, company, project, preference, workflow, goal
-Only extract EXPLICIT facts. If none found, return [].`;
+
+PRIORITY EXTRACTIONS (always look for these first):
+1. USER'S NAME - If they mention "I'm [name]", "My name is [name]", "This is [name]", or sign off with a name, extract it!
+2. EMAIL addresses mentioned
+3. Company/organization names
+4. Job titles or roles
+
+Also extract: names of colleagues/clients, projects, preferences, goals, workflows.
+
+Return a JSON array of facts. Each fact: {"fact_type": "category", "fact_key": "label", "fact_value": "value", "confidence": 0.9}
+
+Categories: identity (for user's own name/email), colleague, client, company, project, preference, workflow, goal
+
+Confidence scoring:
+- 1.0: Explicitly stated ("My name is John")
+- 0.9: Strongly implied (signing off with name)
+- 0.7: Contextually mentioned
+- 0.5: Inferred
+
+Only extract EXPLICIT facts. If none found, return [].\n`;
+
+// Get user's primary name from learned facts
+export async function getUserName(
+  userId: string,
+  supabaseUrl: string,
+  serviceKey: string
+): Promise<string | null> {
+  if (!userId) return null;
+
+  try {
+    const supabase = createClient(supabaseUrl, serviceKey);
+    
+    // First check user_profiles
+    const { data: profile } = await supabase
+      .from('user_profiles')
+      .select('full_name')
+      .eq('user_id', userId)
+      .maybeSingle();
+    
+    if (profile?.full_name) {
+      return profile.full_name as string;
+    }
+    
+    // Then check learned facts for identity:name
+    const { data: nameFact } = await supabase
+      .from('user_learned_facts')
+      .select('fact_value')
+      .eq('user_id', userId)
+      .eq('fact_type', 'identity')
+      .eq('fact_key', 'name')
+      .order('confidence', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    
+    if (nameFact?.fact_value) {
+      return nameFact.fact_value as string;
+    }
+    
+    // Check auth.users metadata via admin API
+    const { data: { user } } = await supabase.auth.admin.getUserById(userId);
+    if (user?.user_metadata?.full_name) {
+      return user.user_metadata.full_name as string;
+    }
+    
+    return null;
+  } catch (error) {
+    console.error('[Memory] Error fetching user name:', error);
+    return null;
+  }
+}
 
 // Get authenticated user ID from request
 export async function getUserIdFromRequest(
@@ -91,12 +159,13 @@ export async function getUserIdFromRequest(
   }
 }
 
-// Extract facts from a user message using AI
+// Extract facts from a user message using AI with enhanced identity detection
 export async function extractFactsFromMessage(
   userMessage: string,
   lovableApiKey: string
 ): Promise<ExtractedFact[]> {
-  if (!userMessage || userMessage.length < 30) {
+  // Lower threshold for identity extraction
+  if (!userMessage || userMessage.length < 10) {
     return [];
   }
 
@@ -110,11 +179,11 @@ export async function extractFactsFromMessage(
       body: JSON.stringify({
         model: "google/gemini-2.5-flash-lite",
         messages: [
-          { role: "system", content: "Return only valid JSON arrays, no markdown." },
+          { role: "system", content: "Return only valid JSON arrays, no markdown. Focus especially on extracting the user's name if mentioned." },
           { role: "user", content: `${FACT_EXTRACTION_PROMPT}\n\nMessage: "${userMessage}"` },
         ],
         temperature: 0.1,
-        max_tokens: 300,
+        max_tokens: 400,
       }),
     });
 
@@ -134,7 +203,7 @@ export async function extractFactsFromMessage(
   }
 }
 
-// Store extracted facts in the database
+// Store extracted facts in the database with confidence scoring
 export async function storeFacts(
   facts: ExtractedFact[],
   userId: string,
@@ -148,25 +217,31 @@ export async function storeFacts(
 
   for (const fact of facts) {
     try {
+      const confidence = fact.confidence ?? 0.7;
+      
       const { data: existing } = await supabase
         .from('user_learned_facts')
-        .select('id, mentioned_count')
+        .select('id, mentioned_count, confidence')
         .eq('user_id', userId)
         .eq('fact_key', fact.fact_key)
         .eq('fact_type', fact.fact_type)
         .maybeSingle();
 
-      const existingRecord = existing as { id: string; mentioned_count: number } | null;
+      const existingRecord = existing as { id: string; mentioned_count: number; confidence: number } | null;
 
       if (existingRecord) {
+        // Update with higher confidence if new extraction is more confident
+        const newConfidence = Math.max(existingRecord.confidence || 0, confidence);
         await supabase
           .from('user_learned_facts')
           .update({
             fact_value: fact.fact_value,
             mentioned_count: (existingRecord.mentioned_count || 1) + 1,
             last_mentioned_at: new Date().toISOString(),
+            confidence: newConfidence,
           })
           .eq('id', existingRecord.id);
+        console.log(`[Memory] Updated fact: ${fact.fact_key} = ${fact.fact_value} (confidence: ${newConfidence})`);
       } else {
         await supabase
           .from('user_learned_facts')
@@ -176,7 +251,9 @@ export async function storeFacts(
             fact_key: fact.fact_key,
             fact_value: fact.fact_value,
             source_agent: agentSlug,
+            confidence: confidence,
           });
+        console.log(`[Memory] Stored new fact: ${fact.fact_key} = ${fact.fact_value} (confidence: ${confidence})`);
       }
     } catch (error) {
       console.error("Error storing fact:", error);
@@ -184,35 +261,71 @@ export async function storeFacts(
   }
 }
 
-// Retrieve learned facts for a user
+// Retrieve learned facts for a user with enhanced categorization
 export async function getLearnedFacts(
   userId: string,
   supabaseUrl: string,
   serviceKey: string,
-  limit: number = 15
+  limit: number = 20
 ): Promise<string> {
   if (!userId) return "";
 
   try {
     const supabase = createClient(supabaseUrl, serviceKey);
+    
+    // Get facts ordered by confidence and mention count
     const { data: facts } = await supabase
       .from('user_learned_facts')
-      .select('fact_type, fact_key, fact_value')
+      .select('fact_type, fact_key, fact_value, confidence')
       .eq('user_id', userId)
+      .order('confidence', { ascending: false })
       .order('mentioned_count', { ascending: false })
       .limit(limit);
 
     if (!facts || facts.length === 0) return "";
 
-    const factLines = (facts as Array<{ fact_type: string; fact_key: string; fact_value: string }>)
-      .map(f => `- ${f.fact_key}: ${f.fact_value}`);
-    return `\n### What I Know About You:\n${factLines.join('\n')}\n\nUse this information naturally in your responses when relevant.\n`;
-  } catch {
+    // Group facts by category for better prompt injection
+    const grouped: Record<string, string[]> = {};
+    for (const f of facts as Array<{ fact_type: string; fact_key: string; fact_value: string; confidence: number }>) {
+      const category = f.fact_type || 'other';
+      if (!grouped[category]) grouped[category] = [];
+      grouped[category].push(`${f.fact_key}: ${f.fact_value}`);
+    }
+
+    let result = "\n### What I Know About You:\n";
+    
+    // Identity facts first (most important)
+    if (grouped['identity']) {
+      result += "**About You:**\n" + grouped['identity'].map(f => `- ${f}`).join('\n') + "\n";
+    }
+    
+    // Other categories
+    const categoryLabels: Record<string, string> = {
+      colleague: "**Your Colleagues:**",
+      client: "**Your Clients:**",
+      company: "**Companies:**",
+      project: "**Projects:**",
+      preference: "**Your Preferences:**",
+      workflow: "**Your Workflows:**",
+      goal: "**Your Goals:**",
+    };
+    
+    for (const [category, label] of Object.entries(categoryLabels)) {
+      if (grouped[category]) {
+        result += `${label}\n` + grouped[category].map(f => `- ${f}`).join('\n') + "\n";
+      }
+    }
+
+    result += "\n**IMPORTANT:** Use this information naturally - greet the user by name when appropriate, reference their colleagues/projects, and provide personalized assistance based on their preferences and goals.\n";
+    
+    return result;
+  } catch (error) {
+    console.error('[Memory] Error fetching learned facts:', error);
     return "";
   }
 }
 
-// Run fact extraction asynchronously (fire and forget)
+// Run fact extraction asynchronously with priority on identity
 export function runFactExtractionAsync(
   latestUserMessage: string,
   userId: string,
@@ -226,8 +339,13 @@ export function runFactExtractionAsync(
   extractFactsFromMessage(latestUserMessage, lovableApiKey)
     .then(facts => {
       if (facts.length > 0) {
-        console.log(`[${agentSlug}] Extracted ${facts.length} facts`);
-        storeFacts(facts, userId, agentSlug, supabaseUrl, serviceKey);
+        // Prioritize identity facts
+        const identityFacts = facts.filter(f => f.fact_type === 'identity');
+        const otherFacts = facts.filter(f => f.fact_type !== 'identity');
+        console.log(`[${agentSlug}] Extracted ${facts.length} facts (${identityFacts.length} identity)`);
+        
+        // Store identity facts first
+        storeFacts([...identityFacts, ...otherFacts], userId, agentSlug, supabaseUrl, serviceKey);
       }
     })
     .catch(err => console.error(`[${agentSlug}] Fact extraction failed:`, err));
@@ -315,7 +433,7 @@ export async function isOwner(
   }
 }
 
-// Create a personalized system prompt with learned facts
+// Create a personalized system prompt with learned facts and user greeting
 export async function createPersonalizedPrompt(
   basePrompt: string,
   userId: string | null,
@@ -328,12 +446,20 @@ export async function createPersonalizedPrompt(
 
   let prompt = basePrompt;
   
+  // Get the user's name first for personalized greeting
+  const userName = await getUserName(userId, supabaseUrl, serviceKey);
+  if (userName) {
+    prompt += `\n\n### IMPORTANT - User Identity:\nYou are speaking with **${userName}**. Address them by name naturally in your responses. Make them feel recognized and valued.\n`;
+    console.log(`[Memory] Personalized prompt for user: ${userName}`);
+  }
+  
   // Check if this is the owner and inject special context
   const ownerCheck = await isOwner(userId, supabaseUrl, serviceKey);
   if (ownerCheck) {
     prompt += OWNER_CONTEXT;
   }
 
+  // Add all learned facts
   const learnedFacts = await getLearnedFacts(userId, supabaseUrl, serviceKey);
   return prompt + learnedFacts;
 }

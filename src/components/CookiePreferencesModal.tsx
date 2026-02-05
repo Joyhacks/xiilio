@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, forwardRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Cookie, Shield, BarChart3, Sparkles, Megaphone, X, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -78,10 +78,9 @@ function CookieCategory({
   );
 }
 
-export function CookiePreferencesModal({
-  open,
-  onOpenChange,
-}: CookiePreferencesModalProps) {
+// Use forwardRef to fix React warnings when used inside Dialog
+export const CookiePreferencesModal = forwardRef<HTMLDivElement, CookiePreferencesModalProps>(
+  function CookiePreferencesModal({ open, onOpenChange }, ref) {
   const {
     preferences,
     hasConsented,
@@ -231,15 +230,16 @@ export function CookiePreferencesModal({
             </Button>
           )}
 
-          <p className="text-xs text-center text-muted-foreground pt-2">
-            Learn more about our cookie usage in our{" "}
-            <a href="/privacy" className="text-primary hover:underline">
-              Privacy Policy
-            </a>
-            .
-          </p>
+            <p className="text-xs text-center text-muted-foreground pt-2">
+              Learn more about our cookie usage in our{" "}
+              <a href="/privacy" className="text-primary hover:underline">
+                Privacy Policy
+              </a>
+              .
+            </p>
         </div>
       </DialogContent>
     </Dialog>
   );
-}
+});
+CookiePreferencesModal.displayName = "CookiePreferencesModal";
