@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
-import { Sparkles, Zap, Play, Volume2, Square, ChevronDown, ChevronUp } from "lucide-react";
+import { Sparkles, Zap, Play, Volume2, Square, ChevronDown, ChevronUp, Loader2 } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { useConversation } from "@elevenlabs/react";
+import { supabase } from "@/integrations/supabase/client";
 import logo from "@/assets/logo-xilio-new.png";
 import { AuthOverlay } from "@/components/auth/AuthOverlay";
 import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 
 // Avatar imports
