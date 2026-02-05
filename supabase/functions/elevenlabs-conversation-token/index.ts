@@ -28,6 +28,7 @@ const AGENT_TYPE_TO_NAME: Record<string, string> = {
   sales: "Brad",
   coach: "Sam",
   finance: "Jerry",
+  teamoverview: "Team Overview",
 };
 
 type ElevenLabsAgentListItem = {
