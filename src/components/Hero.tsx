@@ -166,10 +166,13 @@ export function Hero() {
                         e.stopPropagation();
                         toggleVoiceover();
                       }}
+                      disabled={voiceState === "connecting"}
                       className={cn(
                         "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs md:text-sm font-medium transition-all",
                         voiceState === "speaking"
                           ? "bg-primary text-primary-foreground animate-pulse"
+                          : voiceState === "connecting"
+                          ? "bg-primary/30 text-foreground cursor-wait"
                           : "bg-primary/20 hover:bg-primary/30 text-foreground"
                       )}
                     >
@@ -177,6 +180,11 @@ export function Hero() {
                         <>
                           <Square className="w-3 h-3 md:w-3.5 md:h-3.5" />
                           Stop
+                        </>
+                      ) : voiceState === "connecting" ? (
+                        <>
+                          <Loader2 className="w-3 h-3 md:w-3.5 md:h-3.5 animate-spin" />
+                          Connecting...
                         </>
                       ) : (
                         <>
