@@ -12,23 +12,29 @@ interface WeatherWidgetProps {
 }
 
 const getWeatherIcon = (condition: string, compact: boolean = false) => {
-  const iconClass = compact ? "w-5 h-5" : "w-5 h-5";
-  switch (condition.toLowerCase()) {
-    case "clear":
-    case "sunny":
-      return <Sun className={`${iconClass} text-yellow-400`} />;
-    case "rain":
-    case "drizzle":
-      return <CloudRain className={`${iconClass} text-blue-400`} />;
-    case "snow":
-      return <CloudSnow className={`${iconClass} text-blue-200`} />;
-    case "thunderstorm":
-      return <CloudLightning className={`${iconClass} text-purple-400`} />;
-    case "windy":
-      return <Wind className={`${iconClass} text-gray-400`} />;
-    default:
-      return <Cloud className={`${iconClass} text-gray-400`} />;
-  }
+  const iconClass = compact ? "w-5 h-5" : "w-6 h-6";
+  const colorMap: Record<string, string> = {
+    clear: "text-yellow-400",
+    sunny: "text-yellow-400",
+    rain: "text-blue-400",
+    drizzle: "text-blue-400",
+    snow: "text-blue-200",
+    thunderstorm: "text-purple-400",
+    windy: "text-gray-400",
+  };
+  const color = colorMap[condition.toLowerCase()] || "text-gray-400";
+  
+  const icons: Record<string, JSX.Element> = {
+    clear: <Sun className={`${iconClass} ${color}`} />,
+    sunny: <Sun className={`${iconClass} ${color}`} />,
+    rain: <CloudRain className={`${iconClass} ${color}`} />,
+    drizzle: <CloudRain className={`${iconClass} ${color}`} />,
+    snow: <CloudSnow className={`${iconClass} ${color}`} />,
+    thunderstorm: <CloudLightning className={`${iconClass} ${color}`} />,
+    windy: <Wind className={`${iconClass} ${color}`} />,
+  };
+  
+  return icons[condition.toLowerCase()] || <Cloud className={`${iconClass} text-gray-400`} />;
 };
 
 const getConditionFromCode = (code: number): string => {
