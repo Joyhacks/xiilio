@@ -192,7 +192,7 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
             </div>
 
             {/* Mobile: Share + WhatsApp + Menu */}
-            <div className="flex md:hidden items-center gap-2">
+            <div className="flex md:hidden items-center gap-1.5">
               <button
                 onClick={() => {
                   if (navigator.share) {
@@ -205,22 +205,22 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
                     navigator.clipboard.writeText(window.location.href);
                   }
                 }}
-                className="flex items-center justify-center w-11 h-11 rounded-full bg-[#0EA5E9] hover:bg-[#0284C7] transition-colors"
+                className="flex items-center justify-center w-9 h-9 rounded-full bg-[#0EA5E9] hover:bg-[#0284C7] transition-colors"
                 aria-label="Share"
               >
-                <Share2 className="w-5 h-5 text-white" />
+                <Share2 className="w-4 h-4 text-white" />
               </button>
               <a
                 href={whatsappUrl || "https://wa.me/12345678900"}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center w-11 h-11 rounded-full bg-[#25D366] hover:bg-[#20BD5A] transition-colors"
+                className="flex items-center justify-center w-9 h-9 rounded-full bg-[#25D366] hover:bg-[#20BD5A] transition-colors"
                 aria-label="WhatsApp"
               >
                 <svg
                   role="img"
                   viewBox="0 0 24 24"
-                  className="w-5 h-5"
+                  className="w-4 h-4"
                   fill="white"
                 >
                   <path d={siWhatsapp.path} />
@@ -228,8 +228,8 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
               </a>
               <Sheet open={isOpen} onOpenChange={setIsOpen}>
                 <SheetTrigger asChild>
-                  <Button variant="ghost" size="icon" className="h-11 w-11 rounded-full">
-                    <Menu className="h-6 w-6" />
+                  <Button variant="ghost" size="icon" className="h-9 w-9 rounded-full">
+                    <Menu className="h-5 w-5" />
                     <span className="sr-only">Open menu</span>
                   </Button>
                 </SheetTrigger>
