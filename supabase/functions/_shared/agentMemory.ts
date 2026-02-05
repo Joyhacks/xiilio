@@ -203,7 +203,7 @@ export async function extractFactsFromMessage(
   }
 }
 
-// Store extracted facts in the database
+// Store extracted facts in the database with confidence scoring
 export async function storeFacts(
   facts: ExtractedFact[],
   userId: string,
@@ -217,25 +217,31 @@ export async function storeFacts(
 
   for (const fact of facts) {
     try {
+      const confidence = fact.confidence ?? 0.7;
+      
       const { data: existing } = await supabase
         .from('user_learned_facts')
-        .select('id, mentioned_count')
+        .select('id, mentioned_count, confidence')
         .eq('user_id', userId)
         .eq('fact_key', fact.fact_key)
         .eq('fact_type', fact.fact_type)
         .maybeSingle();
 
-      const existingRecord = existing as { id: string; mentioned_count: number } | null;
+      const existingRecord = existing as { id: string; mentioned_count: number; confidence: number } | null;
 
       if (existingRecord) {
+        // Update with higher confidence if new extraction is more confident
+        const newConfidence = Math.max(existingRecord.confidence || 0, confidence);
         await supabase
           .from('user_learned_facts')
           .update({
             fact_value: fact.fact_value,
             mentioned_count: (existingRecord.mentioned_count || 1) + 1,
             last_mentioned_at: new Date().toISOString(),
+            confidence: newConfidence,
           })
           .eq('id', existingRecord.id);
+        console.log(`[Memory] Updated fact: ${fact.fact_key} = ${fact.fact_value} (confidence: ${newConfidence})`);
       } else {
         await supabase
           .from('user_learned_facts')
@@ -245,7 +251,9 @@ export async function storeFacts(
             fact_key: fact.fact_key,
             fact_value: fact.fact_value,
             source_agent: agentSlug,
+            confidence: confidence,
           });
+        console.log(`[Memory] Stored new fact: ${fact.fact_key} = ${fact.fact_value} (confidence: ${confidence})`);
       }
     } catch (error) {
       console.error("Error storing fact:", error);
