@@ -192,7 +192,7 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
             </div>
 
             {/* Mobile: Share + WhatsApp + Menu */}
-            <div className="flex md:hidden items-center gap-2.5">
+            <div className="flex md:hidden items-center gap-2">
               <button
                 onClick={() => {
                   if (navigator.share) {
@@ -228,8 +228,8 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
               </a>
               <Sheet open={isOpen} onOpenChange={setIsOpen}>
                 <SheetTrigger asChild>
-                  <Button variant="ghost" size="icon" className="h-12 w-12">
-                    <Menu className="h-8 w-8" />
+                  <Button variant="ghost" size="icon" className="h-11 w-11 rounded-full">
+                    <Menu className="h-6 w-6" />
                     <span className="sr-only">Open menu</span>
                   </Button>
                 </SheetTrigger>
