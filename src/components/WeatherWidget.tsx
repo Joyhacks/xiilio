@@ -135,8 +135,8 @@ export function WeatherWidget({ compact = false }: WeatherWidgetProps) {
 
   if (loading) {
     return (
-      <div className={`flex items-center justify-center gap-2 ${compact ? 'h-11 md:h-9 px-3' : 'px-4 py-3'} rounded-full bg-primary/10 border border-primary/20`}>
-        <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />
+      <div className={`flex items-center justify-center gap-2 ${compact ? 'px-3 py-1.5' : 'px-4 py-2'} rounded-full bg-primary/10 border border-primary/20`}>
+        <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />
         <span className="text-sm font-medium text-muted-foreground tabular-nums">...</span>
       </div>
     );
@@ -148,26 +148,27 @@ export function WeatherWidget({ compact = false }: WeatherWidgetProps) {
 
   if (compact) {
     return (
-      <div className="flex items-center justify-center gap-2 h-11 md:h-9 px-3 rounded-full bg-primary/10 border border-primary/20">
+      <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20">
         {getWeatherIcon(weather.condition, true)}
-        <span className="text-sm font-medium text-foreground tabular-nums">
+        <span className="text-sm font-mono font-semibold text-foreground tabular-nums">
           {weather.temperature}°C
+        </span>
+        <span className="text-xs text-muted-foreground truncate max-w-[60px]">
+          {weather.location}
         </span>
       </div>
     );
   }
 
   return (
-    <div className="flex items-center gap-2.5 px-4 py-2.5 rounded-lg bg-primary/10 border border-primary/20">
+    <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-primary/10 border border-primary/20">
       {getWeatherIcon(weather.condition)}
-      <div className="flex flex-col">
-        <span className="text-base font-medium text-foreground tabular-nums leading-tight">
-          {weather.temperature}°C
-        </span>
-        <span className="text-xs text-muted-foreground leading-tight truncate max-w-[70px]">
-          {weather.location}
-        </span>
-      </div>
+      <span className="text-lg font-mono font-semibold text-foreground tabular-nums">
+        {weather.temperature}°C
+      </span>
+      <span className="text-sm text-muted-foreground font-medium truncate max-w-[80px]">
+        {weather.location}
+      </span>
     </div>
   );
 }
