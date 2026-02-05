@@ -96,7 +96,8 @@ const baseSocialLinks: SocialLink[] = [
   },
 ];
 
-export function Footer() {
+export const Footer = forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
+  function Footer(props, ref) {
   const [cookieModalOpen, setCookieModalOpen] = useState(false);
   const { whatsappUrl, hasWhatsApp } = useUserLinks();
 
@@ -118,7 +119,7 @@ export function Footer() {
 
   return (
     <>
-      <footer className="py-4 border-t border-primary/10 -mt-4" style={{ backgroundColor: '#0c1709' }}>
+      <footer ref={ref} {...props} className="py-4 border-t border-primary/10 -mt-4" style={{ backgroundColor: '#0c1709' }}>
         <div className="container mx-auto px-6">
           {/* Main Footer Content - All in one row on desktop */}
           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-4">
@@ -289,4 +290,5 @@ export function Footer() {
       />
     </>
   );
-}
+});
+Footer.displayName = "Footer";
