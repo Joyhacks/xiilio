@@ -96,7 +96,8 @@ const baseSocialLinks: SocialLink[] = [
   },
 ];
 
-export function Footer() {
+export const Footer = forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
+  function Footer(props, ref) {
   const [cookieModalOpen, setCookieModalOpen] = useState(false);
   const { whatsappUrl, hasWhatsApp } = useUserLinks();
 
