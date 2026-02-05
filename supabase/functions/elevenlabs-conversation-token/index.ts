@@ -9,7 +9,7 @@ const corsHeaders = {
 const AGENT_IDS: Record<string, string> = {
   receptionist: "agent_8001kgpxk1vnehqa054x63gqebyf", // Julia
   assistant: "agent_1201kgmns1nxeyb83v778jkg4dvg",    // Nicole
-  legal: "agent_7201kfbc66gef8srn8dx0kzd7rgs",        // Halle
+  legal: "agent_4201kgq0vq65emqb2jwteay6sjw2",        // Halle
   social: "agent_0301kgmn2c84fzk8dsbyfxrwn69c",       // George
   writer: "agent_3401kgmk7n1eefhr4qnqkjpn40a7",       // Arnie
   sales: "agent_6101kgmkv8nsej4rf56b7ew9sc5s",        // Brad
