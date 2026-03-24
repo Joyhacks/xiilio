@@ -74,9 +74,9 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
     <>
       <header className="fixed top-0 left-0 right-0 z-50 glass border-b border-primary/10" style={{ paddingTop: 'var(--safe-area-top)', paddingLeft: 'var(--safe-area-left)', paddingRight: 'var(--safe-area-right)' }}>
         <div className="container mx-auto px-4 md:px-6 relative">
-          <div className="flex items-center justify-between h-16">
+          <div className="flex items-center justify-between h-16 gap-1">
             {/* Left: Back Button + Weather Widget */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 shrink-0">
               {!isHomePage && (
                 <Link to="/">
                   <Button variant="ghost" size="icon" className="mr-1">
@@ -90,8 +90,8 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
               </Link>
             </div>
 
-            {/* Absolutely Centered Clock */}
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            {/* Center Clock - flex on mobile, absolute on desktop */}
+            <div className="flex-1 flex justify-center min-w-0 md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:flex-none">
               <div className="hidden md:block">
                 <DigitalClock />
               </div>
@@ -101,7 +101,7 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
             </div>
 
             {/* Desktop: Quick Links + Share + WhatsApp + Language + Auth */}
-            <div className="hidden md:flex items-center gap-1.5">
+            <div className="hidden md:flex items-center gap-1.5 shrink-0">
               <HeaderQuickLinks agentSlug={agentSlug} agentColor={agentColor} />
               <button
                 onClick={() => {
@@ -192,7 +192,7 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
             </div>
 
             {/* Mobile: Share + WhatsApp + Menu */}
-            <div className="flex md:hidden items-center gap-1.5">
+            <div className="flex md:hidden items-center gap-1.5 shrink-0">
               <button
                 onClick={() => {
                   if (navigator.share) {
