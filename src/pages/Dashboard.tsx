@@ -190,8 +190,8 @@ export default function Dashboard() {
               </div>
               <div className="p-6 rounded-2xl bg-gradient-card border border-border/50">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center">
-                    <MessageSquare className="w-6 h-6 text-emerald-400" />
+                  <div className="w-12 h-12 rounded-xl bg-accent/20 flex items-center justify-center">
+                    <MessageSquare className="w-6 h-6 text-accent" />
                   </div>
                   <div>
                     <p className="text-2xl font-bold text-foreground">{totalConversations}</p>
