@@ -16,23 +16,22 @@ const Index = () => {
   // Initialize UX tracking for the page
   useUXTracking();
 
-
   return (
     <>
       <SEO canonical="/" />
       <div className="min-h-screen bg-background">
-      <Header />
-      <Hero />
-      <SectionTransition from="#0c1709" to="hsl(var(--background))" />
-      <TeamAgentsSection />
-      <HowItWorksSection />
-      <FAQSection />
-      <CTASection />
-      <StreamingSection />
-      <UserSocialSection />
-      <SectionTransition from="hsl(var(--background))" to="#0c1709" />
-      <Footer />
-      <ScrollToTop />
+        <Header />
+        <Hero />
+        <SectionTransition from="#0c1709" to="hsl(var(--background))" />
+        <TeamAgentsSection />
+        <HowItWorksSection />
+        <FAQSection />
+        <CTASection />
+        <StreamingSection />
+        <UserSocialSection />
+        <SectionTransition from="hsl(var(--background))" to="#0c1709" />
+        <Footer />
+        <ScrollToTop />
       </div>
     </>
   );
