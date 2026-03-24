@@ -192,7 +192,7 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
             </div>
 
             {/* Mobile: Share + WhatsApp + Menu */}
-            <div className="flex md:hidden items-center gap-1.5">
+            <div className="flex md:hidden items-center gap-1.5 shrink-0">
               <button
                 onClick={() => {
                   if (navigator.share) {
