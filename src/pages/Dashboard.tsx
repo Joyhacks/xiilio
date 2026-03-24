@@ -201,8 +201,8 @@ export default function Dashboard() {
               </div>
               <div className="p-6 rounded-2xl bg-gradient-card border border-border/50">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center">
-                    <TrendingUp className="w-6 h-6 text-amber-400" />
+                  <div className="w-12 h-12 rounded-xl bg-secondary/20 flex items-center justify-center">
+                    <TrendingUp className="w-6 h-6 text-secondary" />
                   </div>
                   <div>
                     <p className="text-2xl font-bold text-foreground">{activities?.length || 0}</p>
