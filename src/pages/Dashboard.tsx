@@ -150,7 +150,7 @@ export default function Dashboard() {
       <div className="min-h-screen bg-background">
         <Header />
 
-        <main className="container mx-auto px-6 py-12 pt-24">
+        <main className="container mx-auto px-6 py-12 pt-24" style={{ paddingBottom: 'calc(3rem + var(--safe-area-bottom))' }}>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

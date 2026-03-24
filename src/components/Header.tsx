@@ -72,7 +72,7 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 glass border-b border-primary/10">
+      <header className="fixed top-0 left-0 right-0 z-50 glass border-b border-primary/10" style={{ paddingTop: 'var(--safe-area-top)', paddingLeft: 'var(--safe-area-left)', paddingRight: 'var(--safe-area-right)' }}>
         <div className="container mx-auto px-4 md:px-6 relative">
           <div className="flex items-center justify-between h-16">
             {/* Left: Back Button + Weather Widget */}
