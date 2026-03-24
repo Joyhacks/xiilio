@@ -101,7 +101,7 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
             </div>
 
             {/* Desktop: Quick Links + Share + WhatsApp + Language + Auth */}
-            <div className="hidden md:flex items-center gap-1.5">
+            <div className="hidden md:flex items-center gap-1.5 shrink-0">
               <HeaderQuickLinks agentSlug={agentSlug} agentColor={agentColor} />
               <button
                 onClick={() => {
