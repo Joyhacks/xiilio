@@ -119,6 +119,7 @@ const App = () => {
           </BrowserRouter>
           <CookieConsentBanner />
           <PWAInstallPrompt />
+          <BottomNav />
         </TooltipProvider>
       </AuthProvider>
     </QueryClientProvider>
