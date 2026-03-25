@@ -9,6 +9,7 @@ import { AuthProvider } from "@/hooks/useAuth";
 import { CookieConsentBanner } from "@/components/CookieConsentBanner";
 import { PWAInstallPrompt } from "@/components/PWAInstallPrompt";
 import { SplashScreen } from "@/components/SplashScreen";
+import { BottomNav } from "@/components/BottomNav";
 import { Loader2 } from "lucide-react";
 
 // Eager load the landing page for instant first paint
@@ -118,6 +119,7 @@ const App = () => {
           </BrowserRouter>
           <CookieConsentBanner />
           <PWAInstallPrompt />
+          <BottomNav />
         </TooltipProvider>
       </AuthProvider>
     </QueryClientProvider>

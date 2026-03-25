@@ -19,7 +19,7 @@ const Index = () => {
   return (
     <>
       <SEO canonical="/" />
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background pb-20 md:pb-0">
         <Header />
         <Hero />
         <SectionTransition from="#0c1709" to="hsl(var(--background))" />
