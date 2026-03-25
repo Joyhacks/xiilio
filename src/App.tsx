@@ -116,10 +116,10 @@ const App = () => {
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Suspense>
+            <BottomNav />
           </BrowserRouter>
           <CookieConsentBanner />
           <PWAInstallPrompt />
-          <BottomNav />
         </TooltipProvider>
       </AuthProvider>
     </QueryClientProvider>
