@@ -17,7 +17,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useAuth } from "@/hooks/useAuth";
 import { useUserLinks } from "@/hooks/useUserLinks";
 import { AuthOverlay } from "@/components/auth/AuthOverlay";
-import { siWhatsapp } from "simple-icons";
+import { siWhatsapp } from "@/lib/simpleIcons";
 
 interface HeaderProps {
   agentSlug?: string | null;

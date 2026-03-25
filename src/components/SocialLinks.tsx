@@ -6,7 +6,7 @@ import {
   siWhatsapp,
   siX,
   siYoutube,
-} from "simple-icons";
+} from "@/lib/simpleIcons";
 
 // Helper to render Simple Icons SVG
 const SimpleIcon = ({ icon, className }: { icon: { path: string; title: string }; className?: string }) => (
