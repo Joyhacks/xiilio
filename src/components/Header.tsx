@@ -191,7 +191,7 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
               )}
             </div>
 
-            {/* Mobile: Share + WhatsApp + Menu */}
+            {/* Mobile: Share + WhatsApp only (nav moved to bottom bar) */}
             <div className="flex md:hidden items-center gap-1.5 shrink-0">
               <button
                 onClick={() => {
@@ -205,7 +205,7 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
                     navigator.clipboard.writeText(window.location.href);
                   }
                 }}
-                className="flex items-center justify-center w-9 h-9 rounded-full bg-[#0EA5E9] hover:bg-[#0284C7] transition-colors"
+                className="flex items-center justify-center w-9 h-9 rounded-full bg-[#0EA5E9] transition-colors"
                 aria-label="Share"
               >
                 <Share2 className="w-4 h-4 text-white" />
@@ -214,7 +214,7 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
                 href={whatsappUrl || "https://wa.me/12345678900"}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center w-9 h-9 rounded-full bg-[#25D366] hover:bg-[#20BD5A] transition-colors"
+                className="flex items-center justify-center w-9 h-9 rounded-full bg-[#25D366] transition-colors"
                 aria-label="WhatsApp"
               >
                 <svg
@@ -226,23 +226,7 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
                   <path d={siWhatsapp.path} />
                 </svg>
               </a>
-              <Sheet open={isOpen} onOpenChange={setIsOpen}>
-                <SheetTrigger asChild>
-                  <Button variant="ghost" size="icon" className="h-9 w-9 rounded-full">
-                    <Menu className="h-5 w-5" />
-                    <span className="sr-only">Open menu</span>
-                  </Button>
-                </SheetTrigger>
-                <SheetContent 
-                  side="right" 
-                  className="w-[300px] glass-luxury p-0 data-[state=open]:animate-slide-in-right data-[state=closed]:animate-slide-out-right"
-                >
-                  <div className="flex flex-col h-full">
-                    <div className="flex items-center justify-between p-4 border-b border-primary/10">
-                      <Link to="/" onClick={() => setIsOpen(false)}>
-                        <img src={xilioLogo} alt="Xilio" className="h-10 w-auto" />
-                      </Link>
-                    </div>
+            </div>
 
                     {isAuthenticated && (
                       <div className="p-4 border-b border-primary/10">
