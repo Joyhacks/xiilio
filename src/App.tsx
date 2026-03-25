@@ -1,4 +1,4 @@
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useState, useEffect } from "react";
 import { HelmetProvider } from "react-helmet-async";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -8,6 +8,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
 import { CookieConsentBanner } from "@/components/CookieConsentBanner";
 import { PWAInstallPrompt } from "@/components/PWAInstallPrompt";
+import { SplashScreen } from "@/components/SplashScreen";
 import { Loader2 } from "lucide-react";
 
 // Eager load the landing page for instant first paint
