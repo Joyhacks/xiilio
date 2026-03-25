@@ -1,4 +1,4 @@
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useState, useEffect } from "react";
 import { HelmetProvider } from "react-helmet-async";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -8,6 +8,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
 import { CookieConsentBanner } from "@/components/CookieConsentBanner";
 import { PWAInstallPrompt } from "@/components/PWAInstallPrompt";
+import { SplashScreen } from "@/components/SplashScreen";
 import { Loader2 } from "lucide-react";
 
 // Eager load the landing page for instant first paint
@@ -54,7 +55,34 @@ function PageLoader() {
   );
 }
 
-const App = () => (
+const App = () => {
+  const [splashDone, setSplashDone] = useState(false);
+
+  useEffect(() => {
+    // Dismiss native Capacitor splash screen if running natively
+    const dismissNativeSplash = async () => {
+      try {
+        const { Capacitor } = await import("@capacitor/core");
+        if (Capacitor.isNativePlatform()) {
+          const { SplashScreen: CapSplash } = await import("@capacitor/splash-screen");
+          await CapSplash.hide();
+          // Configure status bar for native
+          const { StatusBar, Style } = await import("@capacitor/status-bar");
+          await StatusBar.setStyle({ style: Style.Dark });
+          await StatusBar.setBackgroundColor({ color: "#1a1610" });
+        }
+      } catch {
+        // Not running in Capacitor — ignore
+      }
+    };
+    dismissNativeSplash();
+  }, []);
+
+  if (!splashDone) {
+    return <SplashScreen onComplete={() => setSplashDone(true)} />;
+  }
+
+  return (
   <HelmetProvider>
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
@@ -94,6 +122,7 @@ const App = () => (
       </AuthProvider>
     </QueryClientProvider>
   </HelmetProvider>
-);
+  );
+};
 
 export default App;
