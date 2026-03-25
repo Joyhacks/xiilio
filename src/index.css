@@ -586,15 +586,15 @@ html.transitioning * {
   transition: background-color 0.3s ease, border-color 0.3s ease, color 0.15s ease !important;
 }
 
-/* Card hover enhancement */
-.card-hover {
-  @apply transition-all duration-300;
-}
-
-.card-hover:hover {
-  @apply border-primary/40;
-  transform: translateY(-2px);
-  box-shadow: 
-    0 20px 40px hsl(var(--background) / 0.3),
-    0 0 40px hsl(var(--primary) / 0.1);
+@media (hover: hover) {
+  .card-hover {
+    @apply transition-all duration-300;
+  }
+  .card-hover:hover {
+    @apply border-primary/40;
+    transform: translateY(-2px);
+    box-shadow: 
+      0 20px 40px hsl(var(--background) / 0.3),
+      0 0 40px hsl(var(--primary) / 0.1);
+  }
 }
