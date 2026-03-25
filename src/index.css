@@ -179,8 +179,18 @@
     min-height: 100%;
     overflow-x: hidden;
     overflow-y: auto;
-    /* Ensure scrolling works in landscape */
     -webkit-overflow-scrolling: touch;
+    /* Native app feel */
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior: none;
+    -webkit-touch-callout: none;
+  }
+
+  /* Allow text selection only in content areas */
+  input, textarea, [contenteditable="true"] {
+    -webkit-touch-callout: default;
+    -webkit-user-select: text;
+    user-select: text;
   }
 
   /* Fix landscape viewport issues on mobile */

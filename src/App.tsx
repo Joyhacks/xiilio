@@ -122,6 +122,7 @@ const App = () => {
       </AuthProvider>
     </QueryClientProvider>
   </HelmetProvider>
-);
+  );
+};
 
 export default App;
