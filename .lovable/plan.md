@@ -1,59 +1,67 @@
 
 
-## Capacitor-Ready Conversion with Native Splash Screen
+## Native Mobile Experience Optimization
 
 ### What this does
-Prepares your app for native iOS/Android conversion via Capacitor, and adds an animated splash screen that gives it a polished, native-app feel on launch.
+Transforms the app from a website feel to a native Android/iOS app experience with hidden scrollbars, bottom navigation bar, full-screen layout, mobile-optimized touch targets, and dark background to eliminate white flash.
 
 ### Plan
 
-**1. Add Capacitor configuration file**
-- Create `capacitor.config.ts` with:
-  - `appId`: `app.lovable.e4c2ff06faec40a28aebc6afdc9c244f`
-  - `appName`: `xiilio`
-  - `webDir`: `dist`
-  - Hot-reload server pointing to sandbox preview URL
-  - Splash screen plugin config (auto-hide after app loads, fade duration, background color matching theme `#1a1610`)
+**1. Hide all scrollbars globally** (`src/index.css`)
+- Add webkit/Firefox/IE scrollbar-hide CSS rules to `html` and all scrollable elements
+- Content remains scrollable, just no visible scrollbar chrome
 
-**2. Add Capacitor dependencies to package.json**
-- `@capacitor/core`, `@capacitor/ios`, `@capacitor/android`
-- `@capacitor/cli` (dev dependency)
-- `@capacitor/splash-screen` (native splash screen control)
-- `@capacitor/status-bar` (native status bar styling)
+**2. Set background to `#030712` to prevent white flash** (`index.html` + `src/index.css`)
+- Add `style="background-color: #030712"` to `<body>` and `<html>` in `index.html`
+- Update CSS `--background` variable in dark mode to match `#030712`
+- Update `meta[name="theme-color"]` to `#030712`
 
-**3. Create animated splash screen component**
-- New `src/components/SplashScreen.tsx` — full-screen overlay with:
-  - Dark warm background matching app theme
-  - Xilio logo (using existing `logo-xilio-new.png`) with fade-in + scale animation
-  - Subtle tagline text fade-in
-  - Auto-dismisses after ~2 seconds with a smooth fade-out
-- Works in both browser and native contexts
+**3. Create a bottom navigation bar component** (`src/components/BottomNav.tsx`)
+- Fixed to bottom with safe-area padding
+- 5 icon tabs: Home, Agents, Pricing, Docs, Settings/More
+- Active state indicator, 48px+ touch targets
+- WhatsApp/Instagram-style: icons with small labels underneath
+- Only visible on mobile (`md:hidden`)
 
-**4. Integrate splash screen into App.tsx**
-- Show `SplashScreen` component on initial load
-- After splash animation completes, render the main app
-- Call `SplashScreen.hide()` from `@capacitor/splash-screen` when running natively to dismiss the native splash and show the web splash
+**4. Refactor Header for mobile** (`src/components/Header.tsx`)
+- Remove hamburger menu and mobile nav links (moved to bottom nav)
+- Keep: logo/weather left, clock center, share+whatsapp right
+- Ensure header doesn't overlap content — add proper `pt-[header-height]` spacer to pages
 
-**5. Add native status bar styling**
-- In `App.tsx` or `main.tsx`, detect Capacitor native platform and configure status bar to dark content with transparent background, blending with the app header
+**5. Add content spacers for fixed header + bottom nav** (`src/pages/Index.tsx` + other pages)
+- Add `pb-20` (bottom nav height) on mobile to all page containers
+- Verify `pt-16` or equivalent for fixed header offset
 
-**6. Update index.css for native feel**
-- Add `-webkit-touch-callout: none` and `user-select: none` on interactive elements to prevent non-native behaviors
-- Ensure `overscroll-behavior: none` on body to kill rubber-banding outside scroll containers
-- Add `tap-highlight-color: transparent` globally
+**6. Mobile-optimize all buttons** (`src/components/ui/button.tsx` + `src/index.css`)
+- Add responsive variant: on mobile (`max-md`), all buttons get `min-h-[48px]`
+- CTA/primary buttons get `w-full` on mobile
+- Apply via CSS media query in index.css for broad coverage
 
-### After implementation — what you need to do locally
+**7. Remove hover effects on touch devices** (`src/index.css`)
+- Wrap all hover utilities (`.hover-lift:hover`, `.hover-glow:hover`, `.card-hover:hover`) in `@media (hover: hover)` so they only apply on devices with a real pointer
+- Remove inline `hover:` classes from glass utilities on touch
 
-1. Export project to GitHub via the "Export to GitHub" button
-2. Clone the repo and run `npm install`
-3. Run `npx cap add ios` and/or `npx cap add android`
-4. Run `npx cap update ios` / `npx cap update android`
-5. Run `npm run build && npx cap sync`
-6. Run `npx cap run ios` (requires Mac + Xcode) or `npx cap run android` (requires Android Studio)
+**8. Fix font sizes for mobile readability** (`src/index.css`)
+- Set `body` base font to `16px` minimum
+- Ensure no text is smaller than `14px` on mobile via CSS rule
+- Bump muted-foreground contrast slightly for readability
 
-For detailed guidance, see the [Lovable Capacitor blog post](https://lovable.dev/blog/lovable-capacitor).
+**9. Prevent horizontal scrolling** (`src/index.css`)
+- Add `max-width: 100vw; overflow-x: hidden` to `html`, `body`, and `#root`
+- Add `overflow-x: hidden` to common container selectors
+
+**10. Mobile-optimize form inputs** (`src/components/ui/input.tsx` + `src/components/ui/textarea.tsx`)
+- Increase mobile height to `h-12` (48px) with `text-base` (16px prevents iOS zoom)
+- Add `rounded-xl` for native feel
+
+**11. Make all images responsive** (`src/index.css`)
+- Add global `img { max-width: 100%; height: auto; }` rule
+
+**12. Update Footer** (`src/components/Footer.tsx`)
+- Add `pb-24` on mobile to account for bottom nav bar overlay
+- Simplify mobile layout to single column
 
 ### Files to create/modify
-- **Create**: `capacitor.config.ts`, `src/components/SplashScreen.tsx`
-- **Modify**: `package.json`, `src/App.tsx`, `src/index.css`
+- **Create**: `src/components/BottomNav.tsx`
+- **Modify**: `src/index.css`, `index.html`, `src/components/Header.tsx`, `src/components/ui/button.tsx`, `src/components/ui/input.tsx`, `src/components/ui/textarea.tsx`, `src/components/Footer.tsx`, `src/App.tsx`, `src/pages/Index.tsx`
 
