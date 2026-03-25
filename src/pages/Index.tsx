@@ -11,28 +11,37 @@ import { Footer } from "@/components/Footer";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { SEO } from "@/components/SEO";
 import { useUXTracking } from "@/hooks/useUXTracking";
+import { PullToRefresh } from "@/components/PullToRefresh";
+import { useCallback } from "react";
 
 const Index = () => {
-  // Initialize UX tracking for the page
   useUXTracking();
+
+  const handleRefresh = useCallback(async () => {
+    // Simulate a refresh — reload data or just wait
+    await new Promise((resolve) => setTimeout(resolve, 800));
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
 
   return (
     <>
       <SEO canonical="/" />
-      <div className="min-h-screen bg-background pb-20 md:pb-0">
-        <Header />
-        <Hero />
-        <SectionTransition from="#0c1709" to="hsl(var(--background))" />
-        <TeamAgentsSection />
-        <HowItWorksSection />
-        <FAQSection />
-        <CTASection />
-        <StreamingSection />
-        <UserSocialSection />
-        <SectionTransition from="hsl(var(--background))" to="#0c1709" />
-        <Footer />
-        <ScrollToTop />
-      </div>
+      <PullToRefresh onRefresh={handleRefresh}>
+        <div className="min-h-screen bg-background pb-20 md:pb-0">
+          <Header />
+          <Hero />
+          <SectionTransition from="#0c1709" to="hsl(var(--background))" />
+          <TeamAgentsSection />
+          <HowItWorksSection />
+          <FAQSection />
+          <CTASection />
+          <StreamingSection />
+          <UserSocialSection />
+          <SectionTransition from="hsl(var(--background))" to="#0c1709" />
+          <Footer />
+          <ScrollToTop />
+        </div>
+      </PullToRefresh>
     </>
   );
 };
