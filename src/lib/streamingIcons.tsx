@@ -7,7 +7,7 @@ import {
   siYoutube,
   siSpotify,
   siUber,
-} from "simple-icons";
+} from "@/lib/simpleIcons";
 import { Wallet } from "lucide-react";
 
 // Import official brand logos for services not in simple-icons

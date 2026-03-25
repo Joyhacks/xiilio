@@ -14,7 +14,7 @@ import {
   siTiktok,
   siWhatsapp,
   siGoogleassistant,
-} from "simple-icons";
+} from "@/lib/simpleIcons";
 
 // Simple Icons SVG renderer - using forwardRef to fix React warnings
 interface SimpleIconProps {

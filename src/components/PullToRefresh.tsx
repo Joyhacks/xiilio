@@ -1,0 +1,87 @@
+import { useState, useCallback, useRef, TouchEvent } from "react";
+import { motion, useMotionValue, useTransform } from "framer-motion";
+import { Loader2 } from "lucide-react";
+
+interface PullToRefreshProps {
+  onRefresh: () => Promise<void>;
+  children: React.ReactNode;
+}
+
+const PULL_THRESHOLD = 80;
+
+export function PullToRefresh({ onRefresh, children }: PullToRefreshProps) {
+  const [refreshing, setRefreshing] = useState(false);
+  const pullY = useMotionValue(0);
+  const startY = useRef(0);
+  const pulling = useRef(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const indicatorOpacity = useTransform(pullY, [0, PULL_THRESHOLD], [0, 1]);
+  const indicatorScale = useTransform(pullY, [0, PULL_THRESHOLD], [0.5, 1]);
+  const rotate = useTransform(pullY, [0, PULL_THRESHOLD], [0, 180]);
+
+  const handleTouchStart = useCallback((e: TouchEvent) => {
+    if (refreshing) return;
+    // Only activate when scrolled to top
+    if (window.scrollY <= 0) {
+      startY.current = e.touches[0].clientY;
+      pulling.current = true;
+    }
+  }, [refreshing]);
+
+  const handleTouchMove = useCallback((e: TouchEvent) => {
+    if (!pulling.current || refreshing) return;
+    const dy = Math.max(0, (e.touches[0].clientY - startY.current) * 0.4);
+    pullY.set(Math.min(dy, PULL_THRESHOLD * 1.5));
+  }, [pullY, refreshing]);
+
+  const handleTouchEnd = useCallback(async () => {
+    if (!pulling.current) return;
+    pulling.current = false;
+
+    if (pullY.get() >= PULL_THRESHOLD && !refreshing) {
+      setRefreshing(true);
+      pullY.set(PULL_THRESHOLD * 0.6);
+      try {
+        if ("vibrate" in navigator) navigator.vibrate(15);
+        await onRefresh();
+      } finally {
+        setRefreshing(false);
+        pullY.set(0);
+      }
+    } else {
+      pullY.set(0);
+    }
+  }, [pullY, onRefresh, refreshing]);
+
+  return (
+    <div
+      ref={containerRef}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+      className="relative"
+    >
+      {/* Pull indicator */}
+      <motion.div
+        className="absolute left-1/2 -translate-x-1/2 z-40 flex items-center justify-center"
+        style={{
+          opacity: indicatorOpacity,
+          scale: indicatorScale,
+          top: 72,
+        }}
+      >
+        <motion.div
+          className="w-10 h-10 rounded-full bg-primary/20 backdrop-blur-md flex items-center justify-center border border-primary/30"
+          style={{ rotate: refreshing ? undefined : rotate }}
+          animate={refreshing ? { rotate: 360 } : {}}
+          transition={refreshing ? { repeat: Infinity, duration: 0.8, ease: "linear" } : {}}
+        >
+          <Loader2 className="w-5 h-5 text-primary" />
+        </motion.div>
+      </motion.div>
+
+      {children}
+    </div>
+  );
+}
