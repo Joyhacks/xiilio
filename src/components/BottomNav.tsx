@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { Home, Users, CreditCard, BookOpen, Settings } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
 
 const navItems = [
   { href: "/", label: "Home", icon: Home },
@@ -10,22 +11,37 @@ const navItems = [
   { href: "/settings", label: "More", icon: Settings },
 ];
 
+function triggerHaptic() {
+  try {
+    if ("vibrate" in navigator) {
+      navigator.vibrate(8);
+    }
+  } catch {
+    // Haptics not available
+  }
+}
+
 export function BottomNav() {
   const location = useLocation();
 
   const isActive = (href: string) => {
-    if (href === "/") return location.pathname === "/";
+    if (href === "/") return location.pathname === "/" && !location.hash;
     if (href.startsWith("/#")) return location.pathname === "/" && location.hash === `#${href.split("#")[1]}`;
     return location.pathname === href;
   };
 
   const handleClick = (e: React.MouseEvent, item: typeof navItems[0]) => {
+    triggerHaptic();
     if (item.isHash && location.pathname === "/") {
       e.preventDefault();
       const hash = item.href.split("#")[1];
       const el = document.getElementById(hash);
       if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
     }
+  };
+
+  const handleLinkClick = () => {
+    triggerHaptic();
   };
 
   return (
@@ -39,16 +55,24 @@ export function BottomNav() {
           const Icon = item.icon;
 
           const content = (
-            <div className={cn(
-              "flex flex-col items-center justify-center gap-0.5 min-h-[56px] w-full px-1 transition-colors",
-              active ? "text-primary" : "text-muted-foreground"
-            )}>
+            <motion.div
+              whileTap={{ scale: 0.85 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
+              className={cn(
+                "flex flex-col items-center justify-center gap-0.5 min-h-[56px] w-full px-1 transition-colors",
+                active ? "text-primary" : "text-muted-foreground"
+              )}
+            >
               <Icon className="w-5 h-5" strokeWidth={active ? 2.5 : 2} />
               <span className="text-[10px] font-medium leading-none">{item.label}</span>
               {active && (
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded-b-full bg-primary" />
+                <motion.div
+                  layoutId="bottomNavIndicator"
+                  className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded-b-full bg-primary"
+                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                />
               )}
-            </div>
+            </motion.div>
           );
 
           if (item.isHash) {
@@ -65,7 +89,7 @@ export function BottomNav() {
           }
 
           return (
-            <Link key={item.href} to={item.href} className="relative flex-1">
+            <Link key={item.href} to={item.href} onClick={handleLinkClick} className="relative flex-1">
               {content}
             </Link>
           );

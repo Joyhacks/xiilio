@@ -4,13 +4,15 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
 import { CookieConsentBanner } from "@/components/CookieConsentBanner";
 import { PWAInstallPrompt } from "@/components/PWAInstallPrompt";
 import { SplashScreen } from "@/components/SplashScreen";
 import { BottomNav } from "@/components/BottomNav";
+import { PageTransition } from "@/components/PageTransition";
 import { Loader2 } from "lucide-react";
+import { AnimatePresence } from "framer-motion";
 
 // Eager load the landing page for instant first paint
 import Index from "./pages/Index";
@@ -39,15 +41,14 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 60 * 5, // 5 minutes
-      gcTime: 1000 * 60 * 30, // 30 minutes (formerly cacheTime)
+      staleTime: 1000 * 60 * 5,
+      gcTime: 1000 * 60 * 30,
       refetchOnWindowFocus: false,
       retry: 1,
     },
   },
 });
 
-// Minimal loading fallback for lazy routes
 function PageLoader() {
   return (
     <div className="min-h-screen bg-background flex items-center justify-center">
@@ -56,24 +57,56 @@ function PageLoader() {
   );
 }
 
+function AppRoutes() {
+  const location = useLocation();
+  return (
+    <Suspense fallback={<PageLoader />}>
+      <AnimatePresence mode="wait">
+        <PageTransition key={location.pathname}>
+          <Routes location={location}>
+            <Route path="/" element={<Index />} />
+            <Route path="/agent/:agentId" element={<AgentDetail />} />
+            <Route path="/pricing" element={<Pricing />} />
+            <Route path="/onboarding" element={<Onboarding />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/analytics" element={<Analytics />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/docs" element={<Docs />} />
+            <Route path="/careers" element={<Careers />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/cookies" element={<CookiePolicy />} />
+            <Route path="/ccpa" element={<CCPA />} />
+            <Route path="/install" element={<Install />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/faq" element={<FAQ />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </PageTransition>
+      </AnimatePresence>
+    </Suspense>
+  );
+}
+
 const App = () => {
   const [splashDone, setSplashDone] = useState(false);
 
   useEffect(() => {
-    // Dismiss native Capacitor splash screen if running natively
     const dismissNativeSplash = async () => {
       try {
         const { Capacitor } = await import("@capacitor/core");
         if (Capacitor.isNativePlatform()) {
           const { SplashScreen: CapSplash } = await import("@capacitor/splash-screen");
           await CapSplash.hide();
-          // Configure status bar for native
           const { StatusBar, Style } = await import("@capacitor/status-bar");
           await StatusBar.setStyle({ style: Style.Dark });
-          await StatusBar.setBackgroundColor({ color: "#1a1610" });
+          await StatusBar.setBackgroundColor({ color: "#030712" });
         }
       } catch {
-        // Not running in Capacitor — ignore
+        // Not running in Capacitor
       }
     };
     dismissNativeSplash();
@@ -91,31 +124,7 @@ const App = () => {
           <Toaster />
           <Sonner />
           <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-            <Suspense fallback={<PageLoader />}>
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/agent/:agentId" element={<AgentDetail />} />
-                <Route path="/pricing" element={<Pricing />} />
-                <Route path="/onboarding" element={<Onboarding />} />
-                <Route path="/settings" element={<Settings />} />
-                <Route path="/analytics" element={<Analytics />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/blog" element={<Blog />} />
-                <Route path="/docs" element={<Docs />} />
-                <Route path="/careers" element={<Careers />} />
-                <Route path="/privacy" element={<Privacy />} />
-                <Route path="/terms" element={<Terms />} />
-                <Route path="/cookies" element={<CookiePolicy />} />
-                <Route path="/ccpa" element={<CCPA />} />
-                <Route path="/install" element={<Install />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/reset-password" element={<ResetPassword />} />
-                <Route path="/faq" element={<FAQ />} />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Suspense>
+            <AppRoutes />
             <BottomNav />
           </BrowserRouter>
           <CookieConsentBanner />
