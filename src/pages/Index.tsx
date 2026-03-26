@@ -14,6 +14,7 @@ import { useUXTracking } from "@/hooks/useUXTracking";
 import { PullToRefresh } from "@/components/PullToRefresh";
 import { useCallback } from "react";
 
+// Trigger GitHub sync
 const Index = () => {
   useUXTracking();
 
