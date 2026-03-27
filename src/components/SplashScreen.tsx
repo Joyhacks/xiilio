@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import logoXilio from "@/assets/logo-xilio-new.png";
 
 interface SplashScreenProps {
@@ -12,21 +12,31 @@ export const SplashScreen = ({ onComplete }: SplashScreenProps) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setVisible(false);
+      // Trigger onComplete after exit animation duration
+      setTimeout(onComplete, 500);
     }, 2200);
     return () => clearTimeout(timer);
-  }, []);
+  }, [onComplete]);
+
+  if (!visible) {
+    return (
+      <motion.div
+        key="splash-exit"
+        initial={{ opacity: 1 }}
+        animate={{ opacity: 0 }}
+        transition={{ duration: 0.5, ease: "easeInOut" }}
+        className="fixed inset-0 z-[9999] bg-background pointer-events-none"
+      />
+    );
+  }
 
   return (
-    <AnimatePresence onExitComplete={onComplete}>
-      {visible && (
-        <motion.div
-          key="splash"
-          initial={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
-          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-background"
-          style={{ paddingTop: "var(--safe-area-top)", paddingBottom: "var(--safe-area-bottom)" }}
-        >
+    <motion.div
+      key="splash"
+      initial={{ opacity: 1 }}
+      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-background"
+      style={{ paddingTop: "var(--safe-area-top)", paddingBottom: "var(--safe-area-bottom)" }}
+    >
           {/* Subtle radial glow */}
           <div className="absolute inset-0 pointer-events-none">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-primary/10 blur-[100px]" />
@@ -77,7 +87,5 @@ export const SplashScreen = ({ onComplete }: SplashScreenProps) => {
             />
           </motion.div>
         </motion.div>
-      )}
-    </AnimatePresence>
   );
 };
