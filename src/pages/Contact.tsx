@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SEO } from "@/components/SEO";
@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { Mail, Phone, MapPin, Send, MessageSquare, Clock } from "lucide-react";
+import { Mail, Phone, MapPin, Send, MessageSquare, Clock, Calendar } from "lucide-react";
 import { ScrollToTop } from "@/components/ScrollToTop";
 
 const contactInfo = [
