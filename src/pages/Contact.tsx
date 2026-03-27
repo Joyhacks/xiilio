@@ -11,6 +11,8 @@ import { Mail, Phone, MapPin, Send, MessageSquare, Clock, Calendar } from "lucid
 import { ScrollToTop } from "@/components/ScrollToTop";
 
 function CalendlyEmbed() {
+  const isMobile = window.innerWidth < 768;
+
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://assets.calendly.com/assets/external/widget.js";
@@ -23,9 +25,9 @@ function CalendlyEmbed() {
 
   return (
     <div
-      className="calendly-inline-widget"
-      data-url="https://calendly.com/itsgotime-24twelve?background_color=1a1410&text_color=e8dcc8&primary_color=c49a3c"
-      style={{ minWidth: "320px", height: "700px" }}
+      className="calendly-inline-widget w-full"
+      data-url="https://calendly.com/itsgotime-24twelve?background_color=1a1410&text_color=e8dcc8&primary_color=c49a3c&hide_gdpr_banner=1"
+      style={{ minWidth: "280px", height: isMobile ? "580px" : "700px" }}
     />
   );
 }
