@@ -181,7 +181,7 @@ export default function Docs() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button variant="hero" asChild>
-                <Link to="/contact">Contact Support</Link>
+                <a href="https://calendly.com/itsgotime-24twelve" target="_blank" rel="noopener noreferrer">Schedule a Call</a>
               </Button>
               <Button variant="outline" className="gap-2">
                 <ExternalLink className="w-4 h-4" />

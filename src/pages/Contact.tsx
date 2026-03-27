@@ -102,9 +102,14 @@ export default function Contact() {
               <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
                 Get in <span className="text-gradient">Touch</span>
               </h1>
-              <p className="text-lg md:text-xl text-muted-foreground">
-                Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+              <p className="text-lg md:text-xl text-muted-foreground mb-8">
+                Have questions? We'd love to hear from you. Send us a message or book a call directly.
               </p>
+              <Button variant="hero" size="lg" asChild>
+                <a href="https://calendly.com/itsgotime-24twelve" target="_blank" rel="noopener noreferrer">
+                  <Clock className="w-5 h-5 mr-2" /> Schedule a Call
+                </a>
+              </Button>
             </div>
           </div>
         </section>
