@@ -8,13 +8,14 @@ interface PullToRefreshProps {
 }
 
 const PULL_THRESHOLD = 80;
+const ACTIVATION_DISTANCE = 10;
 
 export function PullToRefresh({ onRefresh, children }: PullToRefreshProps) {
   const [refreshing, setRefreshing] = useState(false);
   const pullY = useMotionValue(0);
   const startY = useRef(0);
   const pulling = useRef(false);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const decided = useRef(false);
 
   const indicatorOpacity = useTransform(pullY, [0, PULL_THRESHOLD], [0, 1]);
   const indicatorScale = useTransform(pullY, [0, PULL_THRESHOLD], [0.5, 1]);
@@ -22,22 +23,45 @@ export function PullToRefresh({ onRefresh, children }: PullToRefreshProps) {
 
   const handleTouchStart = useCallback((e: TouchEvent) => {
     if (refreshing) return;
-    // Only activate when scrolled to top
+    decided.current = false;
+    pulling.current = false;
     if (window.scrollY <= 0) {
       startY.current = e.touches[0].clientY;
-      pulling.current = true;
     }
   }, [refreshing]);
 
   const handleTouchMove = useCallback((e: TouchEvent) => {
-    if (!pulling.current || refreshing) return;
-    const dy = Math.max(0, (e.touches[0].clientY - startY.current) * 0.4);
+    if (refreshing) return;
+    // Only consider pull-to-refresh if page was at top on touch start
+    if (startY.current === 0) return;
+
+    const currentY = e.touches[0].clientY;
+    const rawDy = currentY - startY.current;
+
+    // Wait until the user moves enough to decide direction
+    if (!decided.current) {
+      if (Math.abs(rawDy) < ACTIVATION_DISTANCE) return;
+      decided.current = true;
+      // If scrolling up (negative dy), abort — let browser handle scroll
+      if (rawDy <= 0) {
+        startY.current = 0;
+        return;
+      }
+      // User is pulling down at top of page — activate pull-to-refresh
+      pulling.current = true;
+    }
+
+    if (!pulling.current) return;
+
+    const dy = Math.max(0, rawDy * 0.4);
     pullY.set(Math.min(dy, PULL_THRESHOLD * 1.5));
   }, [pullY, refreshing]);
 
   const handleTouchEnd = useCallback(async () => {
+    startY.current = 0;
     if (!pulling.current) return;
     pulling.current = false;
+    decided.current = false;
 
     if (pullY.get() >= PULL_THRESHOLD && !refreshing) {
       setRefreshing(true);
@@ -56,7 +80,6 @@ export function PullToRefresh({ onRefresh, children }: PullToRefreshProps) {
 
   return (
     <div
-      ref={containerRef}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}

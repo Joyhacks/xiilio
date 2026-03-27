@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SEO } from "@/components/SEO";
@@ -7,8 +7,28 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { Mail, Phone, MapPin, Send, MessageSquare, Clock } from "lucide-react";
+import { Mail, Phone, MapPin, Send, MessageSquare, Clock, Calendar } from "lucide-react";
 import { ScrollToTop } from "@/components/ScrollToTop";
+
+function CalendlyEmbed() {
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://assets.calendly.com/assets/external/widget.js";
+    script.async = true;
+    document.body.appendChild(script);
+    return () => {
+      try { document.body.removeChild(script); } catch {}
+    };
+  }, []);
+
+  return (
+    <div
+      className="calendly-inline-widget"
+      data-url="https://calendly.com/itsgotime-24twelve?background_color=1a1410&text_color=e8dcc8&primary_color=c49a3c"
+      style={{ minWidth: "320px", height: "700px" }}
+    />
+  );
+}
 
 const contactInfo = [
   {
@@ -110,6 +130,25 @@ export default function Contact() {
                   <Clock className="w-5 h-5 mr-2" /> Schedule a Call
                 </a>
               </Button>
+            </div>
+          </div>
+        </section>
+
+        {/* Calendly Embed Section */}
+        <section className="py-12 md:py-16 bg-muted/30">
+          <div className="container mx-auto px-6">
+            <div className="max-w-4xl mx-auto">
+              <div className="text-center mb-8">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card mb-4">
+                  <Calendar className="w-4 h-4 text-primary" />
+                  <span className="text-sm text-foreground/80">Book directly</span>
+                </div>
+                <h2 className="font-display text-2xl md:text-3xl font-bold mb-2">Schedule a Call</h2>
+                <p className="text-muted-foreground">Pick a time that works for you — no back-and-forth needed.</p>
+              </div>
+              <div className="glass-luxury rounded-2xl overflow-hidden">
+                <CalendlyEmbed />
+              </div>
             </div>
           </div>
         </section>
