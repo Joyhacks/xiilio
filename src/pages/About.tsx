@@ -113,7 +113,7 @@ export default function About() {
                 </Link>
               </Button>
               <Button variant="glass" size="lg" asChild>
-                <Link to="/contact">Contact Us</Link>
+                <a href="https://calendly.com/itsgotime-24twelve" target="_blank" rel="noopener noreferrer">Schedule a Call</a>
               </Button>
             </div>
           </div>

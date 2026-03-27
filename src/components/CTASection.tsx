@@ -52,7 +52,7 @@ export function CTASection() {
               </Link>
             </Button>
             <Button variant="glass" size="xl" asChild>
-              <Link to="/contact">Schedule Demo</Link>
+              <a href="https://calendly.com/itsgotime-24twelve" target="_blank" rel="noopener noreferrer">Schedule Demo</a>
             </Button>
           </div>
 
