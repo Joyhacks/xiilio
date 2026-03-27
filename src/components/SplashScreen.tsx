@@ -89,7 +89,5 @@ export const SplashScreen = ({ onComplete }: SplashScreenProps) => {
             />
           </motion.div>
         </motion.div>
-      )}
-    </AnimatePresence>
   );
 };

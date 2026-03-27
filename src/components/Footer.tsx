@@ -164,7 +164,7 @@ export const Footer = forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>
               {/* Get the App */}
               <div>
                 <h4 className="font-semibold text-foreground text-sm mb-2">Get the App</h4>
-                <div className="flex flex-col items-center gap-2">
+                <div className="flex flex-col items-start gap-2">
                   <div className="flex gap-2">
                     <a
                       href="https://apps.apple.com/app/24twelve"
@@ -185,7 +185,7 @@ export const Footer = forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>
                       <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play" className="h-7 w-auto" />
                     </a>
                   </div>
-                  <div className="flex items-center justify-center gap-12 mt-6">
+                  <div className="flex items-center gap-6 mt-3">
                     <a
                       href="https://www.apple.com/siri/"
                       target="_blank"
