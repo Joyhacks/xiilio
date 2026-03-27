@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import logoXilio from "@/assets/logo-xilio-new.png";
 
 interface SplashScreenProps {
@@ -12,13 +12,25 @@ export const SplashScreen = ({ onComplete }: SplashScreenProps) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setVisible(false);
+      // Trigger onComplete after exit animation duration
+      setTimeout(onComplete, 500);
     }, 2200);
     return () => clearTimeout(timer);
-  }, []);
+  }, [onComplete]);
+
+  if (!visible) {
+    return (
+      <motion.div
+        key="splash-exit"
+        initial={{ opacity: 1 }}
+        animate={{ opacity: 0 }}
+        transition={{ duration: 0.5, ease: "easeInOut" }}
+        className="fixed inset-0 z-[9999] bg-background pointer-events-none"
+      />
+    );
+  }
 
   return (
-    <AnimatePresence onExitComplete={onComplete}>
-      {visible && (
         <motion.div
           key="splash"
           initial={{ opacity: 1 }}
