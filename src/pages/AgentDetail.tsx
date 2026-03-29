@@ -700,7 +700,7 @@ export default function AgentDetail() {
               </div>
 
               {/* Chat Interface */}
-              <div className="lg:col-span-2">
+              <div className="col-span-1 lg:col-span-2">
                 <AgentChat
                   agentName={agent.name}
                   agentAvatar={agent.avatar}
