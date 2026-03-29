@@ -136,7 +136,7 @@ export const Footer = forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>
             </div>
 
             {/* Navigation Links */}
-            <div className="flex flex-wrap gap-8">
+            <div className="flex flex-wrap gap-4 sm:gap-8">
               {/* Company */}
               <div>
                 <h4 className="font-semibold text-foreground text-sm mb-2">Company</h4>
