@@ -14,6 +14,15 @@ import { PageTransition } from "@/components/PageTransition";
 import { Loader2 } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
 
+/** Scrolls to top on every route change */
+function RouteScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0 });
+  }, [pathname]);
+  return null;
+}
+
 // Eager load the landing page for instant first paint
 import Index from "./pages/Index";
 
