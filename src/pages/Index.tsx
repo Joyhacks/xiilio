@@ -38,6 +38,7 @@ const Index = () => {
           <FAQSection />
           <CTASection />
           <StreamingSection />
+          <SecuritySection />
           <UserSocialSection />
           <SectionTransition from="hsl(var(--background))" to="#0c1709" />
           <Footer />
