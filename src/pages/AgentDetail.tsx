@@ -661,22 +661,22 @@ export default function AgentDetail() {
         </div>
 
         {/* Tabs */}
-        <Tabs defaultValue="chat" className="space-y-6">
-          <TabsList className="bg-muted/50 p-1">
-            <TabsTrigger value="chat" className="gap-2">
-              <MessageSquare className="w-4 h-4" />
+        <Tabs defaultValue="chat" className="space-y-4 md:space-y-6">
+          <TabsList className="bg-muted/50 p-1 w-full grid grid-cols-4 md:w-auto md:inline-flex">
+            <TabsTrigger value="chat" className="gap-1 md:gap-2 text-xs md:text-sm px-2 md:px-3">
+              <MessageSquare className="w-3.5 h-3.5 md:w-4 md:h-4" />
               Chat
             </TabsTrigger>
-            <TabsTrigger value="voice" className="gap-2">
-              <Mic className="w-4 h-4" />
+            <TabsTrigger value="voice" className="gap-1 md:gap-2 text-xs md:text-sm px-2 md:px-3">
+              <Mic className="w-3.5 h-3.5 md:w-4 md:h-4" />
               Voice
             </TabsTrigger>
-            <TabsTrigger value="video" className="gap-2">
-              <Video className="w-4 h-4" />
+            <TabsTrigger value="video" className="gap-1 md:gap-2 text-xs md:text-sm px-2 md:px-3">
+              <Video className="w-3.5 h-3.5 md:w-4 md:h-4" />
               Video
             </TabsTrigger>
-            <TabsTrigger value="activity" className="gap-2">
-              <Clock className="w-4 h-4" />
+            <TabsTrigger value="activity" className="gap-1 md:gap-2 text-xs md:text-sm px-2 md:px-3">
+              <Clock className="w-3.5 h-3.5 md:w-4 md:h-4" />
               Activity
             </TabsTrigger>
           </TabsList>
