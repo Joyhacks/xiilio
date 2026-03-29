@@ -159,11 +159,11 @@
     @apply border-border;
   }
 
-  /* Hide all scrollbars globally */
-  *::-webkit-scrollbar {
+  /* Hide scrollbars only on the main page — allow them in scrollable containers */
+  body::-webkit-scrollbar {
     display: none;
   }
-  * {
+  body {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
