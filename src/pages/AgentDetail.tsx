@@ -1,6 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import { ArrowLeft, CheckCircle, MessageSquare, Clock, Mic, Linkedin, Video } from "lucide-react";
+import { ArrowLeft, CheckCircle, MessageSquare, Clock, Mic, Linkedin, Video, ChevronDown } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SEO } from "@/components/SEO";
@@ -13,6 +13,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -683,20 +684,43 @@ export default function AgentDetail() {
 
           <TabsContent value="chat" className="mt-4 md:mt-6">
             <div className="grid lg:grid-cols-3 gap-4 md:gap-8">
-              {/* Capabilities - hidden on mobile to save space */}
-              <div className="hidden lg:block lg:col-span-1 space-y-4">
-                <h3 className="font-semibold text-foreground flex items-center gap-2">
-                  <CheckCircle className={cn("w-5 h-5", `text-agent-${agent.color}`)} />
-                  Capabilities
-                </h3>
-                <ul className="space-y-2">
-                  {agent.capabilities.map((cap) => (
-                    <li key={cap} className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <div className={cn("w-1.5 h-1.5 rounded-full", `bg-agent-${agent.color}`)} />
-                      {cap}
-                    </li>
-                  ))}
-                </ul>
+              {/* Capabilities - collapsible on mobile, static on desktop */}
+              <div className="lg:col-span-1 space-y-4">
+                {/* Mobile: collapsible */}
+                <Collapsible className="lg:hidden">
+                  <CollapsibleTrigger className="flex items-center justify-between w-full p-3 rounded-xl bg-muted/30 border border-border/50">
+                    <span className="font-semibold text-sm text-foreground flex items-center gap-2">
+                      <CheckCircle className={cn("w-4 h-4", `text-agent-${agent.color}`)} />
+                      Capabilities
+                    </span>
+                    <ChevronDown className="w-4 h-4 text-muted-foreground transition-transform [[data-state=open]_&]:rotate-180" />
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="pt-2">
+                    <ul className="space-y-1.5 pl-1">
+                      {agent.capabilities.map((cap) => (
+                        <li key={cap} className="flex items-center gap-2 text-xs text-muted-foreground">
+                          <div className={cn("w-1.5 h-1.5 rounded-full shrink-0", `bg-agent-${agent.color}`)} />
+                          {cap}
+                        </li>
+                      ))}
+                    </ul>
+                  </CollapsibleContent>
+                </Collapsible>
+                {/* Desktop: always visible */}
+                <div className="hidden lg:block">
+                  <h3 className="font-semibold text-foreground flex items-center gap-2">
+                    <CheckCircle className={cn("w-5 h-5", `text-agent-${agent.color}`)} />
+                    Capabilities
+                  </h3>
+                  <ul className="space-y-2 mt-4">
+                    {agent.capabilities.map((cap) => (
+                      <li key={cap} className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <div className={cn("w-1.5 h-1.5 rounded-full", `bg-agent-${agent.color}`)} />
+                        {cap}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
 
               {/* Chat Interface */}
@@ -715,42 +739,41 @@ export default function AgentDetail() {
 
           <TabsContent value="voice" className="mt-4 md:mt-6">
             <div className="grid lg:grid-cols-3 gap-4 md:gap-8">
-              {/* Capabilities - hidden on mobile */}
-              <div className="hidden lg:block lg:col-span-1 space-y-4">
-                <h3 className="font-semibold text-foreground flex items-center gap-2">
-                  <CheckCircle className={cn("w-5 h-5", `text-agent-${agent.color}`)} />
-                  Voice Capabilities
-                </h3>
-                <ul className="space-y-2">
-                  <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <div className={cn("w-1.5 h-1.5 rounded-full", `bg-agent-${agent.color}`)} />
-                    Real-time voice conversations
-                  </li>
-                  <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <div className={cn("w-1.5 h-1.5 rounded-full", `bg-agent-${agent.color}`)} />
-                    Natural language understanding
-                  </li>
-                  <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <div className={cn("w-1.5 h-1.5 rounded-full", `bg-agent-${agent.color}`)} />
-                    Lifelike AI voice responses
-                  </li>
-                  <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <div className={cn("w-1.5 h-1.5 rounded-full", `bg-agent-${agent.color}`)} />
-                    Powered by ElevenLabs
-                  </li>
-                </ul>
-                <p className="text-xs text-muted-foreground mt-4">
-                  To use voice chat, you'll need an ElevenLabs account and a configured AI agent. Visit{" "}
-                  <a
-                    href="https://elevenlabs.io/conversational-ai"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-primary hover:underline"
-                  >
-                    elevenlabs.io
-                  </a>{" "}
-                  to get started.
-                </p>
+              <div className="lg:col-span-1 space-y-4">
+                <Collapsible className="lg:hidden">
+                  <CollapsibleTrigger className="flex items-center justify-between w-full p-3 rounded-xl bg-muted/30 border border-border/50">
+                    <span className="font-semibold text-sm text-foreground flex items-center gap-2">
+                      <CheckCircle className={cn("w-4 h-4", `text-agent-${agent.color}`)} />
+                      Voice Capabilities
+                    </span>
+                    <ChevronDown className="w-4 h-4 text-muted-foreground transition-transform [[data-state=open]_&]:rotate-180" />
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="pt-2">
+                    <ul className="space-y-1.5 pl-1">
+                      <li className="flex items-center gap-2 text-xs text-muted-foreground"><div className={cn("w-1.5 h-1.5 rounded-full shrink-0", `bg-agent-${agent.color}`)} />Real-time voice conversations</li>
+                      <li className="flex items-center gap-2 text-xs text-muted-foreground"><div className={cn("w-1.5 h-1.5 rounded-full shrink-0", `bg-agent-${agent.color}`)} />Natural language understanding</li>
+                      <li className="flex items-center gap-2 text-xs text-muted-foreground"><div className={cn("w-1.5 h-1.5 rounded-full shrink-0", `bg-agent-${agent.color}`)} />Lifelike AI voice responses</li>
+                      <li className="flex items-center gap-2 text-xs text-muted-foreground"><div className={cn("w-1.5 h-1.5 rounded-full shrink-0", `bg-agent-${agent.color}`)} />Powered by ElevenLabs</li>
+                    </ul>
+                  </CollapsibleContent>
+                </Collapsible>
+                <div className="hidden lg:block">
+                  <h3 className="font-semibold text-foreground flex items-center gap-2">
+                    <CheckCircle className={cn("w-5 h-5", `text-agent-${agent.color}`)} />
+                    Voice Capabilities
+                  </h3>
+                  <ul className="space-y-2 mt-4">
+                    <li className="flex items-center gap-2 text-sm text-muted-foreground"><div className={cn("w-1.5 h-1.5 rounded-full", `bg-agent-${agent.color}`)} />Real-time voice conversations</li>
+                    <li className="flex items-center gap-2 text-sm text-muted-foreground"><div className={cn("w-1.5 h-1.5 rounded-full", `bg-agent-${agent.color}`)} />Natural language understanding</li>
+                    <li className="flex items-center gap-2 text-sm text-muted-foreground"><div className={cn("w-1.5 h-1.5 rounded-full", `bg-agent-${agent.color}`)} />Lifelike AI voice responses</li>
+                    <li className="flex items-center gap-2 text-sm text-muted-foreground"><div className={cn("w-1.5 h-1.5 rounded-full", `bg-agent-${agent.color}`)} />Powered by ElevenLabs</li>
+                  </ul>
+                  <p className="text-xs text-muted-foreground mt-4">
+                    To use voice chat, you'll need an ElevenLabs account and a configured AI agent. Visit{" "}
+                    <a href="https://elevenlabs.io/conversational-ai" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">elevenlabs.io</a>{" "}
+                    to get started.
+                  </p>
+                </div>
               </div>
 
               {/* Voice Interface */}
@@ -767,37 +790,41 @@ export default function AgentDetail() {
 
           <TabsContent value="video" className="mt-4 md:mt-6">
             <div className="grid lg:grid-cols-3 gap-4 md:gap-8">
-              {/* Video Capabilities - hidden on mobile */}
-              <div className="hidden lg:block lg:col-span-1 space-y-4">
-                <h3 className="font-semibold text-foreground flex items-center gap-2">
-                  <CheckCircle className={cn("w-5 h-5", `text-agent-${agent.color}`)} />
-                  Video Options
-                </h3>
-                <ul className="space-y-2">
-                  <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <div className={cn("w-1.5 h-1.5 rounded-full", `bg-agent-${agent.color}`)} />
-                    Instant video meetings (Jitsi)
-                  </li>
-                  <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <div className={cn("w-1.5 h-1.5 rounded-full", `bg-agent-${agent.color}`)} />
-                    No account required
-                  </li>
-                  <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <div className={cn("w-1.5 h-1.5 rounded-full", `bg-agent-${agent.color}`)} />
-                    Google Meet quick launch
-                  </li>
-                  <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <div className={cn("w-1.5 h-1.5 rounded-full", `bg-agent-${agent.color}`)} />
-                    Zoom quick launch
-                  </li>
-                </ul>
-                <p className="text-xs text-muted-foreground mt-4">
-                  Configure your Google Meet and Zoom links in{" "}
-                  <a href="/settings" className="text-primary hover:underline">
-                    Settings → Links
-                  </a>{" "}
-                  for quick access.
-                </p>
+              <div className="lg:col-span-1 space-y-4">
+                <Collapsible className="lg:hidden">
+                  <CollapsibleTrigger className="flex items-center justify-between w-full p-3 rounded-xl bg-muted/30 border border-border/50">
+                    <span className="font-semibold text-sm text-foreground flex items-center gap-2">
+                      <CheckCircle className={cn("w-4 h-4", `text-agent-${agent.color}`)} />
+                      Video Options
+                    </span>
+                    <ChevronDown className="w-4 h-4 text-muted-foreground transition-transform [[data-state=open]_&]:rotate-180" />
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="pt-2">
+                    <ul className="space-y-1.5 pl-1">
+                      <li className="flex items-center gap-2 text-xs text-muted-foreground"><div className={cn("w-1.5 h-1.5 rounded-full shrink-0", `bg-agent-${agent.color}`)} />Instant video meetings (Jitsi)</li>
+                      <li className="flex items-center gap-2 text-xs text-muted-foreground"><div className={cn("w-1.5 h-1.5 rounded-full shrink-0", `bg-agent-${agent.color}`)} />No account required</li>
+                      <li className="flex items-center gap-2 text-xs text-muted-foreground"><div className={cn("w-1.5 h-1.5 rounded-full shrink-0", `bg-agent-${agent.color}`)} />Google Meet quick launch</li>
+                      <li className="flex items-center gap-2 text-xs text-muted-foreground"><div className={cn("w-1.5 h-1.5 rounded-full shrink-0", `bg-agent-${agent.color}`)} />Zoom quick launch</li>
+                    </ul>
+                  </CollapsibleContent>
+                </Collapsible>
+                <div className="hidden lg:block">
+                  <h3 className="font-semibold text-foreground flex items-center gap-2">
+                    <CheckCircle className={cn("w-5 h-5", `text-agent-${agent.color}`)} />
+                    Video Options
+                  </h3>
+                  <ul className="space-y-2 mt-4">
+                    <li className="flex items-center gap-2 text-sm text-muted-foreground"><div className={cn("w-1.5 h-1.5 rounded-full", `bg-agent-${agent.color}`)} />Instant video meetings (Jitsi)</li>
+                    <li className="flex items-center gap-2 text-sm text-muted-foreground"><div className={cn("w-1.5 h-1.5 rounded-full", `bg-agent-${agent.color}`)} />No account required</li>
+                    <li className="flex items-center gap-2 text-sm text-muted-foreground"><div className={cn("w-1.5 h-1.5 rounded-full", `bg-agent-${agent.color}`)} />Google Meet quick launch</li>
+                    <li className="flex items-center gap-2 text-sm text-muted-foreground"><div className={cn("w-1.5 h-1.5 rounded-full", `bg-agent-${agent.color}`)} />Zoom quick launch</li>
+                  </ul>
+                  <p className="text-xs text-muted-foreground mt-4">
+                    Configure your Google Meet and Zoom links in{" "}
+                    <a href="/settings" className="text-primary hover:underline">Settings → Links</a>{" "}
+                    for quick access.
+                  </p>
+                </div>
               </div>
 
               {/* Video Interface */}
