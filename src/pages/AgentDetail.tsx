@@ -681,10 +681,10 @@ export default function AgentDetail() {
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="chat" className="mt-6">
-            <div className="grid lg:grid-cols-3 gap-8">
-              {/* Capabilities */}
-              <div className="lg:col-span-1 space-y-4">
+          <TabsContent value="chat" className="mt-4 md:mt-6">
+            <div className="grid lg:grid-cols-3 gap-4 md:gap-8">
+              {/* Capabilities - hidden on mobile to save space */}
+              <div className="hidden lg:block lg:col-span-1 space-y-4">
                 <h3 className="font-semibold text-foreground flex items-center gap-2">
                   <CheckCircle className={cn("w-5 h-5", `text-agent-${agent.color}`)} />
                   Capabilities
