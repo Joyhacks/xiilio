@@ -1,6 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import { ArrowLeft, CheckCircle, MessageSquare, Clock, Mic, Linkedin, Video } from "lucide-react";
+import { ArrowLeft, CheckCircle, MessageSquare, Clock, Mic, Linkedin, Video, ChevronDown } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SEO } from "@/components/SEO";
