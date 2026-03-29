@@ -241,6 +241,9 @@ export default function Pricing() {
           ))}
         </div>
 
+        {/* Pricing Calculator */}
+        <PricingCalculator />
+
         {/* Capabilities Section */}
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">

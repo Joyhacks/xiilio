@@ -157,10 +157,7 @@ export function AgentCard({
             <Icon className={cn("w-7 h-7", colors.text)} />
           </div>
         ) : null}
-        <Badge variant="outline" className={cn("text-xs", statusStyles[status])}>
-          {status === "active" && "● "}
-          {status.charAt(0).toUpperCase() + status.slice(1)}
-        </Badge>
+        <AgentStatusIndicator slug={slug} />
       </div>
 
       {/* Content */}
