@@ -8,6 +8,7 @@ import { CTASection } from "@/components/CTASection";
 import { StreamingSection } from "@/components/StreamingSection";
 import { UserSocialSection } from "@/components/UserSocialSection";
 import { Footer } from "@/components/Footer";
+import { SecuritySection } from "@/components/SecuritySection";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { SEO } from "@/components/SEO";
 import { useUXTracking } from "@/hooks/useUXTracking";
