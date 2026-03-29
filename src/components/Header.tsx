@@ -108,7 +108,8 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
                 </svg>
               </a>
               <LanguageSelector />
-              
+              <NotificationCenter />
+
               {isAuthenticated ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
