@@ -801,7 +801,7 @@ export default function AgentDetail() {
               </div>
 
               {/* Video Interface */}
-              <div className="lg:col-span-2">
+              <div className="col-span-1 lg:col-span-2">
                 <VideoMeeting
                   agentName={agent.name}
                   agentAvatar={agent.avatar}
