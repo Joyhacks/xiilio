@@ -644,10 +644,10 @@ export default function AgentDetail() {
                 ● Active
               </Badge>
             </div>
-            <p className={cn("text-lg mb-2", `text-agent-${agent.color}`)}>
+            <p className={cn("text-sm md:text-lg mb-1 md:mb-2", `text-agent-${agent.color}`)}>
               {agent.role}
             </p>
-            <p className="text-muted-foreground mb-3">{agent.description}</p>
+            <p className="text-muted-foreground text-xs md:text-base mb-2 md:mb-3 line-clamp-2 md:line-clamp-none">{agent.description}</p>
             <a
               href="https://linkedin.com/company/24twelve"
               target="_blank"
