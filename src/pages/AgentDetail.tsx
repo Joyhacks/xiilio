@@ -621,20 +621,20 @@ export default function AgentDetail() {
         {/* Agent Header */}
         <div 
           ref={avatarRef}
-          className="flex flex-col md:flex-row md:items-center gap-6 mb-8 p-6 rounded-2xl bg-gradient-card border border-border/50 scroll-mt-24"
+          className="flex flex-row items-center gap-3 md:gap-6 mb-4 md:mb-8 p-3 md:p-6 rounded-2xl bg-gradient-card border border-border/50 scroll-mt-24"
         >
           <Avatar
             className={cn(
-              "w-24 h-24 ring-4 shrink-0",
+              "w-14 h-14 md:w-24 md:h-24 ring-2 md:ring-4 shrink-0",
               `ring-agent-${agent.color}/30`
             )}
           >
             <AvatarImage src={agent.avatar} alt={agent.name} />
             <AvatarFallback>{agent.name[0]}</AvatarFallback>
           </Avatar>
-          <div className="flex-1">
-            <div className="flex flex-wrap items-center gap-3 mb-2">
-              <h1 className="font-display text-3xl font-bold text-foreground">
+          <div className="flex-1 min-w-0">
+            <div className="flex flex-wrap items-center gap-2 md:gap-3 mb-1">
+              <h1 className="font-display text-lg md:text-3xl font-bold text-foreground truncate">
                 {agent.name}
               </h1>
               <Badge
