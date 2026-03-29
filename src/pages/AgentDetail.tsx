@@ -606,7 +606,7 @@ export default function AgentDetail() {
       )}
       
       <main className={cn(
-        "pt-20 pb-12 px-6 transition-all duration-300",
+        "pt-20 pb-12 px-3 md:px-6 transition-all duration-300",
         !isMobile && "ml-64 max-w-[calc(100%-16rem)]"
       )} style={{ paddingBottom: 'calc(3rem + var(--safe-area-bottom))' }}>
         {/* Back Link */}
