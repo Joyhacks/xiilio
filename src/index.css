@@ -159,11 +159,11 @@
     @apply border-border;
   }
 
-  /* Hide all scrollbars globally */
-  *::-webkit-scrollbar {
+  /* Hide scrollbars only on the main page — allow them in scrollable containers */
+  body::-webkit-scrollbar {
     display: none;
   }
-  * {
+  body {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
@@ -194,8 +194,8 @@
     max-width: 100vw;
     -webkit-overflow-scrolling: touch;
     -webkit-tap-highlight-color: transparent;
-    overscroll-behavior: none;
-    -webkit-touch-callout: none;
+    overscroll-behavior-x: none;
+    overscroll-behavior-y: auto;
   }
 
   #root {

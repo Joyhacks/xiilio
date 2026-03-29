@@ -161,7 +161,7 @@ export function AgentCard({
       </div>
 
       {/* Content */}
-      <h3 className="font-display text-lg md:text-xl font-semibold text-foreground mb-1 md:mb-2">
+      <h3 className="font-display text-sm sm:text-lg md:text-xl font-semibold text-foreground mb-1 md:mb-2 truncate">
         {name}
       </h3>
       <p className="text-xs md:text-sm text-muted-foreground mb-3 md:mb-4 line-clamp-2">

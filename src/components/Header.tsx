@@ -163,8 +163,9 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
               )}
             </div>
 
-            {/* Mobile: Share + WhatsApp only (nav moved to bottom bar) */}
+            {/* Mobile: Notification + Share + WhatsApp + Sign-in */}
             <div className="flex md:hidden items-center gap-1.5 shrink-0">
+              <NotificationCenter />
               <button
                 onClick={() => {
                   if (navigator.share) {
@@ -193,6 +194,55 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
                   <path d={siWhatsapp.path} />
                 </svg>
               </a>
+              {isAuthenticated ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="icon" className="rounded-full min-h-0 w-9 h-9">
+                      <Avatar className="h-7 w-7">
+                        <AvatarFallback className="bg-primary/20 text-primary text-[10px]">
+                          {userInitials}
+                        </AvatarFallback>
+                      </Avatar>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-48">
+                    <div className="px-2 py-1.5">
+                      <p className="text-sm font-medium text-foreground">
+                        {user?.user_metadata?.full_name || 'User'}
+                      </p>
+                      <p className="text-xs text-muted-foreground truncate">
+                        {user?.email}
+                      </p>
+                    </div>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                      <Link to="/dashboard" className="flex items-center gap-2">
+                        <LayoutDashboard className="w-4 h-4" />
+                        Dashboard
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link to="/settings" className="flex items-center gap-2">
+                        <Settings className="w-4 h-4" />
+                        Settings
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleSignOut} className="text-destructive focus:text-destructive">
+                      <LogOut className="w-4 h-4 mr-2" />
+                      Sign out
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <Button variant="ghost" size="icon" onClick={handleSignIn} className="min-h-0 w-9 h-9 text-xs">
+                  <Avatar className="h-7 w-7">
+                    <AvatarFallback className="bg-muted text-muted-foreground text-[10px]">
+                      IN
+                    </AvatarFallback>
+                  </Avatar>
+                </Button>
+              )}
             </div>
           </div>
         </div>

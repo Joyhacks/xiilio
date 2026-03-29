@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, TouchEvent } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { motion, useMotionValue, useTransform } from "framer-motion";
 import { Loader2 } from "lucide-react";
 
@@ -8,7 +8,7 @@ interface PullToRefreshProps {
 }
 
 const PULL_THRESHOLD = 80;
-const ACTIVATION_DISTANCE = 10;
+const ACTIVATION_DISTANCE = 15;
 
 export function PullToRefresh({ onRefresh, children }: PullToRefreshProps) {
   const [refreshing, setRefreshing] = useState(false);
@@ -16,6 +16,7 @@ export function PullToRefresh({ onRefresh, children }: PullToRefreshProps) {
   const startY = useRef(0);
   const pulling = useRef(false);
   const decided = useRef(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const indicatorOpacity = useTransform(pullY, [0, PULL_THRESHOLD], [0, 1]);
   const indicatorScale = useTransform(pullY, [0, PULL_THRESHOLD], [0.5, 1]);
@@ -25,34 +26,39 @@ export function PullToRefresh({ onRefresh, children }: PullToRefreshProps) {
     if (refreshing) return;
     decided.current = false;
     pulling.current = false;
+    startY.current = 0;
+    // Only track if page is scrolled to absolute top
     if (window.scrollY <= 0) {
       startY.current = e.touches[0].clientY;
     }
   }, [refreshing]);
 
   const handleTouchMove = useCallback((e: TouchEvent) => {
-    if (refreshing) return;
-    // Only consider pull-to-refresh if page was at top on touch start
-    if (startY.current === 0) return;
+    if (refreshing || startY.current === 0) return;
 
     const currentY = e.touches[0].clientY;
     const rawDy = currentY - startY.current;
 
-    // Wait until the user moves enough to decide direction
     if (!decided.current) {
       if (Math.abs(rawDy) < ACTIVATION_DISTANCE) return;
       decided.current = true;
-      // If scrolling up (negative dy), abort — let browser handle scroll
       if (rawDy <= 0) {
+        // Scrolling up — abort, let browser handle
         startY.current = 0;
         return;
       }
-      // User is pulling down at top of page — activate pull-to-refresh
+      // Double-check we're still at top (bounce could have moved us)
+      if (window.scrollY > 0) {
+        startY.current = 0;
+        return;
+      }
       pulling.current = true;
     }
 
     if (!pulling.current) return;
 
+    // Prevent native scroll while pulling
+    e.preventDefault();
     const dy = Math.max(0, rawDy * 0.4);
     pullY.set(Math.min(dy, PULL_THRESHOLD * 1.5));
   }, [pullY, refreshing]);
@@ -78,13 +84,22 @@ export function PullToRefresh({ onRefresh, children }: PullToRefreshProps) {
     }
   }, [pullY, onRefresh, refreshing]);
 
+  // Use native event listeners so we can call preventDefault (non-passive)
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    el.addEventListener("touchstart", handleTouchStart, { passive: true });
+    el.addEventListener("touchmove", handleTouchMove, { passive: false });
+    el.addEventListener("touchend", handleTouchEnd, { passive: true });
+    return () => {
+      el.removeEventListener("touchstart", handleTouchStart);
+      el.removeEventListener("touchmove", handleTouchMove);
+      el.removeEventListener("touchend", handleTouchEnd);
+    };
+  }, [handleTouchStart, handleTouchMove, handleTouchEnd]);
+
   return (
-    <div
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-      className="relative"
-    >
+    <div ref={containerRef} className="relative">
       {/* Pull indicator */}
       <motion.div
         className="absolute left-1/2 -translate-x-1/2 z-40 flex items-center justify-center"
