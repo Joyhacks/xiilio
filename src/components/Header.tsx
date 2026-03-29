@@ -60,7 +60,7 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
                   </Button>
                 </Link>
               )}
-              <Link to="/">
+              <Link to="/" className="hidden sm:block">
                 <WeatherWidget compact />
               </Link>
             </div>

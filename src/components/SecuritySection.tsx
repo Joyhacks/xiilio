@@ -61,7 +61,7 @@ export function SecuritySection() {
         <div
           ref={gridRef}
           className={cn(
-            "grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto transition-all duration-700 ease-out delay-150",
+            "grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 max-w-4xl mx-auto transition-all duration-700 ease-out delay-150",
             gridVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           )}
         >

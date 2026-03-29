@@ -212,11 +212,11 @@ export const Footer = forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>
                       className="hover:opacity-80 transition-opacity hover:scale-105"
                       aria-label="Try on Google Assistant"
                     >
-                      <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white flex items-center justify-center shadow-sm">
                         <svg
                           role="img"
                           viewBox="0 0 24 24"
-                          className="w-7 h-7"
+                          className="w-5 h-5 sm:w-7 sm:h-7"
                           aria-label="Google Assistant"
                         >
                           <defs>

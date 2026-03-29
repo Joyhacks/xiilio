@@ -20,7 +20,7 @@ export function CTASection() {
         <div
           ref={ref}
           className={cn(
-            "max-w-4xl mx-auto text-center glass-luxury rounded-3xl p-8 md:p-10 transition-all duration-700 ease-out",
+            "max-w-4xl mx-auto text-center glass-luxury rounded-2xl sm:rounded-3xl p-5 sm:p-8 md:p-10 transition-all duration-700 ease-out",
             isVisible
               ? "opacity-100 translate-y-0 scale-100"
               : "opacity-0 translate-y-12 scale-95"
