@@ -754,7 +754,7 @@ export default function AgentDetail() {
               </div>
 
               {/* Voice Interface */}
-              <div className="lg:col-span-2">
+              <div className="col-span-1 lg:col-span-2">
                 <VoiceChat
                   agentName={agent.name}
                   agentAvatar={agent.avatar}
