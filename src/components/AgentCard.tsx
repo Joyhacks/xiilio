@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { AgentStatusIndicator } from "@/components/AgentStatusIndicator";
 
 interface AgentCardProps {
   name: string;
@@ -156,10 +157,7 @@ export function AgentCard({
             <Icon className={cn("w-7 h-7", colors.text)} />
           </div>
         ) : null}
-        <Badge variant="outline" className={cn("text-xs", statusStyles[status])}>
-          {status === "active" && "● "}
-          {status.charAt(0).toUpperCase() + status.slice(1)}
-        </Badge>
+        <AgentStatusIndicator slug={slug} />
       </div>
 
       {/* Content */}
