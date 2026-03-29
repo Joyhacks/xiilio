@@ -6,6 +6,7 @@ import { DigitalClock } from "@/components/DigitalClock";
 import { WeatherWidget } from "@/components/WeatherWidget";
 import { Link, useLocation } from "react-router-dom";
 import { ArrowLeft, Settings, LogOut, BarChart3, LayoutDashboard, Share2 } from "lucide-react";
+import { NotificationCenter } from "@/components/NotificationCenter";
 import {
   DropdownMenu,
   DropdownMenuContent,
