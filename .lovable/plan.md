@@ -1,50 +1,77 @@
 
 
-## Make Site Fully Responsive for Web Browsers
+## Mobile UX Audit - Issues Found & Fix Plan
 
-The site currently has mobile optimizations geared toward Capacitor/native, but regular web visitors on mobile and tablet need a polished responsive experience too. Here's the plan:
+Based on code review and the initial mobile screenshot (390px viewport), here are all the issues identified:
 
-### Changes
+### Critical Issues
 
-**1. Fix BottomNav visibility for web vs native** (`src/components/BottomNav.tsx`, `src/pages/Index.tsx`)
-- The bottom nav and `pb-20` padding are always shown on mobile, even for regular web users. Add a check so the bottom nav only shows in standalone/PWA mode, or keep it but ensure it doesn't interfere with regular scrolling.
-- Actually, keeping the bottom nav for all mobile users is fine UX — just ensure the footer padding accounts for it properly.
+**1. Hero section has empty/wasted space on mobile**
+- The logo area takes up a huge portion of the screen (`h-[14rem]`) with very little visible content above the fold. Users see mostly dark background before any content.
 
-**2. Hero section responsive refinements** (`src/components/Hero.tsx`)
-- The logo uses fixed `h-[20rem]` on mobile which can be too tall on smaller screens (320px width). Add a smaller breakpoint: `h-[14rem] sm:h-[20rem] md:h-[28rem] lg:h-[34rem]`.
-- The Team Overview card's avatar row can overflow on very small screens — already uses `flex-wrap`, which is good.
+**2. `overscroll-behavior: none` on body blocks native scroll bounce**
+- Combined with `-webkit-touch-callout: none` and `user-select` restrictions, this creates a "stuck" feeling on mobile web browsers. Users report scroll not working -- this is likely the cause.
 
-**3. Header responsive polish** (`src/components/Header.tsx`)
-- Read full header to check if elements overflow on small screens (weather widget + clock + icons can crowd the 320-375px range).
-- Conditionally hide non-essential header items (weather, clock) on very small screens using `hidden xs:flex` or similar.
+**3. PullToRefresh intercepts all touch events at page top**
+- The `PullToRefresh` wrapper captures `onTouchStart/Move/End` on the entire page. When `window.scrollY <= 0`, it starts tracking pulls. This can conflict with normal scrolling, especially if there's any rounding issue with `scrollY` being slightly negative or zero on bounce.
 
-**4. Agent cards grid** (`src/components/AgentCard.tsx`, `src/components/TeamAgentsSection.tsx`)
-- The 2-column grid on mobile is good, but agent cards may have text overflow on 320px screens. Ensure card content uses proper text truncation and smaller font sizes.
+**4. Cookie consent banner overlaps bottom nav**
+- From the screenshot, the cookie banner sits right on top of the bottom nav, making both hard to interact with.
 
-**5. CTA Section** (`src/components/CTASection.tsx`)
-- Padding `p-8` on mobile can be reduced. Use `p-5 md:p-8 md:p-10`.
-- Button layout already uses `flex-col sm:flex-row` — good.
+**5. Hidden scrollbars globally breaks scroll affordance**
+- `*::-webkit-scrollbar { display: none }` and `scrollbar-width: none` hide ALL scrollbars, including in chat views and settings where scrollbars help users understand there's more content.
 
-**6. Footer responsive fixes** (`src/components/Footer.tsx`)
-- The footer has `pb-24 md:pb-4` plus safe-area-bottom calc — this creates excessive padding on regular mobile web. Simplify: use `pb-20 md:pb-4` consistently, with safe-area only added inside Capacitor context.
-- The nav links grid (`flex-wrap gap-8`) can look cramped on mobile. Reduce gap to `gap-4 md:gap-8`.
-- Siri/Google Assistant icons (w-12 h-12) are large for mobile footer — reduce to `w-10 h-10` on mobile.
+### Medium Issues
 
-**7. Streaming section** (`src/components/StreamingSection.tsx`)
-- Verify icons don't overflow on small screens.
+**6. Notification bell not visible on mobile header**
+- `NotificationCenter` is only in the desktop `hidden md:flex` section. Mobile users have no access to notifications.
 
-**8. Security section** (`src/components/SecuritySection.tsx`)
-- The 2-column grid is fine on tablet+ but on mobile (< 640px) it should stack to 1 column: `grid-cols-1 sm:grid-cols-2`.
+**7. CalendlyEmbed uses `window.innerWidth` at render time (not reactive)**
+- `const isMobile = window.innerWidth < 768;` doesn't update on resize/rotation, causing wrong height after orientation change.
 
-**9. Global CSS improvements** (`src/index.css`)
-- The `p, span, a, li, td, th, label, div { font-size: max(inherit, 14px); }` rule can cause layout issues by forcing minimum sizes on elements that should be smaller. Remove or scope it more carefully.
+**8. Docs page has ref warning (console error)**
+- `SEO` and `Header` components are being passed refs but aren't wrapped in `forwardRef`, causing React warnings.
 
-### Files to modify
-- `src/components/Hero.tsx` — smaller logo on tiny screens
-- `src/components/Header.tsx` — hide clock/weather on very small screens  
-- `src/components/CTASection.tsx` — tighter mobile padding
-- `src/components/SecuritySection.tsx` — single column on small mobile
-- `src/components/Footer.tsx` — fix padding, reduce gaps
-- `src/index.css` — fix overly aggressive min font-size rule
-- `src/components/AgentCard.tsx` — text truncation on small screens
+**9. Agent cards 2-column grid is tight on 320px screens**
+- Cards at `grid-cols-2` with `gap-4` leaves very narrow cards (~155px). Agent names like "Executive Assistant Nicole" will wrap awkwardly.
+
+**10. No sign-in access on mobile**
+- The sign-in button is only in the desktop header section (`hidden md:flex`). Mobile users can't sign in without navigating to Settings.
+
+### Minor Issues
+
+**11. Footer bottom padding creates gap on regular mobile web**
+- `pb-20 md:pb-4` is there for the bottom nav, but the footer also has `safe-area-bottom` calculations that can stack.
+
+**12. WhatsApp link hardcoded fallback**
+- `whatsappUrl || "https://wa.me/12345678900"` -- the fallback number is a placeholder.
+
+**13. NavMenu duplicates bottom nav links**
+- The `NavMenu` component within `TeamAgentsSection` shows the same links (Agents, Pricing, Docs) as the `BottomNav`, creating redundancy on mobile.
+
+---
+
+### Fix Plan
+
+**Files to modify:**
+
+1. **`src/index.css`** -- Remove `overscroll-behavior: none` from body (keep it only for specific containers like chat). Remove `-webkit-touch-callout: none` from body. Allow scrollbars in specific overflow containers.
+
+2. **`src/components/PullToRefresh.tsx`** -- Add a guard: only activate pull-to-refresh when `window.scrollY === 0` AND the touch delta exceeds a threshold. Add `{ passive: false }` consideration and prevent the component from eating scroll events.
+
+3. **`src/components/Header.tsx`** -- Add NotificationCenter and a sign-in/avatar button to the mobile header section (the `flex md:hidden` area).
+
+4. **`src/components/CookieConsentBanner.tsx`** -- Add `bottom-16 md:bottom-0` or similar offset so the banner sits above the bottom nav on mobile.
+
+5. **`src/pages/Contact.tsx`** -- Make CalendlyEmbed responsive by using a hook or CSS instead of static `window.innerWidth`.
+
+6. **`src/components/Hero.tsx`** -- Reduce top padding on mobile to show content sooner. Consider `h-[12rem]` for the logo on small screens.
+
+7. **`src/components/SEO.tsx`** -- Wrap in `forwardRef` to fix the console warning.
+
+8. **`src/components/AgentCard.tsx`** -- Add `truncate` to agent name on mobile to prevent awkward wrapping.
+
+9. **`src/components/NavMenu.tsx`** -- Hide on mobile (`hidden md:block`) since the bottom nav already provides these links.
+
+10. **`src/components/Footer.tsx`** -- Simplify bottom padding logic to avoid double-padding from safe-area + bottom-nav offset.
 
