@@ -790,37 +790,41 @@ export default function AgentDetail() {
 
           <TabsContent value="video" className="mt-4 md:mt-6">
             <div className="grid lg:grid-cols-3 gap-4 md:gap-8">
-              {/* Video Capabilities - hidden on mobile */}
-              <div className="hidden lg:block lg:col-span-1 space-y-4">
-                <h3 className="font-semibold text-foreground flex items-center gap-2">
-                  <CheckCircle className={cn("w-5 h-5", `text-agent-${agent.color}`)} />
-                  Video Options
-                </h3>
-                <ul className="space-y-2">
-                  <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <div className={cn("w-1.5 h-1.5 rounded-full", `bg-agent-${agent.color}`)} />
-                    Instant video meetings (Jitsi)
-                  </li>
-                  <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <div className={cn("w-1.5 h-1.5 rounded-full", `bg-agent-${agent.color}`)} />
-                    No account required
-                  </li>
-                  <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <div className={cn("w-1.5 h-1.5 rounded-full", `bg-agent-${agent.color}`)} />
-                    Google Meet quick launch
-                  </li>
-                  <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <div className={cn("w-1.5 h-1.5 rounded-full", `bg-agent-${agent.color}`)} />
-                    Zoom quick launch
-                  </li>
-                </ul>
-                <p className="text-xs text-muted-foreground mt-4">
-                  Configure your Google Meet and Zoom links in{" "}
-                  <a href="/settings" className="text-primary hover:underline">
-                    Settings → Links
-                  </a>{" "}
-                  for quick access.
-                </p>
+              <div className="lg:col-span-1 space-y-4">
+                <Collapsible className="lg:hidden">
+                  <CollapsibleTrigger className="flex items-center justify-between w-full p-3 rounded-xl bg-muted/30 border border-border/50">
+                    <span className="font-semibold text-sm text-foreground flex items-center gap-2">
+                      <CheckCircle className={cn("w-4 h-4", `text-agent-${agent.color}`)} />
+                      Video Options
+                    </span>
+                    <ChevronDown className="w-4 h-4 text-muted-foreground transition-transform [[data-state=open]_&]:rotate-180" />
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="pt-2">
+                    <ul className="space-y-1.5 pl-1">
+                      <li className="flex items-center gap-2 text-xs text-muted-foreground"><div className={cn("w-1.5 h-1.5 rounded-full shrink-0", `bg-agent-${agent.color}`)} />Instant video meetings (Jitsi)</li>
+                      <li className="flex items-center gap-2 text-xs text-muted-foreground"><div className={cn("w-1.5 h-1.5 rounded-full shrink-0", `bg-agent-${agent.color}`)} />No account required</li>
+                      <li className="flex items-center gap-2 text-xs text-muted-foreground"><div className={cn("w-1.5 h-1.5 rounded-full shrink-0", `bg-agent-${agent.color}`)} />Google Meet quick launch</li>
+                      <li className="flex items-center gap-2 text-xs text-muted-foreground"><div className={cn("w-1.5 h-1.5 rounded-full shrink-0", `bg-agent-${agent.color}`)} />Zoom quick launch</li>
+                    </ul>
+                  </CollapsibleContent>
+                </Collapsible>
+                <div className="hidden lg:block">
+                  <h3 className="font-semibold text-foreground flex items-center gap-2">
+                    <CheckCircle className={cn("w-5 h-5", `text-agent-${agent.color}`)} />
+                    Video Options
+                  </h3>
+                  <ul className="space-y-2 mt-4">
+                    <li className="flex items-center gap-2 text-sm text-muted-foreground"><div className={cn("w-1.5 h-1.5 rounded-full", `bg-agent-${agent.color}`)} />Instant video meetings (Jitsi)</li>
+                    <li className="flex items-center gap-2 text-sm text-muted-foreground"><div className={cn("w-1.5 h-1.5 rounded-full", `bg-agent-${agent.color}`)} />No account required</li>
+                    <li className="flex items-center gap-2 text-sm text-muted-foreground"><div className={cn("w-1.5 h-1.5 rounded-full", `bg-agent-${agent.color}`)} />Google Meet quick launch</li>
+                    <li className="flex items-center gap-2 text-sm text-muted-foreground"><div className={cn("w-1.5 h-1.5 rounded-full", `bg-agent-${agent.color}`)} />Zoom quick launch</li>
+                  </ul>
+                  <p className="text-xs text-muted-foreground mt-4">
+                    Configure your Google Meet and Zoom links in{" "}
+                    <a href="/settings" className="text-primary hover:underline">Settings → Links</a>{" "}
+                    for quick access.
+                  </p>
+                </div>
               </div>
 
               {/* Video Interface */}
