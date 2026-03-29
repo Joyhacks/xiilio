@@ -380,7 +380,7 @@ export function AgentChat({
   }
 
   return (
-    <div className="flex flex-col h-[600px] bg-card rounded-2xl border border-border/50 overflow-hidden">
+    <div className="flex flex-col h-[calc(100dvh-16rem)] md:h-[600px] max-h-[600px] bg-card rounded-2xl border border-border/50 overflow-hidden">
       <ChatHeader 
         agentName={agentName} 
         agentAvatar={agentAvatar}

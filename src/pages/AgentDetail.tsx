@@ -606,13 +606,13 @@ export default function AgentDetail() {
       )}
       
       <main className={cn(
-        "pt-20 pb-12 px-6 transition-all duration-300",
+        "pt-20 pb-12 px-3 md:px-6 transition-all duration-300",
         !isMobile && "ml-64 max-w-[calc(100%-16rem)]"
       )} style={{ paddingBottom: 'calc(3rem + var(--safe-area-bottom))' }}>
         {/* Back Link */}
         <Link
           to="/"
-          className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-8"
+          className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-4 md:mb-8 text-sm"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to all agents
@@ -621,20 +621,20 @@ export default function AgentDetail() {
         {/* Agent Header */}
         <div 
           ref={avatarRef}
-          className="flex flex-col md:flex-row md:items-center gap-6 mb-8 p-6 rounded-2xl bg-gradient-card border border-border/50 scroll-mt-24"
+          className="flex flex-row items-center gap-3 md:gap-6 mb-4 md:mb-8 p-3 md:p-6 rounded-2xl bg-gradient-card border border-border/50 scroll-mt-24"
         >
           <Avatar
             className={cn(
-              "w-24 h-24 ring-4 shrink-0",
+              "w-14 h-14 md:w-24 md:h-24 ring-2 md:ring-4 shrink-0",
               `ring-agent-${agent.color}/30`
             )}
           >
             <AvatarImage src={agent.avatar} alt={agent.name} />
             <AvatarFallback>{agent.name[0]}</AvatarFallback>
           </Avatar>
-          <div className="flex-1">
-            <div className="flex flex-wrap items-center gap-3 mb-2">
-              <h1 className="font-display text-3xl font-bold text-foreground">
+          <div className="flex-1 min-w-0">
+            <div className="flex flex-wrap items-center gap-2 md:gap-3 mb-1">
+              <h1 className="font-display text-lg md:text-3xl font-bold text-foreground truncate">
                 {agent.name}
               </h1>
               <Badge
@@ -644,15 +644,15 @@ export default function AgentDetail() {
                 ● Active
               </Badge>
             </div>
-            <p className={cn("text-lg mb-2", `text-agent-${agent.color}`)}>
+            <p className={cn("text-sm md:text-lg mb-1 md:mb-2", `text-agent-${agent.color}`)}>
               {agent.role}
             </p>
-            <p className="text-muted-foreground mb-3">{agent.description}</p>
+            <p className="text-muted-foreground text-xs md:text-base mb-2 md:mb-3 line-clamp-2 md:line-clamp-none">{agent.description}</p>
             <a
               href="https://linkedin.com/company/24twelve"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+              className="hidden md:inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
             >
               <Linkedin className="w-4 h-4" />
               Connect on LinkedIn
@@ -661,30 +661,30 @@ export default function AgentDetail() {
         </div>
 
         {/* Tabs */}
-        <Tabs defaultValue="chat" className="space-y-6">
-          <TabsList className="bg-muted/50 p-1">
-            <TabsTrigger value="chat" className="gap-2">
-              <MessageSquare className="w-4 h-4" />
+        <Tabs defaultValue="chat" className="space-y-4 md:space-y-6">
+          <TabsList className="bg-muted/50 p-1 w-full grid grid-cols-4 md:w-auto md:inline-flex">
+            <TabsTrigger value="chat" className="gap-1 md:gap-2 text-xs md:text-sm px-2 md:px-3">
+              <MessageSquare className="w-3.5 h-3.5 md:w-4 md:h-4" />
               Chat
             </TabsTrigger>
-            <TabsTrigger value="voice" className="gap-2">
-              <Mic className="w-4 h-4" />
+            <TabsTrigger value="voice" className="gap-1 md:gap-2 text-xs md:text-sm px-2 md:px-3">
+              <Mic className="w-3.5 h-3.5 md:w-4 md:h-4" />
               Voice
             </TabsTrigger>
-            <TabsTrigger value="video" className="gap-2">
-              <Video className="w-4 h-4" />
+            <TabsTrigger value="video" className="gap-1 md:gap-2 text-xs md:text-sm px-2 md:px-3">
+              <Video className="w-3.5 h-3.5 md:w-4 md:h-4" />
               Video
             </TabsTrigger>
-            <TabsTrigger value="activity" className="gap-2">
-              <Clock className="w-4 h-4" />
+            <TabsTrigger value="activity" className="gap-1 md:gap-2 text-xs md:text-sm px-2 md:px-3">
+              <Clock className="w-3.5 h-3.5 md:w-4 md:h-4" />
               Activity
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="chat" className="mt-6">
-            <div className="grid lg:grid-cols-3 gap-8">
-              {/* Capabilities */}
-              <div className="lg:col-span-1 space-y-4">
+          <TabsContent value="chat" className="mt-4 md:mt-6">
+            <div className="grid lg:grid-cols-3 gap-4 md:gap-8">
+              {/* Capabilities - hidden on mobile to save space */}
+              <div className="hidden lg:block lg:col-span-1 space-y-4">
                 <h3 className="font-semibold text-foreground flex items-center gap-2">
                   <CheckCircle className={cn("w-5 h-5", `text-agent-${agent.color}`)} />
                   Capabilities
@@ -700,7 +700,7 @@ export default function AgentDetail() {
               </div>
 
               {/* Chat Interface */}
-              <div className="lg:col-span-2">
+              <div className="col-span-1 lg:col-span-2">
                 <AgentChat
                   agentName={agent.name}
                   agentAvatar={agent.avatar}
@@ -713,10 +713,10 @@ export default function AgentDetail() {
             </div>
           </TabsContent>
 
-          <TabsContent value="voice" className="mt-6">
-            <div className="grid lg:grid-cols-3 gap-8">
-              {/* Capabilities */}
-              <div className="lg:col-span-1 space-y-4">
+          <TabsContent value="voice" className="mt-4 md:mt-6">
+            <div className="grid lg:grid-cols-3 gap-4 md:gap-8">
+              {/* Capabilities - hidden on mobile */}
+              <div className="hidden lg:block lg:col-span-1 space-y-4">
                 <h3 className="font-semibold text-foreground flex items-center gap-2">
                   <CheckCircle className={cn("w-5 h-5", `text-agent-${agent.color}`)} />
                   Voice Capabilities
@@ -754,7 +754,7 @@ export default function AgentDetail() {
               </div>
 
               {/* Voice Interface */}
-              <div className="lg:col-span-2">
+              <div className="col-span-1 lg:col-span-2">
                 <VoiceChat
                   agentName={agent.name}
                   agentAvatar={agent.avatar}
@@ -765,10 +765,10 @@ export default function AgentDetail() {
             </div>
           </TabsContent>
 
-          <TabsContent value="video" className="mt-6">
-            <div className="grid lg:grid-cols-3 gap-8">
-              {/* Video Capabilities */}
-              <div className="lg:col-span-1 space-y-4">
+          <TabsContent value="video" className="mt-4 md:mt-6">
+            <div className="grid lg:grid-cols-3 gap-4 md:gap-8">
+              {/* Video Capabilities - hidden on mobile */}
+              <div className="hidden lg:block lg:col-span-1 space-y-4">
                 <h3 className="font-semibold text-foreground flex items-center gap-2">
                   <CheckCircle className={cn("w-5 h-5", `text-agent-${agent.color}`)} />
                   Video Options
@@ -801,7 +801,7 @@ export default function AgentDetail() {
               </div>
 
               {/* Video Interface */}
-              <div className="lg:col-span-2">
+              <div className="col-span-1 lg:col-span-2">
                 <VideoMeeting
                   agentName={agent.name}
                   agentAvatar={agent.avatar}
