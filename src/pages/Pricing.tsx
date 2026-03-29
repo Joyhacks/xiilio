@@ -6,6 +6,7 @@ import { SEO } from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { PricingCalculator } from "@/components/PricingCalculator";
 
 interface PlanFeature {
   text: string;
