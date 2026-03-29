@@ -31,7 +31,7 @@ export function NavMenu({ className }: NavMenuProps) {
   };
 
   return (
-    <div className={cn("glass-card rounded-xl p-3 md:p-4", className)}>
+    <div className={cn("glass-card rounded-xl p-3 md:p-4 hidden md:block", className)}>
       <nav className="flex items-center justify-center gap-4 md:gap-8 flex-wrap">
         {navLinks.map((link) =>
           link.isHash ? (

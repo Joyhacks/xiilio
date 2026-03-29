@@ -153,7 +153,7 @@ export function Hero() {
               <img 
                 src={logo} 
                 alt="Xiilio - Working 24twelve" 
-                className="relative h-[14rem] sm:h-[20rem] md:h-[28rem] lg:h-[34rem] w-auto mx-auto -rotate-[7deg] scale-110"
+                className="relative h-[10rem] sm:h-[16rem] md:h-[28rem] lg:h-[34rem] w-auto mx-auto -rotate-[7deg] scale-110"
                 loading="eager"
               />
               {/* Subtle edge-blending gradient */}
