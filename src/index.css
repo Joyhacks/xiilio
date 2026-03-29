@@ -224,13 +224,10 @@
     }
   }
 
-  /* Mobile font size floor */
+  /* Mobile font size floor - scoped to body only to avoid layout issues */
   @media (max-width: 768px) {
     body {
       font-size: 16px;
-    }
-    p, span, a, li, td, th, label, div {
-      font-size: max(inherit, 14px);
     }
   }
 

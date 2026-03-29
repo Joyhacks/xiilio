@@ -119,7 +119,7 @@ export const Footer = forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>
 
   return (
     <>
-      <footer ref={ref} {...props} className="py-4 border-t border-primary/10 -mt-4 pb-24 md:pb-4" style={{ backgroundColor: '#0c1709', paddingBottom: 'calc(6rem + var(--safe-area-bottom))', paddingLeft: 'var(--safe-area-left)', paddingRight: 'var(--safe-area-right)' }}>
+      <footer ref={ref} {...props} className="py-4 border-t border-primary/10 -mt-4 pb-20 md:pb-4" style={{ backgroundColor: '#0c1709', paddingBottom: 'calc(5rem + var(--safe-area-bottom))', paddingLeft: 'var(--safe-area-left)', paddingRight: 'var(--safe-area-right)' }}>
         <div className="container mx-auto px-6">
           {/* Main Footer Content - All in one row on desktop */}
           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-4">
@@ -136,7 +136,7 @@ export const Footer = forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>
             </div>
 
             {/* Navigation Links */}
-            <div className="flex flex-wrap gap-8">
+            <div className="flex flex-wrap gap-4 sm:gap-8">
               {/* Company */}
               <div>
                 <h4 className="font-semibold text-foreground text-sm mb-2">Company</h4>
@@ -193,11 +193,11 @@ export const Footer = forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>
                       className="hover:opacity-80 transition-opacity hover:scale-105"
                       aria-label="Try with Siri"
                     >
-                      <div className="w-12 h-12 rounded-full flex items-center justify-center shadow-sm overflow-hidden" style={{ background: 'linear-gradient(135deg, #FF2D55 0%, #AF52DE 25%, #5856D6 50%, #007AFF 75%, #34C759 100%)' }}>
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center shadow-sm overflow-hidden" style={{ background: 'linear-gradient(135deg, #FF2D55 0%, #AF52DE 25%, #5856D6 50%, #007AFF 75%, #34C759 100%)' }}>
                         <svg
                           role="img"
                           viewBox="0 0 24 24"
-                          className="w-7 h-7"
+                          className="w-5 h-5 sm:w-7 sm:h-7"
                           fill="white"
                           aria-label="Siri"
                         >
@@ -212,11 +212,11 @@ export const Footer = forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>
                       className="hover:opacity-80 transition-opacity hover:scale-105"
                       aria-label="Try on Google Assistant"
                     >
-                      <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-sm">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white flex items-center justify-center shadow-sm">
                         <svg
                           role="img"
                           viewBox="0 0 24 24"
-                          className="w-7 h-7"
+                          className="w-5 h-5 sm:w-7 sm:h-7"
                           aria-label="Google Assistant"
                         >
                           <defs>

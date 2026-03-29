@@ -31,7 +31,7 @@ export function SecuritySection() {
   const { ref: gridRef, isVisible: gridVisible } = useScrollAnimation({ threshold: 0.05 });
 
   return (
-    <section className="relative py-24 bg-background">
+    <section className="relative py-12 md:py-24 bg-background">
       <div className="relative container mx-auto px-6">
         <div
           ref={headerRef}
@@ -61,7 +61,7 @@ export function SecuritySection() {
         <div
           ref={gridRef}
           className={cn(
-            "grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto transition-all duration-700 ease-out delay-150",
+            "grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 max-w-4xl mx-auto transition-all duration-700 ease-out delay-150",
             gridVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
           )}
         >
