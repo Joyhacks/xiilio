@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { AgentStatusIndicator } from "@/components/AgentStatusIndicator";
 
 interface AgentCardProps {
   name: string;
