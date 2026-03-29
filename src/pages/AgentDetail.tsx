@@ -652,7 +652,7 @@ export default function AgentDetail() {
               href="https://linkedin.com/company/24twelve"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+              className="hidden md:inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
             >
               <Linkedin className="w-4 h-4" />
               Connect on LinkedIn
