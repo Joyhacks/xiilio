@@ -179,7 +179,7 @@ export function AgentChat({
       const resp = await fetch(`${SUPABASE_URL}/functions/v1/${edgeFunctionName}`, {
         method: "POST",
         headers,
-        body: JSON.stringify({ messages: userMessages }),
+        body: JSON.stringify({ messages: userMessages, sessionId, agentSlug: agentSlug || edgeFunctionName }),
       });
 
       // Check for owner mode header
