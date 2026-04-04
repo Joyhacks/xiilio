@@ -1,57 +1,60 @@
 // Shared memory utilities for all agent chat functions
-// Handles fact extraction, storage, and retrieval for personalization
+// Handles fact extraction, storage, retrieval, RAG, validation, and rate limiting
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
 export { corsHeaders };
 
-// Company context that all agents share - sourced from www.24twelve.co
+// ============================================================
+// Company context that all agents share
+// ============================================================
 export const COMPANY_CONTEXT = `
-### About Your Employer: 24Twelve & Xilio
-You work for **24Twelve** (www.24twelve.co), an AI-driven lead generation agency, and you are part of the **Xilio** AI agent platform.
+### About Your Employer: 24Twelve & Xiilio
 
-**Company Mission:** "Working for you 24 hours a day, twelve months a year."
+You work for **24Twelve** (www.24twelve.co), an AI-driven lead generation agency, and you are part of the **Xiilio** AI agent platform (xiilio.ai).
 
-**Founder & Owner:** Mark McClafferty. He is the founder and owner of both 24Twelve and the Xilio app. When asked about the owner or founder, refer to him as "Mark."
+**TAGLINE:** "The Next Top Performer Isn't Human"
 
-**What 24Twelve Does:**
-- AI-powered lead generation and email marketing campaigns with ROI as high as 42:1
-- Provides white-labeled AI agent teams to help businesses grow under their own brand
-- AI Agents that make sales calls, book appointments, handle customer support, act as Executive Assistants, and manage social media
-- Seamlessly integrates with existing CRMs
-- Helps businesses generate qualified leads within 24 hours of going live
+**Founder & Owner:** Mark McClafferty. He is the founder and owner of both 24Twelve and the Xiilio app. When asked about the owner or founder, refer to him as "Mark."
 
-**Core Services:**
-1. Done-for-you AI outreach & support
-2. AI-driven lead generation campaigns
-3. 2-page local AI website builds for Google Business Profile
-4. Chat-Bot embedded into mobile or website
-5. Reignite old data through AI agents contacting leads from existing CRM
+**WHO WE ARE:**
+A global, full-service AI marketing and lead generation agency built for one purpose: to grow businesses faster than traditional methods ever could. Operating 24 hours a day, 365 days a year, combining the precision of artificial intelligence with the empathy of human communication to deliver measurable results from day one. Our team brings multinational expertise across 15+ countries, serving industries including SaaS, hospitality, finance, insurance, energy, healthcare, and beyond.
 
-**Industries Served:** Point of Sales, SaaS & Services, Energy & Fintech, Insurance, Building & Design, Global Support
+**CORE SERVICES:**
+1. **AI Agents & Personas** — Autonomous AI-powered digital workers that qualify leads, book meetings, handle customer support, manage social media, and close sales — without breaks, burnout, or onboarding. Fluent in 80+ languages.
+2. **AI-Powered Lead Generation** — Intelligent outreach infrastructure that identifies ideal prospects, constructs targeted campaigns, and delivers qualified leads directly to your pipeline. Reactivates dormant data into revenue.
+3. **Digital Advertising** — High-performance paid campaigns across search, social, and display platforms.
+4. **Email Marketing & Automation** — Smart, personalized email sequences that nurture prospects and convert.
+5. **Social Media Management** — Consistent, on-brand content and growth strategy across all major platforms.
+6. **AI Video Creation & Cloning** — Bespoke AI influencers or cloned spokespeople for on-demand video content.
+7. **Web Design & SEO** — Fast, modern websites built to rank on Google and convert visitors into customers.
 
-**Value Proposition:**
-- Go live in as little as 10 minutes
-- Generate first client in as little as 24 hours
-- Design and build cost-effective AI communication campaigns
-- Provide real-time data updates on outreach and conversion rates
+**RESULTS:**
+- 4x average return on ad spend
+- 38% average ROI improvement
+- 600+ qualified leads generated across campaigns
+- 200% ROI achieved within the first month
+- 80 booked meetings in 5 days
+- Go live in as little as 24-48 hours
 
-**Contact:** Customer Support 24/7, +44 2046 202235
+**PLATFORM & SECURITY:**
+Xiilio.ai is a secure, data-compliant, enterprise-grade, multi-channel Agentic AI platform supporting simultaneous interactions across voice, SMS, email, chat, and social channels. Built with a proprietary shield architecture ensuring GDPR data privacy and compliance. On-brand IP-registered AI voices with continuous voice-print analytics to reduce impersonation risks.
 
-**Location & Timezone:** London, UK (GMT/BST)
+**Contact:** hello@xiilio.ai | Customer Support 24/7, +44 2046 202235
+**Location:** London, UK (GMT/BST) — serving clients worldwide
 
-When appropriate, reference 24Twelve's services and capabilities in your responses. You are proud to be part of this innovative AI team!
+When appropriate, reference 24Twelve/Xiilio's services and capabilities in your responses. You are proud to be part of this innovative AI team!
 `;
 
 // Owner context - injected when Mark McClafferty is logged in
 export const OWNER_CONTEXT = `
 ### IMPORTANT: You Are Speaking With Your Boss
-The person you are speaking with is **Mark McClafferty**, the Founder and Owner of 24Twelve and the Xilio app. 
+The person you are speaking with is **Mark McClafferty**, the Founder and Owner of 24Twelve and the Xiilio app. 
 - You work directly FOR Mark - he is your employer and the creator of this platform
 - Treat him with the respect due to your boss while maintaining your helpful, professional personality
 - Be ready to assist with any business matters, strategic decisions, or operational tasks he needs
@@ -60,6 +63,367 @@ The person you are speaking with is **Mark McClafferty**, the Founder and Owner 
 - Remember: Mark built you and your fellow agents - he knows what you're capable of!
 `;
 
+// ============================================================
+// Input Validation & Sanitization
+// ============================================================
+const MAX_MESSAGE_LENGTH = 2000;
+const MAX_MESSAGES = 50;
+const MAX_SESSION_ID_LENGTH = 128;
+
+function sanitizeString(str: string, maxLen: number): string {
+  return str.slice(0, maxLen).replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, "");
+}
+
+export function validateInput(body: any): { messages: any[]; sessionId: string; agentSlug?: string } {
+  if (!body || typeof body !== "object") throw new Error("Invalid request body");
+
+  const { messages, sessionId, agentSlug } = body;
+
+  if (!Array.isArray(messages) || messages.length === 0) throw new Error("Messages required");
+  if (messages.length > MAX_MESSAGES) throw new Error("Too many messages");
+
+  const cleanMessages = messages.map((m: any) => {
+    if (!m || typeof m !== "object") throw new Error("Invalid message format");
+    if (!["user", "assistant"].includes(m.role)) throw new Error("Invalid role");
+    if (typeof m.content !== "string" || m.content.trim().length === 0) throw new Error("Empty message");
+    return { role: m.role, content: sanitizeString(m.content, MAX_MESSAGE_LENGTH) };
+  });
+
+  const cleanSessionId = typeof sessionId === "string"
+    ? sanitizeString(sessionId, MAX_SESSION_ID_LENGTH).replace(/[^a-zA-Z0-9\-_]/g, "")
+    : "";
+
+  return { messages: cleanMessages, sessionId: cleanSessionId, agentSlug: typeof agentSlug === "string" ? agentSlug : undefined };
+}
+
+// ============================================================
+// Rate Limiting (in-memory, per session)
+// ============================================================
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+const RATE_LIMIT_WINDOW = 60_000;
+const RATE_LIMIT_MAX = 15;
+
+export function checkRateLimit(sessionId: string): boolean {
+  const now = Date.now();
+  const key = sessionId || "anonymous";
+  const entry = rateLimitMap.get(key);
+
+  if (!entry || now > entry.resetAt) {
+    rateLimitMap.set(key, { count: 1, resetAt: now + RATE_LIMIT_WINDOW });
+    return true;
+  }
+
+  if (entry.count >= RATE_LIMIT_MAX) return false;
+  entry.count++;
+  return true;
+}
+
+// Periodically clean rate limit map
+setInterval(() => {
+  const now = Date.now();
+  for (const [key, entry] of rateLimitMap) {
+    if (now > entry.resetAt) rateLimitMap.delete(key);
+  }
+}, 120_000);
+
+// ============================================================
+// RAG Context Retrieval
+// ============================================================
+const STOPWORDS = new Set([
+  "the", "a", "an", "is", "are", "was", "were", "be", "been", "being",
+  "have", "has", "had", "do", "does", "did", "will", "would", "could",
+  "should", "may", "might", "shall", "can", "need", "dare", "ought",
+  "used", "to", "of", "in", "for", "on", "with", "at", "by", "from",
+  "as", "into", "through", "during", "before", "after", "above", "below",
+  "between", "out", "off", "over", "under", "again", "further", "then",
+  "once", "here", "there", "when", "where", "why", "how", "all", "both",
+  "each", "few", "more", "most", "other", "some", "such", "no", "nor",
+  "not", "only", "own", "same", "so", "than", "too", "very", "just",
+  "don", "about", "what", "your", "you", "that", "this", "tell", "me",
+  "know", "think", "want", "like", "get", "make",
+]);
+
+export async function retrieveRAGContext(
+  supabaseUrl: string,
+  serviceKey: string,
+  messages: any[],
+  sessionId: string,
+  agentSlug: string,
+): Promise<string> {
+  if (!supabaseUrl || !serviceKey) return "";
+  
+  const latestUserMsg = [...messages].reverse().find((m: any) => m.role === "user");
+  if (!latestUserMsg) return "";
+
+  const keywords = latestUserMsg.content
+    .toLowerCase()
+    .replace(/[^\w\s]/g, "")
+    .split(/\s+/)
+    .filter((w: string) => w.length > 2 && !STOPWORDS.has(w))
+    .slice(0, 8);
+
+  if (keywords.length === 0) return "";
+
+  const orFilters = keywords
+    .slice(0, 4)
+    .map((k: string) => `content.ilike.%${k}%`)
+    .join(",");
+
+  try {
+    const supabase = createClient(supabaseUrl, serviceKey);
+    const { data: pastConvos } = await supabase
+      .from("chat_conversations")
+      .select("role, content, session_id, created_at")
+      .eq("agent_slug", agentSlug)
+      .or(orFilters)
+      .neq("session_id", sessionId || "none")
+      .order("created_at", { ascending: false })
+      .limit(30);
+
+    if (!pastConvos || pastConvos.length === 0) return "";
+
+    // Group by session to reconstruct Q&A pairs
+    const sessions = new Map<string, { user: string; assistant: string; score: number }>();
+    for (const msg of pastConvos) {
+      const existing = sessions.get(msg.session_id) || { user: "", assistant: "", score: 0 };
+      if (msg.role === "user" && !existing.user) existing.user = msg.content;
+      if (msg.role === "assistant" && !existing.assistant) existing.assistant = msg.content.slice(0, 400);
+      sessions.set(msg.session_id, existing);
+    }
+
+    // Score pairs by keyword relevance
+    const scoredPairs = [...sessions.values()]
+      .filter(p => p.user && p.assistant)
+      .map(p => {
+        let score = 0;
+        const combined = (p.user + " " + p.assistant).toLowerCase();
+        for (const k of keywords) {
+          if (combined.includes(k)) score += 1;
+          if (p.user.toLowerCase().includes(k)) score += 0.5;
+        }
+        return { ...p, score };
+      })
+      .filter(p => p.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 5);
+
+    if (scoredPairs.length === 0) return "";
+
+    return "\n\nRELEVANT PAST INTERACTIONS (use these to inform your response — weave insights naturally, never reference the database):\n" +
+      scoredPairs.map((p, i) =>
+        `${i + 1}. Q: "${p.user.slice(0, 200)}" → A: "${p.assistant.slice(0, 300)}"`
+      ).join("\n");
+  } catch (e) {
+    console.error("RAG retrieval error:", e);
+    return "";
+  }
+}
+
+// ============================================================
+// Conversation Persistence
+// ============================================================
+export async function storeConversationMessage(
+  supabaseUrl: string,
+  serviceKey: string,
+  sessionId: string,
+  agentSlug: string,
+  role: string,
+  content: string,
+  userId: string | null,
+): Promise<void> {
+  if (!sessionId || !content || !supabaseUrl || !serviceKey) return;
+  try {
+    const supabase = createClient(supabaseUrl, serviceKey);
+    await supabase.from("chat_conversations").insert({
+      session_id: sessionId,
+      agent_slug: agentSlug,
+      role,
+      content,
+      user_id: userId,
+    });
+  } catch (e) {
+    console.error("Failed to store conversation message:", e);
+  }
+}
+
+// Create a stream interceptor that captures assistant content for persistence
+export function createStreamInterceptor(
+  originalBody: ReadableStream<Uint8Array>,
+  onComplete: (assistantContent: string) => void,
+): ReadableStream<Uint8Array> {
+  const reader = originalBody.getReader();
+  let assistantContent = "";
+
+  return new ReadableStream({
+    async pull(controller) {
+      const { done, value } = await reader.read();
+      if (done) {
+        onComplete(assistantContent);
+        controller.close();
+        return;
+      }
+
+      // Parse SSE chunks to capture assistant content
+      const text = new TextDecoder().decode(value);
+      for (const line of text.split("\n")) {
+        if (!line.startsWith("data: ")) continue;
+        const jsonStr = line.slice(6).trim();
+        if (jsonStr === "[DONE]") continue;
+        try {
+          const parsed = JSON.parse(jsonStr);
+          const content = parsed.choices?.[0]?.delta?.content;
+          if (content) assistantContent += content;
+        } catch { /* partial chunk */ }
+      }
+
+      controller.enqueue(value);
+    },
+  });
+}
+
+// ============================================================
+// Unified Agent Handler - shared logic for all agent edge functions
+// ============================================================
+export async function handleAgentChat(
+  req: Request,
+  agentSlug: string,
+  systemPrompt: string,
+  agentDisplayName: string,
+): Promise<Response> {
+  if (req.method === "OPTIONS") {
+    return new Response(null, { headers: corsHeaders });
+  }
+
+  try {
+    // Validate and sanitize input
+    const rawBody = await req.json();
+    const { messages, sessionId } = validateInput(rawBody);
+
+    // Rate limiting
+    if (!checkRateLimit(sessionId)) {
+      return new Response(
+        JSON.stringify({ error: "Too many requests. Please wait a moment." }),
+        { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+    const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
+    const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+
+    if (!LOVABLE_API_KEY) {
+      throw new Error("LOVABLE_API_KEY is not configured");
+    }
+
+    // Get user ID from auth header
+    const userId = await getUserIdFromRequest(req, SUPABASE_URL || "", SUPABASE_SERVICE_ROLE_KEY || "");
+
+    // Check if user is the owner
+    let ownerMode = false;
+    if (userId && SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY) {
+      ownerMode = await isOwner(userId, SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+      if (ownerMode) {
+        console.log(`[${agentDisplayName}] Owner mode activated for user:`, userId);
+      }
+    }
+
+    console.log(`${agentDisplayName} chat request, messages:`, messages.length, "userId:", userId ? "authenticated" : "anonymous", "ownerMode:", ownerMode, "sessionId:", sessionId || "none");
+
+    // Get personalized prompt with learned facts
+    const personalizedPrompt = await createPersonalizedPrompt(
+      systemPrompt,
+      userId,
+      SUPABASE_URL,
+      SUPABASE_SERVICE_ROLE_KEY
+    );
+
+    // RAG context retrieval
+    let ragContext = "";
+    if (sessionId && SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY) {
+      ragContext = await retrieveRAGContext(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, messages, sessionId, agentSlug);
+    }
+
+    // Extract facts from latest user message (async, non-blocking)
+    const latestUserMessage = messages.filter((m: { role: string }) => m.role === "user").pop()?.content;
+    if (latestUserMessage && userId && SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY) {
+      runFactExtractionAsync(latestUserMessage, userId, agentSlug, LOVABLE_API_KEY, SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+    }
+
+    // Store latest user message to chat_conversations
+    if (sessionId && SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY && latestUserMessage) {
+      storeConversationMessage(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, sessionId, agentSlug, "user", latestUserMessage, userId);
+    }
+
+    const finalSystemPrompt = personalizedPrompt + ragContext;
+
+    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${LOVABLE_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "google/gemini-3-flash-preview",
+        messages: [
+          { role: "system", content: finalSystemPrompt },
+          ...messages.slice(-20), // Limit to last 20 messages for token management
+        ],
+        stream: true,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("AI gateway error:", response.status, errorText);
+
+      if (response.status === 429) {
+        return new Response(JSON.stringify({ error: "Rate limits exceeded, please try again later." }), {
+          status: 429,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      if (response.status === 402) {
+        return new Response(JSON.stringify({ error: "Payment required, please add funds to your workspace." }), {
+          status: 402,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
+      return new Response(JSON.stringify({ error: "AI gateway error" }), {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    console.log(`Streaming response from AI gateway for ${agentDisplayName}`);
+
+    // Intercept stream to capture and store assistant response
+    const interceptedStream = createStreamInterceptor(response.body!, (assistantContent) => {
+      if (sessionId && SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY && assistantContent) {
+        storeConversationMessage(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, sessionId, agentSlug, "assistant", assistantContent, userId);
+      }
+    });
+
+    return new Response(interceptedStream, {
+      headers: {
+        ...corsHeaders,
+        "Content-Type": "text/event-stream",
+        "X-Owner-Mode": ownerMode ? "true" : "false",
+      },
+    });
+  } catch (e) {
+    console.error(`${agentDisplayName} chat error:`, e);
+    return new Response(JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }), {
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+}
+
+// ============================================================
+// Fact Extraction & Memory (existing functionality)
+// ============================================================
+
 interface ExtractedFact {
   fact_type: string;
   fact_key: string;
@@ -67,7 +431,6 @@ interface ExtractedFact {
   confidence?: number;
 }
 
-// Enhanced fact extraction prompt with emphasis on user identity
 const FACT_EXTRACTION_PROMPT = `Analyze the user's latest message and extract any key facts about them.
 
 PRIORITY EXTRACTIONS (always look for these first):
@@ -90,7 +453,6 @@ Confidence scoring:
 
 Only extract EXPLICIT facts. If none found, return [].\n`;
 
-// Get user's primary name from learned facts
 export async function getUserName(
   userId: string,
   supabaseUrl: string,
@@ -101,18 +463,14 @@ export async function getUserName(
   try {
     const supabase = createClient(supabaseUrl, serviceKey);
     
-    // First check user_profiles
     const { data: profile } = await supabase
       .from('user_profiles')
       .select('full_name')
       .eq('user_id', userId)
       .maybeSingle();
     
-    if (profile?.full_name) {
-      return profile.full_name as string;
-    }
+    if (profile?.full_name) return profile.full_name as string;
     
-    // Then check learned facts for identity:name
     const { data: nameFact } = await supabase
       .from('user_learned_facts')
       .select('fact_value')
@@ -123,15 +481,10 @@ export async function getUserName(
       .limit(1)
       .maybeSingle();
     
-    if (nameFact?.fact_value) {
-      return nameFact.fact_value as string;
-    }
+    if (nameFact?.fact_value) return nameFact.fact_value as string;
     
-    // Check auth.users metadata via admin API
     const { data: { user } } = await supabase.auth.admin.getUserById(userId);
-    if (user?.user_metadata?.full_name) {
-      return user.user_metadata.full_name as string;
-    }
+    if (user?.user_metadata?.full_name) return user.user_metadata.full_name as string;
     
     return null;
   } catch (error) {
@@ -140,7 +493,6 @@ export async function getUserName(
   }
 }
 
-// Get authenticated user ID from request
 export async function getUserIdFromRequest(
   req: Request,
   supabaseUrl: string,
@@ -159,15 +511,11 @@ export async function getUserIdFromRequest(
   }
 }
 
-// Extract facts from a user message using AI with enhanced identity detection
 export async function extractFactsFromMessage(
   userMessage: string,
   lovableApiKey: string
 ): Promise<ExtractedFact[]> {
-  // Lower threshold for identity extraction
-  if (!userMessage || userMessage.length < 10) {
-    return [];
-  }
+  if (!userMessage || userMessage.length < 10) return [];
 
   try {
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
@@ -203,7 +551,6 @@ export async function extractFactsFromMessage(
   }
 }
 
-// Store extracted facts in the database with confidence scoring
 export async function storeFacts(
   facts: ExtractedFact[],
   userId: string,
@@ -230,7 +577,6 @@ export async function storeFacts(
       const existingRecord = existing as { id: string; mentioned_count: number; confidence: number } | null;
 
       if (existingRecord) {
-        // Update with higher confidence if new extraction is more confident
         const newConfidence = Math.max(existingRecord.confidence || 0, confidence);
         await supabase
           .from('user_learned_facts')
@@ -241,7 +587,6 @@ export async function storeFacts(
             confidence: newConfidence,
           })
           .eq('id', existingRecord.id);
-        console.log(`[Memory] Updated fact: ${fact.fact_key} = ${fact.fact_value} (confidence: ${newConfidence})`);
       } else {
         await supabase
           .from('user_learned_facts')
@@ -253,7 +598,6 @@ export async function storeFacts(
             source_agent: agentSlug,
             confidence: confidence,
           });
-        console.log(`[Memory] Stored new fact: ${fact.fact_key} = ${fact.fact_value} (confidence: ${confidence})`);
       }
     } catch (error) {
       console.error("Error storing fact:", error);
@@ -261,7 +605,6 @@ export async function storeFacts(
   }
 }
 
-// Retrieve learned facts for a user with enhanced categorization
 export async function getLearnedFacts(
   userId: string,
   supabaseUrl: string,
@@ -273,7 +616,6 @@ export async function getLearnedFacts(
   try {
     const supabase = createClient(supabaseUrl, serviceKey);
     
-    // Get facts ordered by confidence and mention count
     const { data: facts } = await supabase
       .from('user_learned_facts')
       .select('fact_type, fact_key, fact_value, confidence')
@@ -284,7 +626,6 @@ export async function getLearnedFacts(
 
     if (!facts || facts.length === 0) return "";
 
-    // Group facts by category for better prompt injection
     const grouped: Record<string, string[]> = {};
     for (const f of facts as Array<{ fact_type: string; fact_key: string; fact_value: string; confidence: number }>) {
       const category = f.fact_type || 'other';
@@ -294,12 +635,10 @@ export async function getLearnedFacts(
 
     let result = "\n### What I Know About You:\n";
     
-    // Identity facts first (most important)
     if (grouped['identity']) {
       result += "**About You:**\n" + grouped['identity'].map(f => `- ${f}`).join('\n') + "\n";
     }
     
-    // Other categories
     const categoryLabels: Record<string, string> = {
       colleague: "**Your Colleagues:**",
       client: "**Your Clients:**",
@@ -316,7 +655,7 @@ export async function getLearnedFacts(
       }
     }
 
-    result += "\n**IMPORTANT:** Use this information naturally - greet the user by name when appropriate, reference their colleagues/projects, and provide personalized assistance based on their preferences and goals.\n";
+    result += "\n**IMPORTANT:** Use this information naturally - greet the user by name when appropriate, reference their colleagues/projects, and provide personalized assistance.\n";
     
     return result;
   } catch (error) {
@@ -325,7 +664,6 @@ export async function getLearnedFacts(
   }
 }
 
-// Run fact extraction asynchronously with priority on identity
 export function runFactExtractionAsync(
   latestUserMessage: string,
   userId: string,
@@ -339,34 +677,18 @@ export function runFactExtractionAsync(
   extractFactsFromMessage(latestUserMessage, lovableApiKey)
     .then(facts => {
       if (facts.length > 0) {
-        // Prioritize identity facts
         const identityFacts = facts.filter(f => f.fact_type === 'identity');
         const otherFacts = facts.filter(f => f.fact_type !== 'identity');
-        console.log(`[${agentSlug}] Extracted ${facts.length} facts (${identityFacts.length} identity)`);
-        
-        // Store identity facts first
         storeFacts([...identityFacts, ...otherFacts], userId, agentSlug, supabaseUrl, serviceKey);
       }
     })
     .catch(err => console.error(`[${agentSlug}] Fact extraction failed:`, err));
 }
 
-// Owner identification constants - Mark McClafferty, Founder & Owner of 24Twelve and Xilio
-// Contact: mark@24twelve.co | +44 07968 085935
-const OWNER_EMAILS = [
-  'mark@24twelve.co',
-];
+// Owner identification
+const OWNER_EMAILS = ['mark@24twelve.co'];
+const OWNER_PHONES = ['+447968085935', '+44 7968 085935', '+44 07968 085935', '07968085935', '07968 085935'];
 
-const OWNER_PHONES = [
-  '+447968085935',
-  '+44 7968 085935',
-  '+44 07968 085935',
-  '07968085935',
-  '07968 085935',
-];
-
-// Check if the current user is the owner (Mark McClafferty)
-// Exported for use in edge functions
 export async function isOwner(
   userId: string,
   supabaseUrl: string,
@@ -374,27 +696,18 @@ export async function isOwner(
 ): Promise<boolean> {
   try {
     const supabase = createClient(supabaseUrl, serviceKey);
-    
-    // First check auth.users for email/phone (most reliable)
     const { data: { user } } = await supabase.auth.admin.getUserById(userId);
     
     if (user?.email) {
       const email = user.email.toLowerCase();
-      if (OWNER_EMAILS.some(ownerEmail => email === ownerEmail.toLowerCase())) {
-        console.log('[Owner Detection] Matched by auth email:', email);
-        return true;
-      }
+      if (OWNER_EMAILS.some(ownerEmail => email === ownerEmail.toLowerCase())) return true;
     }
     
     if (user?.phone) {
       const phone = user.phone.replace(/\s/g, '');
-      if (OWNER_PHONES.some(ownerPhone => phone === ownerPhone.replace(/\s/g, ''))) {
-        console.log('[Owner Detection] Matched by auth phone:', phone);
-        return true;
-      }
+      if (OWNER_PHONES.some(ownerPhone => phone === ownerPhone.replace(/\s/g, ''))) return true;
     }
     
-    // Check user_profiles for owner identification by name
     const { data: profile } = await supabase
       .from('user_profiles')
       .select('full_name')
@@ -403,13 +716,9 @@ export async function isOwner(
     
     if (profile?.full_name) {
       const name = (profile.full_name as string).toLowerCase();
-      if (name.includes('mark') && name.includes('mcclafferty')) {
-        console.log('[Owner Detection] Matched by profile name:', profile.full_name);
-        return true;
-      }
+      if (name.includes('mark') && name.includes('mcclafferty')) return true;
     }
     
-    // Also check user_learned_facts for identity facts
     const { data: facts } = await supabase
       .from('user_learned_facts')
       .select('fact_value')
@@ -420,10 +729,7 @@ export async function isOwner(
     
     if (facts?.fact_value) {
       const name = (facts.fact_value as string).toLowerCase();
-      if (name.includes('mark') && name.includes('mcclafferty')) {
-        console.log('[Owner Detection] Matched by learned fact:', facts.fact_value);
-        return true;
-      }
+      if (name.includes('mark') && name.includes('mcclafferty')) return true;
     }
     
     return false;
@@ -433,33 +739,26 @@ export async function isOwner(
   }
 }
 
-// Create a personalized system prompt with learned facts and user greeting
 export async function createPersonalizedPrompt(
   basePrompt: string,
   userId: string | null,
   supabaseUrl: string | undefined,
   serviceKey: string | undefined
 ): Promise<string> {
-  if (!userId || !supabaseUrl || !serviceKey) {
-    return basePrompt;
-  }
+  if (!userId || !supabaseUrl || !serviceKey) return basePrompt;
 
   let prompt = basePrompt;
   
-  // Get the user's name first for personalized greeting
   const userName = await getUserName(userId, supabaseUrl, serviceKey);
   if (userName) {
-    prompt += `\n\n### IMPORTANT - User Identity:\nYou are speaking with **${userName}**. Address them by name naturally in your responses. Make them feel recognized and valued.\n`;
-    console.log(`[Memory] Personalized prompt for user: ${userName}`);
+    prompt += `\n\n### IMPORTANT - User Identity:\nYou are speaking with **${userName}**. Address them by name naturally in your responses.\n`;
   }
   
-  // Check if this is the owner and inject special context
   const ownerCheck = await isOwner(userId, supabaseUrl, serviceKey);
   if (ownerCheck) {
     prompt += OWNER_CONTEXT;
   }
 
-  // Add all learned facts
   const learnedFacts = await getLearnedFacts(userId, supabaseUrl, serviceKey);
   return prompt + learnedFacts;
 }
