@@ -55,6 +55,11 @@ export function AgentChat({
   const pttStartTimeRef = useRef<number | null>(null);
   const conversationStartedRef = useRef(false);
   
+  // Generate a unique session ID per conversation instance
+  const sessionId = useMemo(() => {
+    return `${agentSlug || 'chat'}-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+  }, [agentSlug]);
+  
   const { session } = useAuth();
 
   // Analytics logger
