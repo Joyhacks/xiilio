@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { Loader2, Mic, MessageSquare, Crown } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -54,6 +54,11 @@ export function AgentChat({
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const pttStartTimeRef = useRef<number | null>(null);
   const conversationStartedRef = useRef(false);
+  
+  // Generate a unique session ID per conversation instance
+  const sessionId = useMemo(() => {
+    return `${agentSlug || 'chat'}-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+  }, [agentSlug]);
   
   const { session } = useAuth();
 
@@ -174,7 +179,7 @@ export function AgentChat({
       const resp = await fetch(`${SUPABASE_URL}/functions/v1/${edgeFunctionName}`, {
         method: "POST",
         headers,
-        body: JSON.stringify({ messages: userMessages }),
+        body: JSON.stringify({ messages: userMessages, sessionId, agentSlug: agentSlug || edgeFunctionName }),
       });
 
       // Check for owner mode header
