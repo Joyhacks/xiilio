@@ -19,6 +19,32 @@ import { useAuth } from "@/hooks/useAuth";
 import { useUserLinks } from "@/hooks/useUserLinks";
 import { AuthOverlay } from "@/components/auth/AuthOverlay";
 import { siWhatsapp } from "@/lib/simpleIcons";
+import { toast } from "sonner";
+
+const SHARE_PAYLOAD = {
+  title: "Xiilio — AI Agent Team",
+  text: "Check out Xiilio — AI agents that automate your business!",
+};
+
+async function handleShare() {
+  const url = window.location.href;
+  try {
+    if (navigator.share) {
+      await navigator.share({ ...SHARE_PAYLOAD, url });
+      return;
+    }
+    await navigator.clipboard.writeText(url);
+    toast.success("Link copied to clipboard");
+  } catch (err: any) {
+    if (err?.name === "AbortError") return;
+    try {
+      await navigator.clipboard.writeText(url);
+      toast.success("Link copied to clipboard");
+    } catch {
+      toast.error("Could not share link");
+    }
+  }
+}
 
 interface HeaderProps {
   agentSlug?: string | null;
