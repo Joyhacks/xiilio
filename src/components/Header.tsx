@@ -19,6 +19,32 @@ import { useAuth } from "@/hooks/useAuth";
 import { useUserLinks } from "@/hooks/useUserLinks";
 import { AuthOverlay } from "@/components/auth/AuthOverlay";
 import { siWhatsapp } from "@/lib/simpleIcons";
+import { toast } from "sonner";
+
+const SHARE_PAYLOAD = {
+  title: "Xiilio — AI Agent Team",
+  text: "Check out Xiilio — AI agents that automate your business!",
+};
+
+async function handleShare() {
+  const url = window.location.href;
+  try {
+    if (navigator.share) {
+      await navigator.share({ ...SHARE_PAYLOAD, url });
+      return;
+    }
+    await navigator.clipboard.writeText(url);
+    toast.success("Link copied to clipboard");
+  } catch (err: any) {
+    if (err?.name === "AbortError") return;
+    try {
+      await navigator.clipboard.writeText(url);
+      toast.success("Link copied to clipboard");
+    } catch {
+      toast.error("Could not share link");
+    }
+  }
+}
 
 interface HeaderProps {
   agentSlug?: string | null;
@@ -80,19 +106,10 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
             <div className="hidden md:flex items-center gap-1.5 shrink-0">
               <HeaderQuickLinks agentSlug={agentSlug} agentColor={agentColor} />
               <button
-                onClick={() => {
-                  if (navigator.share) {
-                    navigator.share({
-                      title: '24TWELVE - AI Agent Team',
-                      text: 'Check out 24TWELVE - AI agents that automate your business!',
-                      url: window.location.href,
-                    });
-                  } else {
-                    navigator.clipboard.writeText(window.location.href);
-                  }
-                }}
-                className="flex items-center justify-center w-9 h-9 rounded-full bg-[#0EA5E9] transition-colors"
-                aria-label="Share"
+                onClick={handleShare}
+                className="flex items-center justify-center w-9 h-9 rounded-full bg-[#0EA5E9] transition-colors hover:bg-[#0284C7]"
+                aria-label="Share link"
+                title="Share this page"
               >
                 <Share2 className="w-4 h-4 text-white" />
               </button>
@@ -167,19 +184,9 @@ export function Header({ agentSlug = null, agentColor }: HeaderProps) {
             <div className="flex md:hidden items-center gap-1.5 shrink-0">
               <NotificationCenter />
               <button
-                onClick={() => {
-                  if (navigator.share) {
-                    navigator.share({
-                      title: '24TWELVE - AI Agent Team',
-                      text: 'Check out 24TWELVE - AI agents that automate your business!',
-                      url: window.location.href,
-                    });
-                  } else {
-                    navigator.clipboard.writeText(window.location.href);
-                  }
-                }}
-                className="flex items-center justify-center w-9 h-9 rounded-full bg-[#0EA5E9] transition-colors"
-                aria-label="Share"
+                onClick={handleShare}
+                className="flex items-center justify-center w-9 h-9 rounded-full bg-[#0EA5E9] transition-colors active:bg-[#0284C7]"
+                aria-label="Share link"
               >
                 <Share2 className="w-4 h-4 text-white" />
               </button>
