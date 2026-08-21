@@ -10,19 +10,11 @@ import { useToast } from "@/hooks/use-toast";
 import { Mail, Phone, MapPin, Send, MessageSquare, Clock, Calendar } from "lucide-react";
 import { ScrollToTop } from "@/components/ScrollToTop";
 
-function CalendlyEmbed() {
-  const [height, setHeight] = useState(window.innerWidth < 768 ? 580 : 700);
-
-  useEffect(() => {
-    const onResize = () => setHeight(window.innerWidth < 768 ? 580 : 700);
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
-
+function BookingEmbed() {
   useEffect(() => {
     const script = document.createElement("script");
-    script.src = "https://assets.calendly.com/assets/external/widget.js";
-    script.async = true;
+    script.src = "https://link.msgsndr.com/js/form_embed.js";
+    script.type = "text/javascript";
     document.body.appendChild(script);
     return () => {
       try { document.body.removeChild(script); } catch {}
@@ -30,10 +22,11 @@ function CalendlyEmbed() {
   }, []);
 
   return (
-    <div
-      className="calendly-inline-widget w-full"
-      data-url="https://calendly.com/itsgotime-24twelve?background_color=1a1410&text_color=e8dcc8&primary_color=c49a3c&hide_gdpr_banner=1"
-      style={{ minWidth: "280px", height }}
+    <iframe
+      src="https://api.leadconnectorhq.com/widget/booking/djYyClTQCuwY6GYW2cx6"
+      style={{ width: "100%", minWidth: "320px", minHeight: "700px", border: "none", overflow: "hidden" }}
+      scrolling="no"
+      title="Book a call"
     />
   );
 }
