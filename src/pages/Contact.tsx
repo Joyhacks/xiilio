@@ -148,7 +148,7 @@ export default function Contact() {
                 <p className="text-muted-foreground">Pick a time that works for you — no back-and-forth needed.</p>
               </div>
               <div className="glass-luxury rounded-2xl overflow-hidden">
-                <CalendlyEmbed />
+                <BookingEmbed />
               </div>
             </div>
           </div>
